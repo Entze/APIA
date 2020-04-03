@@ -1,4 +1,4 @@
-# CSE Master's Thesis Template
+# 2020-04-13 Background Document
 
 Usage:
 
