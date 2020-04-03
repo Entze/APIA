@@ -2,7 +2,7 @@ image: blang/latex
 
 build:
   script:
-    - latexmk -pdf
+    - latexmk -pdf -pdflatex="pdflatex --shell-escape %O %S"
 
   artifacts:
     paths:
