@@ -1,5 +1,14 @@
 \documentclass[12pt, oneside]{book2}
 
+\newcommand{\documentTitle}{YOUR TITLE HERE - ALL CAPITAL LETTERS, USE SECOND LINE \\IF NEEDED, NO BOLD}
+\newcommand{\documentSubtitle}{A Thesis (or Thesis Proposal)}
+\newcommand{\documentAuthor}{Your Full Name}
+\newcommand{\documentYear}{2020}
+
+\newcommand{\thesisAdvisor}{Your Advisor's Name}
+\newcommand{\thesisFirstReader}{Your First Reader's Name}
+\newcommand{\thesisSecondReader}{Your Second Reader's Name}
+
 % Template imports
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -46,11 +55,11 @@
 
     \vspace{2.0cm}
 
-    YOUR TITLE HERE - ALL CAPITAL LETTERS, USE SECOND LINE \\IF NEEDED, NO BOLD
+    \documentTitle
 
     \vspace{1.0cm}
 
-    by Your Full Name
+    by \documentAuthor
 
     \vspace{1.0cm}
 
@@ -72,11 +81,11 @@ It must be one paragraph.
 \begin{titlepage}
 \begin{center}
 
-    YOUR TITLE HERE ALL CAPS; NO BOLD - \\USE SECOND LINE IF NEEDED-CENTERED
+    \documentTitle
 
     \vspace{1.5cm}
 
-    A Thesis (or Thesis Proposal) \\
+    documentSubtitle \\
 
     \vspace{0.5cm}
 
@@ -86,20 +95,20 @@ It must be one paragraph.
     the requirements for the degree of \\
     Master of Science \\
     by \\
-    Your Full Name \\
+    \documentAuthor \\
     Miami University \\
     Oxford, Ohio \\
-    201X (current Year)
+    \documentYear
 
     \vspace{1.5cm}
 
-    Advisor: Your Advisor's Name\\
-    Reader: Your First Reader's Name\\
-    Reader: Your Second Reader's Name\\
+    Advisor: \thesisAdvisor\\
+    Reader: \thesisFirstReader\\
+    Reader: \thesisSecondReader\\
 
     \vspace{1.5cm}
 
-    \textcopyright Current Year Your Full Name
+    \textcopyright Current Year \documentAuthor
 
     \newpage
 
@@ -107,7 +116,7 @@ It must be one paragraph.
 
     \vspace{1.0cm}
 
-    INSERT THE TITLE OF YOUR DOCUMENT ALL CAPS \\SECOND LINE OF YOUR TITLE IF NEEDED
+    \documentTitle
 
     \vspace{1.0cm}
 
@@ -115,7 +124,7 @@ It must be one paragraph.
 
     \vspace{1.0cm}
 
-    Your Full Name
+    \documentAuthor
 
     \vspace{1.0cm}
 
@@ -130,17 +139,17 @@ It must be one paragraph.
     \vspace{1.5cm}
 
     \rule[-0.1cm]{8cm}{0.01cm} \\
-    Advisor's Name \\
+    \thesisAdvisor \\
 
     \vspace{1.0cm}
 
     \rule[-0.1cm]{8cm}{0.01cm} \\
-    First Reader \\
+    \thesisFirstReader \\
 
     \vspace{1.0cm}
 
     \rule[-0.1cm]{8cm}{0.01cm} \\
-    Second Reader \\
+    \thesisSecondReader \\
 
 \end{center}
 \thispagestyle{empty}
