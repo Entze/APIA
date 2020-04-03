@@ -17,6 +17,9 @@ indent_style = tab
 [*.tex]
 indent_size = 4
 
+[*.bib]
+indent_style = tab
+
 [*.{R,r}]
 indent_size = 2
 
