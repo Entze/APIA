@@ -2,7 +2,7 @@ image: blang/latex:ctanfull
 
 build:
   script:
-    - latexmk -pdf -pdflatex="pdflatex --shell-escape %O %S"
+    - make
 
   artifacts:
     paths:

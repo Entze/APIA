@@ -5,7 +5,7 @@ REMOTE_RESOURCES := Figures/Miami.pdf
 build: Thesis.pdf
 
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
-	pdflatex $<
+	pdflatex --shell-escape $<
 
 Figures/Miami.pdf:
 	wget https://miamioh.edu/_files/images/ucm/resources/logo/M_186K.pdf -O $@
