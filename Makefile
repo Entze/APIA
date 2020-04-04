@@ -8,4 +8,5 @@ build: Thesis.pdf
 	pdflatex --shell-escape $<
 
 Figures/Miami.pdf:
+	-mkdir Figures/
 	wget https://miamioh.edu/_files/images/ucm/resources/logo/M_186K.pdf -O $@
