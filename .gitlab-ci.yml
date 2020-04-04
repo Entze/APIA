@@ -1,4 +1,4 @@
-image: blang/latex
+image: blang/latex:ctanfull
 
 build:
   script:
