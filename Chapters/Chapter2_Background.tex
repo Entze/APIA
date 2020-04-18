@@ -8,3 +8,73 @@
 % \section{Background Topic 2}
 %
 % \section{Related Work}
+
+\section{Agents}
+
+There has been prior research and discussion to determine what constitutes an ``agent''.
+Though work in \cite{wooldridge_agent_1995} fails completely define the term,
+the authors do propose a set of characteristics that agents must have.
+They are summarized in \cite{dignum_intentional_1998} and are as follows.
+
+First, the agent must have autonomy to complete its own actions without the intervention of human.
+This implies that it is making decisions on its own power.
+Second, the choices of an agent must be best explained in terms of some form of \textit{intention}.
+These intentions can be desires, goals, etc.
+An implication of this requirement is that agents cannot be explained through low-level concepts.
+Lastly, an agent explained with particular intentions should seem to actually progress the satisfaction of its intentions.
+For example, a system with the intention of achieving a goal,
+but fails to do so when alternatives would have done so, cannot be called an ``agent''.
+
+There are many different kinds of agents.
+\cite{balke_how_2014} provides a survey of five different kinds of agents.
+
+The first of which are production rule systems \cite{balke_how_2014}.
+Production rule systems are symbolic in nature and
+consist of three core components:
+
+\begin{itemize}
+
+    \item A set of \textit{rules} (also called \textit{productions}).
+        Each rule has the form $ C_i \rightarrow A_i $,
+        where $ C_i $ is what is called the \textit{sensory precondition}
+        and $ A_i $ is the action to be performed if $ C_i $ is true.
+        $ C_i $ is essentially an ``if'' condition and $ A_i $ is the conditionally executed body.
+
+    \item A knowledge base that stores domain-relevant information about the agent's environment.
+        This is called the \textit{working memory}.
+
+    \item A \textit{rule interpreter} determines which rules apply for the current state of the working memory.
+        In the case of rule conflicts, it decides which rule should be executed.
+
+\end{itemize}
+
+% TODO: Consider talking about architecture
+
+Production rule systems are usually implemented in Prolog or LISP \cite{balke_how_2014}.
+
+The next class of agents are those ascribing to the BDI architecture \cite{balke_how_2014}.
+The belief-desire-intention (BDI) model combines a philosophical model of human practical reasoning
+with several successful applications \cite{georgeff_belief-desire-intention_1999}.
+BDI agents are built on the idea of mental states,
+consisting of three items: beliefs, desires, and intentions \cite{balke_how_2014}.
+Beliefs refer to an agent's representation of the world.
+An agent's beliefs something to be true if and only if the statement is found in its representation.
+The beliefs can be inconsistent with the actual state of the environment -- the agent can be wrong.
+
+\cite{rao_modeling_1991}
+
+Desires are all possible courses of action that an agent might want to accomplish in order to reach a goal \cite{balke_how_2014}.
+An agent is not necessarily committed to its desires.
+They just play a part in its decision process.
+Intentions, on the other hand, are commitments to particular courses of action to reach a goal.
+Courses of action of an intention is called a plan.
+
+In addition, BDI agents have a library of plans.
+This library consists of pre-computed primitive logic rules to signify which actions contribute to accomplishing which goals.
+At each reasoning step, BDI agents search through the plan library for plans to see which plans have a post-condition that matches the currently selected intention.
+It sorts plans according to relevance.
+
+The third class of agents are those conform to normative models.
+They differ from BDI agents in that they are externally motivated.
+BDI agents are internally motivated since all major components (beliefs, goals, and intentions) are internal to the agent.
+Norms imposed on normative agents are created by the agent’s environment.
