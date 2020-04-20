@@ -16,12 +16,12 @@ Though work in \cite{wooldridge_agent_1995} fails completely define the term,
 the authors do propose a set of characteristics that agents must have.
 They are summarized in \cite{dignum_intentional_1998} and are as follows.
 
-First, the agent must have autonomy to complete its own actions without the intervention of human.
+First, the agent must have autonomy to complete its own actions without the intervention of a human.
 This implies that it is making decisions on its own power.
 Second, the choices of an agent must be best explained in terms of some form of \textit{intention}.
 These intentions can be desires, goals, etc.
 An implication of this requirement is that agents cannot be explained through low-level concepts.
-Lastly, an agent explained with particular intentions should seem to actually progress the satisfaction of its intentions.
+Lastly, an agent explained with particular intentions should seem to actually progress the satisfaction of them.
 For example, a system with the intention of achieving a goal,
 but fails to do so when alternatives would have done so, cannot be called an ``agent''.
 
@@ -58,23 +58,49 @@ with several successful applications \cite{georgeff_belief-desire-intention_1999
 BDI agents are built on the idea of mental states,
 consisting of three items: beliefs, desires, and intentions \cite{balke_how_2014}.
 Beliefs refer to an agent's representation of the world.
-An agent's beliefs something to be true if and only if the statement is found in its representation.
-The beliefs can be inconsistent with the actual state of the environment -- the agent can be wrong.
+An agent's beliefs something to be true if and only if the statement is found in its representation of the world.
+It is worth noting that an agent's beliefs can be inconsistent with its environment.
+In this case, the agent would be wrong.
 
 \cite{rao_modeling_1991}
 
-Desires are all possible courses of action that an agent might want to accomplish in order to reach a goal \cite{balke_how_2014}.
+The desires of an agent are all possible courses of action that it might want to accomplish in order to reach a goal \cite{balke_how_2014}.
 An agent is not necessarily committed to its desires.
 They just play a part in its decision process.
 Intentions, on the other hand, are commitments to particular courses of action to reach a goal.
-Courses of action of an intention is called a plan.
+Courses of action are also called plans.
 
 In addition, BDI agents have a library of plans.
 This library consists of pre-computed primitive logic rules to signify which actions contribute to accomplishing which goals.
-At each reasoning step, BDI agents search through the plan library for plans to see which plans have a post-condition that matches the currently selected intention.
-It sorts plans according to relevance.
+At each reasoning step, BDI agents search through the plan library to see which plans have a post-condition that matches the currently selected intention
+and then sorts them according to relevance.
 
-The third class of agents are those conform to normative models.
+The third class of agents are those that conform to normative models.
 They differ from BDI agents in that they are externally motivated.
 BDI agents are internally motivated since all major components (beliefs, goals, and intentions) are internal to the agent.
-Norms imposed on normative agents are created by the agent’s environment.
+Normative agents are governed by norms, which are imposed by the agent's external environment.
+
+The last two classes of agents are those with cognitive models \cite{balke_how_2014}.
+They can be divided into those that have ``simple'' cognitive models and those that have ``cognitive architectures''.
+The simple cognitive models share similarities with the agent classes presented above
+whereas the cognitive architectures are heavily influenced by the structure of the human brain.
+
+Given these five classes of agent architecture, one needs a way of objectively comparing them.
+\cite{balke_how_2014} provides five different dimensions on which these architectures can be evaluated.
+
+The first of which is the cognitive dimension.
+This dimension considers what kind of reasoning is able to be performed by an agent.
+\cite{balke_how_2014} provides different partitions for cognitive ability:
+reactive or deliberative, composed of simple cognitive components or of psychologically/neurologically inspired ones.
+Reactive agents are those that only respond to stimuli in their environment and typically follow rule-based patterns.
+Deliberative agents, on the other hand, actively consider different courses of action and weigh the utility of each.
+Agents composed of psychologically/neurologically inspired cognitive components are those whose design strives model the human brain,
+whereas agents composed of simple cognitive components are those whose design consists of manmade abstractions.
+
+The second dimension for agent architecture comparisons is the affective dimension \cite{balke_how_2014}.
+The affective dimension considers what degree of emotions agents in an architecture are capable of expressing and acting upon.
+Research towards this dimension considers how emotions can be triggered,
+how they influence the decision process, and how changes in decisions affect the system at large.
+
+A third dimension for comparing architectures is the social dimension.
+This dimension considers whether agent architectures provide agents the ability to communicate with other agents,
