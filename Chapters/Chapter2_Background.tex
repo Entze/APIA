@@ -90,17 +90,29 @@ Given these five classes of agent architecture, one needs a way of objectively c
 
 The first of which is the cognitive dimension.
 This dimension considers what kind of reasoning is able to be performed by an agent.
-\cite{balke_how_2014} provides different partitions for cognitive ability:
-reactive or deliberative, composed of simple cognitive components or of psychologically/neurologically inspired ones.
+\cite{balke_how_2014} provides two partitions for cognitive ability:
+reactive or deliberative and composed of simple cognitive components or of psychologically/neurologically inspired ones.
 Reactive agents are those that only respond to stimuli in their environment and typically follow rule-based patterns.
 Deliberative agents, on the other hand, actively consider different courses of action and weigh the utility of each.
-Agents composed of psychologically/neurologically inspired cognitive components are those whose design strives model the human brain,
+For example, production rule systems are an example of reactive agents whereas BDI agents can be deliberative \cite{balke_how_2014}.
+Agents composed of psychologically/neurologically inspired cognitive components are those whose design strives to model the human brain,
 whereas agents composed of simple cognitive components are those whose design consists of manmade abstractions.
+Psychologically/neurologically agents correspond to the cognitive-model class mentioned above.
 
 The second dimension for agent architecture comparisons is the affective dimension \cite{balke_how_2014}.
 The affective dimension considers what degree of emotions agents in an architecture are capable of expressing and acting upon.
-Research towards this dimension considers how emotions can be triggered,
-how they influence the decision process, and how changes in decisions affect the system at large.
+Research towards this dimension considers how emotions can be triggered, how they influence the decision process, and how changes in decisions affect the system at large.
+Most models are incapable of acting upon emotions \cite{balke_how_2014} with the exception of a two extensions of the BDI model \cite{jiang_ebdi_2007, dignum_towards_2009} and a cognitive model \cite{urban_pecs_2000}.
 
 A third dimension for comparing architectures is the social dimension.
-This dimension considers whether agent architectures provide agents the ability to communicate with other agents,
+This dimension considers the extent to which agent architectures provide agents the ability to communicate with other agents, to distinguish social relations (such as status), and to understand complex social concepts.
+All the normative models discussed in \cite{balke_how_2014}, along with a few others among BDI extensions and cognitive models, have a notion of self, others, and groups.
+BDI agents, in the original model, as well as production rule systems have no notion of social concepts or communication.
+
+Fourth, agent architectures can be evaluated according to the extent of formal and social norms that agents can reason over \cite{balke_how_2014}.
+Production rule systems
+
+Lastly, architectures can be compared by considering the type of agent learning that the architecture enables for its agents \cite{balke_how_2014}.
+This dimension considers whether agents can improve or expand their knowledge base on the basis of environmental observations.
+If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g. adjusting the values for pre-existing decision functions or creating new decision rules from scratch) \cite{balke_how_2014}.
+Production rule systems and BDI agents (including its variants) do not support any form of learning whereas normative and cognitive model support it to various extents.
