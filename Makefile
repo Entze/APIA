@@ -11,7 +11,7 @@ build: Thesis.pdf
 	pdflatex --shell-escape $<
 
 %.pdf: %.dot
-	neato -Tpdf -o $@ $^
+	dot -Tpdf -o $@ $^
 
 %.svg: %.plantuml
 	plantuml -tsvg $<
