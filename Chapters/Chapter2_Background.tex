@@ -9,10 +9,10 @@
 %
 % \section{Related Work}
 
-\section{Agents}
+\section{Intelligent Agents}
 
 There has been prior research and discussion to determine what constitutes an ``agent''.
-Though work in \cite{wooldridge_agent_1995} fails completely define the term,
+Though work in \cite{wooldridge_agent_1995} fails to completely define the term,
 the authors do propose a set of characteristics that agents must have.
 They are summarized in \cite{dignum_intentional_1998} and are as follows.
 
@@ -21,7 +21,7 @@ This implies that it is making decisions on its own power.
 Second, the choices of an agent must be best explained in terms of some form of \textit{intention}.
 These intentions can be desires, goals, etc.
 An implication of this requirement is that agents cannot be explained through low-level concepts.
-Lastly, an agent explained with particular intentions should seem to actually progress the satisfaction of them.
+Lastly, an agent explained with particular intentions should seem to actually progress their satisfaction.
 For example, a system with the intention of achieving a goal,
 but fails to do so when alternatives would have done so, cannot be called an ``agent''.
 
@@ -43,7 +43,7 @@ consist of three core components:
     \item A knowledge base that stores domain-relevant information about the agent's environment.
         This is called the \textit{working memory}.
 
-    \item A \textit{rule interpreter} determines which rules apply for the current state of the working memory.
+    \item A \textit{rule interpreter} that determines which rules apply for the current state of the working memory.
         In the case of rule conflicts, it decides which rule should be executed.
 
 \end{itemize}
@@ -85,6 +85,8 @@ They can be divided into those that have ``simple'' cognitive models and those t
 The simple cognitive models share similarities with the agent classes presented above
 whereas the cognitive architectures are heavily influenced by the structure of the human brain.
 
+\section{Evaluation of agent architectures}
+
 Given these five classes of agent architecture, one needs a way of objectively comparing them.
 \cite{balke_how_2014} provides five different dimensions on which these architectures can be evaluated.
 
@@ -97,7 +99,7 @@ Deliberative agents, on the other hand, actively consider different courses of a
 For example, production rule systems are an example of reactive agents whereas BDI agents can be deliberative \cite{balke_how_2014}.
 Agents composed of psychologically/neurologically inspired cognitive components are those whose design strives to model the human brain,
 whereas agents composed of simple cognitive components are those whose design consists of manmade abstractions.
-Psychologically/neurologically agents correspond to the cognitive-model class mentioned above.
+Psychologically/neurologically inspired agents correspond to the cognitive-model class mentioned above.
 
 The second dimension for agent architecture comparisons is the affective dimension \cite{balke_how_2014}.
 The affective dimension considers what degree of emotions agents in an architecture are capable of expressing and acting upon.
@@ -110,9 +112,105 @@ All the normative models discussed in \cite{balke_how_2014}, along with a few ot
 BDI agents, in the original model, as well as production rule systems have no notion of social concepts or communication.
 
 Fourth, agent architectures can be evaluated according to the extent of formal and social norms that agents can reason over \cite{balke_how_2014}.
-Production rule systems
 
 Lastly, architectures can be compared by considering the type of agent learning that the architecture enables for its agents \cite{balke_how_2014}.
-This dimension considers whether agents can improve or expand their knowledge base on the basis of environmental observations.
-If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g. adjusting the values for pre-existing decision functions or creating new decision rules from scratch) \cite{balke_how_2014}.
+This dimension considers whether agents can improve or expand their knowledge base given environmental observations.
+If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g. whether they adjust the values for pre-existing decision functions or create new decision rules from scratch) \cite{balke_how_2014}.
 Production rule systems and BDI agents (including its variants) do not support any form of learning whereas normative and cognitive model support it to various extents.
+
+A related consideration for agent architectures is its elaboration tolerance.
+Elaboration tolerance measures the ease of which a knowledge base can be changed to incorporate new facts \cite{parmar_formalizing_2003}, whether by learning or by a human redesign.
+For example, a representation with a high elaboration tolerance might require very little changes to represent additional information whereas a representation with a low elaboration tolerance may need to be completely re-written to address a new scenario.
+The concept was first mentioned in \cite{mccarthy_mathematical_1988}, but later formalized in \cite{parmar_formalizing_2003}.
+
+\section{Logic-based intelligent agents}
+
+In addition to those mentioned in \cite{balke_how_2014}, there has been research on various logic-based agent architectures.
+These agent architectures are based off of the notion of an \textit{action language} which, in turn, are based on \textit{transition systems}.
+
+\subsection{Transition Systems}
+
+Transition systems (also called ``transition diagrams'' \cite{blount_architecture_2013}) can be thought of analogous to a directed graph that models a discrete dynamic domain.
+Discrete dynamic domains are environments that behave according to the following rules \cite{blount_architecture_2013}:
+
+\begin{itemize}
+    \item The environment updates in discrete time steps
+    \item Actions occur instantaneously at each time step and the effects appear at the next time step
+    \item Each domain-relevant property is represented by a function.
+        The value of the function at each time step is the value of the property.
+        These properties are known as ``state''.
+\end{itemize}
+
+Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
+The formal definition is as follows:
+
+\begin{definition}{Action signature}
+    An action signature $ <V,F,A> $ consists of three sets: a set $ V $ for value names, a set $ F $ of fluent names, and a set $ A $ of action names \cite{gelfond_action_1998}.
+\end{definition}
+
+\begin{definition}{Transition system}
+    A transition system of an action signature $ <V,F,A> $ consists of a set $ S $ of states, a function $ V : F \times S\rightarrow V $, and $ R\ \subseteq S \times A \times S $.
+\end{definition}
+
+$ V(P,s) $ is said to be the value of $ P $ in $ s $.
+The states $ s' $ such that $ <s, A, s'> $ in $ R $ are the possible results of an action $ A $'s execution in state $ s $.
+$ A $ is deterministic in $ s $ if there is exactly one $ s' $ \cite{gelfond_action_1998}.
+If $ A $ is non-deterministic, then each $ s' $ may be the result of $ A $ \cite{blount_architecture_2013}.
+$ A $ is executable in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> $ in $ R $.
+When $ \left|A\right|>1 $ represents the execution of concurrent actions \cite{gelfond_action_1998, blount_architecture_2013}.
+
+A path $ <s_0, A_0, s_1, A_1, \ldots, A_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $ \cite{blount_architecture_2013}.
+
+\subsection{Action languages}
+
+Action languages are formal models that describe the effects of actions \cite{gelfond_action_1998}.
+There are two kinds of action languages: action description languages and action query languages.
+Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system \cite{gelfond_action_1998}.
+We will focus only on action description languages and will use the term ``action languages'' to refer to them.
+
+Many action languages exist, including A \cite{gelfond_action_1998}, B \cite{gelfond_action_1998}, C \cite{gelfond_action_1998}, AC \cite{turner_representing_1997}, AL \cite{baral_reasoning_2000}, ALM \cite{inclezan_modular_2016}.
+
+\subsubsection{Action language A}
+
+First, we will discuss action language $ A $.
+Action language $ A $ was first proposed in \cite{pednault_formulating_1987}.
+A models a transition system with the signature $ <{t,\ f},\ F,\ A> $.
+It is composed of sets of propositions of the form:
+
+$$
+A\ causes\ L\ if\ F
+$$
+
+$ A $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a, possibly empty, conjunction of literals \cite{gelfond_action_1998}.
+In the case $ F $ is empty, it is denoted as $ True $ and can be omitted.
+A set of these propositions is called an action description \cite{gelfond_action_1998}.
+
+\begin{definition}{Action description}
+    Let $ D $ be an action description in $ A $.
+    The transition system $ <S,\ V,\ R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
+
+    \begin{itemize}
+        \item $ S $ is the set of all interpretations of $ F $
+        \item $ V(P, s) = s(P) $
+        \item R is the set of all triples $ <s,\ A,\ s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $
+    \end{itemize}
+\end{definition}
+
+$ E(A,\ s) $ is the set of heads $ L $ of all propositions $ A\ causes\ L\ if\ F $ in $ D $ such that $ s $ satisfies $ F $.
+$ E(A,\ s) $ represents all effects of an action $ A $ in state $ s $ \cite{gelfond_action_1998}.
+Writing $ E\left(A,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ A $ are actually present.
+Adding $ \subseteq E\left(A,s\right)\cup s $, allows $ s' $ to equal $ s $.
+It is worth noting that there can only be at most one $ s' $ satisfying the above equation \cite{gelfond_action_1998}.
+Therefore, $ A $ is deterministic for every state.
+
+\subsubsection{Action language B}
+
+Action language B is an extension of action language A \cite{gelfond_action_1998} that allows the description of actions with indirect effects.
+
+\subsubsection{Action language AL}
+
+AL is based on A and B.
+It extends these languages with what it calls ``defined fluents'', which are domain-relevant properties under the closed world assumption \cite{blount_architecture_2013}.
+The closed world assumption states: that which cannot be proven true must be false \cite{reiter_closed_1981}.
+It contrasts from the open world assumption, which states: only that which is proven is true \cite{reiter_closed_1981}.
+AL is paratermized with the
