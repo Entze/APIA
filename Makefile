@@ -1,5 +1,5 @@
-GRAPHVIZ_FIGURES := $(wildcard Figures/*.dot)
-PLANTUML_FIGURES := $(wildcard Figures/*.plantuml)
+GRAPHVIZ_FIGURES := $(wildcard Figures/**/*.dot)
+PLANTUML_FIGURES := $(wildcard Figures/**/*.plantuml)
 
 LATEX_SOURCES := $(wildcard *.tex) $(wildcard **/*.tex)
 LATEX_RESOURCES := $(wildcard **/*.pdf) $(wildcard **/*.eps) $(wildcard **/*.jpg) $(wildcard **/*.png) $(patsubst %.dot,%.pdf,$(GRAPHVIZ_FIGURES)) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES))
