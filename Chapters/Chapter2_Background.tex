@@ -168,12 +168,12 @@ There are two kinds of action languages: action description languages and action
 Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system \cite{gelfond_action_1998}.
 We will focus only on action description languages and will use the term ``action languages'' to refer to them.
 
-Many action languages exist, including A \cite{gelfond_action_1998}, B \cite{gelfond_action_1998}, C \cite{gelfond_action_1998}, AC \cite{turner_representing_1997}, AL \cite{baral_reasoning_2000}, ALM \cite{inclezan_modular_2016}.
+Many action languages exist, including $ \mathcal{A} $ \cite{gelfond_action_1998}, $ \mathcal{B} $ \cite{gelfond_action_1998}, $ \mathcal{C} $ \cite{gelfond_action_1998}, $ \mathcal{AC} $ \cite{turner_representing_1997}, $ \mathcal{AL} $ \cite{baral_reasoning_2000}, $ \mathcal{ALM} $ \cite{inclezan_modular_2016}.
 
-\subsubsection{Action language A}
+\subsubsection{Action language $ \mathcal{A} $}
 
-First, we will discuss action language $ A $.
-Action language $ A $ was first proposed in \cite{pednault_formulating_1987}.
+First, we will discuss action language $ \mathcal{A} $.
+Action language $ \mathcal{A} $ was first proposed in \cite{pednault_formulating_1987}.
 A models a transition system with the signature $ <{t,\ f},\ F,\ A> $.
 It is composed of sets of propositions of the form:
 
@@ -186,7 +186,7 @@ In the case $ F $ is empty, it is denoted as $ True $ and can be omitted.
 A set of these propositions is called an action description \cite{gelfond_action_1998}.
 
 \begin{definition}{Action description}
-    Let $ D $ be an action description in $ A $.
+    Let $ D $ be an action description in $ \mathcal{A} $.
     The transition system $ <S,\ V,\ R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
@@ -203,13 +203,13 @@ Adding $ \subseteq E\left(A,s\right)\cup s $, allows $ s' $ to equal $ s $.
 It is worth noting that there can only be at most one $ s' $ satisfying the above equation \cite{gelfond_action_1998}.
 Therefore, $ A $ is deterministic for every state.
 
-\subsubsection{Action language B}
+\subsubsection{Action language $ \mathcal{B} $}
 
-Action language B is an extension of action language A \cite{gelfond_action_1998} that allows the description of actions with indirect effects.
+Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ \cite{gelfond_action_1998} that allows the description of actions with indirect effects.
 
-\subsubsection{Action language AL}
+\subsubsection{Action language $ \mathcal{AL} $}
 
-AL is based on A and B.
+$ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
 It extends these languages with what it calls ``defined fluents'', which are domain-relevant properties under the closed world assumption \cite{blount_architecture_2013}.
 The closed world assumption states: that which cannot be proven true must be false \cite{reiter_closed_1981}.
 It contrasts from the open world assumption, which states: only that which is proven is true \cite{reiter_closed_1981}.
