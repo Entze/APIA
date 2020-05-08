@@ -12,7 +12,7 @@ build-graphviz: $(patsubst %.dot,%.pdf,$(GRAPHVIZ_FIGURES))
 build-plantuml: $(patsubst %.dot,%.pdf,$(PLANTUML_FIGURES))
 
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
-	pdflatex --shell-escape $<
+	latexmk -pdf
 
 %.pdf: %.dot
 	dot -Tpdf -o $@ $^
