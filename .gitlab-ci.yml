@@ -31,7 +31,7 @@ Build PDF:
   stage: pdf
   image: blang/latex:ctanfull
   script:
-    - make
+    - latexmk -pdf
 
   artifacts:
     paths:
