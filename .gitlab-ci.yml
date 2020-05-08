@@ -4,8 +4,9 @@ stages:
 
 Build Graphviz figures:
   stage: graphs
-  image: graphviz/graphviz:ubuntu-20.04
+  image: alpine
   script:
+    - apk add make graphviz
     - make build-graphviz
 
   artifacts:
