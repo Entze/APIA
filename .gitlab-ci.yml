@@ -4,7 +4,7 @@ stages:
 
 Build Graphviz figures:
   stage: graphs
-  image: graphviz/graphviz
+  image: graphviz/graphviz:ubuntu-20.04
   script:
     - make build-graphviz
 
@@ -19,6 +19,7 @@ Build PlantUML figures:
     entrypoint:
       - ''
   script:
+    - apk add make
     - make build-plantuml
 
   artifacts:
