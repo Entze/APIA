@@ -1,4 +1,32 @@
+stages:
+  - graphs
+  - pdf
+
+Build Graphviz figures:
+  stage: graphs
+  image: graphviz/graphviz
+  script:
+    - make build-graphviz
+
+  artifacts:
+    paths:
+      - 'Figures/**/*.pdf'
+
+Build PlantUML figures:
+  stage: graphs
+  image:
+    name: think/plantuml
+    entrypoint:
+      - ''
+  script:
+    - make build-plantuml
+
+  artifacts:
+    paths:
+      - 'Figures/**/*.pdf'
+
 Build PDF:
+  stage: pdf
   image: blang/latex:ctanfull
   script:
     - make
