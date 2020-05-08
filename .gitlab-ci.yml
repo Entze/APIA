@@ -1,6 +1,5 @@
-image: blang/latex:ctanfull
-
-build:
+Build PDF:
+  image: blang/latex:ctanfull
   script:
     - make
 
