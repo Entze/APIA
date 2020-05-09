@@ -150,11 +150,11 @@ Transition systems, then, are akin to directed graphs where the vertices are pos
 The formal definition is as follows:
 
 \begin{definition}{Action signature}
-    An action signature $ <V,F,A> $ consists of three sets: a set $ V $ for value names, a set $ F $ of fluent names, and a set $ A $ of action names \cite{gelfond_action_1998}.
+    An action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of three sets: a set $ \boldsymbol{V} $ for value names, a set $ \boldsymbol{F} $ of fluent names, and a set $ \boldsymbol{A} $ of action names \cite{gelfond_action_1998}.
 \end{definition}
 
 \begin{definition}{Transition system}
-    A transition system of an action signature $ <V,F,A> $ consists of a set $ S $ of states, a function $ V : F \times S\rightarrow V $, and $ R\ \subseteq S \times A \times S $.
+    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow V $, and $ R\ \subseteq S \times \boldsymbol{F} \times S $.
 \end{definition}
 
 $ V(P,s) $ is said to be the value of $ P $ in $ s $.
@@ -181,7 +181,7 @@ Many action languages exist, including $ \mathcal{A} $ \cite{gelfond_action_1998
 
 First, we will discuss action language $ \mathcal{A} $.
 Action language $ \mathcal{A} $ was first proposed in \cite{pednault_formulating_1987}.
-A models a transition system with the signature $ <{t,\ f},\ F,\ A> $.
+A models a transition system with the signature $ <\{t,\ f\},\ \boldsymbol{F},\ \boldsymbol{A}> $.
 It is composed of sets of propositions of the form:
 
 $$
@@ -197,7 +197,7 @@ A set of these propositions is called an action description \cite{gelfond_action
     The transition system $ <S,\ V,\ R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
-        \item $ S $ is the set of all interpretations of $ F $
+        \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $
         \item $ V(P, s) = s(P) $
         \item R is the set of all triples $ <s,\ A,\ s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $
     \end{itemize}
@@ -270,9 +270,9 @@ $B$ defines a notion of closure for sets of literals.
     The transition system $<\ S,\ V,\ R\ >$ described by $D$ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
-        \item S is the set of all interpretations of F that are closed under the static laws of D
-        \item V(P,\ s)=s(P)
-        \item R is the set of all triples $<s,\ A,\ s\prime>$ such that
+        \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$
+        \item $V(P,\ s)=s(P)$
+        \item $R$ is the set of all triples $<s,\ A,\ s\prime>$ such that
             $$
             s^\prime=C_{n_Z}\left(E\left(A,s\right)\cup\left(s\ \cap\ s^\prime\right)\right)
             $$
