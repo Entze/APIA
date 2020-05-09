@@ -21,4 +21,4 @@ build-plantuml: $(patsubst %.dot,%.pdf,$(PLANTUML_FIGURES))
 	plantuml -tsvg $<
 
 %.pdf: %.svg
-	inkscape -z -D --file=$< --export-pdf=$@
+	inkscape --export-filename=$@ $<
