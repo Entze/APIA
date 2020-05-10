@@ -10,6 +10,8 @@ echo 'Next: Converting smart quotes'
 read -p "Press [Enter] to view continue"
 codemod --extensions tex '“' '``'
 codemod --extensions tex '”' "''"
+codemod --extensions tex '‘' '`'
+codemod --extensions tex '’' "'"
 
 clear
 echo 'Next: Converting Word lists'
