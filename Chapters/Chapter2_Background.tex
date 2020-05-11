@@ -147,11 +147,11 @@ The formal definition is as follows:
 \end{definition}
 
 \begin{definition}
-    An action signature $< V,F,A >$ is propositional if $V=\{t,f\}$~\cite{gelfond_action_1998}.
+    An action signature $< \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ is propositional if $\boldsymbol{V}=\{t,f\}$~\cite{gelfond_action_1998}.
 \end{definition}
 
 \begin{definition}
-    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow V $, and $ R \subseteq S \times \boldsymbol{A} \times S $.
+    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow \boldsymbol{V} $, and $ R \subseteq S \times \boldsymbol{A} \times S $.
 \end{definition}
 
 $ V(P,s) $ is said to be the value of $ P $ in $ s $.
@@ -188,7 +188,7 @@ A \textbf{ causes } L \textbf{ if } F
 $$
 
 $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\cite{gelfond_action_1998}.
-A literal is an element of $(F \cup {f \in F | \neg f})$.
+A literal is an element of $(F \cup \{f \in F | \neg f\})$.
 Since we model a propositional transition system, $L$ denotes $V(P, s) = t$ for the state $s$ where $F$ holds and $A$ occurs.
 Likewise, $\neg L$ denotes $V(P, s)=f$
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
@@ -205,14 +205,14 @@ A set of these propositions is called an \textit{action description}~\cite{gelfo
     \end{itemize}
 \end{definition}
 
-$ E(A, s) $ is the set of heads $ L $ of all propositions $ A causes L if F $ in $ D $ such that $ s $ satisfies $ F $.
+$ E(A, s) $ is the set of heads $ L $ of all propositions $ A \textbf{ causes } L \textbf{ if } F $ in $ D $ such that $ s $ satisfies $ F $.
 $ E(A, s) $ represents all effects of an action $ A $ in state $ s $~\cite{gelfond_action_1998}.
 Writing $ E\left(A,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ A $ are actually present.
 Adding $ \subseteq E\left(A,s\right)\cup s $, allows $ s' $ to equal $ s $.
 It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\cite{gelfond_action_1998}.
 Therefore, $ A $ is deterministic for every state.
 
-Suppose we had the following action description in A, as given in \cite{gelfond_action_1998}:
+Suppose we had the following action description in $\mathcal{A}$, as given in \cite{gelfond_action_1998}:
 
 $$
 A \textbf{ causes } P \textbf{ if } Q
@@ -233,10 +233,10 @@ In this case, the action description language models the transition system shown
 Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects.
 \cite{gelfond_action_1998}.
 It does so with the addition of so-called \textit{static laws}~\cite{gelfond_action_1998}.
-The authors contrast static laws to \textit{dynamic laws}, which refer to action descriptions in A.
+The authors contrast static laws to \textit{dynamic laws}, which refer to action descriptions in $\mathcal{A}$.
 
-Like A, B models a transition system with the signature $<\{t, f\},F,A>$.
-An action description in B is a set of static and dynamic laws, which are as follows \cite{gelfond_action_1998}:
+Like $\mathcal{A}$, $\mathcal{B}$ models a transition system with the signature $<\{t, f\},F,A>$.
+An action description in $\mathcal{B}$ is a set of static and dynamic laws, which are as follows \cite{gelfond_action_1998}:
 
 \begin{itemize}
     \item A static law is written in the following form:
@@ -244,21 +244,21 @@ An action description in B is a set of static and dynamic laws, which are as fol
         L \textbf{ if } F
         $$
 
-    \item A dynamic law, like in A, is written in the form:
+    \item A dynamic law, like in $\mathcal{A}$, is written in the form:
         $$
         A \textbf{ causes } L \textbf{ if } F
         $$
 \end{itemize}
 
-$A \in \boldsymbol{A}$ is the action name, $L \in(F \cup{f \in F| \neg f})$ is a literal (or head) and $F \subseteq(F \cup{f \in F| \neg f})$ is a, possibly empty, conjunction of literals.
+$A \in \boldsymbol{A}$ is the action name, $L \in(F \cup\{f \in F| \neg f\})$ is a literal (or head) and $F \subseteq(F \cup\{f \in F| \neg f\})$ is a, possibly empty, conjunction of literals.
 
-Similar to $A$, if $F$ is empty then it is denoted as $True$ and can be omitted.
+Similar to $\mathcal{A}$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 
-$B$ defines a notion of closure for sets of literals.
+$\mathcal{B}$ defines a notion of closure for sets of literals.
 
 \begin{definition}
     In a dynamic law $A \textbf{ causes } L$, $A$ is said to \textit{cause} $L$.
-    Adding a static law $L'$ if $L$, $A$ is said to \textit{indirectly cause} $L'$.
+    Adding a static law $L' \textbf{ if } L$, $A$ is said to \textit{indirectly cause} $L'$.
 \end{definition}
 
 \begin{definition}
@@ -280,9 +280,9 @@ $B$ defines a notion of closure for sets of literals.
     \begin{itemize}
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
         \item $V(P, s)=s(P)$.
-        \item $R$ is the set of all triples $<s, A, s\prime>$ such that
+        \item $R$ is the set of all triples $<s, A, s'>$ such that
             $$
-            s^\prime=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s^\prime\right)\right)
+            s'=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s'\right)\right)
             $$
 
             $ Z $ is the set of all static laws of $D$ and $E(A, s)$, as before, is the set of heads $L$ of all propositions $A$ causes $L$ if $F$ in $D$ such that $s$ satisfies $F$.
@@ -317,9 +317,9 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         $$
 \end{itemize}
 
-Like in $A$ and $B$, $A$ is the action name, $L \in(F \cup{f \in F| \neg f}) $ is a literal (or \textit{head}) and $F \subseteq(F \cup{f \in F| \neg f})$ is a possibly empty conjunction of literals.
+Like in $\mathcal{A}$ and $\mathcal{B}$, $A$ is the action name, $L \in(F \cup\{f \in F| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(F \cup\{f \in F| \neg f\})$ is a possibly empty conjunction of literals.
 
-Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: statics, inertial fluents, and defined fluents.
+Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: \textit{statics}, \textit{inertial fluents}, and \textit{defined fluents}.
 The term \textit{fluent} has a slightly different meaning in this context.
 \cite{gelfond_knowledge_2014} uses the term \textit{domain property} to refer to the \textit{fluent names} introduced in our discussion of action signatures.
 By \textit{fluent}, \cite{gelfond_knowledge_2014} means the domain properties that might actually change between states.
@@ -409,16 +409,16 @@ In the intentional system description of $\mathcal{AL}$, these pre-computed plan
 Activities are the set of the following statics~\cite{blount_architecture_2013, blount_towards_2014}:
 
 \begin{gather*}
-    Activity(M).
-    Component(M, 1, C_1).
-    Component(M, 2, C_2).
-    \dots
-    Component(M, L, C_L).
-    Length(M, L).
+    Activity(M). \\
+    Component(M, 1, C_1). \\
+    Component(M, 2, C_2). \\
+    \dots \\
+    Component(M, L, C_L). \\
+    Length(M, L). \\
     Goal(M, G).
 \end{gather*}
 
-Where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the 1st, 2nd, \dots Lth part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
+Where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a child activity of $M$.
 An activity cannot be a child (or descendant) of itself (i.e. activities must be acyclic).
