@@ -30,7 +30,7 @@ but fails to do so when alternatives would have done so, cannot be called an \te
 There are many different kinds of agents.
 \cite{balke_how_2014} provides a survey of five different kinds of agents.
 
-The first of which are production rule systems~\cite{balke_how_2014}.
+The first of which are \textit{production rule systems}~\cite{balke_how_2014}.
 Production rule systems are symbolic in nature and
 consist of three core components:
 
@@ -54,30 +54,29 @@ consist of three core components:
 
 Production rule systems are usually implemented in Prolog or Lisp~\cite{balke_how_2014}.
 
-The next class of agents are those ascribing to the BDI architecture~\cite{balke_how_2014}.
+The next class of agents are those ascribing to the \textit{BDI architecture}~\cite{balke_how_2014}.
 The belief-desire-intention (BDI) model combines a philosophical model of human practical reasoning
 with several successful applications \cite{georgeff_belief-desire-intention_1999}.
 BDI agents are built on the idea of mental states,
 consisting of three items: beliefs, desires, and intentions~\cite{balke_how_2014}.
-Beliefs refer to an agent's representation of the world.
+\textit{Beliefs} refer to an agent's representation of the world.
 An agent believes something to be true if and only if the statement is found in its representation of the world.
-It is worth noting that an agent's beliefs can be inconsistent with its environment.
-In this case, the agent would be wrong.
+It is worth noting that an agent's beliefs can be inconsistent with its environment (i.e. the agent can be mistaken).
 
-The \textit{desires} of an agent are all possible courses of action that it might want to accomplish in order to reach a goal~\cite{balke_how_2014}.
+An agent's \textit{desires} are all possible courses of action that it might want to accomplish in order to reach a goal~\cite{balke_how_2014}.
 An agent is not necessarily committed to its desires.
 They just play a part in its decision process.
-Intentions, on the other hand, are commitments to particular courses of action to reach a goal.
-Courses of action are also called plans.
+\textit{Intentions}, on the other hand, are commitments to particular courses of action to reach a goal.
+Courses of action are also called \textit{plans}.
 
 In addition, BDI agents have a library of plans.
 This library consists of pre-computed primitive logic rules to signify which actions contribute to accomplishing which goals.
 At each reasoning step, BDI agents search through the plan library to see which plans have a post-condition that matches the currently selected intention
 and then sorts them according to relevance.
 
-The third class of agents are those that conform to normative models.
-They differ from BDI agents in that they are externally motivated.
-BDI agents are internally motivated since all major components (beliefs, goals, and intentions) are internal to the agent.
+The third class of agents are those that conform to \textit{normative models}.
+They differ from BDI agents in that they are \textit{externally motivated}.
+BDI agents are \textit{internally motivated} since all major components (beliefs, goals, and intentions) are internal to the agent.
 Normative agents are governed by norms, which are imposed by the agent's external environment.
 
 The last two classes of agents are those with cognitive models~\cite{balke_how_2014}.
@@ -88,19 +87,15 @@ whereas the cognitive architectures are heavily influenced by the structure of t
 \section{Evaluation of agent architectures}
 \label{sec:agent_evaluation}
 
-Given these five classes of agent architecture, one needs a way of objectively comparing them.
+Given these five classes of agent architectures, one needs a way of objectively comparing them.
 \cite{balke_how_2014} provides five different dimensions on which these architectures can be evaluated.
 
 The first of which is the cognitive dimension.
 This dimension considers what kind of reasoning is able to be performed by an agent.
-\cite{balke_how_2014} provides two partitions for cognitive ability:
-reactive or deliberative and composed of simple cognitive components or of psychologically/neurologically inspired ones.
+\cite{balke_how_2014} evaluates architectures on whether agents are \textit{reactive} or \textit{deliberative}.
 Reactive agents are those that only respond to stimuli in their environment and typically follow rule-based patterns.
 Deliberative agents, on the other hand, actively consider different courses of action and weigh the utility of each.
-For example, production rule systems are an example of reactive agents whereas BDI agents can be deliberative~\cite{balke_how_2014}.
-Agents composed of psychologically/neurologically inspired cognitive components are those whose design strives to model the human brain,
-whereas agents composed of simple cognitive components are those whose design consists of manmade abstractions.
-Psychologically/neurologically inspired agents correspond to the cognitive-model class mentioned above.
+For example, production rule systems are an example of reactive agents whereas BDI agents are deliberative~\cite{balke_how_2014}.
 
 The second dimension for agent architecture comparisons is the affective dimension~\cite{balke_how_2014}.
 The affective dimension considers what degree of emotions agents in an architecture are capable of expressing and acting upon.
@@ -450,7 +445,7 @@ Though most actions are executed by the agent itself, some must be executed by t
 There are two such actions that are exogenous to the agent.
 The exogenous mental action $select(G)$ causes the agent to intend to achieve goal $G$~\cite{blount_towards_2014}.
 Likewise, the exogenous mental action $abandon(G)$ causes the agent to cease its intent to achieve goal $G$~\cite{blount_towards_2014}.
-These actions are necessarily exogenous because, in general, a goal-driven agent must be given at least one goal a priori.
+These actions are necessarily exogenous because, in general, a goal-driven agent must be given at least one goal beforehand.
 
 \subsubsection{Domain history}
 \label{subsubsec:domain_history}
