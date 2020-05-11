@@ -156,7 +156,7 @@ The formal definition is as follows:
 \end{definition}
 
 \begin{definition}
-    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow V $, and $ R\ \subseteq S \times \boldsymbol{A} \times S $.
+    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow V $, and $ R \subseteq S \times \boldsymbol{A} \times S $.
 \end{definition}
 
 $ V(P,s) $ is said to be the value of $ P $ in $ s $.
@@ -185,7 +185,7 @@ Many action languages exist, including $ \mathcal{A} $~\cite{gelfond_action_1998
 
 First, we will discuss action language $ \mathcal{A} $.
 Action language $ \mathcal{A} $ was first proposed in \cite{pednault_formulating_1987}.
-$ \mathcal{A} $ models a transition system with the signature $ <\{t,\ f\},\ \boldsymbol{F},\ \boldsymbol{A}> $.
+$ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
 
 $$
@@ -193,25 +193,25 @@ A\ causes\ L\ if\ F
 $$
 
 $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\cite{gelfond_action_1998}.
-A literal is an element of $(F\ \cup\ {f\ \in\ F |\ \neg f})$.
-Since we model a propositional transition system, $L$ denotes $V(P,\ s)\ =\ t$ for the state $s$ where $F$ holds and $A$ occurs.
-Likewise, $\neg L$ denotes $V(P,\ s)=f$
+A literal is an element of $(F \cup {f \in F | \neg f})$.
+Since we model a propositional transition system, $L$ denotes $V(P, s) = t$ for the state $s$ where $F$ holds and $A$ occurs.
+Likewise, $\neg L$ denotes $V(P, s)=f$
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
 A set of these propositions is called an \textit{action description}~\cite{gelfond_action_1998}.
 
 \begin{definition}
     Let $ D $ be an action description in $ \mathcal{A} $.
-    The transition system $ <S,\ V,\ R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
+    The transition system $ <S, V, R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
         \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $.
         \item $ V(P, s) = s(P) $.
-        \item R is the set of all triples $ <s,\ A,\ s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $.
+        \item R is the set of all triples $ <s, A, s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $.
     \end{itemize}
 \end{definition}
 
-$ E(A,\ s) $ is the set of heads $ L $ of all propositions $ A\ causes\ L\ if\ F $ in $ D $ such that $ s $ satisfies $ F $.
-$ E(A,\ s) $ represents all effects of an action $ A $ in state $ s $~\cite{gelfond_action_1998}.
+$ E(A, s) $ is the set of heads $ L $ of all propositions $ A causes L if F $ in $ D $ such that $ s $ satisfies $ F $.
+$ E(A, s) $ represents all effects of an action $ A $ in state $ s $~\cite{gelfond_action_1998}.
 Writing $ E\left(A,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ A $ are actually present.
 Adding $ \subseteq E\left(A,s\right)\cup s $, allows $ s' $ to equal $ s $.
 It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\cite{gelfond_action_1998}.
@@ -240,7 +240,7 @@ Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A}
 It does so with the addition of so-called \textit{static laws}~\cite{gelfond_action_1998}.
 The authors contrast static laws to \textit{dynamic laws}, which refer to action descriptions in A.
 
-Like A, B models a transition system with the signature $<{f,\ t},F,A>$.
+Like A, B models a transition system with the signature $<{f, t},F,A>$.
 An action description in B is a set of static and dynamic laws, which are as follows \cite{gelfond_action_1998}:
 
 \begin{itemize}
@@ -280,14 +280,14 @@ $B$ defines a notion of closure for sets of literals.
 \begin{definition}
 
     Let $D$ be an action description in $B$.
-    The transition system $<\ S,\ V,\ R\ >$ described by $D$ is defined as follows \cite{gelfond_action_1998}:
+    The transition system $< S, V, R >$ described by $D$ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
-        \item $V(P,\ s)=s(P)$.
-        \item $R$ is the set of all triples $<s,\ A,\ s\prime>$ such that
+        \item $V(P, s)=s(P)$.
+        \item $R$ is the set of all triples $<s, A, s\prime>$ such that
             $$
-            s^\prime=C_{n_Z}\left(E\left(A,s\right)\cup\left(s\ \cap\ s^\prime\right)\right)
+            s^\prime=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s^\prime\right)\right)
             $$
 
             $ Z $ is the set of all static laws of $D$ and $E(A, s)$, as before, is the set of heads $L$ of all propositions $A$ causes $L$ if $F$ in $D$ such that $s$ satisfies $F$.
@@ -322,7 +322,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         $$
 \end{itemize}
 
-Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ \neg f}) $ is a literal (or \textit{head}) and $F\ \subseteq(F\ \cup{f\ \in F|\ \neg f})$ is a possibly empty conjunction of literals.
+Like in $A$ and $B$, $A$ is the action name, $L \in(F \cup{f \in F| \neg f}) $ is a literal (or \textit{head}) and $F \subseteq(F \cup{f \in F| \neg f})$ is a possibly empty conjunction of literals.
 
 Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: statics, inertial fluents, and defined fluents.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -435,7 +435,7 @@ $$
 Goal(M, G).
 $$
 
-Where $M$ is a unique identifier for the activity, $C_1,\ C_2,\ ...,\ C_L$ are the 1st, 2nd, … Lth part of the plan, and G is the goal that $C_1,C_2,\ldots,C_L$ achieves.
+Where $M$ is a unique identifier for the activity, $C_1, C_2, ..., C_L$ are the 1st, 2nd, … Lth part of the plan, and G is the goal that $C_1,C_2,\ldots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a child activity of $M$.
 An activity cannot be a child (or descendant) of itself (i.e. activities must be acyclic).
@@ -453,7 +453,7 @@ The effects of mental actions are defined in a set of propositions called the Th
 \label{subsubsec:theory_of_intentions}
 
 The Theory of Intentions ($\mathcal{TI}$) is a framework of static and dynamic laws that maintain an agent's mental state.
-Elements of the agent's mental state include the currently selected goal $G$, stored in the $\mathrm{active\_goal}\left(G\right)$ inertial fluent, the current planned activity, stored in the $status(M,\ k)$ inertial fluent~\cite{blount_towards_2014}.
+Elements of the agent's mental state include the currently selected goal $G$, stored in the $\mathrm{active\_goal}\left(G\right)$ inertial fluent, the current planned activity, stored in the $status(M, k)$ inertial fluent~\cite{blount_towards_2014}.
 When either a goal is selected or an activity is planned, they are said to be intended.
 
 $\mathcal{TI}$ updates the agent's mental states through mental actions.
@@ -487,16 +487,16 @@ $$
 \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 $$
 
-Where $obs(F,\ V,\ I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A,\ I)$ that action $A$ happened at time step $I$.
+Where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A, I)$ that action $A$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
 The AIA architecture avoids this inconsistency by adding two history statements.
-When executing an action $A$ at time step $I$, the agent records its attempt to do so with $attempt(A,\ I)$.
-During the $I+1$ iteration of the control loop, the agent records $hpd(A,\ I)$ if the effects of the previous action are observed, otherwise $\neg hpd(A,\ I)$.
+When executing an action $A$ at time step $I$, the agent records its attempt to do so with $attempt(A, I)$.
+During the $I+1$ iteration of the control loop, the agent records $hpd(A, I)$ if the effects of the previous action are observed, otherwise $\neg hpd(A, I)$.
 Thus, an agent in the AIA architecture will have the following history for the previous example
 
 $$
-\Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1,\ 0),\ hpd\left(a_{1,}0\right),attempt(a_2,\ 1),\ \neg hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
+\Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1, 0), hpd\left(a_{1,}0\right),attempt(a_2, 1), \neg hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 $$
 
 This history is consistent.
@@ -539,7 +539,7 @@ A visual description of this example is shown in figure~\ref{fig:aia_example}.
 
 Initially, Bob knows that he is currently located in r1 and John is located in r3.
 Suppose Bob is given an order to meet with John.
-This is represented as the occurrence of an exogenous mental action $select(meet(Bob,\ \ John))$, which eventually causes the $active\_goal(meet(Bob,\ John))$ fluent to be true in the agent's mental state.
+This is represented as the occurrence of an exogenous mental action $select(meet(Bob, John))$, which eventually causes the $active\_goal(meet(Bob, John))$ fluent to be true in the agent's mental state.
 In the first iteration of the AIA control loop, the agent will:
 
 \begin{enumerate}
@@ -547,77 +547,77 @@ In the first iteration of the AIA control loop, the agent will:
     \item Find an intended action A.
         Since there is not yet an intended goal, the agent will choose to execute the \textit{wait} action, which has no physical or mental effects.
     \item The agent will attempt to execute the \textit{wait} action and record this attempt in its history.
-    \item The agent observes the occurrence of the $select(meet(Bob,\ John))$ exogenous action and record it.
+    \item The agent observes the occurrence of the $select(meet(Bob, John))$ exogenous action and record it.
 \end{enumerate}
 
 Then, in the second iteration of the loop, the agent will interpret its observations.
-According to the $\mathcal{TI}$ laws, this will cause the $active\_goal(meet(Bob,\ John))$ fluent to be true.
+According to the $\mathcal{TI}$ laws, this will cause the $active\_goal(meet(Bob, John))$ fluent to be true.
 Now, when it will search for an activity which has been described to achieve this goal.
-Suppose it chooses the activity $<1,\ [move(Bob,\ r1,r2),\ move(Bob,\ r2,\ r3)],meet(Bob,John)>$.
+Suppose it chooses the activity $<1, [move(Bob, r1,r2), move(Bob, r2, r3)],meet(Bob,John)>$.
 This is represented by the following inertial fluent $status(1,0)$.
 The rest of the second iteration is as follows:
 
 \begin{enumerate}
     \setcounter{enumi}{1}
     \item Find intended action A.
-        This is the k + 1 action of the activity where $status(1,\ k)$.
-        In this case, A is $move(Bob,\ r1,\ r2)$.
-    \item Execute $move(Bob,\ r1,\ r2)$.
-        Record $attempt(move(Bob,\ r1,\ r2,\ 1)$ in history.
+        This is the k + 1 action of the activity where $status(1, k)$.
+        In this case, A is $move(Bob, r1, r2)$.
+    \item Execute $move(Bob, r1, r2)$.
+        Record $attempt(move(Bob, r1, r2, 1)$ in history.
     \item Observe that Bob is in r2.
-        Record $hpd(move(Bob,\ r1,\ r2),1)$ in history.
+        Record $hpd(move(Bob, r1, r2),1)$ in history.
 \end{enumerate}
 
 When interpreting its observations in the third iteration of the loop, it will update $status(1,0)$ to $status(1,1)$.
-The agent in following steps will intend to execute $move(Bob,\ r2,\ r3)$, attempt to execute it and store $attempt(move(Bob,\ r2,\ r3))$ in history, and observe that Bob is in r3 and that it has met with John.
-Having accomplished its goal, the $active\_goal(meet(Bob,\ John))$ fluent is set to false and the agent performs the \textit{wait} action until it is given another goal.
+The agent in following steps will intend to execute $move(Bob, r2, r3)$, attempt to execute it and store $attempt(move(Bob, r2, r3))$ in history, and observe that Bob is in r3 and that it has met with John.
+Having accomplished its goal, the $active\_goal(meet(Bob, John))$ fluent is set to false and the agent performs the \textit{wait} action until it is given another goal.
 
 \subsubsection{Scenario 2: Serendipitous achievement of goal~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_2}
 
-Let us rewind the previous scenario such that the agent Bob is currently attempting $move(Bob,\ r1,\ r2)$.
-Suppose that, during the same time step, the following exogenous action occurs $move(John,\ r3,\ r2)$.
-When Bob observes and records the world, it will record $hpd(move(Bob,\ r1,\ r2),\ 1)$ and $hpd(move(John,r3,r2),\ 1)$.
-In the next iteration of the control loop, Bob will interpret his observations and derive the $meet(Bob,\ John)$ fluent to be true.
-In this case, Bob's goal to achieve $meet(Bob,\ John)$ is serendipitously satisfied.
+Let us rewind the previous scenario such that the agent Bob is currently attempting $move(Bob, r1, r2)$.
+Suppose that, during the same time step, the following exogenous action occurs $move(John, r3, r2)$.
+When Bob observes and records the world, it will record $hpd(move(Bob, r1, r2), 1)$ and $hpd(move(John,r3,r2), 1)$.
+In the next iteration of the control loop, Bob will interpret his observations and derive the $meet(Bob, John)$ fluent to be true.
+In this case, Bob's goal to achieve $meet(Bob, John)$ is serendipitously satisfied.
 Since Bob wants to maintain this state, it will intend to perform action $stop(1)$ to halt the execution of activity $1$.
 Bob will attempt to perform $stop(1)$ while updating the history.
-Bob will observe and record $hpd(stop(1),\ 2)$, at which point Bob will choose to wait indefinitely.
+Bob will observe and record $hpd(stop(1), 2)$, at which point Bob will choose to wait indefinitely.
 
 \subsubsection{Scenario 3: Replanning~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_3}
 
-Let us again rewind scenario 1 such that Bob is currently attempting $move(Bob,\ r1,\ r2)$.
-Suppose that, during the same time step, the following exogenous action occurs $move(John,\ r3,\ r4)$.
+Let us again rewind scenario 1 such that Bob is currently attempting $move(Bob, r1, r2)$.
+Suppose that, during the same time step, the following exogenous action occurs $move(John, r3, r4)$.
 When Bob interprets this observation, it will recognize that activity $1$ is \textit{futile} (i.e. it will not satisfy its goal) and so intend to stop activity $1$.
 Bob will attempt to perform $stop(1)$, observe that $stop(1)$ has occurred, re-interpret its observations, and search for a new action to perform.
-In this step, Bob will look for an activity that satisfies the goal $meet(Bob,\ John)$.
-Suppose it finds the following activity $<2,\ [move(Bob,\ r2,r3),\ move(Bob,\ r3,r4)],meet(Bob,John)>$.
+In this step, Bob will look for an activity that satisfies the goal $meet(Bob, John)$.
+Suppose it finds the following activity $<2, [move(Bob, r2,r3), move(Bob, r3,r4)],meet(Bob,John)>$.
 Then Bob will intend to perform $start(2)$.
 After Bob attempts to perform $start(2)$, it will observe that $start(2)$ happened, interpret its observations, then search for an intended action.
-Bob will intend to perform $move(Bob,\ r2,r3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
+Bob will intend to perform $move(Bob, r2,r3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
 Assuming that $d34$ is unlocked, the scenario will finish like in scenario 1.
 
 \subsubsection{Scenario 4: Abandoning goal~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_4}
 
-Moving back to scenario 1 where Bob is currently attempting $move(Bob,\ r1,\ r2)$.
-Suppose that, during the same time step, the following exogenous action occurs $abandon(meet(Bob,\ John))$.
-Then, when observing this action and interpreting it, the $\mathcal{TI}$ laws will cause $active\_goal(meet(Bob,\ John))$ fluent to be false.
+Moving back to scenario 1 where Bob is currently attempting $move(Bob, r1, r2)$.
+Suppose that, during the same time step, the following exogenous action occurs $abandon(meet(Bob, John))$.
+Then, when observing this action and interpreting it, the $\mathcal{TI}$ laws will cause $active\_goal(meet(Bob, John))$ fluent to be false.
 Followingly, Bob will intend to stop the current activity (by performing $stop(1)$), attempt to perform $stop(1)$, observe, interpret, and intend to perform \textit{wait} in all future loops.
 
 \subsubsection{Scenario 5: Diagnosis~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_5}
 
-Finally, let us reset to the point scenario 1 where Bob is performing $move(Bob,\ r2,\ r3)$.
+Finally, let us reset to the point scenario 1 where Bob is performing $move(Bob, r2, r3)$.
 When later observing the world, suppose Bob does not find John there in r3.
 After recording this observation in the history, Bob then interprets its observations.
-Since activity 1 does not achieve the goal $meet(Bob,\ John)$, Bob begins diagnostic reasoning over the history to figure out how this could be possible.
-Looking back in history, there are three possibilities when John could have moved: when Bob performed $start(1)$, when Bob performed $move(Bob,\ r1,\ r2)$, and when Bob performed $move(Bob,\ r2,\ r3)$.
+Since activity 1 does not achieve the goal $meet(Bob, John)$, Bob begins diagnostic reasoning over the history to figure out how this could be possible.
+Looking back in history, there are three possibilities when John could have moved: when Bob performed $start(1)$, when Bob performed $move(Bob, r1, r2)$, and when Bob performed $move(Bob, r2, r3)$.
 Assuming John did not pass Bob while moving between rooms, John must have moved to r4.
-In this case, Bob must start an activity $<3,\ [move(Bob,\ r3,\ r4)],meet(Bob,John)>$ to move from r3 to r4.
+In this case, Bob must start an activity $<3, [move(Bob, r3, r4)],meet(Bob,John)>$ to move from r3 to r4.
 However, before it can do so, it must first perform stop(1) before performing start(3).
-Hence, it takes three more iterations of the control loop to move to r4 ($stop(1)$, $start(3)$, $move(Bob,\ r3,r4)$) and one final iteration to end the activity ($stop(3)$).
+Hence, it takes three more iterations of the control loop to move to r4 ($stop(1)$, $start(3)$, $move(Bob, r3,r4)$) and one final iteration to end the activity ($stop(3)$).
 
 \subsection{Policies}
 \label{subsec:policies}
