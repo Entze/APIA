@@ -166,7 +166,7 @@ If $ A $ is non-deterministic, then each $ s' $ may be the result of $ A $~\cite
 $ A $ is executable in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> $ in $ R $.
 When $ \left|A\right|>1 $, A represents the execution of concurrent actions~\cite{gelfond_action_1998, blount_architecture_2013}.
 
-A path $ <s_0, A_0, s_1, A_1, \ldots, A_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $~\cite{blount_architecture_2013}.
+A path $ <s_0, A_0, s_1, A_1, \dots, A_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $~\cite{blount_architecture_2013}.
 
 If the action signature of a transition system is propositional, then the transition system is said to be propositional~\cite{gelfond_action_1998}.
 
@@ -435,7 +435,7 @@ $$
 Goal(M, G).
 $$
 
-Where $M$ is a unique identifier for the activity, $C_1, C_2, ..., C_L$ are the 1st, 2nd, … Lth part of the plan, and G is the goal that $C_1,C_2,\ldots,C_L$ achieves.
+Where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the 1st, 2nd, \dots Lth part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a child activity of $M$.
 An activity cannot be a child (or descendant) of itself (i.e. activities must be acyclic).
