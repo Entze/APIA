@@ -413,27 +413,15 @@ In order to persist them, plans are pre-computed and stored as a set of statics.
 In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an \textit{activity}.
 Activities are the set of the following statics~\cite{blount_architecture_2013, blount_towards_2014}:
 
-$$
-Activity(M).
-$$
-$$
-Component(M, 1, C_1).
-$$
-$$
-Component(M, 2, C_2).
-$$
-$$
-\dots
-$$
-$$
-Component(M, L, C_L).
-$$
-$$
-Length(M, L).
-$$
-$$
-Goal(M, G).
-$$
+\begin{gather*}
+    Activity(M).
+    Component(M, 1, C_1).
+    Component(M, 2, C_2).
+    \dots
+    Component(M, L, C_L).
+    Length(M, L).
+    Goal(M, G).
+\end{gather*}
 
 Where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the 1st, 2nd, \dots Lth part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
@@ -471,15 +459,11 @@ Previously, we mentioned that a differing aspect of the AIA architecture is that
 This has significant implications on how the agent's history is represented.
 Suppose an agent in the AAA architecture has the following action description (borrowed from~\cite{blount_towards_2014}):
 
-$$
-A_1 \textbf{ causes } f
-$$
-$$
-A_2 \textbf{ causes } g \textbf{ if } f, p
-$$
-$$
-B \textbf{ causes } \neg p
-$$
+\begin{gather*}
+    A_1 \textbf{ causes } f \\
+    A_2 \textbf{ causes } g \textbf{ if } f, p \\
+    B \textbf{ causes } \neg p
+\end{gather*}
 
 Suppose the agent has the following history:
 
@@ -495,9 +479,12 @@ When executing an action $A$ at time step $I$, the agent records its attempt to 
 During the $I+1$ iteration of the control loop, the agent records $hpd(A, I)$ if the effects of the previous action are observed, otherwise $\neg hpd(A, I)$.
 Thus, an agent in the AIA architecture will have the following history for the previous example
 
-$$
-\Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1, 0), hpd\left(a_{1,}0\right),attempt(a_2, 1), \neg hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
-$$
+\begin{multline*}
+    \Gamma=\{
+        obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1, 0),hpd\left(a_{1,}0\right) \\
+        attempt(a_2, 1), \neg hpd\left(a_{2,}1\right),obs\left(g,false,2\right)
+    \}
+\end{multline*}
 
 This history is consistent.
 
