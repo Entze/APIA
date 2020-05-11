@@ -13,7 +13,7 @@
 \section{Intelligent Agents}
 \label{sec:agents}
 
-There has been prior research and discussion to determine what constitutes an ``agent''.
+There has been prior research and discussion to determine what constitutes an \textit{agent}.
 Though work in \cite{wooldridge_agent_1995} fails to completely define the term,
 the authors do propose a set of characteristics that agents must have.
 They are summarized in \cite{dignum_intentional_1998} and are as follows.
@@ -25,7 +25,7 @@ These intentions can be desires, goals, etc.
 An implication of this requirement is that agents cannot be explained through low-level concepts.
 Lastly, an agent explained with particular intentions should seem to actually progress their satisfaction.
 For example, a system with the intention of achieving a goal,
-but fails to do so when alternatives would have done so, cannot be called an ``agent''.
+but fails to do so when alternatives would have done so, cannot be called an \textit{agent}.
 
 There are many different kinds of agents.
 \cite{balke_how_2014} provides a survey of five different kinds of agents.
@@ -40,7 +40,7 @@ consist of three core components:
         Each rule has the form $ C_i \rightarrow A_i $,
         where $ C_i $ is what is called the \textit{sensory precondition}
         and $ A_i $ is the action to be performed if $ C_i $ is true.
-        $ C_i $ is essentially an ``if'' condition and $ A_i $ is the conditionally executed body.
+        $ C_i $ is essentially an \textit{if} condition and $ A_i $ is the conditionally executed body.
 
     \item A knowledge base that stores domain-relevant information about the agent's environment.
         This is called the \textit{working memory}.
@@ -83,7 +83,7 @@ BDI agents are internally motivated since all major components (beliefs, goals, 
 Normative agents are governed by norms, which are imposed by the agent's external environment.
 
 The last two classes of agents are those with cognitive models \cite{balke_how_2014}.
-They can be divided into those that have ``simple'' cognitive models and those that have ``cognitive architectures''.
+They can be divided into those that have \textit{simple} cognitive models and those that have \textit{cognitive architectures}.
 The simple cognitive models share similarities with the agent classes presented above
 whereas the cognitive architectures are heavily influenced by the structure of the human brain.
 
@@ -135,7 +135,7 @@ These agent architectures are based off of the notion of an \textit{action langu
 \subsection{Transition Systems}
 \label{subsec:transition_systems}
 
-Transition systems (also called ``transition diagrams'' \cite{blount_architecture_2013}) can be thought of analogous to a directed graph that models a discrete dynamic domain.
+Transition systems (also called \textit{transition diagrams} \cite{blount_architecture_2013}) can be thought of analogous to a directed graph that models a discrete dynamic domain.
 Discrete dynamic domains are environments that behave according to the following rules \cite{blount_architecture_2013}:
 
 \begin{itemize}
@@ -143,7 +143,7 @@ Discrete dynamic domains are environments that behave according to the following
     \item Actions occur instantaneously at each time step and the effects appear immediately at the next time step
     \item Each domain-relevant property is represented by a function.
         The value of the function at each time step is the value of the property.
-        These properties are known as ``state''.
+        These properties are known as \textit{state}.
 \end{itemize}
 
 Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
@@ -178,7 +178,7 @@ If the action signature of a transition system is propositional, then the transi
 Action languages are formal models that describe the effects of actions \cite{gelfond_action_1998}.
 There are two kinds of action languages: action description languages and action query languages.
 Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system \cite{gelfond_action_1998}.
-We will focus only on action description languages and will use the term ``action languages'' to refer to them.
+We will focus only on action description languages and will use the term \textit{action languages} to refer to them.
 
 Many action languages exist, including $ \mathcal{A} $ \cite{gelfond_action_1998}, $ \mathcal{B} $ \cite{gelfond_action_1998}, $ \mathcal{C} $ \cite{gelfond_action_1998}, $ \mathcal{AC} $ \cite{turner_representing_1997}, $ \mathcal{AL} $ \cite{baral_reasoning_2000}, $ \mathcal{ALM} $ \cite{inclezan_modular_2016}.
 
@@ -324,7 +324,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         $$
 \end{itemize}
 
-Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ /f}) $ is a literal (or ``head'') and $F\ \subseteq(F\ \cup{f\ \in F|\ /f})$ is a, possibly empty, conjunction of literals.
+Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ /f}) $ is a literal (or \textit{head}) and $F\ \subseteq(F\ \cup{f\ \in F|\ /f})$ is a, possibly empty, conjunction of literals.
 
 Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: statics, inertial fluents, and defined fluents.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -343,7 +343,7 @@ Due to the constraints on their definition, they cannot be directly caused by an
 \subsection{The AAA architecture}
 \label{subsec:aaa_architecture}
 
-The first logic-based agent architecture that we will discuss is the ``Autonomous Agent Architecture'' (AAA) architecture \cite{balduccini_aaa_2008}.
+The first logic-based agent architecture that we will discuss is the \textit{Autonomous Agent Architecture} (AAA) architecture \cite{balduccini_aaa_2008}.
 The AAA architecture is based on work in \cite{baral_reasoning_2000,balduccini_diagnostic_2003, balduccini_answer_2006,balduccini_learning_2007}.
 As it is a logic-based approach, it makes certain assumptions about the environment in which an agent constructed in its architecture will be operating.
 They must be met in order for the architecture to be applicable.
@@ -384,7 +384,7 @@ This makes the Observe-Think-Act loop somewhat greedy in that it chooses the bes
 \subsection{The AIA Architecture}
 \label{subsec:aia_architecture}
 
-As stated above, the ``Architecture for Intentional Agents'' (AIA) is an agent architecture that borrows significantly from the AAA architecture \cite{blount_towards_2014}.
+As stated above, the \textit{Architecture for Intentional Agents} (AIA) is an agent architecture that borrows significantly from the AAA architecture \cite{blount_towards_2014}.
 It extends the AAA architecture by representing the possibility for action failure.
 In contrast to the AAA architecture, the agent \textit{attempts} to perform an action during its control loop but may find that it is unable to do so.
 In this case, the action is said to be not \textit{executable} \cite{blount_towards_2014}.
