@@ -193,9 +193,9 @@ A\ causes\ L\ if\ F
 $$
 
 $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\cite{gelfond_action_1998}.
-A literal is an element of $(F\ \cup\ {f\ \in\ F |\ \not f})$.
+A literal is an element of $(F\ \cup\ {f\ \in\ F |\ \neg f})$.
 Since we model a propositional transition system, $L$ denotes $V(P,\ s)\ =\ t$ for the state $s$ where $F$ holds and $A$ occurs.
-Likewise, $\not L$ denotes $V(P,\ s)=f$
+Likewise, $\neg L$ denotes $V(P,\ s)=f$
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
 A set of these propositions is called an \textit{action description}~\cite{gelfond_action_1998}.
 
@@ -255,7 +255,7 @@ An action description in B is a set of static and dynamic laws, which are as fol
         $$
 \end{itemize}
 
-$A \in \boldsymbol{A}$ is the action name, $L \in(F \cup{f \in F| \not f})$ is a literal (or head) and $F \subseteq(F \cup{f \in F| \not f})$ is a, possibly empty, conjunction of literals.
+$A \in \boldsymbol{A}$ is the action name, $L \in(F \cup{f \in F| \neg f})$ is a literal (or head) and $F \subseteq(F \cup{f \in F| \neg f})$ is a, possibly empty, conjunction of literals.
 
 Similar to $A$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 
@@ -322,7 +322,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         $$
 \end{itemize}
 
-Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ /f}) $ is a literal (or \textit{head}) and $F\ \subseteq(F\ \cup{f\ \in F|\ /f})$ is a possibly empty conjunction of literals.
+Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ \neg f}) $ is a literal (or \textit{head}) and $F\ \subseteq(F\ \cup{f\ \in F|\ \neg f})$ is a possibly empty conjunction of literals.
 
 Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: statics, inertial fluents, and defined fluents.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -478,7 +478,7 @@ $$
 A_2 \ causes \ g \ if \ f, p
 $$
 $$
-B \ causes \ \not p
+B \ causes \ \neg p
 $$
 
 Suppose the agent has the following history:
@@ -492,11 +492,11 @@ Where $obs(F,\ V,\ I)$ denotes that the fluent $F$ was observed to have value $V
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
 The AIA architecture avoids this inconsistency by adding two history statements.
 When executing an action $A$ at time step $I$, the agent records its attempt to do so with $attempt(A,\ I)$.
-During the $I+1$ iteration of the control loop, the agent records $hpd(A,\ I)$ if the effects of the previous action are observed, otherwise $\not hpd(A,\ I)$.
+During the $I+1$ iteration of the control loop, the agent records $hpd(A,\ I)$ if the effects of the previous action are observed, otherwise $\neg hpd(A,\ I)$.
 Thus, an agent in the AIA architecture will have the following history for the previous example
 
 $$
-\Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1,\ 0),\ hpd\left(a_{1,}0\right),attempt(a_2,\ 1),\ \not hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
+\Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1,\ 0),\ hpd\left(a_{1,}0\right),attempt(a_2,\ 1),\ \neg hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 $$
 
 This history is consistent.
