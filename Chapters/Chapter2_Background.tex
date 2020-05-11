@@ -189,7 +189,7 @@ $ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \bold
 It is composed of propositions of the form:
 
 $$
-A\ causes\ L\ if\ F
+A \textbf{ causes } L \textbf{ if } F
 $$
 
 $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\cite{gelfond_action_1998}.
@@ -220,7 +220,7 @@ Therefore, $ A $ is deterministic for every state.
 Suppose we had the following action description in A, as given in \cite{gelfond_action_1998}:
 
 $$
-A\ causes\ P\ if\ Q
+A \textbf{ causes } P \textbf{ if } Q
 $$
 
 In this case, the action description language models the transition system shown in figure~\ref{fig:action_language_a_example}.
@@ -246,12 +246,12 @@ An action description in B is a set of static and dynamic laws, which are as fol
 \begin{itemize}
     \item A static law is written in the following form:
         $$
-        L\ if\ F
+        L \textbf{ if } F
         $$
 
     \item A dynamic law, like in A, is written in the form:
         $$
-        A\ causes\ L\ if\ F
+        A \textbf{ causes } L \textbf{ if } F
         $$
 \end{itemize}
 
@@ -262,12 +262,12 @@ Similar to $A$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 $B$ defines a notion of closure for sets of literals.
 
 \begin{definition}
-    In a dynamic law $A \ causes \ L$, $A$ is said to \textit{cause} $L$.
+    In a dynamic law $A \textbf{ causes } L$, $A$ is said to \textit{cause} $L$.
     Adding a static law $L'$ if $L$, $A$ is said to \textit{indirectly cause} $L'$.
 \end{definition}
 
 \begin{definition}
-    ``A set $s$ of literals is \textit{closed} under a set $Z$ of static laws if $s$ includes the head $L$ of every static law $L\ if\ F$ in $Z$ such that $s$ satisfies $F$''~\cite{gelfond_action_1998}.
+    ``A set $s$ of literals is \textit{closed} under a set $Z$ of static laws if $s$ includes the head $L$ of every static law $L \textbf{ if } F$ in $Z$ such that $s$ satisfies $F$''~\cite{gelfond_action_1998}.
     Informally, a set $s$ of literals is closed under a set of static laws $Z$ if there are relevant static laws in $Z$ that require every literal in $s$.
     A static law is informally relevant if $F$ is satisfied.
 \end{definition}
@@ -308,17 +308,17 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
 \begin{itemize}
     \item Dynamic laws (from Action language $ \mathcal{A} $):
         $$
-        A\ causes\ L\ if\ F
+        A \textbf{ causes } L \textbf{ if } F
         $$
 
     \item Static laws (from Action language $ \mathcal{B} $):
         $$
-        L\ if\ F
+        L \textbf{ if } F
         $$
 
     \item Executability constraints:
         $$
-        impossible\ A_0, A_1, \dots, A_k\ if\ F
+        \textbf{ impossible } A_0, A_1, \dots, A_k \textbf{ if } F
         $$
 \end{itemize}
 
@@ -472,13 +472,13 @@ This has significant implications on how the agent's history is represented.
 Suppose an agent in the AAA architecture has the following action description (borrowed from~\cite{blount_towards_2014}):
 
 $$
-A_1 \ causes \ f
+A_1 \textbf{ causes } f
 $$
 $$
-A_2 \ causes \ g \ if \ f, p
+A_2 \textbf{ causes } g \textbf{ if } f, p
 $$
 $$
-B \ causes \ \neg p
+B \textbf{ causes } \neg p
 $$
 
 Suppose the agent has the following history:
