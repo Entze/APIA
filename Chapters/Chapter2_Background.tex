@@ -52,7 +52,7 @@ consist of three core components:
 
 % TODO: Consider talking about architecture
 
-Production rule systems are usually implemented in Prolog or LISP \cite{balke_how_2014}.
+Production rule systems are usually implemented in Prolog or Lisp \cite{balke_how_2014}.
 
 The next class of agents are those ascribing to the BDI architecture \cite{balke_how_2014}.
 The belief-desire-intention (BDI) model combines a philosophical model of human practical reasoning
@@ -64,9 +64,7 @@ An agent believes something to be true if and only if the statement is found in 
 It is worth noting that an agent's beliefs can be inconsistent with its environment.
 In this case, the agent would be wrong.
 
-\cite{rao_modeling_1991}
-
-The desires of an agent are all possible courses of action that it might want to accomplish in order to reach a goal \cite{balke_how_2014}.
+The \textit{desires} of an agent are all possible courses of action that it might want to accomplish in order to reach a goal \cite{balke_how_2014}.
 An agent is not necessarily committed to its desires.
 They just play a part in its decision process.
 Intentions, on the other hand, are commitments to particular courses of action to reach a goal.
@@ -130,34 +128,34 @@ The concept was first mentioned in \cite{mccarthy_mathematical_1988}, but later 
 \label{sec:logic_based_agents}
 
 In addition to those mentioned in \cite{balke_how_2014}, there has been research on various logic-based agent architectures.
-These agent architectures are based off of the notion of an \textit{action language} which, in turn, are based on \textit{transition systems}.
+These agent architectures are based off the notion of an \textit{action language} which, in turn, are based on \textit{transition systems}.
 
 \subsection{Transition Systems}
 \label{subsec:transition_systems}
 
-Transition systems (also called \textit{transition diagrams} \cite{blount_architecture_2013}) can be thought of analogous to a directed graph that models a discrete dynamic domain.
+Transition systems (also called \textit{transition diagrams} \cite{blount_architecture_2013}) can be thought of as analogous to a directed graph that models a discrete dynamic domain.
 Discrete dynamic domains are environments that behave according to the following rules \cite{blount_architecture_2013}:
 
 \begin{itemize}
-    \item The environment updates in discrete time steps
-    \item Actions occur instantaneously at each time step and the effects appear immediately at the next time step
+    \item The environment updates in discrete time steps.
+    \item Actions occur instantaneously at each time step and the effects appear immediately at the next time step.
     \item Each domain-relevant property is represented by a function.
         The value of the function at each time step is the value of the property.
-        These properties are known as \textit{state}.
+        These properties are collectively refered to as the agent's \textit{state}.
 \end{itemize}
 
 Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
 The formal definition is as follows:
 
-\begin{definition}{Action signature}
+\begin{definition}
     An action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of three sets: a set $ \boldsymbol{V} $ for value names, a set $ \boldsymbol{F} $ of fluent names, and a set $ \boldsymbol{A} $ of action names \cite{gelfond_action_1998}.
 \end{definition}
 
-\begin{definition}{Propositional action signature}
+\begin{definition}
     An action signature $< V,F,A >$ is propositional if $V=\{t,f\}$~\cite{gelfond_action_1998}.
 \end{definition}
 
-\begin{definition}{Transition system}
+\begin{definition}
     A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow V $, and $ R\ \subseteq S \times \boldsymbol{A} \times S $.
 \end{definition}
 
@@ -187,28 +185,28 @@ Many action languages exist, including $ \mathcal{A} $ \cite{gelfond_action_1998
 
 First, we will discuss action language $ \mathcal{A} $.
 Action language $ \mathcal{A} $ was first proposed in \cite{pednault_formulating_1987}.
-A models a transition system with the signature $ <\{t,\ f\},\ \boldsymbol{F},\ \boldsymbol{A}> $.
+$ \mathcal{A} $ models a transition system with the signature $ <\{t,\ f\},\ \boldsymbol{F},\ \boldsymbol{A}> $.
 It is composed of propositions of the form:
 
 $$
 A\ causes\ L\ if\ F
 $$
 
-$ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a, possibly empty, conjunction of literals \cite{gelfond_action_1998}.
+$ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals \cite{gelfond_action_1998}.
 A literal is an element of $(F\ \cup\ {f\ \in\ F |\ \not f})$.
-Since we model a propositional transition system, $L$ denotes $V(P,\ s)\ =\ t$ for the a state $s$ where $F$ holds and $A$ occurs.
+Since we model a propositional transition system, $L$ denotes $V(P,\ s)\ =\ t$ for the state $s$ where $F$ holds and $A$ occurs.
 Likewise, $\not L$ denotes $V(P,\ s)=f$
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
 A set of these propositions is called an action description \cite{gelfond_action_1998}.
 
-\begin{definition}{Action description}
+\begin{definition}
     Let $ D $ be an action description in $ \mathcal{A} $.
     The transition system $ <S,\ V,\ R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
-        \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $
-        \item $ V(P, s) = s(P) $
-        \item R is the set of all triples $ <s,\ A,\ s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $
+        \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $.
+        \item $ V(P, s) = s(P) $.
+        \item R is the set of all triples $ <s,\ A,\ s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $.
     \end{itemize}
 \end{definition}
 
@@ -227,7 +225,7 @@ $$
 
 In this case, the action description language models the transition system shown in figure~\ref{fig:action_language_a_example}.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{Figures/Action_Language_A/Example}
     \caption{Transition system corresponding to example}
@@ -237,7 +235,7 @@ In this case, the action description language models the transition system shown
 \subsubsection{Action language $ \mathcal{B} $}
 \label{subsubsec:action_language_b}
 
-Action language $ \mathcal{B} $ is an extension of Action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects.
+Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects.
 \cite{gelfond_action_1998}.
 It does so with the addition of so-called \textit{static laws} \cite{gelfond_action_1998}.
 The authors contrast static laws to \textit{dynamic laws}, which refer to action descriptions in A.
@@ -257,36 +255,36 @@ An action description in B is a set of static and dynamic laws, which are as fol
         $$
 \end{itemize}
 
-$A \in \boldsymbol{A}$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ /f})$ is a literal (or head) and $F\ \subseteq(F\ \cup{f\ \in F|\ /f})$ is a, possibly empty, conjunction of literals.
+$A \in \boldsymbol{A}$ is the action name, $L \in(F \cup{f \in F| \not f})$ is a literal (or head) and $F \subseteq(F \cup{f \in F| \not f})$ is a, possibly empty, conjunction of literals.
 
 Similar to $A$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 
 $B$ defines a notion of closure for sets of literals.
 
-\begin{definition}{Causation}
-    In a dynamic law $A \ causes \ L$, $A$ is said to cause $L$.
-    Adding a static law $L'$ if $L$, $A$ is said to indirectly cause $L'$.
+\begin{definition}
+    In a dynamic law $A \ causes \ L$, $A$ is said to \textit{cause} $L$.
+    Adding a static law $L'$ if $L$, $A$ is said to \textit{indirectly cause} $L'$.
 \end{definition}
 
-\begin{definition}{Closure}
+\begin{definition}
     ``A set $s$ of literals is \textit{closed} under a set $Z$ of static laws if $s$ includes the head $L$ of every static law $L\ if\ F$ in $Z$ such that $s$ satisfies $F$''~\cite{gelfond_action_1998}.
     Informally, a set $s$ of literals is closed under a set of static laws $Z$ if there are relevant static laws in $Z$ that require every literal in $s$.
     A static law is informally relevant if $F$ is satisfied.
 \end{definition}
 
-\begin{definition}{Consequences}
+\begin{definition}
     ``The set $C_{n_Z}\left(s\right)$ of \textit{consequences} of [a set] $s$ [of literals] under [a set] $Z$ [of static laws] is the smallest set of literals that contains $s$ and is closed under $Z$.~\cite{gelfond_action_1998}''
     Informally, the consequences of s are the collection of all effects of a particular fluent value (both direct and indirect).
 \end{definition}
 
-\begin{definition}{Action description}
+\begin{definition}
 
     Let $D$ be an action description in $B$.
     The transition system $<\ S,\ V,\ R\ >$ described by $D$ is defined as follows \cite{gelfond_action_1998}:
 
     \begin{itemize}
-        \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$
-        \item $V(P,\ s)=s(P)$
+        \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
+        \item $V(P,\ s)=s(P)$.
         \item $R$ is the set of all triples $<s,\ A,\ s\prime>$ such that
             $$
             s^\prime=C_{n_Z}\left(E\left(A,s\right)\cup\left(s\ \cap\ s^\prime\right)\right)
@@ -302,8 +300,8 @@ $B$ defines a notion of closure for sets of literals.
 $ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
 It extends these languages with what the authors later refer to as \textit{defined fluents}.
 These are domain-relevant properties under the closed world assumption \cite{blount_architecture_2013}.
-The closed world assumption states: that which cannot be proven true must be false \cite{reiter_closed_1981}.
-It contrasts from the open world assumption, which states: only that which is proven is true \cite{reiter_closed_1981}.
+The closed world assumption states that which cannot be proven true must be false \cite{reiter_closed_1981}.
+It contrasts from the open world assumption, which states only that which is proven is true \cite{reiter_closed_1981}.
 
 An action description in $ \mathcal{AL} $ is a set of propositions written in the form \cite{baral_reasoning_2000, blount_architecture_2013}:
 
@@ -324,7 +322,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         $$
 \end{itemize}
 
-Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ /f}) $ is a literal (or \textit{head}) and $F\ \subseteq(F\ \cup{f\ \in F|\ /f})$ is a, possibly empty, conjunction of literals.
+Like in $A$ and $B$, $A$ is the action name, $L\ \in(F\ \cup{f\ \in F|\ /f}) $ is a literal (or \textit{head}) and $F\ \subseteq(F\ \cup{f\ \in F|\ /f})$ is a possibly empty conjunction of literals.
 
 Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: statics, inertial fluents, and defined fluents.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -367,7 +365,7 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
 
 This loop is known as the \textit{Observe-Think-Act} loop \cite{balduccini_aaa_2008}.
 
-In step 1, the agent observers the world and updates its knowledge base.
+In step 1, the agent observes the world and updates its knowledge base.
 This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in section~\ref{sec:asp}).
 The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions~\cite{balduccini_aaa_2008}.
 
@@ -387,7 +385,7 @@ This makes the Observe-Think-Act loop somewhat greedy in that it chooses the bes
 As stated above, the \textit{Architecture for Intentional Agents} (AIA) is an agent architecture that borrows significantly from the AAA architecture \cite{blount_towards_2014}.
 It extends the AAA architecture by representing the possibility for action failure.
 In contrast to the AAA architecture, the agent \textit{attempts} to perform an action during its control loop but may find that it is unable to do so.
-In this case, the action is said to be not \textit{executable} \cite{blount_towards_2014}.
+In this case, the action is \textit{non-executable} \cite{blount_towards_2014}.
 
 The AIA architecture shares a number of similar assumptions with the AAA architecture \cite{blount_towards_2014}:
 
@@ -412,7 +410,7 @@ However, a few assumptions differ from the AAA architecture:
 An intentional system description of $ \mathcal{AL} $ is an extension of $ \mathcal{AL} $ proposed in~\cite{blount_architecture_2013}.
 This extension is created to address the limitations of the AAA architecture, in which plans are not persisted across iterations of the Observe-Think-Act loop.
 In order to persist them, plans are pre-computed and stored as a set of statics.
-In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an activity.
+In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an \textit{activity}.
 Activities are the set of the following statics~\cite{blount_architecture_2013, blount_towards_2014}:
 
 $$
@@ -449,7 +447,7 @@ This can be detrimental to running an implementation so to avoid this, we only r
 The intentional system description of $\mathcal{AL}$ uses fluents to keep track of the agent's progress in the current activity.
 These fluents define the agent's \textit{mental state} and are updated through \textit{mental actions}.
 Mental actions contrast from \textit{physical actions} in that mental actions only affect the internal state of the agent whereas physical actions affect the agent's environment.
-The effects of mental actions are defined in a set of propositions called the theory of intentions $\mathcal{TI}$~\cite{blount_towards_2014}.
+The effects of mental actions are defined in a set of propositions called the Theory of Intentions $\mathcal{TI}$~\cite{blount_towards_2014}.
 
 \subsubsection{Theory of Intentions}
 \label{subsubsec:theory_of_intentions}
@@ -474,13 +472,13 @@ This has significant implications on how the agent's history is represented.
 Suppose an agent in the AAA architecture has the following action description (borrowed from~\cite{blount_towards_2014}):
 
 $$
-A_1 causes f
+A_1 \ causes \ f
 $$
 $$
-A_2 causes g if f, p
+A_2 \ causes \ g \ if \ f, p
 $$
 $$
-B causes \not p
+B \ causes \ \not p
 $$
 
 Suppose the agent has the following history:
@@ -489,7 +487,7 @@ $$
 \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 $$
 
-Where $obs(F,\ V,\ I)$ denotes that the fluent $F$ was observed to have value $V$ at timestep $I$ and $hpd(A,\ I)$ that action $A$ happened at time step $I$.
+Where $obs(F,\ V,\ I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A,\ I)$ that action $A$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
 The AIA architecture avoids this inconsistency by adding two history statements.
@@ -512,9 +510,9 @@ An agent in the AIA architecture performs the following loop:
     \item Interpret observations.
     \item Find intended action A.
     \item Attempt to perform A;
-        Record this attempt in history.
+        record this attempt in history.
     \item Observe the world;
-        Record observations in history.
+        record observations in history.
     \item Repeat (i.e. go to step 1).
 \end{enumerate}
 
@@ -589,7 +587,7 @@ Bob will observe and record $hpd(stop(1),\ 2)$, at which point Bob will choose t
 \subsubsection{Scenario 3: Replanning~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_3}
 
-Let us again rewind scenario 1~\ref{subsubsec:aia_scenario_1} such that Bob is currently attempting $move(Bob,\ r1,\ r2)$.
+Let us again rewind scenario 1 such that Bob is currently attempting $move(Bob,\ r1,\ r2)$.
 Suppose that, during the same time step, the following exogenous action occurs $move(John,\ r3,\ r4)$.
 When Bob interprets this observation, it will recognize that activity $1$ is \textit{futile} (i.e. it will not satisfy its goal) and so intend to stop activity $1$.
 Bob will attempt to perform $stop(1)$, observe that $stop(1)$ has occurred, re-interpret its observations, and search for a new action to perform.
@@ -598,20 +596,20 @@ Suppose it finds the following activity $<2,\ [move(Bob,\ r2,r3),\ move(Bob,\ r3
 Then Bob will intend to perform $start(2)$.
 After Bob attempts to perform $start(2)$, it will observe that $start(2)$ happened, interpret its observations, then search for an intended action.
 Bob will intend to perform $move(Bob,\ r2,r3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
-Assuming that $d34$ is unlocked, the scenario will finish like in scenario 1~\ref{subsubsec:aia_scenario_1}.
+Assuming that $d34$ is unlocked, the scenario will finish like in scenario 1.
 
 \subsubsection{Scenario 4: Abandoning goal~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_4}
 
-Moving back to scenario 1~\ref{subsubsec:aia_scenario_1} where Bob is currently attempting $move(Bob,\ r1,\ r2)$.
+Moving back to scenario 1 where Bob is currently attempting $move(Bob,\ r1,\ r2)$.
 Suppose that, during the same time step, the following exogenous action occurs $abandon(meet(Bob,\ John))$.
 Then, when observing this action and interpreting it, the $\mathcal{TI}$ laws will cause $active\_goal(meet(Bob,\ John))$ fluent to be false.
-Followingly, Bob will intend to stop the current activity (by performing $stop(1)$), attempt to perform $stop(1)$, observe, interpret, and intend to perform wait in all future loops.
+Followingly, Bob will intend to stop the current activity (by performing $stop(1)$), attempt to perform $stop(1)$, observe, interpret, and intend to perform \textit{wait} in all future loops.
 
 \subsubsection{Scenario 5: Diagnosis~\cite{blount_towards_2014}}
 \label{subsubsec:aia_scenario_5}
 
-Finally, let us reset to the point scenario 1~\ref{subsubsec:aia_scenario_1} where Bob is performing $move(Bob,\ r2,\ r3)$.
+Finally, let us reset to the point scenario 1 where Bob is performing $move(Bob,\ r2,\ r3)$.
 When later observing the world, suppose Bob does not find John there in r3.
 After recording this observation in the history, Bob then interprets its observations.
 Since activity 1 does not achieve the goal $meet(Bob,\ John)$, Bob begins diagnostic reasoning over the history to figure out how this could be possible.
