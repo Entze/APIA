@@ -372,17 +372,17 @@ The authors of \cite{balduccini_aaa_2008} choose to do the latter.
 It is worth noting that the agent makes no commitment to plans it found in previous loop iterations.
 Each loop iteration searches for a plan irrespective to the plan that was partially executed in the previous iteration.
 This makes the Observe-Think-Act loop somewhat greedy in that it chooses the best plan as can be foreseen at every time step.
-\cite{blount_towards_2014} sees this as a limitation and builds the AIA architecture to address it.
+\cite{blount_towards_2014} sees this as a limitation and builds the $\mathcal{AIA}$ architecture to address it.
 
-\subsection{The AIA Architecture}
+\subsection{The $\mathcal{AIA}$ Architecture}
 \label{subsec:aia_architecture}
 
-As stated above, the \textit{Architecture for Intentional Agents} (AIA) is an agent architecture that borrows significantly from the AAA architecture~\cite{blount_towards_2014}.
+As stated above, the \textit{Architecture for Intentional Agents} ($\mathcal{AIA}$) is an agent architecture that borrows significantly from the AAA architecture~\cite{blount_towards_2014}.
 It extends the AAA architecture by representing the possibility for action failure.
 In contrast to the AAA architecture, the agent \textit{attempts} to perform an action during its control loop but may find that it is unable to do so.
 In this case, the action is \textit{non-executable}~\cite{blount_towards_2014}.
 
-The AIA architecture shares a number of similar assumptions with the AAA architecture \cite{blount_towards_2014}:
+The $\mathcal{AIA}$ architecture shares a number of similar assumptions with the AAA architecture \cite{blount_towards_2014}:
 
 \begin{itemize}
     \item The agent is capable of making correct observations.
@@ -450,7 +450,7 @@ These actions are necessarily exogenous because, in general, a goal-driven agent
 \subsubsection{Domain history}
 \label{subsubsec:domain_history}
 
-Previously, we mentioned that a differing aspect of the AIA architecture is that an agent can attempt an action but fail to do so.
+Previously, we mentioned that a differing aspect of the $\mathcal{AIA}$ architecture is that an agent can attempt an action but fail to do so.
 This has significant implications on how the agent's history is represented.
 Suppose an agent in the AAA architecture has the following action description (borrowed from~\cite{blount_towards_2014}):
 
@@ -469,10 +469,10 @@ $$
 Where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A, I)$ that action $A$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
-The AIA architecture avoids this inconsistency by adding two history statements.
+The $\mathcal{AIA}$ architecture avoids this inconsistency by adding two history statements.
 When executing an action $A$ at time step $I$, the agent records its attempt to do so with $attempt(A, I)$.
 During the $I+1$ iteration of the control loop, the agent records $hpd(A, I)$ if the effects of the previous action are observed, otherwise $\neg hpd(A, I)$.
-Thus, an agent in the AIA architecture will have the following history for the previous example
+Thus, an agent in the $\mathcal{AIA}$ architecture will have the following history for the previous example
 
 \begin{multline*}
     \Gamma=\{
@@ -486,7 +486,7 @@ This history is consistent.
 \subsubsection{Control loop}
 \label{subsubsec:control_loop}
 
-An agent in the AIA architecture performs the following loop:
+An agent in the $\mathcal{AIA}$ architecture performs the following loop:
 
 \begin{enumerate}
     \item Interpret observations.
@@ -501,7 +501,7 @@ An agent in the AIA architecture performs the following loop:
 \subsubsection{Examples}
 \label{subsubsec:aia_examples}
 
-To demonstrate the execution of an agent in the AIA architecture, we will consider an example given in~\cite{blount_architecture_2013}.
+To demonstrate the execution of an agent in the $\mathcal{AIA}$ architecture, we will consider an example given in~\cite{blount_architecture_2013}.
 Suppose that we have an agent named Bob in a workspace with a colleague named John.
 The workspace in which they are located has four consecutive rooms r1, r2, r3, r4 with a door connecting each adjacent room.
 Both Bob and John are free to \textit{move} from their current room to an adjoined one.
@@ -512,7 +512,7 @@ A visual description of this example is shown in figure~\ref{fig:aia_example}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{Figures/AIA_Architecture/Example_1}
-    \caption{Visual depiction of AIA example}
+    \caption{Visual depiction of $\mathcal{AIA}$ example}
     \label{fig:aia_example}
 \end{figure}
 
@@ -522,7 +522,7 @@ A visual description of this example is shown in figure~\ref{fig:aia_example}.
 Initially, Bob knows that he is currently located in r1 and John is located in r3.
 Suppose Bob is given an order to meet with John.
 This is represented as the occurrence of an exogenous mental action $select(meet(Bob, John))$, which eventually causes the $active\_goal(meet(Bob, John))$ fluent to be true in the agent's mental state.
-In the first iteration of the AIA control loop, the agent will:
+In the first iteration of the $\mathcal{AIA}$ control loop, the agent will:
 
 \begin{enumerate}
     \item Interpret its prior observations, of which there are none.
