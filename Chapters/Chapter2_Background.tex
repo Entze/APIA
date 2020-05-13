@@ -24,8 +24,8 @@ Second, the choices of an agent must be best explained in terms of some form of 
 These intentions can be desires, goals, etc.
 An implication of this requirement is that agents cannot be explained through low-level concepts.
 Lastly, an agent explained with particular intentions should seem to actually progress their satisfaction.
-For example, a system with the intention of achieving a goal,
-but fails to do so when alternatives would have done so, cannot be called an \textit{agent}.
+At the very least, the agent should seem to be \textit{trying} to fulfill its intentions (even if it is going about them poorly).
+A system that does not even do this cannot be called an \textit{agent}.
 
 There are many different kinds of agents.
 \citet{balke_how_2014} provide a survey of five different kinds of agents.
@@ -90,9 +90,9 @@ whereas the cognitive architectures are heavily influenced by the structure of t
 Given these five classes of agent architectures, one needs a way of objectively comparing them.
 \citet{balke_how_2014} provide five different dimensions on which these architectures can be evaluated.
 
-The first of which is the cognitive dimension.
+The first one is the cognitive dimension.
 This dimension considers what kind of reasoning is able to be performed by an agent.
-\citet{balke_how_2014} evaluate architectures on whether agents are \textit{reactive} or \textit{deliberative}.
+\citeauthor{balke_how_2014} evaluate architectures on whether agents are \textit{reactive} or \textit{deliberative}.
 Reactive agents are those that only respond to stimuli in their environment and typically follow rule-based patterns.
 Deliberative agents, on the other hand, actively consider different courses of action and weigh the utility of each.
 For example, production rule systems are an example of reactive agents whereas BDI agents are deliberative~\citep{balke_how_2014}.
@@ -135,8 +135,8 @@ Discrete dynamic domains are environments that behave according to the following
     \item The environment updates in discrete time steps.
     \item Actions occur instantaneously at each time step and the effects appear immediately at the next time step.
     \item Each domain-relevant property is represented by a function.
-        The value of the function at each time step is the value of the property.
-        These properties are collectively refered to as the agent's \textit{state}.
+        The function maps the property name, called a \textit{fluent}, to its value at a particular time step.
+        Fluents with their values are collectively refered to as the agent's \textit{state}.
 \end{itemize}
 
 Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
@@ -154,7 +154,7 @@ The formal definition is as follows:
     A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow \boldsymbol{V} $, and $ R \subseteq S \times \boldsymbol{A} \times S $.
 \end{definition}
 
-$ V(P,s) $ is said to be the value of $ P $ in $ s $.
+$ V(P,s) $ is said to be the value of fluent $ P $ in state $ s $.
 The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an action $ A $'s execution in state $ s $.
 $ A $ is deterministic in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
 If $ A $ is non-deterministic, then each $ s' $ may be the result of $ A $~\citep{blount_architecture_2013}.
@@ -190,10 +190,14 @@ $$
 \noindent
 where $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
 A literal is an element of $(\boldsymbol{F} \cup \{f \in \boldsymbol{F} | \neg f\})$.
-Since we model a propositional transition system, $L$ denotes $V(P, s) = t$ for the state $s$ where $F$ holds and $A$ occurs.
-Likewise, $\neg L$ denotes $V(P, s)=f$.
+Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $A$ occurs.
+Likewise, $\neg L$ denotes $V(L, s')=f$.
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
 A set of these propositions is called an \textit{action description}~\citep{gelfond_action_1998}.
+
+\begin{definition}
+    A funciton $G$ is an \textit{interpretation} of a set $S$ iff $G: S \rightarrow \{t, f\}$~\citep{gelfond_action_1998}.
+\end{definition}
 
 \begin{definition}
     Let $ D $ be an action description in $ \mathcal{A} $.
@@ -201,7 +205,7 @@ A set of these propositions is called an \textit{action description}~\citep{gelf
 
     \begin{itemize}
         \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $.
-        \item $ V(P, s) = s(P) $.
+        \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item R is the set of all triples $ <s, A, s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $.
     \end{itemize}
 \end{definition}
@@ -265,7 +269,7 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
 \begin{definition}
     ``A set $s$ of literals is \textit{closed} under a set $Z$ of static laws if $s$ includes the head $L$ of every static law $L \textbf{ if } F$ in $Z$ such that $s$ satisfies $F$''~\citep{gelfond_action_1998}.
     Informally, a set $s$ of literals is closed under a set of static laws $Z$ if there are relevant static laws in $Z$ that require every literal in $s$.
-    A static law is informally relevant if $F$ is satisfied.
+    A static law is informally relevant if its set of literals $F$ is satisfied.
 \end{definition}
 
 \begin{definition}
@@ -280,7 +284,7 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
 
     \begin{itemize}
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
-        \item $V(P, s)=s(P)$.
+        \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item $R$ is the set of all triples $<s, A, s'>$ such that
             $$
             s'=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s'\right)\right)
