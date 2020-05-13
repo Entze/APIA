@@ -2,7 +2,7 @@
 \label{ch:background}
 
 % This section is where you will discuss relevant background work, and related works for comparison.
-% Ensure that you cite references appropriately, using this as an example~\cite{sample2019}
+% Ensure that you cite references appropriately, using this as an example~\citep{sample2019}
 %
 % \section{Background Topic 1}
 %
@@ -14,9 +14,9 @@
 \label{sec:agents}
 
 There has been prior research and discussion to determine what constitutes an \textit{agent}.
-Though work in \cite{wooldridge_agent_1995} fails to completely define the term,
+Though work by \citet{wooldridge_agent_1995} fails to completely define the term,
 the authors do propose a set of characteristics that agents must have.
-They are summarized in \cite{dignum_intentional_1998} and are as follows.
+They are summarized by \citet{dignum_intentional_1998} and are as follows.
 
 First, the agent must have autonomy to complete its own actions without the intervention of a human.
 This implies that it is making decisions on its own power.
@@ -24,13 +24,13 @@ Second, the choices of an agent must be best explained in terms of some form of 
 These intentions can be desires, goals, etc.
 An implication of this requirement is that agents cannot be explained through low-level concepts.
 Lastly, an agent explained with particular intentions should seem to actually progress their satisfaction.
-For example, a system with the intention of achieving a goal,
-but fails to do so when alternatives would have done so, cannot be called an \textit{agent}.
+At the very least, the agent should seem to be \textit{trying} to fulfill its intentions (even if it is going about them poorly).
+A system that does not even do this cannot be called an \textit{agent}.
 
 There are many different kinds of agents.
-\cite{balke_how_2014} provides a survey of five different kinds of agents.
+\citet{balke_how_2014} provide a survey of five different kinds of agents.
 
-The first of which are \textit{production rule systems}~\cite{balke_how_2014}.
+The first of which are \textit{production rule systems}~\citep{balke_how_2014}.
 Production rule systems are symbolic in nature and
 consist of three core components:
 
@@ -52,18 +52,18 @@ consist of three core components:
 
 % TODO: Consider talking about architecture
 
-Production rule systems are usually implemented in Prolog or Lisp~\cite{balke_how_2014}.
+Production rule systems are usually implemented in Prolog or Lisp~\citep{balke_how_2014}.
 
-The next class of agents are those ascribing to the \textit{BDI architecture}~\cite{balke_how_2014}.
+The next class of agents are those ascribing to the \textit{BDI architecture}~\citep{balke_how_2014}.
 The belief-desire-intention (BDI) model combines a philosophical model of human practical reasoning
-with several successful applications \cite{georgeff_belief-desire-intention_1999}.
+with several successful applications~\citep{georgeff_belief-desire-intention_1999}.
 BDI agents are built on the idea of mental states,
-consisting of three items: beliefs, desires, and intentions~\cite{balke_how_2014}.
+consisting of three items: beliefs, desires, and intentions~\citep{balke_how_2014}.
 \textit{Beliefs} refer to an agent's representation of the world.
 An agent believes something to be true if and only if the statement is found in its representation of the world.
 It is worth noting that an agent's beliefs can be inconsistent with its environment (i.e. the agent can be mistaken).
 
-An agent's \textit{desires} are all possible courses of action that it might want to accomplish in order to reach a goal~\cite{balke_how_2014}.
+An agent's \textit{desires} are all possible courses of action that it might want to accomplish in order to reach a goal~\citep{balke_how_2014}.
 An agent is not necessarily committed to its desires.
 They just play a part in its decision process.
 \textit{Intentions}, on the other hand, are commitments to particular courses of action to reach a goal.
@@ -79,7 +79,7 @@ They differ from BDI agents in that they are \textit{externally motivated}.
 BDI agents are \textit{internally motivated} since all major components (beliefs, goals, and intentions) are internal to the agent.
 Normative agents are governed by norms, which are imposed by the agent's external environment.
 
-The last two classes of agents are those with cognitive models~\cite{balke_how_2014}.
+The last two classes of agents are those with cognitive models~\citep{balke_how_2014}.
 They can be divided into those that have \textit{simple} cognitive models and those that have \textit{cognitive architectures}.
 The simple cognitive models share similarities with the agent classes presented above
 whereas the cognitive architectures are heavily influenced by the structure of the human brain.
@@ -88,98 +88,98 @@ whereas the cognitive architectures are heavily influenced by the structure of t
 \label{sec:agent_evaluation}
 
 Given these five classes of agent architectures, one needs a way of objectively comparing them.
-\cite{balke_how_2014} provides five different dimensions on which these architectures can be evaluated.
+\citet{balke_how_2014} provide five different dimensions on which these architectures can be evaluated.
 
-The first of which is the cognitive dimension.
+The first one is the cognitive dimension.
 This dimension considers what kind of reasoning is able to be performed by an agent.
-\cite{balke_how_2014} evaluates architectures on whether agents are \textit{reactive} or \textit{deliberative}.
+\citeauthor{balke_how_2014} evaluate architectures on whether agents are \textit{reactive} or \textit{deliberative}.
 Reactive agents are those that only respond to stimuli in their environment and typically follow rule-based patterns.
 Deliberative agents, on the other hand, actively consider different courses of action and weigh the utility of each.
-For example, production rule systems are an example of reactive agents whereas BDI agents are deliberative~\cite{balke_how_2014}.
+For example, production rule systems are an example of reactive agents whereas BDI agents are deliberative~\citep{balke_how_2014}.
 
-The second dimension for agent architecture comparisons is the affective dimension~\cite{balke_how_2014}.
+The second dimension for agent architecture comparisons is the affective dimension~\citep{balke_how_2014}.
 The affective dimension considers what degree of emotions agents in an architecture are capable of expressing and acting upon.
 Research towards this dimension considers how emotions can be triggered, how they influence the decision process, and how changes in decisions affect the system at large.
-Most models are incapable of acting upon emotions \cite{balke_how_2014} with the exception of two extensions of the BDI model \cite{jiang_ebdi_2007, dignum_towards_2009} and a cognitive model~\cite{urban_pecs_2000}.
+Most models are incapable of acting upon emotions \citep{balke_how_2014} with the exception of two extensions of the BDI model \citep{jiang_ebdi_2007, dignum_towards_2009} and a cognitive model~\citep{urban_pecs_2000}.
 
 A third dimension for comparing architectures is the social dimension.
 This dimension considers the extent to which agent architectures provide agents the ability to communicate with other agents, to distinguish social relations (such as status), and to understand complex social concepts.
-All the normative models discussed in \cite{balke_how_2014}, along with a few others among BDI extensions and cognitive models, have a notion of self, others, and groups.
+All the normative models discussed by \citet{balke_how_2014}, along with a few others among BDI extensions and cognitive models, have a notion of self, others, and groups.
 BDI agents, in the original model, as well as production rule systems have no notion of social concepts or communication.
 
-Fourth, agent architectures can be evaluated according to the extent of formal and social norms that agents can reason over~\cite{balke_how_2014}.
+Fourth, agent architectures can be evaluated according to the extent of formal and social norms that agents can reason over~\citep{balke_how_2014}.
 
-Lastly, architectures can be compared by considering the type of agent learning that the architecture enables for its agents~\cite{balke_how_2014}.
+Lastly, architectures can be compared by considering the type of agent learning that the architecture enables for its agents~\citep{balke_how_2014}.
 This dimension considers whether agents can improve or expand their knowledge base given environmental observations.
-If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g. whether they adjust the values for pre-existing decision functions or create new decision rules from scratch)~\cite{balke_how_2014}.
+If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g. whether they adjust the values for pre-existing decision functions or create new decision rules from scratch)~\citep{balke_how_2014}.
 Production rule systems and BDI agents (including its variants) do not support any form of learning whereas normative and cognitive model support it to various extents.
 
 A related consideration for agent architectures is its elaboration tolerance.
-Elaboration tolerance measures the ease of which a knowledge base can be changed to incorporate new facts \cite{parmar_formalizing_2003}, whether by learning or by a human redesign.
+Elaboration tolerance measures the ease of which a knowledge base can be changed to incorporate new facts \citep{parmar_formalizing_2003}, whether by learning or by a human redesign.
 For example, a representation with a high elaboration tolerance might require very little changes to represent additional information whereas a representation with a low elaboration tolerance may need to be completely re-written to address a new scenario.
-The concept was first mentioned in \cite{mccarthy_mathematical_1988}, but later formalized in \cite{parmar_formalizing_2003}.
+The concept was first mentioned by \citet{mccarthy_mathematical_1988}, but later formalized by \citet{parmar_formalizing_2003}.
 
 \section{Logic-based intelligent agents}
 \label{sec:logic_based_agents}
 
-In addition to those mentioned in \cite{balke_how_2014}, there has been research on various logic-based agent architectures.
+In addition to those mentioned by \citet{balke_how_2014}, there has been research on various logic-based agent architectures.
 These agent architectures are based off the notion of an \textit{action language} which, in turn, are based on \textit{transition systems}.
 
 \subsection{Transition Systems}
 \label{subsec:transition_systems}
 
-Transition systems (also called \textit{transition diagrams} \cite{blount_architecture_2013}) can be thought of as analogous to a directed graph that models a discrete dynamic domain.
-Discrete dynamic domains are environments that behave according to the following rules \cite{blount_architecture_2013}:
+Transition systems (also called \textit{transition diagrams} \citep{blount_architecture_2013}) can be thought of as analogous to a directed graph that models a discrete dynamic domain.
+Discrete dynamic domains are environments that behave according to the following rules~\citep{blount_architecture_2013}:
 
 \begin{itemize}
     \item The environment updates in discrete time steps.
     \item Actions occur instantaneously at each time step and the effects appear immediately at the next time step.
     \item Each domain-relevant property is represented by a function.
-        The value of the function at each time step is the value of the property.
-        These properties are collectively refered to as the agent's \textit{state}.
+        The function maps the property name, called a \textit{fluent}, to its value at a particular time step.
+        Fluents with their values are collectively refered to as the agent's \textit{state}.
 \end{itemize}
 
 Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
 The formal definition is as follows:
 
 \begin{definition}
-    An action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of three sets: a set $ \boldsymbol{V} $ for value names, a set $ \boldsymbol{F} $ of fluent names, and a set $ \boldsymbol{A} $ of action names~\cite{gelfond_action_1998}.
+    An action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of three sets: a set $ \boldsymbol{V} $ for value names, a set $ \boldsymbol{F} $ of fluent names, and a set $ \boldsymbol{A} $ of action names~\citep{gelfond_action_1998}.
 \end{definition}
 
 \begin{definition}
-    An action signature $< \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ is propositional if $\boldsymbol{V}=\{t,f\}$~\cite{gelfond_action_1998}.
+    An action signature $< \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ is propositional if $\boldsymbol{V}=\{t,f\}$~\citep{gelfond_action_1998}.
 \end{definition}
 
 \begin{definition}
     A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow \boldsymbol{V} $, and $ R \subseteq S \times \boldsymbol{A} \times S $.
 \end{definition}
 
-$ V(P,s) $ is said to be the value of $ P $ in $ s $.
-The states $ s' $ such that $ <s, A, s'> $ in $ R $ are the possible results of an action $ A $'s execution in state $ s $.
-$ A $ is deterministic in $ s $ if there is exactly one $ s' $~\cite{gelfond_action_1998}.
-If $ A $ is non-deterministic, then each $ s' $ may be the result of $ A $~\cite{blount_architecture_2013}.
-$ A $ is executable in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> $ in $ R $.
-When $ \left|A\right|>1 $, A represents the execution of concurrent actions~\cite{gelfond_action_1998, blount_architecture_2013}.
+$ V(P,s) $ is said to be the value of fluent $ P $ in state $ s $.
+The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an action $ A $'s execution in state $ s $.
+$ A $ is deterministic in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
+If $ A $ is non-deterministic, then each $ s' $ may be the result of $ A $~\citep{blount_architecture_2013}.
+$ A $ is executable in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> \in R $.
+When $ \left|A\right|>1 $, A represents the execution of concurrent actions~\citep{gelfond_action_1998, blount_architecture_2013}.
 
-A path $ <s_0, A_0, s_1, A_1, \dots, A_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $~\cite{blount_architecture_2013}.
+A path $ <s_0, A_0, s_1, A_1, \dots, A_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $~\citep{blount_architecture_2013}.
 
-If the action signature of a transition system is propositional, then the transition system is said to be propositional~\cite{gelfond_action_1998}.
+If the action signature of a transition system is propositional, then the transition system is said to be propositional~\citep{gelfond_action_1998}.
 
 \subsection{Action languages}
 \label{subsec:action_languages}
 
-Action languages are formal models that describe the effects of actions~\cite{gelfond_action_1998}.
+Action languages are formal models that describe the effects of actions~\citep{gelfond_action_1998}.
 There are two kinds of action languages: action description languages and action query languages.
-Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system~\cite{gelfond_action_1998}.
+Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system~\citep{gelfond_action_1998}.
 We will focus only on action description languages and will use the term \textit{action languages} to refer to them.
 
-Many action languages exist, including $ \mathcal{A} $~\cite{gelfond_action_1998}, $ \mathcal{B} $~\cite{gelfond_action_1998}, $ \mathcal{C} $~\cite{gelfond_action_1998}, $ \mathcal{AC} $~\cite{turner_representing_1997}, $ \mathcal{AL} $~\cite{baral_reasoning_2000}, $ \mathcal{ALM} $~\cite{inclezan_modular_2016}.
+Many action languages exist, including $ \mathcal{A} $~\citep{gelfond_action_1998}, $ \mathcal{B} $~\citep{gelfond_action_1998}, $ \mathcal{C} $~\citep{gelfond_action_1998}, $ \mathcal{AC} $~\citep{turner_representing_1997}, $ \mathcal{AL} $~\citep{baral_reasoning_2000}, $ \mathcal{ALM} $~\citep{inclezan_modular_2016}.
 
 \subsubsection{Action language $ \mathcal{A} $}
 \label{subsubsec:action_language_a}
 
 First, we will discuss action language $ \mathcal{A} $.
-Action language $ \mathcal{A} $ was first proposed in \cite{pednault_formulating_1987}.
+Action language $ \mathcal{A} $ was first proposed by \citet{pednault_formulating_1987}.
 $ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
 
@@ -187,32 +187,37 @@ $$
 A \textbf{ causes } L \textbf{ if } F
 $$
 
-$ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\cite{gelfond_action_1998}.
-A literal is an element of $(F \cup \{f \in F | \neg f\})$.
-Since we model a propositional transition system, $L$ denotes $V(P, s) = t$ for the state $s$ where $F$ holds and $A$ occurs.
-Likewise, $\neg L$ denotes $V(P, s)=f$
+\noindent
+where $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
+A literal is an element of $(\boldsymbol{F} \cup \{f \in \boldsymbol{F} | \neg f\})$.
+Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $A$ occurs.
+Likewise, $\neg L$ denotes $V(L, s')=f$.
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
-A set of these propositions is called an \textit{action description}~\cite{gelfond_action_1998}.
+A set of these propositions is called an \textit{action description}~\citep{gelfond_action_1998}.
+
+\begin{definition}
+    A funciton $G$ is an \textit{interpretation} of a set $S$ iff $G: S \rightarrow \{t, f\}$~\citep{gelfond_action_1998}.
+\end{definition}
 
 \begin{definition}
     Let $ D $ be an action description in $ \mathcal{A} $.
-    The transition system $ <S, V, R> $ described by $ D $ is defined as follows \cite{gelfond_action_1998}:
+    The transition system $ <S, V, R> $ described by $ D $ is defined as follows~\citep{gelfond_action_1998}:
 
     \begin{itemize}
         \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $.
-        \item $ V(P, s) = s(P) $.
+        \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item R is the set of all triples $ <s, A, s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $.
     \end{itemize}
 \end{definition}
 
 $ E(A, s) $ is the set of heads $ L $ of all propositions $ A \textbf{ causes } L \textbf{ if } F $ in $ D $ such that $ s $ satisfies $ F $.
-$ E(A, s) $ represents all effects of an action $ A $ in state $ s $~\cite{gelfond_action_1998}.
+$ E(A, s) $ represents all effects of an action $ A $ in state $ s $~\citep{gelfond_action_1998}.
 Writing $ E\left(A,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ A $ are actually present.
 Adding $ \subseteq E\left(A,s\right)\cup s $, allows $ s' $ to equal $ s $.
-It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\cite{gelfond_action_1998}.
+It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\citep{gelfond_action_1998}.
 Therefore, $ A $ is deterministic for every state.
 
-Suppose we had the following action description in $\mathcal{A}$, as given in \cite{gelfond_action_1998}:
+Suppose we had the following action description in $\mathcal{A}$, as given by \citet{gelfond_action_1998}:
 
 $$
 A \textbf{ causes } P \textbf{ if } Q
@@ -230,13 +235,12 @@ In this case, the action description language models the transition system shown
 \subsubsection{Action language $ \mathcal{B} $}
 \label{subsubsec:action_language_b}
 
-Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects.
-\cite{gelfond_action_1998}.
-It does so with the addition of so-called \textit{static laws}~\cite{gelfond_action_1998}.
+Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
+It does so with the addition of so-called \textit{static laws}~\citep{gelfond_action_1998}.
 The authors contrast static laws to \textit{dynamic laws}, which refer to action descriptions in $\mathcal{A}$.
 
-Like $\mathcal{A}$, $\mathcal{B}$ models a transition system with the signature $<\{t, f\},F,A>$.
-An action description in $\mathcal{B}$ is a set of static and dynamic laws, which are as follows \cite{gelfond_action_1998}:
+Like $\mathcal{A}$, $\mathcal{B}$ models a transition system with the signature $<\{t, f\},\boldsymbol{F},\boldsymbol{A}>$.
+An action description in $\mathcal{B}$ is a set of static and dynamic laws, which are as follows~\citep{gelfond_action_1998}:
 
 \begin{itemize}
     \item A static law is written in the following form:
@@ -250,7 +254,8 @@ An action description in $\mathcal{B}$ is a set of static and dynamic laws, whic
         $$
 \end{itemize}
 
-$A \in \boldsymbol{A}$ is the action name, $L \in(F \cup\{f \in F| \neg f\})$ is a literal (or head) and $F \subseteq(F \cup\{f \in F| \neg f\})$ is a, possibly empty, conjunction of literals.
+\noindent
+where $A \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a literal (or head) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a, possibly empty, conjunction of literals.
 
 Similar to $\mathcal{A}$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 
@@ -262,24 +267,24 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
 \end{definition}
 
 \begin{definition}
-    ``A set $s$ of literals is \textit{closed} under a set $Z$ of static laws if $s$ includes the head $L$ of every static law $L \textbf{ if } F$ in $Z$ such that $s$ satisfies $F$''~\cite{gelfond_action_1998}.
+    ``A set $s$ of literals is \textit{closed} under a set $Z$ of static laws if $s$ includes the head $L$ of every static law $L \textbf{ if } F$ in $Z$ such that $s$ satisfies $F$''~\citep{gelfond_action_1998}.
     Informally, a set $s$ of literals is closed under a set of static laws $Z$ if there are relevant static laws in $Z$ that require every literal in $s$.
-    A static law is informally relevant if $F$ is satisfied.
+    A static law is informally relevant if its set of literals $F$ is satisfied.
 \end{definition}
 
 \begin{definition}
-    ``The set $C_{n_Z}\left(s\right)$ of \textit{consequences} of [a set] $s$ [of literals] under [a set] $Z$ [of static laws] is the smallest set of literals that contains $s$ and is closed under $Z$.~\cite{gelfond_action_1998}''
+    ``The set $C_{n_Z}\left(s\right)$ of \textit{consequences} of [a set] $s$ [of literals] under [a set] $Z$ [of static laws] is the smallest set of literals that contains $s$ and is closed under $Z$.~\citep{gelfond_action_1998}''
     Informally, the consequences of s are the collection of all effects of a particular fluent value (both direct and indirect).
 \end{definition}
 
 \begin{definition}
 
-    Let $D$ be an action description in $B$.
-    The transition system $< S, V, R >$ described by $D$ is defined as follows \cite{gelfond_action_1998}:
+    Let $D$ be an action description in $\mathcal{B}$.
+    The transition system $< S, V, R >$ described by $D$ is defined as follows~\citep{gelfond_action_1998}:
 
     \begin{itemize}
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
-        \item $V(P, s)=s(P)$.
+        \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item $R$ is the set of all triples $<s, A, s'>$ such that
             $$
             s'=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s'\right)\right)
@@ -294,11 +299,11 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
 
 $ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
 It extends these languages with what the authors later refer to as \textit{defined fluents}.
-These are domain-relevant properties under the closed world assumption~\cite{blount_architecture_2013}.
-The closed world assumption states that which cannot be proven true must be false~\cite{reiter_closed_1981}.
-It contrasts from the open world assumption, which states only that which is proven is true~\cite{reiter_closed_1981}.
+These are domain-relevant properties under the closed world assumption~\citep{blount_architecture_2013}.
+The closed world assumption states that which cannot be proven true must be false~\citep{reiter_closed_1981}.
+It contrasts from the open world assumption, which states only that which is proven is true~\citep{reiter_closed_1981}.
 
-An action description in $ \mathcal{AL} $ is a set of propositions written in the form \cite{baral_reasoning_2000, blount_architecture_2013}:
+An action description in $ \mathcal{AL} $ is a set of propositions written in the form~\citep{baral_reasoning_2000, blount_architecture_2013}:
 
 \begin{itemize}
     \item Dynamic laws (from Action language $ \mathcal{A} $):
@@ -317,17 +322,17 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         $$
 \end{itemize}
 
-Like in $\mathcal{A}$ and $\mathcal{B}$, $A$ is the action name, $L \in(F \cup\{f \in F| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(F \cup\{f \in F| \neg f\})$ is a possibly empty conjunction of literals.
+Like in $\mathcal{A}$ and $\mathcal{B}$, $A$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
 
-Later work in \cite{gelfond_knowledge_2014} proposes classifications for literals: \textit{statics}, \textit{inertial fluents}, and \textit{defined fluents}.
+Later work by \citet{gelfond_knowledge_2014} proposes classifications for literals: \textit{statics}, \textit{inertial fluents}, and \textit{defined fluents}.
 The term \textit{fluent} has a slightly different meaning in this context.
-\cite{gelfond_knowledge_2014} uses the term \textit{domain property} to refer to the \textit{fluent names} introduced in our discussion of action signatures.
-By \textit{fluent}, \cite{gelfond_knowledge_2014} means the domain properties that might actually change between states.
+\citet{gelfond_knowledge_2014} use the term \textit{domain property} to refer to the \textit{fluent names} introduced in our discussion of action signatures.
+By \textit{fluent}, \citet{gelfond_knowledge_2014} mean the domain properties that might actually change between states.
 The authors call domain properties that will not change between states (i.e. the static law $L$) \textit{statics}.
 It is worth noting that the distinction between these fluents and statics is only useful when considering the implementation of a system using action language $\mathcal{AL}$.
 Representing statics as a runtime constant can result in performance improvements.
 
-As mentioned, \cite{gelfond_knowledge_2014} further partitions the term \textit{fluent} into \textit{defined fluents} and \textit{inertial fluents}.
+As mentioned, \citet{gelfond_knowledge_2014} further partition the term \textit{fluent} into \textit{defined fluents} and \textit{inertial fluents}.
 Inertial fluents are inspired by the law of inertial in that their value persists from state to state unless an action explicitly changes it (either directly or indirectly).
 Defined fluents, on the other hand, are defined in terms of other fluents and do not necessarily persist from state to state.
 Due to the constraints on their definition, they cannot be directly caused by an action.
@@ -336,11 +341,11 @@ Due to the constraints on their definition, they cannot be directly caused by an
 \subsection{The AAA architecture}
 \label{subsec:aaa_architecture}
 
-The first logic-based agent architecture that we will discuss is the \textit{Autonomous Agent Architecture} (AAA) architecture~\cite{balduccini_aaa_2008}.
-The AAA architecture is based on work in \cite{baral_reasoning_2000,balduccini_diagnostic_2003, balduccini_answer_2006,balduccini_learning_2007}.
+The first logic-based agent architecture that we will discuss is the \textit{Autonomous Agent Architecture} (AAA) architecture~\citep{balduccini_aaa_2008}.
+The AAA architecture is based on work by Gelfond and collaborators~\citep{baral_reasoning_2000,balduccini_diagnostic_2003, balduccini_answer_2006,balduccini_learning_2007}.
 As it is a logic-based approach, it makes certain assumptions about the environment in which an agent constructed in its architecture will be operating.
 They must be met in order for the architecture to be applicable.
-The assumptions are as follows \cite{balduccini_aaa_2008}:
+The assumptions are as follows~\citep{balduccini_aaa_2008}:
 
 \begin{itemize}
     \item The world (the agent along with its environment) can be modeled in a transition system.
@@ -348,7 +353,7 @@ The assumptions are as follows \cite{balduccini_aaa_2008}:
     \item Normally, the agent can observe all relevant exogenous events (i.e. events that are not an effect of an action the agent performed).
 \end{itemize}
 
-Given that these assumptions are met, an agent in the AAA architecture performs the following loop once for every time step of the environment \cite{balduccini_aaa_2008}:
+Given that these assumptions are met, an agent in the AAA architecture performs the following loop once for every time step of the environment~\citep{balduccini_aaa_2008}:
 
 \begin{enumerate}
     \item Observe the world, explain observations, and update knowledge base.
@@ -358,31 +363,31 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
     \item Repeat (i.e. go to step 1).
 \end{enumerate}
 
-This loop is known as the \textit{Observe-Think-Act} loop~\cite{balduccini_aaa_2008}.
+This loop is known as the \textit{Observe-Think-Act} loop~\citep{balduccini_aaa_2008}.
 
 In step 1, the agent observes the world and updates its knowledge base.
 This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in section~\ref{sec:asp}).
-The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions~\cite{balduccini_aaa_2008}.
+The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions~\citep{balduccini_aaa_2008}.
 
 There are two approaches to describing the effects of an agent's actions.
 The first is to use action languages to formally denote the action effects, then to translate them into ASP for executability.
 The second is to author them directly in ASP.
-The authors of \cite{balduccini_aaa_2008} choose to do the latter.
+\citet{balduccini_aaa_2008} choose to do the latter.
 
 It is worth noting that the agent makes no commitment to plans it found in previous loop iterations.
 Each loop iteration searches for a plan irrespective to the plan that was partially executed in the previous iteration.
 This makes the Observe-Think-Act loop somewhat greedy in that it chooses the best plan as can be foreseen at every time step.
-\cite{blount_towards_2014} sees this as a limitation and builds the $\mathcal{AIA}$ architecture to address it.
+In more recent work~\citep{blount_towards_2014}, \citeauthor{blount_towards_2014} see this as a limitation and builds the $\mathcal{AIA}$ architecture to address it.
 
 \subsection{The $\mathcal{AIA}$ Architecture}
 \label{subsec:aia_architecture}
 
-As stated above, the \textit{Architecture for Intentional Agents} ($\mathcal{AIA}$) is an agent architecture that borrows significantly from the AAA architecture~\cite{blount_towards_2014}.
+As stated above, the \textit{Architecture for Intentional Agents} ($\mathcal{AIA}$) is an agent architecture that borrows significantly from the AAA architecture~\citep{blount_towards_2014}.
 It extends the AAA architecture by representing the possibility for action failure.
 In contrast to the AAA architecture, the agent \textit{attempts} to perform an action during its control loop but may find that it is unable to do so.
-In this case, the action is \textit{non-executable}~\cite{blount_towards_2014}.
+In this case, the action is \textit{non-executable}~\citep{blount_towards_2014}.
 
-The $\mathcal{AIA}$ architecture shares a number of similar assumptions with the AAA architecture \cite{blount_towards_2014}:
+The $\mathcal{AIA}$ architecture shares a number of similar assumptions with the AAA architecture~\citep{blount_towards_2014}:
 
 \begin{itemize}
     \item The agent is capable of making correct observations.
@@ -402,49 +407,50 @@ However, a few assumptions differ from the AAA architecture:
 \subsubsection{Intentional system description of $\mathcal{AL}$}
 \label{subsubsec:intentional_action_language_al}
 
-An intentional system description of $ \mathcal{AL} $ is an extension of $ \mathcal{AL} $ proposed in~\cite{blount_architecture_2013}.
+An intentional system description of $ \mathcal{AL} $ is an extension of $ \mathcal{AL} $ proposed by \citet{blount_architecture_2013}.
 This extension is created to address the limitations of the AAA architecture, in which plans are not persisted across iterations of the Observe-Think-Act loop.
 In order to persist them, plans are pre-computed and stored as a set of statics.
 In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an \textit{activity}.
-Activities are the set of the following statics~\cite{blount_architecture_2013, blount_towards_2014}:
+Activities are the set of the following statics~\citep{blount_architecture_2013, blount_towards_2014}:
 
 \begin{gather*}
-    Activity(M). \\
-    Component(M, 1, C_1). \\
-    Component(M, 2, C_2). \\
+    activity(M). \\
+    component(M, 1, C_1). \\
+    component(M, 2, C_2). \\
     \dots \\
-    Component(M, L, C_L). \\
-    Length(M, L). \\
-    Goal(M, G).
+    component(M, L, C_L). \\
+    length(M, L). \\
+    goal(M, G).
 \end{gather*}
 
-Where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
+\noindent
+where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a child activity of $M$.
 An activity cannot be a child (or descendant) of itself (i.e. activities must be acyclic).
 It is also worth noting that, written in this form, activities permit the execution of actions concurrently.
 
 Since activities are pre-computed, there can be an exponentially large amount of unique activities represented by statics.
-This can be detrimental to running an implementation so to avoid this, we only represent activities that are deemed initially relevant and generate the rest on demand~\cite{blount_architecture_2013}.
+This can be detrimental to running an implementation so to avoid this, we only represent activities that are deemed initially relevant and generate the rest on demand~\citep{blount_architecture_2013}.
 
 The intentional system description of $\mathcal{AL}$ uses fluents to keep track of the agent's progress in the current activity.
 These fluents define the agent's \textit{mental state} and are updated through \textit{mental actions}.
 Mental actions contrast from \textit{physical actions} in that mental actions only affect the internal state of the agent whereas physical actions affect the agent's environment.
-The effects of mental actions are defined in a set of propositions called the Theory of Intentions $\mathcal{TI}$~\cite{blount_towards_2014}.
+The effects of mental actions are defined in a set of propositions called the Theory of Intentions $\mathcal{TI}$~\citep{blount_towards_2014}.
 
 \subsubsection{Theory of Intentions}
 \label{subsubsec:theory_of_intentions}
 
 The Theory of Intentions ($\mathcal{TI}$) is a framework of static and dynamic laws that maintain an agent's mental state.
-Elements of the agent's mental state include the currently selected goal $G$, stored in the $\mathrm{active\_goal}\left(G\right)$ inertial fluent, the current planned activity, stored in the $status(M, k)$ inertial fluent~\cite{blount_towards_2014}.
+Elements of the agent's mental state include the currently selected goal $G$, stored in the $active\_goal\left(G\right)$ inertial fluent, the current planned activity, stored in the $status(M, k)$ inertial fluent~\citep{blount_towards_2014}.
 When either a goal is selected or an activity is planned, they are said to be intended.
 
 $\mathcal{TI}$ updates the agent's mental states through mental actions.
-For example, the action $start(M)$ initiates the agent's intention to execute activity $M$ and $stop(M)$ terminates the agent's intention to execute $M$~\cite{blount_towards_2014}.
+For example, the action $start(M)$ initiates the agent's intention to execute activity $M$ and $stop(M)$ terminates the agent's intention to execute $M$~\citep{blount_towards_2014}.
 Though most actions are executed by the agent itself, some must be executed by the agent's controller.
 There are two such actions that are exogenous to the agent.
-The exogenous mental action $select(G)$ causes the agent to intend to achieve goal $G$~\cite{blount_towards_2014}.
-Likewise, the exogenous mental action $abandon(G)$ causes the agent to cease its intent to achieve goal $G$~\cite{blount_towards_2014}.
+The exogenous mental action $select(G)$ causes the agent to intend to achieve goal $G$~\citep{blount_towards_2014}.
+Likewise, the exogenous mental action $abandon(G)$ causes the agent to cease its intent to achieve goal $G$~\citep{blount_towards_2014}.
 These actions are necessarily exogenous because, in general, a goal-driven agent must be given at least one goal beforehand.
 
 \subsubsection{Domain history}
@@ -452,7 +458,7 @@ These actions are necessarily exogenous because, in general, a goal-driven agent
 
 Previously, we mentioned that a differing aspect of the $\mathcal{AIA}$ architecture is that an agent can attempt an action but fail to do so.
 This has significant implications on how the agent's history is represented.
-Suppose an agent in the AAA architecture has the following action description (borrowed from~\cite{blount_towards_2014}):
+Suppose an agent in the AAA architecture has the following action description (borrowed from~\citep{blount_towards_2014}):
 
 \begin{gather*}
     A_1 \textbf{ causes } f \\
@@ -466,7 +472,8 @@ $$
 \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 $$
 
-Where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A, I)$ that action $A$ happened at time step $I$.
+\noindent
+where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A, I)$ that action $A$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
 The $\mathcal{AIA}$ architecture avoids this inconsistency by adding two history statements.
@@ -501,7 +508,7 @@ An agent in the $\mathcal{AIA}$ architecture performs the following loop:
 \subsubsection{Examples}
 \label{subsubsec:aia_examples}
 
-To demonstrate the execution of an agent in the $\mathcal{AIA}$ architecture, we will consider an example given in~\cite{blount_architecture_2013}.
+To demonstrate the execution of an agent in the $\mathcal{AIA}$ architecture, we will consider an example given by \citet{blount_architecture_2013}.
 Suppose that we have an agent named Bob in a workspace with a colleague named John.
 The workspace in which they are located has four consecutive rooms r1, r2, r3, r4 with a door connecting each adjacent room.
 Both Bob and John are free to \textit{move} from their current room to an adjoined one.
@@ -516,7 +523,7 @@ A visual description of this example is shown in figure~\ref{fig:aia_example}.
     \label{fig:aia_example}
 \end{figure}
 
-\subsubsection{Scenario 1: Planning to achieve goal~\cite{blount_towards_2014}}
+\subsubsection{Scenario 1: Planning to achieve goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_1}
 
 Initially, Bob knows that he is currently located in r1 and John is located in r3.
@@ -554,7 +561,7 @@ When interpreting its observations in the third iteration of the loop, it will u
 The agent in following steps will intend to execute $move(Bob, r2, r3)$, attempt to execute it and store $attempt(move(Bob, r2, r3))$ in history, and observe that Bob is in r3 and that it has met with John.
 Having accomplished its goal, the $active\_goal(meet(Bob, John))$ fluent is set to false and the agent performs the \textit{wait} action until it is given another goal.
 
-\subsubsection{Scenario 2: Serendipitous achievement of goal~\cite{blount_towards_2014}}
+\subsubsection{Scenario 2: Serendipitous achievement of goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_2}
 
 Let us rewind the previous scenario such that the agent Bob is currently attempting $move(Bob, r1, r2)$.
@@ -566,7 +573,7 @@ Since Bob wants to maintain this state, it will intend to perform action $stop(1
 Bob will attempt to perform $stop(1)$ while updating the history.
 Bob will observe and record $hpd(stop(1), 2)$, at which point Bob will choose to wait indefinitely.
 
-\subsubsection{Scenario 3: Replanning~\cite{blount_towards_2014}}
+\subsubsection{Scenario 3: Replanning~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_3}
 
 Let us again rewind scenario 1 such that Bob is currently attempting $move(Bob, r1, r2)$.
@@ -580,7 +587,7 @@ After Bob attempts to perform $start(2)$, it will observe that $start(2)$ happen
 Bob will intend to perform $move(Bob, r2,r3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
 Assuming that $d34$ is unlocked, the scenario will finish like in scenario 1.
 
-\subsubsection{Scenario 4: Abandoning goal~\cite{blount_towards_2014}}
+\subsubsection{Scenario 4: Abandoning goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_4}
 
 Moving back to scenario 1 where Bob is currently attempting $move(Bob, r1, r2)$.
@@ -588,7 +595,7 @@ Suppose that, during the same time step, the following exogenous action occurs $
 Then, when observing this action and interpreting it, the $\mathcal{TI}$ laws will cause $active\_goal(meet(Bob, John))$ fluent to be false.
 Subsequently, Bob will intend to stop the current activity (by performing $stop(1)$), attempt to perform $stop(1)$, observe, interpret, and intend to perform \textit{wait} in all future loops.
 
-\subsubsection{Scenario 5: Diagnosis~\cite{blount_towards_2014}}
+\subsubsection{Scenario 5: Diagnosis~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_5}
 
 Finally, let us reset to the point scenario 1 where Bob is performing $move(Bob, r2, r3)$.
