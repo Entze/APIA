@@ -61,7 +61,7 @@ BDI agents are built on the idea of mental states,
 consisting of three items: beliefs, desires, and intentions~\citep{balke_how_2014}.
 \textit{Beliefs} refer to an agent's representation of the world.
 An agent believes something to be true if and only if the statement is found in its representation of the world.
-It is worth noting that an agent's beliefs can be inconsistent with its environment (i.e. the agent can be mistaken).
+It is worth noting that an agent's beliefs can be inconsistent with its environment (i.e.~the agent can be mistaken).
 
 An agent's \textit{desires} are all possible courses of action that it might want to accomplish in order to reach a goal~\citep{balke_how_2014}.
 An agent is not necessarily committed to its desires.
@@ -111,7 +111,7 @@ Fourth, agent architectures can be evaluated according to the extent of formal a
 
 Lastly, architectures can be compared by considering the type of agent learning that the architecture enables for its agents~\citep{balke_how_2014}.
 This dimension considers whether agents can improve or expand their knowledge base given environmental observations.
-If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g. whether they adjust the values for pre-existing decision functions or create new decision rules from scratch)~\citep{balke_how_2014}.
+If agents are capable of doing this, it also considers in what ways the knowledge base can be extended (e.g.~whether they adjust the values for pre-existing decision functions or create new decision rules from scratch)~\citep{balke_how_2014}.
 Production rule systems and BDI agents (including its variants) do not support any form of learning whereas normative and cognitive model support it to various extents.
 
 A related consideration for agent architectures is its \textit{elaboration tolerance}.
@@ -328,7 +328,7 @@ Later work by \citet{gelfond_knowledge_2014} proposes classifications for litera
 The term \textit{fluent} has a slightly different meaning in this context.
 \citet{gelfond_knowledge_2014} use the term \textit{domain property} to refer to the \textit{fluent names} introduced in our discussion of action signatures.
 By \textit{fluent}, \citet{gelfond_knowledge_2014} mean the domain properties that might actually change between states.
-The authors call domain properties that will not change between states (i.e. the static law $L$) \textit{statics}.
+The authors call domain properties that will not change between states (i.e.~the static law $L$) \textit{statics}.
 It is worth noting that the distinction between these fluents and statics is only useful when considering the implementation of a system using action language $\mathcal{AL}$.
 Representing statics as a runtime constant can result in performance improvements.
 
@@ -349,8 +349,8 @@ The assumptions are as follows~\citep{balduccini_aaa_2008}:
 
 \begin{itemize}
     \item The world (the agent along with its environment) can be modeled in a transition system.
-    \item The agent is competent in interacting with its environment (e.g. the agent is capable of making correct observations, remembering them, and can perform actions).
-    \item Normally, the agent can observe all relevant exogenous events (i.e. events that are not an effect of an action the agent performed).
+    \item The agent is competent in interacting with its environment (e.g.~the agent is capable of making correct observations, remembering them, and can perform actions).
+    \item Normally, the agent can observe all relevant exogenous events (i.e.~events that are not an effect of an action the agent performed).
 \end{itemize}
 
 Given that these assumptions are met, an agent in the AAA architecture performs the following loop once for every time step of the environment~\citep{balduccini_aaa_2008}:
@@ -360,7 +360,7 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
     \item Select an appropriate goal G.
     \item Find a sequence of actions (called a \textit{plan}) that achieve G.
     \item Execute first action in plan and update knowledge base.
-    \item Repeat (i.e. go to step 1).
+    \item Repeat (i.e.~go to step 1).
 \end{enumerate}
 
 This loop is known as the \textit{Observe-Think-Act} loop~\citep{balduccini_aaa_2008}.
@@ -427,7 +427,7 @@ Activities are the set of the following statics~\citep{blount_architecture_2013,
 where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a child activity of $M$.
-An activity cannot be a child (or descendant) of itself (i.e. activities must be acyclic).
+An activity cannot be a child (or descendant) of itself (i.e.~activities must be acyclic).
 It is also worth noting that, written in this form, activities permit the execution of actions concurrently.
 
 Since activities are pre-computed, there can be an exponentially large amount of unique activities represented by statics.
@@ -502,7 +502,7 @@ An agent in the $\mathcal{AIA}$ architecture performs the following loop:
         record this attempt in history.
     \item Observe the world;
         record observations in history.
-    \item Repeat (i.e. go to step 1).
+    \item Repeat (i.e.~go to step 1).
 \end{enumerate}
 
 \subsubsection{Examples}
@@ -578,7 +578,7 @@ Bob will observe and record $hpd(stop(1), 2)$, at which point Bob will choose to
 
 Let us again rewind scenario 1 such that Bob is currently attempting $move(Bob, r1, r2)$.
 Suppose that, during the same time step, the following exogenous action occurs $move(John, r3, r4)$.
-When Bob interprets this observation, it will recognize that activity $1$ is \textit{futile} (i.e. it will not satisfy its goal) and so intend to stop activity $1$.
+When Bob interprets this observation, it will recognize that activity $1$ is \textit{futile} (i.e.~it will not satisfy its goal) and so intend to stop activity $1$.
 Bob will attempt to perform $stop(1)$, observe that $stop(1)$ has occurred, re-interpret its observations, and search for a new action to perform.
 In this step, Bob will look for an activity that satisfies the goal $meet(Bob, John)$.
 Suppose it finds the following activity $<2, [move(Bob, r2,r3), move(Bob, r3,r4)],meet(Bob,John)>$.
