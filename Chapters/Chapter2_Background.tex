@@ -136,7 +136,7 @@ Discrete dynamic domains are environments that behave according to the following
     \item Actions occur instantaneously at each time step and the effects appear immediately at the next time step.
     \item Each domain-relevant property is represented by a function.
         The function maps the property name, called a \textit{fluent}, to its value at a particular time step.
-        Fluents with their values are collectively refered to as the agent's \textit{state}.
+        Fluents with their values are collectively referred to as the agent's \textit{state}.
 \end{itemize}
 
 Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
@@ -332,7 +332,7 @@ The authors call domain properties that will not change between states (i.e.~the
 It is worth noting that the distinction between these fluents and statics is only useful when considering the implementation of a system using action language $\mathcal{AL}$.
 Representing statics as a runtime constant can result in performance improvements.
 
-As mentioned, \citet{gelfond_knowledge_2014} further partition the term \textit{fluent} into \textit{defined fluents} and \textit{inertial fluents}.
+\citet{gelfond_knowledge_2014} further partition the term \textit{fluent} into \textit{defined fluents} and \textit{inertial fluents}.
 Inertial fluents are inspired by the law of inertial in that their value persists from state to state unless an action explicitly changes it (either directly or indirectly).
 Defined fluents, on the other hand, are defined in terms of other fluents and do not necessarily persist from state to state.
 Due to the constraints on their definition, they cannot be directly caused by an action.
@@ -431,14 +431,14 @@ An activity cannot be a child (or descendant) of itself (i.e.~activities must be
 It is also worth noting that activities permit the execution of actions concurrently.
 
 Since activities are pre-computed, there can be an exponentially large amount of unique activities represented by statics.
-This can be detrimental to running an implementation so to avoid this, we only represent activities that are deemed initially relevant and generate the rest on demand~\citep{blount_architecture_2013}.
+This can be detrimental to running an implementation so to avoid this, \citet{blount_architecture_2013} only represents activities that are deemed initially relevant and generates the rest on demand.
 
 The intentional system description of $\mathcal{AL}$ uses fluents to keep track of the agent's progress in the current activity.
 These fluents define the agent's \textit{mental state} and are updated through \textit{mental actions}.
 Mental actions contrast from \textit{physical actions} in that mental actions only affect the internal state of the agent whereas physical actions affect the agent's environment.
-The effects of mental actions are defined in a set of propositions called the Theory of Intentions $\mathcal{TI}$~\citep{blount_towards_2014}.
+The effects of mental actions are defined in a set of propositions called the Theory of Intentions ($\mathcal{TI}$)~\citep{blount_towards_2014}.
 
-\subsubsection{Theory of Intentions}
+\subsubsection{Theory of Intentions ($\mathcal{TI}$)}
 \label{subsubsec:theory_of_intentions}
 
 The Theory of Intentions ($\mathcal{TI}$) is a framework of static and dynamic laws that maintain an agent's mental state.
@@ -451,7 +451,7 @@ Though most actions are executed by the agent itself, some must be executed by t
 There are two such actions that are exogenous to the agent.
 The exogenous mental action $select(G)$ causes the agent to intend to achieve goal $G$~\citep{blount_towards_2014}.
 Likewise, the exogenous mental action $abandon(G)$ causes the agent to cease its intent to achieve goal $G$~\citep{blount_towards_2014}.
-These actions are necessarily exogenous because, in general, a goal-driven agent must be given at least one goal beforehand.
+These actions are necessarily exogenous because, in general, a goal-driven agent must be told to achieve at least one goal beforehand.
 
 \subsubsection{Domain history}
 \label{subsubsec:domain_history}
@@ -610,6 +610,18 @@ Hence, it takes three more iterations of the control loop to move to r4 ($stop(1
 
 \section{Logic-based approaches to representing and reasoning over agent policies}
 \label{sec:policies}
+
+Real-world applications may require agents to behave in particular ways, though they are granted autonomy.
+For example, a controller may require an agent to follow ethical constraints and may penalize an agent when acting in violation of them.
+Thus, it is necessary to introduce a discussion on agent policies.
+
+\citet{gelfond_authorization_2008} introduce language APL to represent authorization policies.
+An authorization policy is a set of conditions that denote whether an agent’s action is permitted or not permitted \citep{gelfond_authorization_2008}.
+APL is not an action language in and of itself since it only describes whether actions are permitted.
+APL relies on languages such as A, B, and AL to describe the effects of actions.
+
+Similar to the action languages, APL requires that the agent’s environment be modelled by a transition diagram.
+\citet{gelfond_authorization_2008} use the transition diagram definition extended with sets of simultaneous actions.
 
 \section{Answer Set Programming}
 \label{sec:asp}
