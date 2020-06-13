@@ -155,13 +155,13 @@ The formal definition is as follows:
 \end{definition}
 
 $ V(P,s) $ is said to be the value of fluent $ P $ in state $ s $.
-The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an action $ A $'s execution in state $ s $.
-$ A $ is deterministic in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
-If $ A $ is non-deterministic, then each $ s' $ \textit{may} be the result of $ A $~\citep{blount_architecture_2013}.
-$ A $ is executable in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> \in R $.
-When $ \left|A\right|>1 $, $A$ represents the execution of concurrent actions~\citep{gelfond_action_1998, blount_architecture_2013}.
+The states $ s' $ such that $ <s, a, s'> \in R $ are the possible results of an action $ a $'s execution in state $ s $.
+$ a $ is deterministic in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
+If $ a $ is non-deterministic, then each $ s' $ \textit{may} be the result of $ a $~\citep{blount_architecture_2013}.
+$ a $ is executable in $ s $ iff there is at least one state $ s' $ where $ <s, a, s'> \in R $.
+When $ \left|a\right|>1 $, $a$ represents the execution of concurrent actions~\citep{gelfond_action_1998, blount_architecture_2013}.
 
-A path $ <s_0, A_0, s_1, A_1, \dots, A_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $~\citep{blount_architecture_2013}.
+A path $ <s_0, a_0, s_1, a_1, \dots, a_{\left\{n-1\right\}}, s_n> $ represents a possible trajectory of a system with the initial state $ s_0 $ and final state $ s_n $~\citep{blount_architecture_2013}.
 
 If the action signature of a transition system is propositional, then the transition system is said to be propositional~\citep{gelfond_action_1998}.
 
@@ -184,13 +184,13 @@ $ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \bold
 It is composed of propositions of the form:
 
 $$
-A \textbf{ causes } L \textbf{ if } F
+a \textbf{ causes } L \textbf{ if } F
 $$
 
 \noindent
-where $ A \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
+where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
 A literal is an element of $(\boldsymbol{F} \cup \{f \in \boldsymbol{F} | \neg f\})$.
-Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $A$ occurs.
+Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $a$ occurs.
 Likewise, $\neg L$ denotes $V(L, s')=f$.
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
 A set of these propositions is called an \textit{action description}~\citep{gelfond_action_1998}.
@@ -206,21 +206,21 @@ A set of these propositions is called an \textit{action description}~\citep{gelf
     \begin{itemize}
         \item $ S $ is the set of all interpretations of $ \boldsymbol{F} $.
         \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
-        \item R is the set of all triples $ <s, A, s'> $ such that $ E(A,s) \subseteq s' \subseteq E(A,s) \cup s $.
+        \item R is the set of all triples $ <s, a, s'> $ such that $ E(a,s) \subseteq s' \subseteq E(a,s) \cup s $.
     \end{itemize}
 \end{definition}
 
-$ E(A, s) $ is the set of heads $ L $ of all propositions $ A \textbf{ causes } L \textbf{ if } F $ in $ D $ such that $ s $ satisfies $ F $.
-$ E(A, s) $ represents all effects of an action $ A $ in state $ s $~\citep{gelfond_action_1998}.
-Writing $ E\left(A,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ A $ are actually present.
-Adding $ \subseteq E\left(A,s\right)\cup s $, allows $ s' $ to equal $ s $.
+$ E(a, s) $ is the set of heads $ L $ of all propositions $ a \textbf{ causes } L \textbf{ if } F $ in $ D $ such that $ s $ satisfies $ F $.
+$ E(a, s) $ represents all effects of an action $ a $ in state $ s $~\citep{gelfond_action_1998}.
+Writing $ E\left(a,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ a $ are actually present.
+Adding $ \subseteq E\left(a,s\right)\cup s $, allows $ s' $ to equal $ s $.
 It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\citep{gelfond_action_1998}.
-Therefore, $ A $ is deterministic for every state.
+Therefore, $ a $ is deterministic for every state.
 
 Suppose we had the following action description in $\mathcal{A}$, as given by \citet{gelfond_action_1998}:
 
 $$
-A \textbf{ causes } P \textbf{ if } Q
+a \textbf{ causes } P \textbf{ if } Q
 $$
 
 In this case, the action description language models the transition system shown in figure~\ref{fig:action_language_a_example}.
@@ -250,20 +250,20 @@ An action description in $\mathcal{B}$ is a set of static and dynamic laws, whic
 
     \item A dynamic law, like in $\mathcal{A}$, is written in the form:
         $$
-        A \textbf{ causes } L \textbf{ if } F
+        a \textbf{ causes } L \textbf{ if } F
         $$
 \end{itemize}
 
 \noindent
-where $A \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a, possibly empty, conjunction of literals.
+where $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a, possibly empty, conjunction of literals.
 
 Similar to $\mathcal{A}$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 
 $\mathcal{B}$ defines a notion of closure for sets of literals.
 
 \begin{definition}
-    In a dynamic law $A \textbf{ causes } L$, $A$ is said to \textit{cause} $L$.
-    Adding a static law $L' \textbf{ if } L$, $A$ is said to \textit{indirectly cause} $L'$.
+    In a dynamic law $a \textbf{ causes } L$, $a$ is said to \textit{cause} $L$.
+    Adding a static law $L' \textbf{ if } L$, $a$ is said to \textit{indirectly cause} $L'$.
 \end{definition}
 
 \begin{definition}
@@ -285,12 +285,12 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
     \begin{itemize}
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
         \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
-        \item $R$ is the set of all triples $<s, A, s'>$ such that
+        \item $R$ is the set of all triples $<s, a, s'>$ such that
             $$
-            s'=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s'\right)\right)
+            s'=C_{n_Z}\left(E\left(a,s\right)\cup\left(s \cap s'\right)\right)
             $$
 
-            $ Z $ is the set of all static laws of $D$ and $E(A, s)$, as before, is the set of heads $L$ of all propositions $A \textbf{ causes } L \textbf{ if } F$ in $D$ such that $s$ satisfies $F$.
+            $ Z $ is the set of all static laws of $D$ and $E(a, s)$, as before, is the set of heads $L$ of all propositions $a \textbf{ causes } L \textbf{ if } F$ in $D$ such that $s$ satisfies $F$.
     \end{itemize}
 \end{definition}
 
@@ -308,7 +308,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
 \begin{itemize}
     \item Dynamic laws (from Action language $ \mathcal{A} $):
         $$
-        A \textbf{ causes } L \textbf{ if } F
+        a \textbf{ causes } L \textbf{ if } F
         $$
 
     \item Static laws (from Action language $ \mathcal{B} $):
@@ -318,11 +318,11 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
 
     \item Executability constraints:
         $$
-        \textbf{ impossible } A_0, A_1, \dots, A_k \textbf{ if } F
+        \textbf{ impossible } a_0, a_1, \dots, a_k \textbf{ if } F
         $$
 \end{itemize}
 
-Like in $\mathcal{A}$ and $\mathcal{B}$, $A$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
+Like in $\mathcal{A}$ and $\mathcal{B}$, $a$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
 
 Later work by \citet{gelfond_knowledge_2014} proposes classifications for literals: \textit{statics}, \textit{inertial fluents}, and \textit{defined fluents}.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -461,9 +461,9 @@ This has significant implications on how the agent's history is represented.
 Suppose an agent in the AAA architecture has the following action description (borrowed from~\citep{blount_towards_2014}):
 
 \begin{gather*}
-    A_1 \textbf{ causes } f \\
-    A_2 \textbf{ causes } g \textbf{ if } f, p \\
-    B \textbf{ causes } \neg p
+    a_1 \textbf{ causes } f \\
+    a_2 \textbf{ causes } g \textbf{ if } f, p \\
+    b \textbf{ causes } \neg p
 \end{gather*}
 
 Suppose the agent has the following history:
@@ -473,12 +473,12 @@ $$
 $$
 
 \noindent
-where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(A, I)$ that action $A$ happened at time step $I$.
+where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(a, I)$ that action $a$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
 The $\mathcal{AIA}$ architecture avoids this inconsistency by adding two history statements.
-When executing an action $A$ at time step $I$, the agent records its attempt to do so with $attempt(A, I)$.
-During the $I+1$ iteration of the control loop, the agent records $hpd(A, I)$ if the effects of the previous action are observed, otherwise $\neg hpd(A, I)$.
+When executing an action $a$ at time step $I$, the agent records its attempt to do so with $attempt(a, I)$.
+During the $I+1$ iteration of the control loop, the agent records $hpd(a, I)$ if the effects of the previous action are observed, otherwise $\neg hpd(a, I)$.
 Thus, an agent in the $\mathcal{AIA}$ architecture will have the following history for the previous example
 
 \begin{multline*}
@@ -497,8 +497,8 @@ An agent in the $\mathcal{AIA}$ architecture performs the following loop:
 
 \begin{enumerate}
     \item Interpret observations.
-    \item Find intended action $A$.
-    \item Attempt to perform $A$;
+    \item Find intended action $a$.
+    \item Attempt to perform $a$;
         record this attempt in history.
     \item Observe the world;
         record observations in history.
@@ -533,7 +533,7 @@ In the first iteration of the $\mathcal{AIA}$ control loop, the agent will:
 
 \begin{enumerate}
     \item Interpret its prior observations, of which there are none.
-    \item Find an intended action $A$.
+    \item Find an intended action $a$.
         Since there is not yet an intended goal, the agent will choose to execute the \textit{wait} action, which has no physical or mental effects.
     \item The agent will attempt to execute the \textit{wait} action and record this attempt in its history.
     \item The agent observes the occurrence of the $select(meet(Bob, John))$ exogenous action and record it.
@@ -548,9 +548,9 @@ The rest of the second iteration is as follows:
 
 \begin{enumerate}
     \setcounter{enumi}{1}
-    \item Find intended action $A$.
+    \item Find intended action $a$.
         This is the k + 1 action of the activity where $status(1, k)$.
-        In this case, $A$ is $move(Bob, r1, r2)$.
+        In this case, $a$ is $move(Bob, r1, r2)$.
     \item Execute $move(Bob, r1, r2)$.
         Record $attempt(move(Bob, r1, r2, 1)$ in history.
     \item Observe that Bob is in r2.
