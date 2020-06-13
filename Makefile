@@ -27,4 +27,7 @@ build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 %.pdf: %.svg
 	inkscape --export-filename=$@ $<
 
-.PHONY: build build-graphviz build-plantuml build-svg
+clean:
+	latexmk -C
+
+.PHONY: build build-graphviz build-plantuml build-svg clean
