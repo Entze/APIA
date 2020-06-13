@@ -428,7 +428,7 @@ where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are th
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a child activity of $M$.
 An activity cannot be a child (or descendant) of itself (i.e.~activities must be acyclic).
-It is also worth noting that, written in this form, activities permit the execution of actions concurrently.
+It is also worth noting that activities permit the execution of actions concurrently.
 
 Since activities are pre-computed, there can be an exponentially large amount of unique activities represented by statics.
 This can be detrimental to running an implementation so to avoid this, we only represent activities that are deemed initially relevant and generate the rest on demand~\citep{blount_architecture_2013}.
