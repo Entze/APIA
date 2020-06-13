@@ -5,10 +5,10 @@ digraph {
     "¬P Q";
     "¬P ¬Q";
 
-    "¬P Q" -> "P Q" [label = "a"];
-    "P Q" -> "P Q" [label = "a"];
+    "¬P Q" -> "P Q" [label = "A"];
+    "P Q" -> "P Q" [label = "A"];
 
-    "P ¬Q" -> "P ¬Q" [label = "a"];
+    "P ¬Q" -> "P ¬Q" [label = "A"];
 
-    "¬P ¬Q" -> "¬P ¬Q" [label = "a"];
+    "¬P ¬Q" -> "¬P ¬Q" [label = "A"];
 }
