@@ -10,5 +10,6 @@
     "**/*.out": true,
     "**/*.synctex.gz": true,
     "**/*.toc": true,
-  }
+  },
+  "files.autoSave": "onWindowChange"
 }
