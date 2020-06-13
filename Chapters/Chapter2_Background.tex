@@ -290,7 +290,7 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
             s'=C_{n_Z}\left(E\left(A,s\right)\cup\left(s \cap s'\right)\right)
             $$
 
-            $ Z $ is the set of all static laws of $D$ and $E(A, s)$, as before, is the set of heads $L$ of all propositions $A$ causes $L$ if $F$ in $D$ such that $s$ satisfies $F$.
+            $ Z $ is the set of all static laws of $D$ and $E(A, s)$, as before, is the set of heads $L$ of all propositions $A \textbf{ causes } L \textbf{ if } F$ in $D$ such that $s$ satisfies $F$.
     \end{itemize}
 \end{definition}
 
@@ -497,8 +497,8 @@ An agent in the $\mathcal{AIA}$ architecture performs the following loop:
 
 \begin{enumerate}
     \item Interpret observations.
-    \item Find intended action A.
-    \item Attempt to perform A;
+    \item Find intended action $A$.
+    \item Attempt to perform $A$;
         record this attempt in history.
     \item Observe the world;
         record observations in history.
@@ -533,7 +533,7 @@ In the first iteration of the $\mathcal{AIA}$ control loop, the agent will:
 
 \begin{enumerate}
     \item Interpret its prior observations, of which there are none.
-    \item Find an intended action A.
+    \item Find an intended action $A$.
         Since there is not yet an intended goal, the agent will choose to execute the \textit{wait} action, which has no physical or mental effects.
     \item The agent will attempt to execute the \textit{wait} action and record this attempt in its history.
     \item The agent observes the occurrence of the $select(meet(Bob, John))$ exogenous action and record it.
@@ -548,9 +548,9 @@ The rest of the second iteration is as follows:
 
 \begin{enumerate}
     \setcounter{enumi}{1}
-    \item Find intended action A.
+    \item Find intended action $A$.
         This is the k + 1 action of the activity where $status(1, k)$.
-        In this case, A is $move(Bob, r1, r2)$.
+        In this case, $A$ is $move(Bob, r1, r2)$.
     \item Execute $move(Bob, r1, r2)$.
         Record $attempt(move(Bob, r1, r2, 1)$ in history.
     \item Observe that Bob is in r2.
