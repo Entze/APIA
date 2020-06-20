@@ -614,16 +614,158 @@ Hence, it takes three more iterations of the control loop to move to r4 ($stop(1
 \label{sec:policies}
 
 Real-world applications may require agents to behave in particular ways, though they are granted autonomy.
-For example, a controller may require an agent to follow ethical constraints and may penalize an agent when acting in violation of them.
-Thus, it is necessary to introduce a discussion on agent policies.
+For example, a controller may want to require an agent to follow certain ethical constraints and may choose to penalize an agent when acting in violation of them.
+Thus, it is necessary to introduce a discussion on policies for agent behavior and a formalism with which agents can deduce the compliance of their actions.
 
-\citet{gelfond_authorization_2008} introduce language APL to represent authorization policies.
-An authorization policy is a set of conditions that denote whether an agent’s action is permitted or not permitted \citep{gelfond_authorization_2008}.
-APL is not an action language in and of itself since it only describes whether actions are permitted.
-APL relies on languages such as A, B, and AL to describe the effects of actions.
+\subsection{Language $\mathcal{APL}$}
 
-Similar to the action languages, APL requires that the agent’s environment be modelled by a transition diagram.
-\citet{gelfond_authorization_2008} use the transition diagram definition extended with sets of simultaneous actions.
+\citet{gelfond_authorization_2008} introduce language $\mathcal{APL}$ to represent authorization policies.
+An authorization policy is a set of conditions that denote whether an agent's action is permitted or not permitted \citep*{gelfond_authorization_2008}.
+In contrast to the languages discussed previously, $\mathcal{APL}$ is not an action language in and of itself since it only.
+$\mathcal{APL}$ describes the conditions under which actions are permitted or forbidden.
+It works in conjunction with action languages such as $\mathcal{AL}$.
+
+\subsubsection{Definition}
+
+Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modelled by a propositional transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$.
+Recall that $T$ contains all trajectories of the underlying system.
+An agent's policy $P$ is the subset of the trajectories of $T$ that are desired by the agent's controller.
+
+\citet{gelfond_authorization_2008} provide a mechanism for describing a policy $P$ by means of \textit{authorization} policy statements.
+Thus, a policy $P$ is the set of these statements.
+These policies are transcribed using static laws in a similar form to action language $\mathcal{AL}$.
+
+\begin{definition}
+    Authorization policy statements are static laws of the form:
+
+    \begin{gather*}
+        permitted\left(<s,A>\right) \textbf{ if } F \\
+        \neg permitted\left(<s,A>\right) \textbf{ if } F \\
+        \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
+        \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F
+    \end{gather*}
+
+    \noindent
+    where $F\subseteq\left(\boldsymbol{F}\cup\{f\in \boldsymbol{F}|\neg f\}\right) \cup (\{permitted(<s,A>),\ \neg permitted(<s, A>), \textbf{normally } permitted(<s,A>), \textbf{normally } \neg permitted(<s,A>)\}$.
+\end{definition}
+
+\begin{definition}
+    A \textit{permission} is a statement of the form $permitted(<s,A>)$.
+\end{definition}
+
+\begin{definition}
+    A \textit{denial} is a statement of the form $\neg permitted(<s,A>)$.
+\end{definition}
+
+\begin{definition}
+    A \textit{strict} authorization policy statement is a statement of the form:
+
+    \begin{gather*}
+        permitted\left(<s,A>\right) \textbf{ if } F \\
+        \neg permitted\left(<s,A>\right) \textbf{ if } F
+    \end{gather*}
+\end{definition}
+
+\begin{definition}
+    A \textit{defeasible} authorization policy statement is a statement of the form:
+
+    \begin{gather*}
+        \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
+        \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F
+    \end{gather*}
+\end{definition}
+
+Defeasible authorization policy statements permit exceptions when they are in conflict with other authorization statements of higher importance.
+To encode the relative hierarchy of defeasible statements, \citet{gelfond_authorization_2008} provide an option to label defeasible statements with terms $d_1,d_2,\ldots,d_n$ and use the static $prefer\left(d_i,d_j\right)$ to prioritize statement $d_i$ over statement $d_j$.
+Thus, defeasible authorization policy statements can be written in the following form.
+
+\begin{gather*}
+    d: \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
+    d: \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F \\
+    prefer(d_i, d_j)
+\end{gather*}
+
+If a defeasible authorization policy statement is not referenced in a $prefer$ static, then its corresponding label is optional.
+
+\subsubsection{Semantics}
+
+To explain semantics of $\mathcal{APL}$, we will borrow an example policy from \citet{gelfond_authorization_2008}.
+Suppose in a military context, military personnel where given the following rules:
+
+\begin{itemize}
+    \item A military officer is not allowed to command a mission he authorized.
+    \item A colonel is allowed to command a mission he authorized.
+    \item A military observer is never allowed to authorize a mission.
+\end{itemize}
+
+For reference, information on military ranking is provided below:
+
+\begin{itemize}
+    \item A colonel is a high-ranking military officer.
+    \item An officer of any rank outranks an observer.
+\end{itemize}
+
+Suppose we have a transition diagram definition extended with sets of simultaneous actions.system $T=<{t,f},\boldsymbol{F},\boldsymbol{A}>$, where $\boldsymbol{A}={authorize(C,M),\ assume\_command(C,\ M)}$, $\boldsymbol{F}={authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)}$, and $M$ and $C$ are variables that range over all missions and commanders, respectively.
+As a policy designer, we might interpret the first statement as defeasible as there might be a rare scenario where an officer might be forced to command his own mission.
+So, we might write:
+
+$$
+\textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M)
+$$
+
+\citet{gelfond_authorization_2008} interpret the second statement as defeasible as well.
+Thus, we could write:
+
+$$
+\textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C)
+$$
+
+It is important to note that our policy is ambiguous at this point.
+In the case a colonel authorized a mission and begins to command it, he would be both compliant and non-compliant.
+To clarify, we will add labels to the previous statements then prefer honoring the second statement over the first.
+
+\begin{gather*}
+    d_1(C, M): \textbf{normally } \neg permitted(assume\_command(C,\ M))\ if\ authorized(C,\ M) \\
+    d_2(C, M): \textbf{normally } permitted(assume\_command(C,\ M))\ if\ colonel(C) \\
+    prefer(d_2(C,M),d_1(C,M))
+\end{gather*}
+
+Lastly, the third policy statement can be represented with a strict authorization statement.
+
+$$
+\neg permitted(authorize(C,\ M)) \textbf{ if } observer(C)
+$$
+
+In total, our policy $P$ be the set of the above two statement blocks.
+
+\subsubsection{Answer Set Programming}
+
+To check the compliance of an action with a given policy, \citet{gelfond_authorization_2008} first translate the policy using Answer Set Programming and thereby reduce the problem to finding satisfiable models under stable model semantics.
+
+\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards NP-hard problems \citep{vladimir_lifschitz_what_2008}.
+It is based on stable model semantics \citep{gelfond_stable_1988}.
+The languages itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog} \citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
+
+\subsubsection{Checking compliance}
+
+As mentioned previously, \citep{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
+To do so, \citep{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
+
+\begin{gather*}
+    lp(P,s)=lp(P)\cup lp(s) \\
+    lp(P)=\{statement\ \in\ P\ |\ lp(statement)\} \\
+    lp\left(f=y\right)=val\left(f,y\right). \\
+    lp(permitted(<s,A>))=permitted((s,A)). \\
+    lp(\neg permitted(<s,\ A>))\ =\ \neg permitted((s,\ A)). \\
+    lp(permitted(<s,\ A>)\ if\ cond)=permitted((s,A))\ \leftarrow\ cond \\
+    lp(d:\ normally\ permitted(<s,\ A>)\ if\ cond)=\ permitted((s,A))\leftarrow\ lp(cond),\ not\ ab(d),\ not\ \neg permitted((s,\ A)). \\
+    lp(d:\ normally\ \neg permitted(<s,\ A>)\ if\ cond)=\ \neg permitted((s,A))\leftarrow\ lp(cond),\ not\ ab(d),\ not\ permitted((s,\ A)). \\
+    lp(prefer(d_1,\ d_2))=ab(d_2) \leftarrow lp(cond_1)
+\end{gather*}
+
+\noindent
+where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
+If S is a set of atoms, then $lp(S)=\{atom\ \in\ S\ |\ lp(atom)\}$
 
 \section{Answer Set Programming}
 \label{sec:asp}
