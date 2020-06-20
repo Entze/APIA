@@ -368,7 +368,7 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
 This loop is known as the \textit{Observe-Think-Act} loop~\citep{balduccini_aaa_2008}.
 
 In step 1, the agent observes the world and updates its knowledge base.
-This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in section~\ref{sec:asp}).
+This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in section~\ref{subsubsec:asp}).
 The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions~\citep{balduccini_aaa_2008}.
 
 There are two approaches to describing the effects of an agent's actions.
@@ -705,7 +705,7 @@ For reference, information on military ranking is provided below:
     \item An officer of any rank outranks an observer.
 \end{itemize}
 
-Suppose we have a transition diagram definition extended with sets of simultaneous actions.system $T=<{t,f},\boldsymbol{F},\boldsymbol{A}>$, where $\boldsymbol{A}={authorize(C,M),\ assume\_command(C,\ M)}$, $\boldsymbol{F}={authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)}$, and $M$ and $C$ are variables that range over all missions and commanders, respectively.
+Suppose we have a transition diagram definition extended with sets of simultaneous actions.system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where $\boldsymbol{A}=\{authorize(C,M),\ assume\_command(C, M)\}$, $\boldsymbol{F}=\{authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)\}$, and $M$ and $C$ are variables that range over all missions and commanders, respectively.
 As a policy designer, we might interpret the first statement as defeasible as there might be a rare scenario where an officer might be forced to command his own mission.
 So, we might write:
 
@@ -725,20 +725,21 @@ In the case a colonel authorized a mission and begins to command it, he would be
 To clarify, we will add labels to the previous statements then prefer honoring the second statement over the first.
 
 \begin{gather*}
-    d_1(C, M): \textbf{normally } \neg permitted(assume\_command(C,\ M))\ if\ authorized(C,\ M) \\
-    d_2(C, M): \textbf{normally } permitted(assume\_command(C,\ M))\ if\ colonel(C) \\
+    d_1(C, M): \textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M) \\
+    d_2(C, M): \textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C) \\
     prefer(d_2(C,M),d_1(C,M))
 \end{gather*}
 
 Lastly, the third policy statement can be represented with a strict authorization statement.
 
 $$
-\neg permitted(authorize(C,\ M)) \textbf{ if } observer(C)
+\neg permitted(authorize(C, M)) \textbf{ if } observer(C)
 $$
 
 In total, our policy $P$ be the set of the above two statement blocks.
 
 \subsubsection{Answer Set Programming}
+\label{subsubsec:asp}
 
 To check the compliance of an action with a given policy, \citet{gelfond_authorization_2008} first translate the policy using Answer Set Programming and thereby reduce the problem to finding satisfiable models under stable model semantics.
 
@@ -752,20 +753,31 @@ As mentioned previously, \citep{gelfond_authorization_2008} use ASP to check the
 To do so, \citep{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
 \begin{gather*}
-    lp(P,s)=lp(P)\cup lp(s) \\
-    lp(P)=\{statement\ \in\ P\ |\ lp(statement)\} \\
-    lp\left(f=y\right)=val\left(f,y\right). \\
-    lp(permitted(<s,A>))=permitted((s,A)). \\
-    lp(\neg permitted(<s,\ A>))\ =\ \neg permitted((s,\ A)). \\
-    lp(permitted(<s,\ A>)\ if\ cond)=permitted((s,A))\ \leftarrow\ cond \\
-    lp(d:\ normally\ permitted(<s,\ A>)\ if\ cond)=\ permitted((s,A))\leftarrow\ lp(cond),\ not\ ab(d),\ not\ \neg permitted((s,\ A)). \\
-    lp(d:\ normally\ \neg permitted(<s,\ A>)\ if\ cond)=\ \neg permitted((s,A))\leftarrow\ lp(cond),\ not\ ab(d),\ not\ permitted((s,\ A)). \\
-    lp(prefer(d_1,\ d_2))=ab(d_2) \leftarrow lp(cond_1)
+    lp(P,s) = lp(P)\cup lp(s) \\
+    lp(P)=\{statement \in P | lp(statement)\} \\
+    lp\left(f=y\right) =
+        val\left(f,y\right). \\
+    lp(permitted(<s,A>)) =
+        permitted((s,A)). \\
+    lp(\neg permitted(<s, A>)) =
+        \neg permitted((s, A)). \\
+    lp(permitted(<s, A>) \textbf{ if } cond) =
+        permitted((s,A)) \leftarrow
+            cond \\
+    lp(d: \textbf{normally } permitted(<s, A>) \textbf{ if } cond) =
+        permitted((s,A)) \leftarrow
+            lp(cond),
+            \textbf{not } ab(d),
+            \textbf{not } \neg permitted((s, A)). \\
+    lp(d: \textbf{normally } \neg permitted(<s, A>) \textbf{ if } cond) =
+        \neg permitted((s,A)) \leftarrow
+            lp(cond),
+            \textbf{not } ab(d),
+            \textbf{not } permitted((s, A)). \\
+    lp(prefer(d_1, d_2)) =
+        ab(d_2) \leftarrow lp(cond_1)
 \end{gather*}
 
 \noindent
 where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
-If S is a set of atoms, then $lp(S)=\{atom\ \in\ S\ |\ lp(atom)\}$
-
-\section{Answer Set Programming}
-\label{sec:asp}
+If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
