@@ -620,7 +620,7 @@ Thus, it is necessary to introduce a discussion on policies for agent behavior a
 \subsection{Language $\mathcal{APL}$}
 
 \citet{gelfond_authorization_2008} introduce language $\mathcal{APL}$ to represent authorization policies.
-An authorization policy is a set of conditions that denote whether an agent's action is permitted or not permitted \citep*{gelfond_authorization_2008}.
+An authorization policy is a set of conditions that denote whether an agent's action is permitted or not permitted~\citep{gelfond_authorization_2008}.
 In contrast to the languages discussed previously, $\mathcal{APL}$ is not an action language in and of itself since it only.
 $\mathcal{APL}$ describes the conditions under which actions are permitted or forbidden.
 It works in conjunction with action languages such as $\mathcal{AL}$.
@@ -749,8 +749,8 @@ The languages itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*
 
 \subsubsection{Checking compliance}
 
-As mentioned previously,~\citep{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
-To do so,~\citep{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
+As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
+To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
 \begin{gather*}
     lp(P,s) = lp(P)\cup lp(s) \\
