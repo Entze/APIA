@@ -100,7 +100,7 @@ For example, production rule systems are an example of reactive agents whereas B
 The second dimension for agent architecture comparisons is the \textit{affective dimension}~\citep{balke_how_2014}.
 The affective dimension considers what degree of emotions agents in an architecture are capable of expressing and acting upon.
 Research towards this dimension considers how emotions can be triggered, how they influence the decision process, and how changes in decisions affect the system at large.
-Most models are incapable of acting upon emotions \citep{balke_how_2014} with the exception of two extensions of the BDI model \citep{jiang_ebdi_2007, dignum_towards_2009} and a cognitive model~\citep{urban_pecs_2000}.
+Most models are incapable of acting upon emotions~\citep{balke_how_2014} with the exception of two extensions of the BDI model~\citep{jiang_ebdi_2007, dignum_towards_2009} and a cognitive model~\citep{urban_pecs_2000}.
 
 A third dimension for comparing architectures is the \textit{social dimension}.
 This dimension considers the extent to which agent architectures provide agents the ability to communicate with other agents, to distinguish social relations (such as status), and to understand complex social concepts.
@@ -115,7 +115,7 @@ If agents are capable of doing this, it also considers in what ways the knowledg
 Production rule systems and BDI agents (including its variants) do not support any form of learning whereas normative and cognitive model support it to various extents.
 
 A related consideration for agent architectures is its \textit{elaboration tolerance}.
-Elaboration tolerance measures the ease of which a knowledge base can be changed to incorporate new facts \citep{parmar_formalizing_2003}, whether by learning or by a human redesign.
+Elaboration tolerance measures the ease of which a knowledge base can be changed to incorporate new facts~\citep{parmar_formalizing_2003}, whether by learning or by a human redesign.
 For example, a representation with a high elaboration tolerance might require very little changes to represent additional information whereas a representation with a low elaboration tolerance may need to be completely re-written to address a new scenario.
 The concept was first mentioned by \citet{mccarthy_mathematical_1988}, but later formalized by \citet{parmar_formalizing_2003}.
 
@@ -128,7 +128,7 @@ These agent architectures are based off the notion of an \textit{action language
 \subsection{Transition Systems}
 \label{subsec:transition_systems}
 
-Transition systems (also called \textit{transition diagrams} \citep{blount_architecture_2013}) can be thought of as analogous to a directed graph that models a discrete dynamic domain.
+Transition systems (also called \textit{transition diagrams}~\citep{blount_architecture_2013}) can be thought of as analogous to a directed graph that models a discrete dynamic domain.
 Discrete dynamic domains are environments that behave according to the following rules~\citep{blount_architecture_2013}:
 
 \begin{itemize}
@@ -743,14 +743,14 @@ In total, our policy $P$ be the set of the above two statement blocks.
 
 To check the compliance of an action with a given policy, \citet{gelfond_authorization_2008} first translate the policy using Answer Set Programming and thereby reduce the problem to finding satisfiable models under stable model semantics.
 
-\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards NP-hard problems \citep{vladimir_lifschitz_what_2008}.
-It is based on stable model semantics \citep{gelfond_stable_1988}.
-The languages itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog} \citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
+\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards NP-hard problems~\citep{vladimir_lifschitz_what_2008}.
+It is based on stable model semantics~\citep{gelfond_stable_1988}.
+The languages itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog}~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
 
 \subsubsection{Checking compliance}
 
-As mentioned previously, \citep{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
-To do so, \citep{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
+As mentioned previously,~\citep{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
+To do so,~\citep{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
 \begin{gather*}
     lp(P,s) = lp(P)\cup lp(s) \\
