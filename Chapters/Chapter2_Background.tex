@@ -781,3 +781,51 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \noindent
 where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
 If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
+
+\begin{definition}
+    A logic program is \textit{consistent} if it produces at least one answer set
+\end{definition}
+
+\begin{definition}
+    A logic program is \textit{categorical} if it produces exactly one answer set.
+\end{definition}
+
+\begin{definition}
+    If a consistent logic program $\PI$ has a literal $l$ which belongs to every answer set of $\PI$, $\PI$ \textit{entails} $l$.
+\end{definition}
+
+\begin{definition}
+    An authorization policy $P$ for $T$ is called \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, o)$ is consistent.
+\end{definition}
+
+\begin{definition}
+    An authorization policy $P$ for $T$ is called \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
+\end{definition}
+
+\begin{lemma}
+    Let $P$ be a consistent authorization policy for $T$.
+
+    $permitted(<s, A>) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(<s,A>)$
+    $\neg permitted(<s,A>) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(<s, A>)$
+\end{lemma}
+
+\begin{definition}
+    An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a\ \in A\ permitted(a)\ \in P(s)$
+
+    An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a\ \in A\ \neg permitted(a)\ \not \in P(s)$
+
+    An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a\ \in A\ \neg permitted(a)\ \in P(s)$.
+\end{definition}
+
+A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into strongly compliant or weakly compliant if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
+If the path has at least one non-compliant event, then the path is non-compliant.
+
+To demonstrate compliance checking, we will use our working example in the context of particular missions and commanders.
+Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$. $P_m$ is as follows:
+
+\begin{gather*}
+    d_1(c_1, m_1): \textbf{normally } \neg permitted(assume\_command(c_1, m_1)) \textbf{ if } authorized(c_1, m_1) \\
+    d_2(c_1, m_1): \textbf{normally } permitted(assume\_command(c_1, m_1)) \textbf{ if } colonel(c_1) \\
+    prefer(d_2(c_1,m_1),d_1(c_1,m_1))
+    \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
+\end{gather*}
