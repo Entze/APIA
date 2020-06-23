@@ -21,8 +21,24 @@ PlantUML figures:
     paths:
       - 'Figures/**/*.pdf'
 
+Draw.io figures:
+  image:
+    name: rlespinasse/drawio-export
+    entrypoint:
+      - ''
+  variables:
+    DRAWIO_EXPORT_FILEEXT: 'svg'
+    DRAWIO_EXPORT_FOLDER: '.'
+  script:
+    - /drawio/entrypoint.sh
+  artifacts:
+    paths:
+      - 'Figures/**/*.svg'
+
 SVG figures:
   image: alpine:3.12
+  needs:
+    - Draw.io figures
   script:
     - apk update
     - apk add make inkscape
@@ -36,6 +52,7 @@ PDF:
   needs:
     - PlantUML figures
     - Graphviz figures
+    - Draw.io figures
     - SVG figures
   script:
     - latexmk -pdf
