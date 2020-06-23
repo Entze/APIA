@@ -185,9 +185,9 @@ Action language $ \mathcal{A} $ was first proposed by \citet{pednault_formulatin
 $ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
 
-$$
+\[
 a \textbf{ causes } L \textbf{ if } F
-$$
+\]
 
 \noindent
 where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
@@ -221,9 +221,9 @@ Therefore, $ a $ is deterministic for every state.
 
 Suppose we had the following action description in $\mathcal{A}$, as given by \citet{gelfond_action_1998}:
 
-$$
+\[
 a \textbf{ causes } P \textbf{ if } Q
-$$
+\]
 
 In this case, the action description language models the transition system shown in figure~\ref{fig:action_language_a_example}.
 
@@ -246,14 +246,14 @@ An action description in $\mathcal{B}$ is a set of static and dynamic laws, whic
 
 \begin{itemize}
     \item A static law is written in the following form:
-        $$
+        \[
         L \textbf{ if } F
-        $$
+        \]
 
     \item A dynamic law, like in $\mathcal{A}$, is written in the form:
-        $$
+        \[
         a \textbf{ causes } L \textbf{ if } F
-        $$
+        \]
 \end{itemize}
 
 \noindent
@@ -288,9 +288,9 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
         \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item $R$ is the set of all triples $<s, \{a\}, s'>$ such that
-            $$
+            \[
             s'=C_{n_Z}\left(E\left(a,s\right)\cup\left(s \cap s'\right)\right)
-            $$
+            \]
 
             $ Z $ is the set of all static laws of $D$ and $E(a, s)$, as before, is the set of heads $L$ of all propositions $a \textbf{ causes } L \textbf{ if } F$ in $D$ such that $s$ satisfies $F$.
     \end{itemize}
@@ -309,19 +309,19 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
 
 \begin{itemize}
     \item Dynamic laws (from Action language $ \mathcal{A} $):
-        $$
+        \[
         a \textbf{ causes } L \textbf{ if } F
-        $$
+        \]
 
     \item Static laws (from Action language $ \mathcal{B} $):
-        $$
+        \[
         L \textbf{ if } F
-        $$
+        \]
 
     \item Executability constraints:
-        $$
+        \[
         \textbf{ impossible } a_0, a_1, \dots, a_k \textbf{ if } F
-        $$
+        \]
 \end{itemize}
 
 Like in $\mathcal{A}$ and $\mathcal{B}$, $a$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
@@ -470,9 +470,9 @@ Suppose an agent in the AAA architecture has the following action description (b
 
 Suppose the agent has the following history:
 
-$$
+\[
 \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
-$$
+\]
 
 \noindent
 where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(a, I)$ that action $a$ happened at time step $I$.
@@ -709,16 +709,16 @@ Suppose we have a transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$,
 As a policy designer, we might interpret the first statement as defeasible as there might be a rare scenario where an officer might be forced to command his own mission.
 So, we might write:
 
-$$
+\[
 \textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M)
-$$
+\]
 
 \citet{gelfond_authorization_2008} interpret the second statement as defeasible as well.
 Thus, we could write:
 
-$$
+\[
 \textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C)
-$$
+\]
 
 It is important to note that our policy is ambiguous at this point.
 In the case a colonel authorized a mission and begins to command it, he would be both compliant and non-compliant.
@@ -732,9 +732,9 @@ To clarify, we will add labels to the previous statements then prefer honoring t
 
 Lastly, the third policy statement can be represented with a strict authorization statement.
 
-$$
+\[
 \neg permitted(authorize(C, M)) \textbf{ if } observer(C)
-$$
+\]
 
 In total, our policy $P$ be the set of the above two statement blocks.
 
@@ -830,13 +830,13 @@ Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a c
     \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
 \end{gather*}
 
-$$
+\[
 s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
-$$
+\]
 
-$$
+\[
 a = assume_command(c_1, m_1)
-$$
+\]
 
 \begin{lstlisting}[language=Prolog]
 -permitted(assume_command(c_1, m_1)) :-
