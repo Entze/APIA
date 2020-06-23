@@ -1,5 +1,6 @@
 Graphviz figures:
   image: alpine
+  needs:
   script:
     - apk add make graphviz
     - make build-graphviz
@@ -13,6 +14,7 @@ PlantUML figures:
     name: think/plantuml
     entrypoint:
       - ''
+  needs:
   script:
     - apk add make
     - make build-plantuml
