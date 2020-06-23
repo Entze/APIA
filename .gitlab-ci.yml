@@ -1,9 +1,4 @@
-stages:
-  - graphs
-  - pdf
-
 Build Graphviz figures:
-  stage: graphs
   image: alpine
   script:
     - apk add make graphviz
@@ -14,7 +9,6 @@ Build Graphviz figures:
       - 'Figures/**/*.pdf'
 
 Build PlantUML figures:
-  stage: graphs
   image:
     name: think/plantuml
     entrypoint:
@@ -28,8 +22,10 @@ Build PlantUML figures:
       - 'Figures/**/*.pdf'
 
 Build PDF:
-  stage: pdf
   image: blang/latex:ctanfull
+  needs:
+    - Build PlantUML figures
+    - Build Graphviz figures
   script:
     - latexmk -pdf
 
