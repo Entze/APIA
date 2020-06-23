@@ -810,11 +810,11 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 \end{lemma}
 
 \begin{definition}
-    An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a\ \in A\ permitted(a)\ \in P(s)$
+    An event $<s, a>$ is \textit{strongly compliant} with $P$ if $\forall \{a\} \in A\ permitted(a)\ \in P(s)$.
 
-    An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a\ \in A\ \neg permitted(a)\ \not \in P(s)$
+    An event $<s, a>$ is \textit{weakly compliant} with $P$ if $\forall \{a\} \in A\ \neg permitted(a)\ \not \in P(s)$.
 
-    An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a\ \in A\ \neg permitted(a)\ \in P(s)$.
+    An event $<s, a>$ is \textit{non-compliant} with $P$ if $\exists \{a\} \in A\ \neg permitted(a)\ \in P(s)$.
 \end{definition}
 
 A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into strongly compliant or weakly compliant if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
@@ -828,4 +828,56 @@ Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a c
     d_2(c_1, m_1): \textbf{normally } permitted(assume\_command(c_1, m_1)) \textbf{ if } colonel(c_1) \\
     prefer(d_2(c_1,m_1),d_1(c_1,m_1))
     \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
+\end{gather*}
+
+$$
+s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
+$$
+
+$$
+a = assume_command(c_1, m_1)
+$$
+
+\begin{lstlisting}[language=Prolog]
+-permitted(assume_command(c_1, m_1)) :-
+    authorized(c_1, m_1),
+    not ab(d_1),
+    not permitted(assume_command(c_1, m_1)).
+
+permitted(assume_command(c_1, m_1)) :-
+    colonel(c_1),
+    not ab(d_2),
+    not -permitted(assume_command(c_1, m_1)).
+
+ab(d_1) :-
+    colonel(c_1).
+
+-permitted(authorize(c_1, m_1)) :-
+    observer(c_1).
+\end{lstlisting}
+
+\begin{definition}
+    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
+
+    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
+
+    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+
+    If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(s)$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+\end{definition}
+
+\begin{definition}
+    A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
+
+    A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent.
+\end{definition}
+
+\subsection{Language $\mathcal{AOPL}$}
+
+\begin{gather*}
+    obl\left(<s,A>\right) \textbf{ if } F \\
+    \neg obl\left(<s,A>\right) \textbf{ if } F \\
+    d: \textbf{normally } obl(<s,A>) \textbf{ if } F \\
+    d: \textbf{normally } \neg obl(<s,A>) \textbf{ if } F \\
+    prefer(d_i, d_j)
 \end{gather*}
