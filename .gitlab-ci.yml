@@ -21,11 +21,22 @@ PlantUML figures:
     paths:
       - 'Figures/**/*.pdf'
 
+SVG figures:
+  image: alpine:3.12
+  script:
+    - apk update
+    - apk add make inkscape
+    - make build-svg
+  artifacts:
+    paths:
+      - 'Figures/**/*.pdf'
+
 PDF:
   image: blang/latex:ctanfull
   needs:
     - PlantUML figures
     - Graphviz figures
+    - SVG figures
   script:
     - latexmk -pdf
 
