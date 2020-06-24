@@ -763,7 +763,10 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
         \neg permitted((s, A)). \\
     lp(permitted(<s, A>) \textbf{ if } cond) =
         permitted((s,A)) \leftarrow
-            cond \\
+            lp(cond) \\
+    lp(\neg permitted(<s, A>) \textbf{ if } cond) =
+        \neg permitted((s,A)) \leftarrow
+            lp(cond) \\
     lp(d: \textbf{normally } permitted(<s, A>) \textbf{ if } cond) =
         permitted((s,A)) \leftarrow
             lp(cond),
@@ -881,3 +884,45 @@ ab(d_1) :-
     d: \textbf{normally } \neg obl(<s,A>) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
+
+\begin{gather*}
+    lp(obl(<s,A>)) =
+        obl((s,A)). \\
+    lp(\neg obl(<s, A>)) =
+        \neg obl((s, A)). \\
+    lp(obl(<s, A>) \textbf{ if } cond) =
+        obl((s,A)) \leftarrow
+            lp(cond) \\
+    lp(\neg obl(<s, A>) \textbf{ if } cond) =
+        \neg obl((s,A)) \leftarrow
+            lp(cond) \\
+    lp(d: \textbf{normally } obl(<s, A>) \textbf{ if } cond) =
+        obl((s,A)) \leftarrow
+            lp(cond),
+            \textbf{not } ab(d),
+            \textbf{not } \neg obl((s, A)). \\
+    lp(d: \textbf{normally } \neg obl(<s, A>) \textbf{ if } cond) =
+        \neg obl((s,A)) \leftarrow
+            lp(cond),
+            \textbf{not } ab(d),
+            \textbf{not } obl((s, A)). \\
+    lp(prefer(d_1, d_2)) =
+        ab(d_2) \leftarrow lp(cond_1)
+\end{gather*}
+
+\begin{definition}
+    $obl(h) \in P(s)$ iff the logic program $lp(P, s)$ entails $obl(h)$
+\end{definition}
+
+\begin{definition}
+    An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall a \in A \ obl(a) \in P(s)) \land (\forall a \not \in A \ obl(\neg a) \in P(s))$
+\end{definition}
+
+\begin{definition}
+    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
+    Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
+    Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
+
+    $P_a$ is an authorization policy \textit{induced} by $P$.
+    Likewise, $P_o$ is an obligation policy \textit{induced} by $P$.
+\end{definition}
