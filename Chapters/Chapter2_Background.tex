@@ -813,20 +813,20 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 \end{lemma}
 
 \begin{definition}
-    An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a)\ \in P(s)$.
+    An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a) \in P(s)$.
 \end{definition}
 
 \begin{definition}
-    An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a)\ \not \in P(s)$.
+    An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a) \not \in P(s)$.
 \end{definition}
 
 \begin{definition}
-    An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a)\ \in P(s)$.
+    An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a) \in P(s)$.
 \end{definition}
 
 \begin{definition}
-    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into strongly compliant or weakly compliant if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
-    If the path has at least one non-compliant event, then the path is non-compliant.
+    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into \textit{strongly compliant} or \textit{weakly compliant} if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
+    If the path has at least one non-compliant event, then the path is \textit{non-compliant}.
 \end{definition}
 
 To demonstrate compliance checking, we will use our working example in the context of particular missions and commanders.
@@ -839,24 +839,24 @@ Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a c
     \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
 \end{gather*}
 
-The logic translation of $P_m$, $lp(P_m)$ is as follows:
+The logic translation of $P_m$, $lp(P_m)$ is the following:
 
 \begin{lstlisting}[language=Prolog]
--permitted(assume_command(c_1, m_1)) :-
-    authorized(c_1, m_1),
-    not ab(d_1),
-    not permitted(assume_command(c_1, m_1)).
+-permitted(assume_command(c1, m1)) :-
+    authorized(c1, m1),
+    not ab(d1),
+    not permitted(assume_command(c1, m1)).
 
-permitted(assume_command(c_1, m_1)) :-
-    colonel(c_1),
-    not ab(d_2),
-    not -permitted(assume_command(c_1, m_1)).
+permitted(assume_command(c1, m1)) :-
+    colonel(c1),
+    not ab(d2),
+    not -permitted(assume_command(c1, m1)).
 
-ab(d_1) :-
-    colonel(c_1).
+ab(d1) :-
+    colonel(c1).
 
--permitted(authorize(c_1, m_1)) :-
-    observer(c_1).
+-permitted(authorize(c1, m1)) :-
+    observer(c1).
 \end{lstlisting}
 
 Suppose the agent's environment can be represented by the following state:
