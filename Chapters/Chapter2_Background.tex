@@ -745,7 +745,7 @@ To check the compliance of an action with a given policy, \citet{gelfond_authori
 
 \textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards NP-hard problems~\citep{vladimir_lifschitz_what_2008}.
 It is based on stable model semantics~\citep{gelfond_stable_1988}.
-The languages itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog}~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
+The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog}~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
 
 \subsubsection{Checking compliance}
 
@@ -798,11 +798,11 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 \end{definition}
 
 \begin{definition}
-    An authorization policy $P$ for $T$ is called \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, o)$ is consistent.
+    An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, o)$ is consistent.
 \end{definition}
 
 \begin{definition}
-    An authorization policy $P$ for $T$ is called \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
+    An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
 \end{definition}
 
 \begin{lemma}
@@ -839,13 +839,7 @@ Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a c
     \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
 \end{gather*}
 
-\[
-s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
-\]
-
-\[
-a = assume_command(c_1, m_1)
-\]
+The logic translation of $P_m$, $lp(P_m)$ is as follows:
 
 \begin{lstlisting}[language=Prolog]
 -permitted(assume_command(c_1, m_1)) :-
@@ -864,6 +858,23 @@ ab(d_1) :-
 -permitted(authorize(c_1, m_1)) :-
     observer(c_1).
 \end{lstlisting}
+
+Suppose the agent's environment can be represented by the following state:
+
+\[
+s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
+\]
+
+Its logic encoding $lp(s0)$ would be:
+
+\begin{lstlisting}[language=Prolog]
+colonel(c1).
+authorized(c1, m1).
+-commands(c1, m1).
+-observer(c1).
+\end{lstlisting}
+
+To check the compliance of action $a = assume_command(c_1, m_1)$, one would first check to see if the event $<s_0, a>$ is strongly compliant.
 
 \subsubsection{Checking compliance with complete knowledge of state}
 
