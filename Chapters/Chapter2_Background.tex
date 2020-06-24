@@ -841,23 +841,7 @@ Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a c
 
 The logic translation of $P_m$, $lp(P_m)$ is the following:
 
-\begin{lstlisting}[language=Prolog]
--permitted(assume_command(c1, m1)) :-
-    authorized(c1, m1),
-    not ab(d1),
-    not permitted(assume_command(c1, m1)).
-
-permitted(assume_command(c1, m1)) :-
-    colonel(c1),
-    not ab(d2),
-    not -permitted(assume_command(c1, m1)).
-
-ab(d1) :-
-    colonel(c1).
-
--permitted(authorize(c1, m1)) :-
-    observer(c1).
-\end{lstlisting}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/Pm.lp}
 
 Suppose the agent's environment can be represented by the following state:
 
@@ -867,12 +851,7 @@ s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) 
 
 Its logic encoding $lp(s0)$ would be:
 
-\begin{lstlisting}[language=Prolog]
-colonel(c1).
-authorized(c1, m1).
--commands(c1, m1).
--observer(c1).
-\end{lstlisting}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/s0.lp}
 
 To check the compliance of action $a = assume_command(c_1, m_1)$, one would first check to see if the event $<s_0, a>$ is strongly compliant.
 
