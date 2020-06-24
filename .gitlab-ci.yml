@@ -1,4 +1,10 @@
+stages:
+  - draw.io graphs
+  - graphs
+  - pdf
+
 Graphviz figures:
+  stage: graphs
   image: alpine
   needs:
   script:
@@ -10,6 +16,7 @@ Graphviz figures:
       - 'Figures/**/*.pdf'
 
 PlantUML figures:
+  stage: graphs
   image:
     name: think/plantuml
     entrypoint:
@@ -24,6 +31,7 @@ PlantUML figures:
       - 'Figures/**/*.pdf'
 
 Draw.io figures:
+  stage: draw.io graphs
   image:
     name: rlespinasse/drawio-export
     entrypoint:
@@ -38,6 +46,7 @@ Draw.io figures:
       - 'Figures/**/*.svg'
 
 SVG figures:
+  stage: graphs
   image: alpine:3.12
   needs:
     - Draw.io figures
@@ -50,6 +59,7 @@ SVG figures:
       - 'Figures/**/*.pdf'
 
 PDF:
+  stage: pdf
   image: blang/latex:ctanfull
   needs:
     - PlantUML figures
