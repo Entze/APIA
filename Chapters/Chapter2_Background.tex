@@ -621,13 +621,13 @@ Thus, it is necessary to introduce a discussion on policies for agent behavior a
 
 \citet{gelfond_authorization_2008} introduce language $\mathcal{APL}$ to represent authorization policies.
 An authorization policy is a set of conditions that denote whether an agent's action is permitted or not permitted~\citep{gelfond_authorization_2008}.
-In contrast to the languages discussed previously, $\mathcal{APL}$ is not an action language in and of itself since it only.
-$\mathcal{APL}$ describes the conditions under which actions are permitted or forbidden.
+In contrast to the languages discussed previously, $\mathcal{APL}$ is not an action language in and of itself.
+$\mathcal{APL}$ only describes the conditions under which actions are permitted or forbidden.
 It works in conjunction with action languages such as $\mathcal{AL}$.
 
 \subsubsection{Definition}
 
-Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modelled by a propositional transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$.
+Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modeled by a propositional transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$.
 Recall that $T$ contains all trajectories of the underlying system.
 An agent's policy $P$ is the subset of the trajectories of $T$ that are desired by the agent's controller.
 
@@ -680,8 +680,8 @@ To encode the relative hierarchy of defeasible statements, \citet{gelfond_author
 Thus, defeasible authorization policy statements can be written in the following form.
 
 \begin{gather*}
-    d: \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
-    d: \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F \\
+    d_i: \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
+    d_j: \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
 
@@ -761,20 +761,20 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
         permitted((s,A)). \\
     lp(\neg permitted(<s, A>)) =
         \neg permitted((s, A)). \\
-    lp(permitted(<s, A>) \textbf{ if } cond) =
+    lp(permitted(<s, A>) \textbf{ if } F) =
         permitted((s,A)) \leftarrow
-            lp(cond) \\
-    lp(\neg permitted(<s, A>) \textbf{ if } cond) =
+            lp(F) \\
+    lp(\neg permitted(<s, A>) \textbf{ if } F) =
         \neg permitted((s,A)) \leftarrow
-            lp(cond) \\
-    lp(d: \textbf{normally } permitted(<s, A>) \textbf{ if } cond) =
+            lp(F) \\
+    lp(d: \textbf{normally } permitted(<s, A>) \textbf{ if } F) =
         permitted((s,A)) \leftarrow
-            lp(cond),
+            lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg permitted((s, A)). \\
-    lp(d: \textbf{normally } \neg permitted(<s, A>) \textbf{ if } cond) =
+    lp(d: \textbf{normally } \neg permitted(<s, A>) \textbf{ if } F) =
         \neg permitted((s,A)) \leftarrow
-            lp(cond),
+            lp(F),
             \textbf{not } ab(d),
             \textbf{not } permitted((s, A)). \\
     lp(prefer(d_1, d_2)) =
@@ -808,20 +808,26 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 \begin{lemma}
     Let $P$ be a consistent authorization policy for $T$.
 
-    $permitted(<s, A>) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(<s,A>)$
-    $\neg permitted(<s,A>) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(<s, A>)$
+    $permitted(<s, a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(<s,a>)$
+    $\neg permitted(<s,a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(<s, a>)$
 \end{lemma}
 
 \begin{definition}
-    An event $<s, a>$ is \textit{strongly compliant} with $P$ if $\forall \{a\} \in A\ permitted(a)\ \in P(s)$.
-
-    An event $<s, a>$ is \textit{weakly compliant} with $P$ if $\forall \{a\} \in A\ \neg permitted(a)\ \not \in P(s)$.
-
-    An event $<s, a>$ is \textit{non-compliant} with $P$ if $\exists \{a\} \in A\ \neg permitted(a)\ \in P(s)$.
+    An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a)\ \in P(s)$.
 \end{definition}
 
-A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into strongly compliant or weakly compliant if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
-If the path has at least one non-compliant event, then the path is non-compliant.
+\begin{definition}
+    An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a)\ \not \in P(s)$.
+\end{definition}
+
+\begin{definition}
+    An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a)\ \in P(s)$.
+\end{definition}
+
+\begin{definition}
+    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into strongly compliant or weakly compliant if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
+    If the path has at least one non-compliant event, then the path is non-compliant.
+\end{definition}
 
 To demonstrate compliance checking, we will use our working example in the context of particular missions and commanders.
 Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$. $P_m$ is as follows:
@@ -829,7 +835,7 @@ Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a c
 \begin{gather*}
     d_1(c_1, m_1): \textbf{normally } \neg permitted(assume\_command(c_1, m_1)) \textbf{ if } authorized(c_1, m_1) \\
     d_2(c_1, m_1): \textbf{normally } permitted(assume\_command(c_1, m_1)) \textbf{ if } colonel(c_1) \\
-    prefer(d_2(c_1,m_1),d_1(c_1,m_1))
+    prefer(d_2(c_1,m_1),d_1(c_1,m_1)) \\
     \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
 \end{gather*}
 
@@ -859,19 +865,45 @@ ab(d_1) :-
     observer(c_1).
 \end{lstlisting}
 
+\subsubsection{Checking compliance with complete knowledge of state}
+
 \begin{definition}
-    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
-
-    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
-
-    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
-
-    If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(s)$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+    An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
 \end{definition}
 
 \begin{definition}
-    A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
+    An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is consistent.
+\end{definition}
 
+\begin{definition}
+    An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+\end{definition}
+
+\subsubsection{Checking compliance with partial knowledge of state}
+
+\begin{definition}
+    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
+\end{definition}
+
+\begin{definition}
+    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
+\end{definition}
+
+\begin{definition}
+    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+\end{definition}
+
+\begin{definition}
+    If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(s)$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+\end{definition}
+
+\subsubsection{Checking compliance with minimal knowledge of state}
+
+\begin{definition}
+    A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
+\end{definition}
+
+\begin{definition}
     A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent.
 \end{definition}
 
@@ -880,8 +912,8 @@ ab(d_1) :-
 \begin{gather*}
     obl\left(<s,A>\right) \textbf{ if } F \\
     \neg obl\left(<s,A>\right) \textbf{ if } F \\
-    d: \textbf{normally } obl(<s,A>) \textbf{ if } F \\
-    d: \textbf{normally } \neg obl(<s,A>) \textbf{ if } F \\
+    d_i: \textbf{normally } obl(<s,A>) \textbf{ if } F \\
+    d_j: \textbf{normally } \neg obl(<s,A>) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
 
@@ -890,20 +922,20 @@ ab(d_1) :-
         obl((s,A)). \\
     lp(\neg obl(<s, A>)) =
         \neg obl((s, A)). \\
-    lp(obl(<s, A>) \textbf{ if } cond) =
+    lp(obl(<s, A>) \textbf{ if } F) =
         obl((s,A)) \leftarrow
-            lp(cond) \\
-    lp(\neg obl(<s, A>) \textbf{ if } cond) =
+            lp(F) \\
+    lp(\neg obl(<s, A>) \textbf{ if } F) =
         \neg obl((s,A)) \leftarrow
-            lp(cond) \\
-    lp(d: \textbf{normally } obl(<s, A>) \textbf{ if } cond) =
+            lp(F) \\
+    lp(d: \textbf{normally } obl(<s, A>) \textbf{ if } F) =
         obl((s,A)) \leftarrow
-            lp(cond),
+            lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg obl((s, A)). \\
-    lp(d: \textbf{normally } \neg obl(<s, A>) \textbf{ if } cond) =
+    lp(d: \textbf{normally } \neg obl(<s, A>) \textbf{ if } F) =
         \neg obl((s,A)) \leftarrow
-            lp(cond),
+            lp(F),
             \textbf{not } ab(d),
             \textbf{not } obl((s, A)). \\
     lp(prefer(d_1, d_2)) =
@@ -918,11 +950,14 @@ ab(d_1) :-
     An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall a \in A \ obl(a) \in P(s)) \land (\forall a \not \in A \ obl(\neg a) \in P(s))$
 \end{definition}
 
-\begin{definition}
-    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
-    Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
-    Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
+Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
 
+\begin{definition}
+    Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
     $P_a$ is an authorization policy \textit{induced} by $P$.
-    Likewise, $P_o$ is an obligation policy \textit{induced} by $P$.
+\end{definition}
+
+\begin{definition}
+    Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
+    $P_o$ is an obligation policy \textit{induced} by $P$.
 \end{definition}
