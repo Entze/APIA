@@ -165,6 +165,10 @@ The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an 
 \end{definition}
 
 \begin{definition}
+    When $A = \emptyset$, $A$ is sometimes denoted as $Wait$~\citep{gelfond_action_1998}.
+\end{definition}
+
+\begin{definition}
     The pair $<s, A>$ is sometimes called an \textit{event}~\citep{gelfond_authorization_2008}.
 \end{definition}
 
@@ -655,7 +659,13 @@ These policies are transcribed using static laws in a similar form to action lan
     \end{gather*}
 
     \noindent
-    where $F\subseteq\left(\boldsymbol{F}\cup\{f\in \boldsymbol{F}|\neg f\}\right) \cup (\{permitted(<s,A>),\ \neg permitted(<s, A>), \textbf{normally } permitted(<s,A>), \textbf{normally } \neg permitted(<s,A>)\}$.
+    where
+    \[
+        F\subseteq\left(\boldsymbol{F}\cup\{f\in \boldsymbol{F}|\neg f\}\right) \cup (\{permitted(<s,A>), \\
+        \neg permitted(<s, A>), \\
+        \textbf{normally } permitted(<s,A>), \\
+        \textbf{normally } \neg permitted(<s,A>)\}
+    \].
 \end{definition}
 
 \begin{definition}
