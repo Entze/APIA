@@ -147,7 +147,7 @@ The formal definition is as follows:
 \end{definition}
 
 \begin{definition}
-    An action signature $< \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ is propositional if $\boldsymbol{V}=\{t,f\}$~\citep{gelfond_action_1998}.
+    An action signature $< \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ is \textit{propositional} if $\boldsymbol{V}=\{t,f\}$~\citep{gelfond_action_1998}.
 \end{definition}
 
 \begin{definition}
@@ -156,16 +156,25 @@ The formal definition is as follows:
 
 $ V(P,s) $ is said to be the value of fluent $ P $ in state $ s $.
 The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an actions' $ A $ execution in state $ s $.
-$ A $ is \textit{deterministic} in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
-If $ A $ is \textit{non-deterministic}, then each $ s' $ \textit{may} be the result of $ A $~\citep{blount_architecture_2013}.
-$ A $ is \textit{executable} in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> \in R $.
-When $ \left|A\right|>1 $, $A$ represents the execution of concurrent actions~\citep{gelfond_action_1998, blount_architecture_2013}.
 
-The pair $<s, A>$ is sometimes called an \textit{event}~\citep{gelfond_authorization_2008}.
+\begin{definition}
+    $ A $ is \textit{deterministic} in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
+    If $ A $ is \textit{non-deterministic}, then each $ s' $ \textit{may} be the result of $ A $~\citep{blount_architecture_2013}.
+    $ A $ is \textit{executable} in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> \in R $.
+    When $ \left|A\right|>1 $, $A$ represents the execution of concurrent actions~\citep{gelfond_action_1998, blount_architecture_2013}.
+\end{definition}
 
-A path $ <s_0, A_0, s_1, A_1, \dots, A_{\left\{n-1\right\}}, s_n> $ represents a possible \textit{trajectory} of a system with the initial state $ s_0 $ and final state $ s_n $~\citep{blount_architecture_2013}.
+\begin{definition}
+    The pair $<s, A>$ is sometimes called an \textit{event}~\citep{gelfond_authorization_2008}.
+\end{definition}
 
-If the action signature of a transition system is propositional, then the transition system is said to be propositional~\citep{gelfond_action_1998}.
+\begin{definition}
+    A path $ <s_0, A_0, s_1, A_1, \dots, A_{\left\{n-1\right\}}, s_n> $ represents a possible \textit{trajectory} of a system with the initial state $ s_0 $ and final state $ s_n $~\citep{blount_architecture_2013}.
+\end{definition}
+
+\begin{definition}
+    If the action signature of a transition system is propositional, then the transition system is said to be \textit{propositional}~\citep{gelfond_action_1998}.
+\end{definition}
 
 \subsection{Action languages}
 \label{subsec:action_languages}
@@ -650,11 +659,12 @@ These policies are transcribed using static laws in a similar form to action lan
 \end{definition}
 
 \begin{definition}
-    A \textit{permission} is a statement of the form $permitted(<s,A>)$.
-\end{definition}
+    ~
 
-\begin{definition}
-    A \textit{denial} is a statement of the form $\neg permitted(<s,A>)$.
+    \begin{itemize}
+        \item A \textit{permission} is a statement of the form $permitted(<s,A>)$.
+        \item A \textit{denial} is a statement of the form $\neg permitted(<s,A>)$.
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
@@ -705,7 +715,15 @@ For reference, information on military ranking is provided below:
     \item An officer of any rank outranks an observer.
 \end{itemize}
 
-Suppose we have a transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where $\boldsymbol{A}=\{authorize(C,M),\ assume\_command(C, M)\}$, $\boldsymbol{F}=\{authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)\}$, and $M$ and $C$ are variables that range over all missions and commanders, respectively.
+Suppose we have a transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where
+
+\begin{gather*}
+    \boldsymbol{A}=\{authorize(C,M),\ assume\_command(C, M)\} \\
+    \boldsymbol{F}=\{authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)\}
+\end{gather*}
+
+\noindent
+and $M$ and $C$ are variables that range over all missions and commanders, respectively.
 As a policy designer, we might interpret the first statement as defeasible as there might be a rare scenario where an officer might be forced to command his own mission.
 So, we might write:
 
@@ -786,11 +804,12 @@ where $lp(s)$ is the logic encoding of the current state, following an approach 
 If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 
 \begin{definition}
-    A logic program is \textit{consistent} if it produces at least one answer set
-\end{definition}
+    ~
 
-\begin{definition}
-    A logic program is \textit{categorical} if it produces exactly one answer set.
+    \begin{itemize}
+        \item A logic program is \textit{consistent} if it produces at least one answer set.
+        \item A logic program is \textit{categorical} if it produces exactly one answer set.
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
@@ -798,30 +817,31 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 \end{definition}
 
 \begin{definition}
-    An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, o)$ is consistent.
+    ~
+
+    \begin{itemize}
+        \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, o)$ is consistent.
+        \item An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
-    An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
-\end{definition}
-
-\begin{lemma}
     Let $P$ be a consistent authorization policy for $T$.
 
-    $permitted(<s, a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(<s,a>)$
-    $\neg permitted(<s,a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(<s, a>)$
-\end{lemma}
-
-\begin{definition}
-    An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a) \in P(s)$.
+    \begin{itemize}
+        \item $permitted(<s, a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(<s,a>)$
+        \item $\neg permitted(<s,a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(<s, a>)$
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
-    An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a) \not \in P(s)$.
-\end{definition}
+    ~
 
-\begin{definition}
-    An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a) \in P(s)$.
+    \begin{itemize}
+        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a) \in P(s)$.
+        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a) \not \in P(s)$.
+        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a) \in P(s)$.
+    \end{itemize}
 \end{definition}
 
 \begin{definition}
@@ -853,48 +873,60 @@ Its logic encoding $lp(s0)$ would be:
 
 \lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/s0.lp}
 
-To check the compliance of action $a = assume_command(c_1, m_1)$, one would first check to see if the event $<s_0, a>$ is strongly compliant.
+Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as clingo.
+Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
+
+\begin{lstlisting}
+$ clingo Pm.lp s0.lp --warn no-atom-undefined
+clingo version 5.4.0
+Reading from Pm.lp ...
+Solving...
+Answer: 1
+-commands(c1,m1) -observer(c1) ab(d1) authorized(c1,m1) colonel(c1) permitted(assume_command(c1,m1))
+SATISFIABLE
+
+Models       : 1
+Calls        : 1
+Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s
+\end{lstlisting}
+
+Considering actions $A=\{assume\_command\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is stronly compliant with $P_m$.
 
 \subsubsection{Checking compliance with complete knowledge of state}
 
 \begin{definition}
-    An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
-\end{definition}
+    ~
 
-\begin{definition}
-    An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is consistent.
-\end{definition}
-
-\begin{definition}
-    An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+    \begin{itemize}
+        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
+        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is consistent.
+        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+    \end{itemize}
 \end{definition}
 
 \subsubsection{Checking compliance with partial knowledge of state}
 
 \begin{definition}
-    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
-\end{definition}
+    ~
 
-\begin{definition}
-    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
-\end{definition}
-
-\begin{definition}
-    For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
-\end{definition}
-
-\begin{definition}
-    If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(s)$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+    \begin{itemize}
+        \item For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
+        \item For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
+        \item For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(s)$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+    \end{itemize}
 \end{definition}
 
 \subsubsection{Checking compliance with minimal knowledge of state}
 
 \begin{definition}
-    A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
-\end{definition}
+    ~
 
-\begin{definition}
-    A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent.
+    \begin{itemize}
+        \item A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
+        \item A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent.
+    \end{itemize}
 \end{definition}
 
 \subsection{Language $\mathcal{AOPL}$}
@@ -943,11 +975,13 @@ To check the compliance of action $a = assume_command(c_1, m_1)$, one would firs
 Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
 
 \begin{definition}
-    Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
-    $P_a$ is an authorization policy \textit{induced} by $P$.
-\end{definition}
+    ~
 
-\begin{definition}
-    Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
-    $P_o$ is an obligation policy \textit{induced} by $P$.
+    \begin{itemize}
+        \item Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
+            $P_a$ is an authorization policy \textit{induced} by $P$.
+
+        \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
+            $P_o$ is an obligation policy \textit{induced} by $P$.
+    \end{itemize}
 \end{definition}
