@@ -38,9 +38,17 @@ Draw.io figures:
       - ''
   variables:
     DRAWIO_EXPORT_FILEEXT: 'svg'
-    DRAWIO_EXPORT_FOLDER: '.'
+    DRAWIO_EXPORT_FOLDER: 'export'
   script:
     - /drawio/entrypoint.sh
+    - EXPORT_FILES=$(ls **/export/*)
+    - |
+      for FILE in ${EXPORT_FILES}
+      do
+        FILENAME=$(basename "${FILE}")
+        ORIGINAL_DIR=$(dirname "$(dirname "${FILE}")")
+        mv -v "${FILE}" "${ORIGINAL_DIR}/${FILENAME}"
+      done
   artifacts:
     paths:
       - 'Figures/**/*.svg'
