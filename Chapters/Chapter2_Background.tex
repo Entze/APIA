@@ -337,7 +337,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         \]
 \end{itemize}
 
-Like in $\mathcal{A}$ and $\mathcal{B}$, $a$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
+Like in $\mathcal{A}$ and $\mathcal{B}$, $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
 
 Later work by \citet{gelfond_knowledge_2014} proposes classifications for literals: \textit{statics}, \textit{inertial fluents}, and \textit{defined fluents}.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -640,7 +640,7 @@ It works in conjunction with action languages such as $\mathcal{AL}$.
 
 \subsubsection{Definition}
 
-Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modeled by a propositional transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$.
+Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modeled by a propositional transition system $T=<\boldsymbol{V},\boldsymbol{F},\boldsymbol{A}>$.
 Recall that $T$ contains all trajectories of the underlying system.
 An agent's policy $P$ is the subset of the trajectories of $T$ that are desired by the agent's controller.
 
@@ -660,8 +660,10 @@ These policies are transcribed using static laws in a similar form to action lan
 
     \noindent
     where
+    $s \in S$
+    and
     \[
-        F\subseteq\left(\boldsymbol{F}\cup\{f\in \boldsymbol{F}|\neg f\}\right) \cup (\{permitted(<s,A>), \\
+        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(<s,A>), \\
         \neg permitted(<s, A>), \\
         \textbf{normally } permitted(<s,A>), \\
         \textbf{normally } \neg permitted(<s,A>)\}
@@ -783,7 +785,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \begin{gather*}
     lp(P,s) = lp(P)\cup lp(s) \\
     lp(P)=\{statement \in P | lp(statement)\} \\
-    lp\left(f=y\right) =
+    lp\left(V(f,s)=y\right) =
         val\left(f,y\right). \\
     lp(permitted(<s,A>)) =
         permitted((s,A)). \\
@@ -830,7 +832,7 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     ~
 
     \begin{itemize}
-        \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, o)$ is consistent.
+        \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent.
         \item An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
     \end{itemize}
 \end{definition}
@@ -901,7 +903,7 @@ Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.002s
 \end{lstlisting}
 
-Considering actions $A=\{assume\_command\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is stronly compliant with $P_m$.
+Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is stronly compliant with $P_m$.
 
 \subsubsection{Checking compliance with complete knowledge of state}
 
@@ -921,10 +923,10 @@ Considering actions $A=\{assume\_command\}$, since $a = assume\_command(c_1, m_1
     ~
 
     \begin{itemize}
-        \item For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
-        \item For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
-        \item For all actions $a \in \delta(s)$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
-        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(s)$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
     \end{itemize}
 \end{definition}
 
