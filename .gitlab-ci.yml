@@ -40,7 +40,7 @@ Draw.io figures:
     DRAWIO_EXPORT_FILEEXT: 'svg'
     DRAWIO_EXPORT_FOLDER: '.'
   script:
-    - /drawio/entrypoint.sh --fileext svg
+    - /drawio/entrypoint.sh
   artifacts:
     paths:
       - 'Figures/**/*.svg'
