@@ -861,8 +861,9 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     If the path has at least one non-compliant event, then the path is \textit{non-compliant}.
 \end{definition}
 
-To demonstrate compliance checking, we will use our working example in the context of particular missions and commanders.
-Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$. $P_m$ is as follows:
+To demonstrate compliance checking, \citet{gelfond_authorization_2008} will use their working example in the context of particular missions and commanders.
+Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$.
+$P_m$ is as follows:
 
 \begin{gather*}
     d_1(c_1, m_1): \textbf{normally } \neg permitted(assume\_command(c_1, m_1)) \textbf{ if } authorized(c_1, m_1) \\
@@ -903,9 +904,30 @@ Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.002s
 \end{lstlisting}
 
-Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is stronly compliant with $P_m$.
+Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
+
+For completeness, one might be curious to consider actions such as $A = {assume\_command(c_1, m_1), authorize(c_1, m_1)}$.
+While such an action would be weakly compliant according to $P_m$ (since $permitted(authorize(c_1, m_1))$ is missing but neither $\neg permitted(assume\_command(c_1, m_1))$ or $\neg permitted(authorize(c_1, m_1))$ is present), a designer would likely render this combination of actions invalid by accompanying $P_m$ with an action description in $\mathcal{AL}$.
+Such an action description might look like the following:
+
+\begin{gather*}
+    authorize(c_1, m_1) \textbf{ causes } authorized(c_1, m_1) \\
+    assume\_command(c_1, m_1) \textbf{ causes } commands(c_1, m_1) \\
+    \textbf{impossible } authorize(c_1, m_1) \textbf{ if } authorized(c_1, m_1) \\
+    \textbf{impossible } assume\_command(c_1, m_1) \textbf{ if } commands(c_1, m_1)
+\end{gather*}
+
+Intuitively, if $c_1$ has already authorized $m_1$, he cannot authorize it again.
+Likewise, if $c_1$ has already assumed command of $m_1$, he cannot begin to assume command of it again.
+Thus, actions $A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}$ is impossible and is not a valid candidate for checking policy compliance.
+$A = \{authorize(c_1, m_1)\}$ is also impossible.
+
+Considering $A=\emptyset$, $A$ is possible according to the action description.
+With respect to $P_m$, $A$ is weakly compliant since neither $permitted(wait)$ or $\neg permitted(wait)$ is entailed by $lp(P_m, s_0)$.
 
 \subsubsection{Checking compliance with complete knowledge of state}
+
+To formalize this approach even further, \citet{gelfond_authorization_2008} provide propositions that decide how compliant an event $<s,a>$ is with an authorization policy $P$.
 
 \begin{definition}
     ~
@@ -917,7 +939,46 @@ Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_comman
     \end{itemize}
 \end{definition}
 
+% TODO: Update
+These propositions are just simple extensions of definition X.
+However, they are useful because they cause an ASP solver to output a Yes/No answer to the problem.
+
 \subsubsection{Checking compliance with partial knowledge of state}
+
+It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
+\citet{gelfond_authorization_2008} show that checking policy compliance can also be possible when an agent only knows the value of a subset of fluents in $s$.
+Let $\boldsymbol{F_{lim}} \subseteq \boldsymbol{F}$ be the subset of fluents for which the agent knows $V(f, s)$ where $f \in \boldsymbol{F_{lim}}$.
+Let $V_{lim} = \{ f \in \boldsymbol{F_{lim}} | V(f, s)\}$.
+
+\begin{definition}
+    In contrast to a proper \textit{state} of an action description (where values are assigned to all fluents, provided they satisfy all static laws), $V_{lim}$ describes a \textit{simple-knowledge state} where values are assigned only to some fluents, provided they satisfy relevant static laws.
+\end{definition}
+
+Let $\delta(V_{lim}) \in S$ be the set of states that contain $V_{lim}$.
+
+\begin{itemize}
+    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is strongly compliant with $P$, then $a$ is strongly compliant in $s$.
+    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is at least weakly compliant with $P$, then $a$ is at least weakly compliant in $s$.
+    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is non-compliant with $P$, then $a$ is non-compliant in $s$.
+    \item If none of the above hold, then $V_{lim}$ does not hold enough information to determine the compliance of $a$ in $s$.
+\end{itemize}
+
+However, in order to evaluate any of the above statements, an agent needs to first compute $\delta(V_{lim})$.
+To do so, \citet{gelfond_authorization_2008} rely on converting an action description in $\mathcal{AL}$ to an ASP logic program and joining it to $lp(P, s)$.
+They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
+
+\[
+lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
+\]
+
+Let $SL$ be the set of all static laws from the action description.
+
+Let $D = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
+
+\begin{definition}
+    Let $V_{lim}$ be a simple-knowledge state from an action description in $\mathcal{AL}$.
+    $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$.
+\end{definition}
 
 \begin{definition}
     ~
@@ -932,16 +993,68 @@ Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_comman
 
 \subsubsection{Checking compliance with minimal knowledge of state}
 
+\citet{gelfond_authorization_2008} note that the above two approaches will not work for agents in the AAA architecture (or for that matter, the $\mathcal{AIA}$ architecture).
+Nonetheless, they develop a method for checking policy compliance under the AAA architecture knowledge constraints.
+As mentioned previously, agents in the AAA architecture have an initial description of their initial state (complete or partial), a history of their actions $A_0, A_1, \dots, A_n$, and may have memory of fluent values at particular points in time.
+
+\citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$.
+For example,
+
+\[
+lp(V(f,s)=y, I) = val(f,y,I)
+\]
+
+For a history $H_n=<s, a_0, a_1, \dots, a_{n-1}>$, they also add:
+
+\begin{gather*}
+    lp(a, I)=occurs(a, I). \\
+    lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(a_0, 0) \cup lp(a_1, 1) \cup \dots \cup lp(a_{i-1}, I-1)
+\end{gather*}
+
+Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}$
+
+Let $Check_1(H_n)$ be the following subprogram
+
+\begin{gather*}
+    \neg strongly\_compliant \leftarrow occurs(A, I), not permitted(A, I). \\
+    \leftarrow \textbf{ not } \neg strongly\_compliant
+\end{gather*}
+
+Let $Check_2(H_n)$ be the following subprogram
+
+\begin{gather*}
+    \neg weakly\_compliant \leftarrow occurs(A, I), \neg permitted(A, I). \\
+    \leftarrow \textbf{ not } \neg weakly\_compliant
+\end{gather*}
+
+\begin{definition}
+    A trajectory $s_0, a_0, s_1, a_1, \dots, a_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, a_0, a_1, \dots, a_{n-1}>$ if $s \subseteq s_0$.
+    Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
+\end{definition}
+
 \begin{definition}
     ~
 
     \begin{itemize}
         \item A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
         \item A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent.
+        \item A model of history that is neither strongly compliant nor weakly compliant must be non-compliant.
     \end{itemize}
 \end{definition}
 
 \subsection{Language $\mathcal{AOPL}$}
+
+In addition to introducing language $\mathcal{APL}$, \citet{gelfond_authorization_2008} introduce language $\mathcal{AOPL}$ to consider ``obligation policies'' in addition to authorization policies.
+Authorization policies describe what an agent can do whereas obligation policies describe what an agent cannot do.
+
+\subsubsection{Definition}
+
+Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its underlying assumptions, such as requiring the agent's environment be modeled by a transition system $T=<\boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ and that a policy $P$ is a subset of the trajectories of $T$ that are preferable to the agent's controller.
+
+$\mathcal{AOPL}$ adds a $obl(a)$ statement in contrast to $\mathcal{APL}$.
+If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
+If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
+Obligation policy statements are static laws of the form:
 
 \begin{gather*}
     obl\left(<s,A>\right) \textbf{ if } F \\
@@ -950,6 +1063,16 @@ Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_comman
     d_j: \textbf{normally } \neg obl(<s,A>) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
+
+\noindent
+where $F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(<s,A>), \\
+\neg obl(<s, A>), \\
+\textbf{normally } obl(<s,A>), \\
+\textbf{normally } \neg obl(<s,A>)\}$ and $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$.
+
+\subsubsection{Checking compliance}
+
+To evaluate the compliance of action $a$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
 \begin{gather*}
     lp(obl(<s,A>)) =
@@ -984,6 +1107,15 @@ Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_comman
     An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall a \in A \ obl(a) \in P(s)) \land (\forall a \not \in A \ obl(\neg a) \in P(s))$
 \end{definition}
 
+This definition of compliance contrasts with that for authorization policies.
+Given a set of actions $A$, the definition for authorization policies can be thought of first enumerating action $a \in A$ then checking to see if $permitted(a)$ exists.
+The definition for obligation policies, by contrast, can be thought of first searching for $obl(a)$ statements, then checking to see if $a \in A$ exists.
+
+Furthermore, the definition for obligation compliance does not make differentiate between strong compliance and weak compliance.
+Were such a differentiation to exist, it would center around instances where neither $\neg obl(a)$ nor $obl(a)$ is true.
+For such a case, an obligation policy would not explicitly impose nor explicitly waive an agent from an obligation to perform action $a$.
+However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situation is simply called \textit{compliant}.
+
 Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
 
 \begin{definition}
@@ -997,3 +1129,79 @@ Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
             $P_o$ is an obligation policy \textit{induced} by $P$.
     \end{itemize}
 \end{definition}
+
+\subsubsection{Obligation example}
+
+To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} provide the following example.
+
+Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
+He might have requirements such as:
+
+\begin{itemize}
+    \item Students are expected to not miss class.
+    \item Students should submit homework on time.
+    \item Students should do their homework independently.
+\end{itemize}
+
+Before we encode these obligations, we need to first define the transition system for this scenario.
+Suppose the environment can be modeled by a transition system $T=<\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where
+
+\[
+\boldsymbol{F} = \{enrolled(Student, Class), m(Class, SessionNum), due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum)\}
+\]
+
+\[
+\boldsymbol{A} = \{attend(Student, Class), submit(Student, Assignment, SessionNum), accept\_unauthorized\_help(Student)\}
+\]
+
+\noindent
+where $Student$, $Class$, $Assignment$, and $SessionNum$ are variables that range over their respective values.
+
+Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
+\citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
+
+\[
+d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
+\]
+
+\citet{gelfond_authorization_2008} assume that such an implicit exception may be ``Students do not need to attend class during family emergencies.''
+Its encoding would be as follows:
+
+\[
+\neg obl(attend(S,M)) \textbf{ if } family\_emergency(S,M).
+\]
+
+Similarly, they suggest that another exception may be ``Students should not attend class on a religious holiday.''
+Its encoding might be as follows:
+
+\[
+d_2(S,M): \textbf{ normally } obl(\neg attend(S, M)) \textbf{ if } religious\_holiday(M).
+\]
+
+\citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
+If he does, he may write:
+
+\[
+prefer(d_2(S, m(C,N)),d_1(S,C,N))
+\]
+
+Otherwise, he may write:
+
+\[
+prefer(d_1(S,C,N), d_2(S, m(C,N)))
+\]
+
+While it is possible to omit such a statement from the policy description, doing so would produce an ambiguous policy that would allow an agent to choose which rule it would prefer to uphold.
+\citet{gelfond_authorization_2008} do not recommend allowing this behavior.
+
+The second rule may be seen as defeasible to encompass assignment extensions.
+
+\[
+d_3(S,C,N_1,N_2): \textbf{ normally } obl(submit(S,a(C,N_1),m(C,N_2)) \textbf{ if } enrolled(S,C), due\_date(m(C,N_2), a(C,N_1)).
+\]
+
+Lastly, since cheating is never permissible:
+
+\[
+obl(\neg accept\_unauthorized\_help(S)).
+\]
