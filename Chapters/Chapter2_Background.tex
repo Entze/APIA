@@ -889,20 +889,7 @@ Its logic encoding $lp(s0)$ would be:
 Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as clingo.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
 
-\begin{lstlisting}
-$ clingo p_m.lp s0.lp --warn no-atom-undefined
-clingo version 5.4.0
-Reading from Pm.lp ...
-Solving...
-Answer: 1
--commands(c1,m1) -observer(c1) ab(d1) authorized(c1,m1) colonel(c1) permitted(assume_command(c1,m1))
-SATISFIABLE
-
-Models       : 1
-Calls        : 1
-Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
-CPU Time     : 0.002s
-\end{lstlisting}
+\lstinputlisting{Figures/APL_Language/Example_1/clingo.txt}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
