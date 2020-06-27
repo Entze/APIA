@@ -652,10 +652,10 @@ These policies are transcribed using static laws in a similar form to action lan
     Authorization policy statements are static laws of the form:
 
     \begin{gather*}
-        permitted\left(<s,A>\right) \textbf{ if } F \\
-        \neg permitted\left(<s,A>\right) \textbf{ if } F \\
-        \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
-        \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F
+        permitted\left(a\right) \textbf{ if } F \\
+        \neg permitted\left(a\right) \textbf{ if } F \\
+        \textbf{normally } permitted(a) \textbf{ if } F \\
+        \textbf{normally } \neg permitted(a) \textbf{ if } F
     \end{gather*}
 
     \noindent
@@ -663,10 +663,10 @@ These policies are transcribed using static laws in a similar form to action lan
     $s \in S$
     and
     \[
-        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(<s,A>), \\
-        \neg permitted(<s, A>), \\
-        \textbf{normally } permitted(<s,A>), \\
-        \textbf{normally } \neg permitted(<s,A>)\}
+        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(a), \\
+        \neg permitted(a), \\
+        \textbf{normally } permitted(a), \\
+        \textbf{normally } \neg permitted(a)\}
     \].
 \end{definition}
 
@@ -674,8 +674,8 @@ These policies are transcribed using static laws in a similar form to action lan
     ~
 
     \begin{itemize}
-        \item A \textit{permission} is a statement of the form $permitted(<s,A>)$.
-        \item A \textit{denial} is a statement of the form $\neg permitted(<s,A>)$.
+        \item A \textit{permission} is a statement of the form $permitted(a)$.
+        \item A \textit{denial} is a statement of the form $\neg permitted(a)$.
     \end{itemize}
 \end{definition}
 
@@ -683,8 +683,8 @@ These policies are transcribed using static laws in a similar form to action lan
     A \textit{strict} authorization policy statement is a statement of the form:
 
     \begin{gather*}
-        permitted\left(<s,A>\right) \textbf{ if } F \\
-        \neg permitted\left(<s,A>\right) \textbf{ if } F
+        permitted\left(a\right) \textbf{ if } F \\
+        \neg permitted\left(a\right) \textbf{ if } F
     \end{gather*}
 \end{definition}
 
@@ -692,8 +692,8 @@ These policies are transcribed using static laws in a similar form to action lan
     A \textit{defeasible} authorization policy statement is a statement of the form:
 
     \begin{gather*}
-        \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
-        \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F
+        \textbf{normally } permitted(a) \textbf{ if } F \\
+        \textbf{normally } \neg permitted(a) \textbf{ if } F
     \end{gather*}
 \end{definition}
 
@@ -702,8 +702,8 @@ To encode the relative hierarchy of defeasible statements, \citet{gelfond_author
 Thus, defeasible authorization policy statements can be written in the following form.
 
 \begin{gather*}
-    d_i: \textbf{normally } permitted(<s,A>) \textbf{ if } F \\
-    d_j: \textbf{normally } \neg permitted(<s,A>) \textbf{ if } F \\
+    d_i: \textbf{normally } permitted(a) \textbf{ if } F \\
+    d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
 
@@ -787,26 +787,26 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
     lp(P)=\{statement \in P | lp(statement)\} \\
     lp\left(V(f,s)=y\right) =
         val\left(f,y\right). \\
-    lp(permitted(<s,A>)) =
-        permitted((s,A)). \\
-    lp(\neg permitted(<s, A>)) =
-        \neg permitted((s, A)). \\
-    lp(permitted(<s, A>) \textbf{ if } F) =
-        permitted((s,A)) \leftarrow
+    lp(permitted(a)) =
+        permitted(a). \\
+    lp(\neg permitted(a)) =
+        \neg permitted(a). \\
+    lp(permitted(a) \textbf{ if } F) =
+        permitted(a) \leftarrow
             lp(F) \\
-    lp(\neg permitted(<s, A>) \textbf{ if } F) =
-        \neg permitted((s,A)) \leftarrow
+    lp(\neg permitted(a) \textbf{ if } F) =
+        \neg permitted(a) \leftarrow
             lp(F) \\
-    lp(d: \textbf{normally } permitted(<s, A>) \textbf{ if } F) =
-        permitted((s,A)) \leftarrow
+    lp(d: \textbf{normally } permitted(a) \textbf{ if } F) =
+        permitted(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } \neg permitted((s, A)). \\
-    lp(d: \textbf{normally } \neg permitted(<s, A>) \textbf{ if } F) =
-        \neg permitted((s,A)) \leftarrow
+            \textbf{not } \neg permitted(a). \\
+    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) =
+        \neg permitted(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } permitted((s, A)). \\
+            \textbf{not } permitted(a). \\
     lp(prefer(d_1, d_2)) =
         ab(d_2) \leftarrow lp(cond_1)
 \end{gather*}
@@ -841,8 +841,8 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     Let $P$ be a consistent authorization policy for $T$.
 
     \begin{itemize}
-        \item $permitted(<s, a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(<s,a>)$
-        \item $\neg permitted(<s,a>) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(<s, a>)$
+        \item $permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(a)$
+        \item $\neg permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(a)$
     \end{itemize}
 \end{definition}
 
@@ -1057,44 +1057,44 @@ If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ 
 Obligation policy statements are static laws of the form:
 
 \begin{gather*}
-    obl\left(<s,A>\right) \textbf{ if } F \\
-    \neg obl\left(<s,A>\right) \textbf{ if } F \\
-    d_i: \textbf{normally } obl(<s,A>) \textbf{ if } F \\
-    d_j: \textbf{normally } \neg obl(<s,A>) \textbf{ if } F \\
+    obl\left(a\right) \textbf{ if } F \\
+    \neg obl\left(a\right) \textbf{ if } F \\
+    d_i: \textbf{normally } obl(a) \textbf{ if } F \\
+    d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
 
 \noindent
-where $F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(<s,A>), \\
-\neg obl(<s, A>), \\
-\textbf{normally } obl(<s,A>), \\
-\textbf{normally } \neg obl(<s,A>)\}$ and $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$.
+where $F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a), \\
+\neg obl(a), \\
+\textbf{normally } obl(a), \\
+\textbf{normally } \neg obl(a)\}$ and $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$.
 
 \subsubsection{Checking compliance}
 
 To evaluate the compliance of action $a$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
 \begin{gather*}
-    lp(obl(<s,A>)) =
-        obl((s,A)). \\
-    lp(\neg obl(<s, A>)) =
-        \neg obl((s, A)). \\
-    lp(obl(<s, A>) \textbf{ if } F) =
-        obl((s,A)) \leftarrow
+    lp(obl(a)) =
+        obl(a). \\
+    lp(\neg obl(a)) =
+        \neg obl(a). \\
+    lp(obl(a) \textbf{ if } F) =
+        obl(a) \leftarrow
             lp(F) \\
-    lp(\neg obl(<s, A>) \textbf{ if } F) =
-        \neg obl((s,A)) \leftarrow
+    lp(\neg obl(a) \textbf{ if } F) =
+        \neg obl(a) \leftarrow
             lp(F) \\
-    lp(d: \textbf{normally } obl(<s, A>) \textbf{ if } F) =
-        obl((s,A)) \leftarrow
+    lp(d: \textbf{normally } obl(a) \textbf{ if } F) =
+        obl(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } \neg obl((s, A)). \\
-    lp(d: \textbf{normally } \neg obl(<s, A>) \textbf{ if } F) =
-        \neg obl((s,A)) \leftarrow
+            \textbf{not } \neg obl(a). \\
+    lp(d: \textbf{normally } \neg obl(a) \textbf{ if } F) =
+        \neg obl(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } obl((s, A)). \\
+            \textbf{not } obl(a). \\
     lp(prefer(d_1, d_2)) =
         ab(d_2) \leftarrow lp(cond_1)
 \end{gather*}
