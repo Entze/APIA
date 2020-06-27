@@ -10,6 +10,8 @@
     "**/*.out": true,
     "**/*.synctex.gz": true,
     "**/*.toc": true,
+    "Figures/**/*.pdf": true,
+    "_minted-*": true,
   },
   "files.autoSave": "onWindowChange",
   "editor.wordWrap": "bounded",
