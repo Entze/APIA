@@ -205,12 +205,9 @@ First, we will discuss action language $ \mathcal{A} $.
 Action language $ \mathcal{A} $ was first proposed by \citet{pednault_formulating_1987}.
 $ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
-
 \[
 a \textbf{ causes } L \textbf{ if } F
 \]
-
-\noindent
 where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
 A literal is an element of $(\boldsymbol{F} \cup \{f \in \boldsymbol{F} | \neg f\})$.
 Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $a$ occurs.
@@ -242,11 +239,9 @@ It is worth noting that there can only be at most one $ s' $ satisfying the abov
 Therefore, $ a $ is deterministic for every state.
 
 Suppose we had the following action description in $\mathcal{A}$, as given by \citet{gelfond_action_1998}:
-
 \[
 a \textbf{ causes } P \textbf{ if } Q
 \]
-
 In this case, the action description language models the transition system shown in figure~\ref{fig:action_language_a_example}.
 
 \begin{figure}[h]
@@ -313,7 +308,6 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
             \[
             s'=C_{n_Z}\left(E\left(a,s\right)\cup\left(s \cap s'\right)\right)
             \]
-
             $ Z $ is the set of all static laws of $D$ and $E(a, s)$, as before, is the set of heads $L$ of all propositions $a \textbf{ causes } L \textbf{ if } F$ in $D$ such that $s$ satisfies $F$.
     \end{itemize}
 \end{definition}
@@ -491,12 +485,9 @@ Suppose an agent in the AAA architecture has the following action description (b
 \end{gather*}
 
 Suppose the agent has the following history:
-
 \[
 \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 \]
-
-\noindent
 where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(a, I)$ that action $a$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
@@ -672,12 +663,12 @@ These policies are transcribed using static laws in a similar form to action lan
     where
     $s \in S$
     and
-    \[
-        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(a), \\
+    \begin{multline*}
+        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(a),
         \neg permitted(a), \\
-        \textbf{normally } permitted(a), \\
+        \textbf{normally } permitted(a),
         \textbf{normally } \neg permitted(a)\}
-    \].
+    \end{multline*}
 \end{definition}
 
 \begin{definition}
@@ -694,7 +685,6 @@ These policies are transcribed using static laws in a similar form to action lan
 \begin{definition}
     \label{def:strict_authorization_statements}
     A \textit{strict} authorization policy statement is a statement of the form~\citep{gelfond_authorization_2008}:
-
     \begin{gather*}
         permitted\left(a\right) \textbf{ if } F \\
         \neg permitted\left(a\right) \textbf{ if } F
@@ -704,7 +694,6 @@ These policies are transcribed using static laws in a similar form to action lan
 \begin{definition}
     \label{def:defeasible_authorization_statements}
     A \textit{defeasible} authorization policy statement is a statement of the form~\citep{gelfond_authorization_2008}:
-
     \begin{gather*}
         \textbf{normally } permitted(a) \textbf{ if } F \\
         \textbf{normally } \neg permitted(a) \textbf{ if } F
@@ -714,13 +703,11 @@ These policies are transcribed using static laws in a similar form to action lan
 Defeasible authorization policy statements permit exceptions when they are in conflict with other authorization statements of higher importance.
 To encode the relative hierarchy of defeasible statements, \citet{gelfond_authorization_2008} provide an option to label defeasible statements with terms $d_1,d_2,\ldots,d_n$ and use the static $prefer\left(d_i,d_j\right)$ to prioritize statement $d_i$ over statement $d_j$.
 Thus, defeasible authorization policy statements can be written in the following form~\citep{gelfond_authorization_2008}.
-
 \begin{gather*}
     d_i: \textbf{normally } permitted(a) \textbf{ if } F \\
     d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
-
 If a defeasible authorization policy statement is not referenced in a $prefer$ static, then its corresponding label is optional.
 
 \subsubsection{Semantics}
@@ -742,24 +729,19 @@ For reference, information on military ranking is provided below:
 \end{itemize}
 
 Suppose we have a transition system $T=<\boldsymbol{V}=\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where
-
 \begin{gather*}
     \boldsymbol{A}=\{authorize(C,M),\ assume\_command(C, M)\} \\
     \boldsymbol{F}=\{authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)\}
 \end{gather*}
-
-\noindent
 and $M$ and $C$ are variables that range over all missions and commanders, respectively.
+
 As a policy designer, we might interpret the first statement as defeasible as there might be a rare scenario where an officer might be forced to command his own mission.
 So, we might write:
-
 \[
 \textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M)
 \]
-
 \citet{gelfond_authorization_2008} interpret the second statement as defeasible as well.
 Thus, we could write:
-
 \[
 \textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C)
 \]
@@ -767,7 +749,6 @@ Thus, we could write:
 It is important to note that our policy is ambiguous at this point.
 In the case a colonel authorized a mission and begins to command it, he would be both compliant and non-compliant.
 To clarify, we will add labels to the previous statements then prefer honoring the second statement over the first.
-
 \begin{gather*}
     d_1(C, M): \textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M) \\
     d_2(C, M): \textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C) \\
@@ -775,7 +756,6 @@ To clarify, we will add labels to the previous statements then prefer honoring t
 \end{gather*}
 
 Lastly, the third policy statement can be represented with a strict authorization statement.
-
 \[
 \neg permitted(authorize(C, M)) \textbf{ if } observer(C)
 \]
@@ -800,27 +780,33 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
     lp(P,s) = lp(P)\cup lp(s) \\
     lp(P)=\{statement \in P | lp(statement)\} \\
     lp\left(V(f,s)=y\right) =
-        val\left(f,y\right). \\
+        val\left(f,y\right) \\
     lp(permitted(a)) =
-        permitted(a). \\
+        permitted(a) \\
     lp(\neg permitted(a)) =
-        \neg permitted(a). \\
+        \neg permitted(a) \\
     lp(permitted(a) \textbf{ if } F) =
         permitted(a) \leftarrow
             lp(F) \\
     lp(\neg permitted(a) \textbf{ if } F) =
         \neg permitted(a) \leftarrow
-            lp(F) \\
-    lp(d: \textbf{normally } permitted(a) \textbf{ if } F) =
+        lp(F)
+\end{gather*}
+\begin{multline*}
+    lp(d: \textbf{normally } permitted(a) \textbf{ if } F) = \\
         permitted(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } \neg permitted(a). \\
-    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) =
+            \textbf{not } \neg permitted(a).
+\end{multline*}
+\begin{multline*}
+    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) = \\
         \neg permitted(a) \leftarrow
-            lp(F),
-            \textbf{not } ab(d),
-            \textbf{not } permitted(a). \\
+        lp(F),
+        \textbf{not } ab(d),
+        \textbf{not } permitted(a).
+\end{multline*}
+\begin{gather*}
     lp(prefer(d_1, d_2)) =
         ab(d_2) \leftarrow lp(cond_1)
 \end{gather*}
@@ -885,7 +871,6 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 To demonstrate compliance checking, \citet{gelfond_authorization_2008} will use their working example in the context of particular missions and commanders.
 Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$.
 $P_m$ is as follows:
-
 \begin{gather*}
     d_1(c_1, m_1): \textbf{normally } \neg permitted(assume\_command(c_1, m_1)) \textbf{ if } authorized(c_1, m_1) \\
     d_2(c_1, m_1): \textbf{normally } permitted(assume\_command(c_1, m_1)) \textbf{ if } colonel(c_1) \\
@@ -894,27 +879,25 @@ $P_m$ is as follows:
 \end{gather*}
 
 The logic translation of $P_m$, $lp(P_m)$ is the following:
-
 \lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/p_m.lp}
 
 Suppose the agent's environment can be represented by the following state:
-
 \[
 s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
 \]
-
 Its logic encoding $lp(s0)$ would be:
-
 \lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/s0.lp}
 
 Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as clingo.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
-
 \lstinputlisting{Figures/APL_Language/Example_1/clingo.txt}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
-For completeness, one might be curious to consider actions such as $A = {assume\_command(c_1, m_1), authorize(c_1, m_1)}$.
+For completeness, one might be curious to consider actions such as:
+\[
+A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}
+\]
 While such an action would be weakly compliant according to $P_m$ (since $permitted(authorize(c_1, m_1))$ is missing but neither $\neg permitted(assume\_command(c_1, m_1))$ or $\neg permitted(authorize(c_1, m_1))$ is present), a designer would likely render this combination of actions invalid by accompanying $P_m$ with an action description in $\mathcal{AL}$.
 Such an action description might look like the following:
 
@@ -975,7 +958,6 @@ Let $\delta(V_{lim}) \in S$ be the set of states that contain $V_{lim}$.
 However, in order to evaluate any of the above statements, an agent needs to first compute $\delta(V_{lim})$.
 To do so, \citet{gelfond_authorization_2008} rely on converting an action description in $\mathcal{AL}$ to an ASP logic program and joining it to $lp(P, s)$.
 They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
-
 \[
 lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
 \]
@@ -1009,13 +991,11 @@ As mentioned previously, agents in the AAA architecture have an initial descript
 
 \citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$.
 For example,
-
 \[
 lp(V(f,s)=y, I) = val(f,y,I)
 \]
 
 For a history $H_n=<s, a_0, a_1, \dots, a_{n-1}>$, they also add:
-
 \begin{gather*}
     lp(a, I)=occurs(a, I). \\
     lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(a_0, 0) \cup lp(a_1, 1) \cup \dots \cup lp(a_{i-1}, I-1)
@@ -1029,15 +1009,13 @@ Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}
     Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
 \end{definition}
 
-Let $Check_1(H_n)$ be the following subprogram
-
+Let $Check_1(H_n)$ be the following subprogram:
 \begin{gather*}
     \neg strongly\_compliant \leftarrow occurs(A, I), not permitted(A, I). \\
     \leftarrow \textbf{ not } \neg strongly\_compliant
 \end{gather*}
 
-Let $Check_2(H_n)$ be the following subprogram
-
+Let $Check_2(H_n)$ be the following subprogram:
 \begin{gather*}
     \neg weakly\_compliant \leftarrow occurs(A, I), \neg permitted(A, I). \\
     \leftarrow \textbf{ not } \neg weakly\_compliant
@@ -1067,7 +1045,6 @@ $\mathcal{AOPL}$ adds a $obl(a)$ statement in contrast to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
 Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
-
 \begin{gather*}
     obl\left(a\right) \textbf{ if } F \\
     \neg obl\left(a\right) \textbf{ if } F \\
@@ -1075,12 +1052,14 @@ Obligation policy statements are static laws of the form~\citep{gelfond_authoriz
     d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
     prefer(d_i, d_j)
 \end{gather*}
-
-\noindent
-where $F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a), \\
-\neg obl(a), \\
-\textbf{normally } obl(a), \\
-\textbf{normally } \neg obl(a)\}$ and $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$.
+where
+\begin{multline*}
+    F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a),
+        \neg obl(a), \\
+        \textbf{normally } obl(a),
+        \textbf{normally } \neg obl(a)\}
+\end{multline*}
+and $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$.
 
 \subsubsection{Checking compliance}
 
@@ -1093,22 +1072,26 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
         \neg obl(a). \\
     lp(obl(a) \textbf{ if } F) =
         obl(a) \leftarrow
-            lp(F) \\
+            lp(F). \\
     lp(\neg obl(a) \textbf{ if } F) =
         \neg obl(a) \leftarrow
-            lp(F) \\
+            lp(F).
+\end{gather*}
+\begin{multline*}
     lp(d: \textbf{normally } obl(a) \textbf{ if } F) =
-        obl(a) \leftarrow
+        obl(a) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg obl(a). \\
     lp(d: \textbf{normally } \neg obl(a) \textbf{ if } F) =
-        \neg obl(a) \leftarrow
+        \neg obl(a) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } obl(a). \\
+            \textbf{not } obl(a).
+\end{multline*}
+\begin{gather*}
     lp(prefer(d_1, d_2)) =
-        ab(d_2) \leftarrow lp(cond_1)
+        ab(d_2) \leftarrow lp(cond_1).
 \end{gather*}
 
 \begin{definition}
@@ -1155,49 +1138,41 @@ He might have requirements such as:
 \end{itemize}
 
 Before we encode these obligations, we need to first define the transition system for this scenario.
-Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where
-
-\[
-\boldsymbol{F} = \{enrolled(Student, Class), m(Class, SessionNum), due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum)\}
-\]
-
-\[
-\boldsymbol{A} = \{attend(Student, Class), submit(Student, Assignment, SessionNum), accept\_unauthorized\_help(Student)\}
-\]
-
-\noindent
-where $Student$, $Class$, $Assignment$, and $SessionNum$ are variables that range over their respective values.
+Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where:
+\begin{multline*}
+    \boldsymbol{F} = \{enrolled(Student, Class), m(Class, SessionNum), \\
+        due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum)\}
+\end{multline*}
+\begin{multline*}
+    \boldsymbol{A} = \{attend(Student, Class), submit(Student, Assignment, SessionNum), \\
+    accept\_unauthorized\_help(Student)\}
+\end{multline*}
+and $Student$, $Class$, $Assignment$, and $SessionNum$ are variables that range over their respective values.
 
 Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
 \citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
-
 \[
 d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
 \]
 
 \citet{gelfond_authorization_2008} assume that such an implicit exception may be ``Students do not need to attend class during family emergencies.''
 Its encoding would be as follows:
-
 \[
 \neg obl(attend(S,M)) \textbf{ if } family\_emergency(S,M).
 \]
 
 Similarly, they suggest that another exception may be ``Students should not attend class on a religious holiday.''
 Its encoding might be as follows:
-
 \[
 d_2(S,M): \textbf{ normally } obl(\neg attend(S, M)) \textbf{ if } religious\_holiday(M).
 \]
 
 \citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
 If he does, he may write:
-
 \[
 prefer(d_2(S, m(C,N)),d_1(S,C,N))
 \]
-
 Otherwise, he may write:
-
 \[
 prefer(d_1(S,C,N), d_2(S, m(C,N)))
 \]
@@ -1206,13 +1181,11 @@ While it is possible to omit such a statement from the policy description, doing
 \citet{gelfond_authorization_2008} do not recommend allowing this behavior.
 
 The second rule may be seen as defeasible to encompass assignment extensions.
-
-\[
-d_3(S,C,N_1,N_2): \textbf{ normally } obl(submit(S,a(C,N_1),m(C,N_2)) \textbf{ if } enrolled(S,C), due\_date(m(C,N_2), a(C,N_1)).
-\]
-
+\begin{multline*}
+    d_3(S,C,N_1,N_2): \textbf{ normally } obl(submit(S,a(C,N_1),m(C,N_2)) \textbf{ if } enrolled(S,C), \\
+        due\_date(m(C,N_2), a(C,N_1)).
+\end{multline*}
 Lastly, since cheating is never permissible:
-
 \[
 obl(\neg accept\_unauthorized\_help(S)).
 \]
