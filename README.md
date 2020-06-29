@@ -1,4 +1,4 @@
-# 2020-04-13 Background Document
+# John Meyer's Thesis
 
 Usage:
 
