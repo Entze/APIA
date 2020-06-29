@@ -649,7 +649,7 @@ It works in conjunction with action languages such as $\mathcal{AL}$.
 
 \subsubsection{Definition}
 
-Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modeled by a propositional transition system $T=<\boldsymbol{V},\boldsymbol{F},\boldsymbol{A}>$.
+Similar to the action languages, $\mathcal{APL}$ requires that the agent's environment be modeled by a transition system $T=<\boldsymbol{V},\boldsymbol{F},\boldsymbol{A}>$.
 Recall that $T$ contains all trajectories of the underlying system.
 An agent's policy $P$ is the subset of the trajectories of $T$ that are desired by the agent's controller.
 
@@ -686,14 +686,14 @@ These policies are transcribed using static laws in a similar form to action lan
     ~
 
     \begin{itemize}
-        \item A \textit{permission} is a statement of the form $permitted(a)$.
-        \item A \textit{denial} is a statement of the form $\neg permitted(a)$.
+        \item A \textit{permission} is a statement of the form $permitted(a)$~\citep{gelfond_authorization_2008}.
+        \item A \textit{denial} is a statement of the form $\neg permitted(a)$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
 \begin{definition}
     \label{def:strict_authorization_statements}
-    A \textit{strict} authorization policy statement is a statement of the form:
+    A \textit{strict} authorization policy statement is a statement of the form~\citep{gelfond_authorization_2008}:
 
     \begin{gather*}
         permitted\left(a\right) \textbf{ if } F \\
@@ -703,7 +703,7 @@ These policies are transcribed using static laws in a similar form to action lan
 
 \begin{definition}
     \label{def:defeasible_authorization_statements}
-    A \textit{defeasible} authorization policy statement is a statement of the form:
+    A \textit{defeasible} authorization policy statement is a statement of the form~\citep{gelfond_authorization_2008}:
 
     \begin{gather*}
         \textbf{normally } permitted(a) \textbf{ if } F \\
@@ -713,7 +713,7 @@ These policies are transcribed using static laws in a similar form to action lan
 
 Defeasible authorization policy statements permit exceptions when they are in conflict with other authorization statements of higher importance.
 To encode the relative hierarchy of defeasible statements, \citet{gelfond_authorization_2008} provide an option to label defeasible statements with terms $d_1,d_2,\ldots,d_n$ and use the static $prefer\left(d_i,d_j\right)$ to prioritize statement $d_i$ over statement $d_j$.
-Thus, defeasible authorization policy statements can be written in the following form.
+Thus, defeasible authorization policy statements can be written in the following form~\citep{gelfond_authorization_2008}.
 
 \begin{gather*}
     d_i: \textbf{normally } permitted(a) \textbf{ if } F \\
@@ -725,8 +725,8 @@ If a defeasible authorization policy statement is not referenced in a $prefer$ s
 
 \subsubsection{Semantics}
 
-To explain semantics of $\mathcal{APL}$, we will borrow an example policy from \citet{gelfond_authorization_2008}.
-Suppose in a military context, military personnel where given the following rules:
+To explain the semantics of $\mathcal{APL}$, we will borrow an example policy from \citet{gelfond_authorization_2008}.
+Suppose in a military context, military personnel are given the following rules:
 
 \begin{itemize}
     \item A military officer is not allowed to command a mission he authorized.
@@ -741,7 +741,7 @@ For reference, information on military ranking is provided below:
     \item An officer of any rank outranks an observer.
 \end{itemize}
 
-Suppose we have a transition system $T=<\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where
+Suppose we have a transition system $T=<\boldsymbol{V}=\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where
 
 \begin{gather*}
     \boldsymbol{A}=\{authorize(C,M),\ assume\_command(C, M)\} \\
@@ -835,14 +835,14 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     ~
 
     \begin{itemize}
-        \item A logic program is \textit{consistent} if it produces at least one answer set.
-        \item A logic program is \textit{categorical} if it produces exactly one answer set.
+        \item A logic program is \textit{consistent} if it produces at least one answer set~\citep{gelfond_authorization_2008}.
+        \item A logic program is \textit{categorical} if it produces exactly one answer set~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
 \begin{definition}
     \label{def:entails}
-    If a consistent logic program $\Pi$ has a literal $l$ which belongs to every answer set of $\Pi$, $\Pi$ \textit{entails} $l$.
+    If a consistent logic program $\Pi$ has a literal $l$ which belongs to every answer set of $\Pi$, $\Pi$ \textit{entails} $l$~\citep{gelfond_authorization_2008}.
 \end{definition}
 
 \begin{definition}
@@ -851,8 +851,8 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     ~
 
     \begin{itemize}
-        \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent.
-        \item An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical.
+        \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent~\citep{gelfond_authorization_2008}.
+        \item An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -860,8 +860,8 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     Let $P$ be a consistent authorization policy for $T$.
 
     \begin{itemize}
-        \item $permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(a)$
-        \item $\neg permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(a)$
+        \item $permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(a)$~\citep{gelfond_authorization_2008}.
+        \item $\neg permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(a)$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -870,15 +870,15 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     ~
 
     \begin{itemize}
-        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a) \in P(s)$.
-        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a) \not \in P(s)$.
-        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a) \in P(s)$.
+        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a) \in P(s)$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a) \not \in P(s)$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a) \in P(s)$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
 \begin{definition}
     \label{def:authorization_path_compliance}
-    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into \textit{strongly compliant} or \textit{weakly compliant} if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification.
+    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into \textit{strongly compliant} or \textit{weakly compliant} if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification~\citep{gelfond_authorization_2008}.
     If the path has at least one non-compliant event, then the path is \textit{non-compliant}.
 \end{definition}
 
@@ -942,9 +942,9 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
     ~
 
     \begin{itemize}
-        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
-        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is consistent.
-        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
+        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is consistent~\citep{gelfond_authorization_2008}.
+        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -960,16 +960,16 @@ Let $V_{lim} = \{ f \in \boldsymbol{F_{lim}} | V(f, s)\}$.
 
 \begin{definition}
     \label{def:simple_knowledge_state}
-    In contrast to a proper \textit{state} of an action description (where values are assigned to all fluents, provided they satisfy all static laws), $V_{lim}$ describes a \textit{simple-knowledge state} where values are assigned only to some fluents, provided they satisfy relevant static laws.
+    In contrast to a proper \textit{state} of an action description (where values are assigned to all fluents, provided they satisfy all static laws), $V_{lim}$ describes a \textit{simple-knowledge state} where values are assigned only to some fluents, provided they satisfy relevant static laws~\citep{gelfond_authorization_2008}.
 \end{definition}
 
 Let $\delta(V_{lim}) \in S$ be the set of states that contain $V_{lim}$.
 
 \begin{itemize}
-    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is strongly compliant with $P$, then $a$ is strongly compliant in $s$.
-    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is at least weakly compliant with $P$, then $a$ is at least weakly compliant in $s$.
-    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is non-compliant with $P$, then $a$ is non-compliant in $s$.
-    \item If none of the above hold, then $V_{lim}$ does not hold enough information to determine the compliance of $a$ in $s$.
+    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is strongly compliant with $P$, then $a$ is strongly compliant in $s$~\citep{gelfond_authorization_2008}.
+    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is at least weakly compliant with $P$, then $a$ is at least weakly compliant in $s$~\citep{gelfond_authorization_2008}.
+    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is non-compliant with $P$, then $a$ is non-compliant in $s$~\citep{gelfond_authorization_2008}.
+    \item If none of the above hold, then $V_{lim}$ does not hold enough information to determine the compliance of $a$ in $s$~\citep{gelfond_authorization_2008}.
 \end{itemize}
 
 However, in order to evaluate any of the above statements, an agent needs to first compute $\delta(V_{lim})$.
@@ -986,7 +986,7 @@ Let $D = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
 
 \begin{definition}
     Let $V_{lim}$ be a simple-knowledge state from an action description in $\mathcal{AL}$.
-    $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$.
+    $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$~\citep{gelfond_authorization_2008}.
 \end{definition}
 
 \begin{definition}
@@ -994,10 +994,10 @@ Let $D = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
     ~
 
     \begin{itemize}
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent.
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent.
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent.
-        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1023,6 +1023,12 @@ For a history $H_n=<s, a_0, a_1, \dots, a_{n-1}>$, they also add:
 
 Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}$
 
+\begin{definition}
+    \label{def:model_of_history}
+    A trajectory $s_0, a_0, s_1, a_1, \dots, a_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, a_0, a_1, \dots, a_{n-1}>$ if $s \subseteq s_0$~\citep{gelfond_authorization_2008}.
+    Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
+\end{definition}
+
 Let $Check_1(H_n)$ be the following subprogram
 
 \begin{gather*}
@@ -1038,19 +1044,13 @@ Let $Check_2(H_n)$ be the following subprogram
 \end{gather*}
 
 \begin{definition}
-    \label{def:model_of_history}
-    A trajectory $s_0, a_0, s_1, a_1, \dots, a_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, a_0, a_1, \dots, a_{n-1}>$ if $s \subseteq s_0$.
-    Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
-\end{definition}
-
-\begin{definition}
     \label{def:authorization_event_compliance_history_knowledge}
     ~
 
     \begin{itemize}
-        \item A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent.
-        \item A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent.
-        \item A model of history that is neither strongly compliant nor weakly compliant must be non-compliant.
+        \item A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item A model of history that is neither strongly compliant nor weakly compliant must be non-compliant~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1135,10 +1135,9 @@ Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
 
     \begin{itemize}
         \item Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
-            $P_a$ is an authorization policy \textit{induced} by $P$.
-
+            $P_a$ is an authorization policy \textit{induced} by $P$~\citep{gelfond_authorization_2008}.
         \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
-            $P_o$ is an obligation policy \textit{induced} by $P$.
+            $P_o$ is an obligation policy \textit{induced} by $P$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1156,7 +1155,7 @@ He might have requirements such as:
 \end{itemize}
 
 Before we encode these obligations, we need to first define the transition system for this scenario.
-Suppose the environment can be modeled by a transition system $T=<\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where
+Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where
 
 \[
 \boldsymbol{F} = \{enrolled(Student, Class), m(Class, SessionNum), due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum)\}
