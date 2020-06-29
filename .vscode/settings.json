@@ -10,6 +10,7 @@
     "**/*.out": true,
     "**/*.synctex.gz": true,
     "**/*.toc": true,
+    "**/*.synctex*": true,
     "Figures/**/*.pdf": true,
     "_minted-*": true,
   },
