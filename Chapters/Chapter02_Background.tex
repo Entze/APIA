@@ -933,6 +933,13 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
 
 These propositions are just simple extensions of definition~\ref{def:authorization_event_compliance}.
 However, they are useful because they cause an ASP solver to output a Yes/No answer to the problem.
+So, continuing the previous example, one would write:
+\begin{lstlisting}[language=Prolog]
+:- permitted(assume_command(c1, m1)).
+\end{lstlisting}
+This logic program results in:
+\lstinputlisting{Figures/APL_Language/Example_1/clingo_full_knowledge.txt}
+Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
 \subsubsection{Checking compliance with partial knowledge of state}
 
@@ -1011,7 +1018,7 @@ Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}
 
 Let $Check_1(H_n)$ be the following subprogram:
 \begin{gather*}
-    \neg strongly\_compliant \leftarrow occurs(A, I), not permitted(A, I). \\
+    \neg strongly\_compliant \leftarrow occurs(A, I), \textbf{ not } permitted(A, I). \\
     \leftarrow \textbf{ not } \neg strongly\_compliant
 \end{gather*}
 
@@ -1141,11 +1148,12 @@ Before we encode these obligations, we need to first define the transition syste
 Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where:
 \begin{multline*}
     \boldsymbol{F} = \{enrolled(Student, Class), m(Class, SessionNum), \\
-        due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum)\}
+        due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum), \\
+        religious\_holiday(M)\}
 \end{multline*}
 \begin{multline*}
     \boldsymbol{A} = \{attend(Student, Class), submit(Student, Assignment, SessionNum), \\
-    accept\_unauthorized\_help(Student)\}
+        accept\_unauthorized\_help(Student)\}
 \end{multline*}
 and $Student$, $Class$, $Assignment$, and $SessionNum$ are variables that range over their respective values.
 
