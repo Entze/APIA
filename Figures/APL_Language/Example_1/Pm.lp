@@ -1,4 +1,4 @@
-% p_m.lp
+% Pm.lp
 -permitted(assume_command(c1, m1)) :-
     authorized(c1, m1),
     not ab(d1),
