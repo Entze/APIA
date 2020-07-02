@@ -1,0 +1,3 @@
+name: thesis
+dependencies:
+  - potassco::clingo
