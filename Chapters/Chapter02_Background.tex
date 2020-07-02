@@ -777,20 +777,20 @@ As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the
 To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
 \begin{gather*}
-    lp(P,s) = lp(P)\cup lp(s) \\
+    lp(P,s) = lp(P)\cup lp(s). \\
     lp(P)=\{statement \in P | lp(statement)\} \\
     lp\left(V(f,s)=y\right) =
-        val\left(f,y\right) \\
+        val\left(f,y\right). \\
     lp(permitted(a)) =
-        permitted(a) \\
+        permitted(a). \\
     lp(\neg permitted(a)) =
-        \neg permitted(a) \\
+        \neg permitted(a). \\
     lp(permitted(a) \textbf{ if } F) =
         permitted(a) \leftarrow
-            lp(F) \\
+            lp(F). \\
     lp(\neg permitted(a) \textbf{ if } F) =
         \neg permitted(a) \leftarrow
-        lp(F)
+            lp(F).
 \end{gather*}
 \begin{multline*}
     lp(d: \textbf{normally } permitted(a) \textbf{ if } F) = \\
@@ -808,7 +808,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \end{multline*}
 \begin{gather*}
     lp(prefer(d_1, d_2)) =
-        ab(d_2) \leftarrow lp(cond_1)
+        ab(d_2) \leftarrow lp(cond_1).
 \end{gather*}
 
 \noindent
@@ -925,9 +925,9 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
     ~
 
     \begin{itemize}
-        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is consistent~\citep{gelfond_authorization_2008}.
-        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}$ is consistent~\citep{gelfond_authorization_2008}.
+        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -939,7 +939,7 @@ So, continuing the previous example, one would write:
 \end{lstlisting}
 This logic program results in:
 \lstinputlisting{Figures/APL_Language/02_Full_Knowledge/clingo.txt}
-Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
+Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
 \subsubsection{Checking compliance with partial knowledge of state}
 
@@ -983,10 +983,10 @@ Let $D = \{ (f,y) \in \boldsymbol{F_{lim}} \times \boldsymbol{V} | lp(V(f,s)=y)\
     ~
 
     \begin{itemize}
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is consistent~\citep{gelfond_authorization_2008}.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}$ is consistent~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1026,13 +1026,13 @@ Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}
 Let $Check_1(H_n)$ be the following subprogram:
 \begin{gather*}
     \neg strongly\_compliant \leftarrow occurs(A, I), \textbf{ not } permitted(A, I). \\
-    \leftarrow \textbf{ not } \neg strongly\_compliant
+    \leftarrow \textbf{ not } \neg strongly\_compliant.
 \end{gather*}
 
 Let $Check_2(H_n)$ be the following subprogram:
 \begin{gather*}
     \neg weakly\_compliant \leftarrow occurs(A, I), \neg permitted(A, I). \\
-    \leftarrow \textbf{ not } \neg weakly\_compliant
+    \leftarrow \textbf{ not } \neg weakly\_compliant.
 \end{gather*}
 
 \begin{definition}
