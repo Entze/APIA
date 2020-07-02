@@ -43,7 +43,7 @@ Draw.io figures:
     - /drawio/entrypoint.sh
     - |
       for EXPORT_DIR in $(find -name 'export' -type d); do
-        for FILE in $(ls "${EXPORT_DIR}/*"); do
+        for FILE in $(ls "${EXPORT_DIR}"/*); do
           FILENAME=$(basename "${FILE}")
           ORIGINAL_DIR=$(dirname "$(dirname "${FILE}")")
           mv -v "${FILE}" "${ORIGINAL_DIR}/${FILENAME}"
