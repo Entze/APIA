@@ -395,7 +395,7 @@ The second is to author them directly in ASP.
 It is worth noting that the agent makes no commitment to plans it found in previous loop iterations.
 Each loop iteration searches for a plan irrespective to the plan that was partially executed in the previous iteration.
 This makes the Observe-Think-Act loop somewhat greedy in that it chooses the best plan as can be foreseen at every time step.
-In more recent work~\citep{blount_towards_2014}, \citeauthor{blount_towards_2014} see this as a limitation and builds the $\mathcal{AIA}$ architecture to address it.
+In more recent work~\citep{blount_towards_2014}, \citeauthor{blount_towards_2014} see this as a limitation and build the $\mathcal{AIA}$ architecture to address it.
 
 \subsection{The $\mathcal{AIA}$ Architecture}
 \label{subsec:aia_architecture}
@@ -971,14 +971,16 @@ Let $V_{lim} = \{ f \in \boldsymbol{F_{lim}} | V(f, s)\}$.
     In contrast to a proper \textit{state} of an action description (where values are assigned to all fluents, provided they satisfy all static laws), $V_{lim}$ describes a \textit{simple-knowledge state} where values are assigned only to some fluents, provided they satisfy relevant static laws~\citep{gelfond_authorization_2008}.
 \end{definition}
 
-Let $\delta(V_{lim}) \in S$ be the set of states that contain $V_{lim}$.
+\begin{definition}
+    Let $\delta(V_{lim}) \in S$ be the set of states that contain $V_{lim}$.
 
-\begin{itemize}
-    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is strongly compliant with $P$, then $a$ is strongly compliant in $s$~\citep{gelfond_authorization_2008}.
-    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is at least weakly compliant with $P$, then $a$ is at least weakly compliant in $s$~\citep{gelfond_authorization_2008}.
-    \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is non-compliant with $P$, then $a$ is non-compliant in $s$~\citep{gelfond_authorization_2008}.
-    \item If none of the above hold, then $V_{lim}$ does not hold enough information to determine the compliance of $a$ in $s$~\citep{gelfond_authorization_2008}.
-\end{itemize}
+    \begin{itemize}
+        \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is strongly compliant with $P$, then $a$ is strongly compliant in $s$~\citep{gelfond_authorization_2008}.
+        \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is at least weakly compliant with $P$, then $a$ is at least weakly compliant in $s$~\citep{gelfond_authorization_2008}.
+        \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is non-compliant with $P$, then $a$ is non-compliant in $s$~\citep{gelfond_authorization_2008}.
+        \item If none of the above hold, then $V_{lim}$ does not hold enough information to determine the compliance of $a$ in $s$~\citep{gelfond_authorization_2008}.
+    \end{itemize}
+\end{definition}
 
 However, in order to evaluate any of the above statements, an agent needs to first compute $\delta(V_{lim})$.
 To do so, \citet{gelfond_authorization_2008} rely on converting an action description in $\mathcal{AL}$ to an ASP logic program and joining it to $lp(P, s)$.
@@ -1048,7 +1050,7 @@ As mentioned previously, agents in the AAA architecture have an initial descript
 \citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$.
 For example,
 \[
-lp(V(f,s)=y, I) = val(f,y,I)
+lp(V(f,s)=y, I) = val(f,y,I).
 \]
 
 For a history $H_n=<s, a_0, a_1, \dots, a_{n-1}>$, they also add:
@@ -1115,22 +1117,24 @@ Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its under
 $\mathcal{AOPL}$ adds a $obl(a)$ statement in contrast to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
-Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
-\begin{gather*}
-    obl\left(a\right) \textbf{ if } F \\
-    \neg obl\left(a\right) \textbf{ if } F \\
-    d_i: \textbf{normally } obl(a) \textbf{ if } F \\
-    d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
-    prefer(d_i, d_j)
-\end{gather*}
-where
-\begin{multline*}
-    F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a),
-        \neg obl(a), \\
-        \textbf{normally } obl(a),
-        \textbf{normally } \neg obl(a)\}
-\end{multline*}
-and $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$.
+
+\begin{definition}
+    Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
+    \begin{gather*}
+        obl\left(a\right) \textbf{ if } F \\
+        \neg obl\left(a\right) \textbf{ if } F \\
+        d_i: \textbf{normally } obl(a) \textbf{ if } F \\
+        d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
+        prefer(d_i, d_j)
+    \end{gather*}
+    where $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$ and
+    \begin{multline*}
+        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a),
+            \neg obl(a), \\
+            \textbf{normally } obl(a),
+            \textbf{normally } \neg obl(a)\}
+    \end{multline*}
+\end{definition}
 
 \subsubsection{Checking compliance}
 
@@ -1182,10 +1186,8 @@ Were such a differentiation to exist, it would center around instances where nei
 For such a case, an obligation policy would not explicitly impose nor explicitly waive an agent from an obligation to perform action $a$.
 However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situation is simply called \textit{compliant}.
 
-Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
-
 \begin{definition}
-    ~
+    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
 
     \begin{itemize}
         \item Let $P_a$ be a derivative policy of $P$ that only has the authorization statements of $P$.
