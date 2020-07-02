@@ -242,7 +242,7 @@ Suppose we had the following action description in $\mathcal{A}$, as given by \c
 \[
 a \textbf{ causes } P \textbf{ if } Q
 \]
-In this case, the action description language models the transition system shown in figure~\ref{fig:action_language_a_example}.
+In this case, the action description language models the transition system shown in \cref{fig:action_language_a_example}.
 
 \begin{figure}[h]
     \centering
@@ -384,7 +384,7 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
 This loop is known as the \textit{Observe-Think-Act} loop~\citep{balduccini_aaa_2008}.
 
 In step 1, the agent observes the world and updates its knowledge base.
-This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in section~\ref{subsubsec:asp}).
+This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in \cref{subsubsec:asp}).
 The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions~\citep{balduccini_aaa_2008}.
 
 There are two approaches to describing the effects of an agent's actions.
@@ -529,7 +529,7 @@ The workspace in which they are located has four consecutive rooms r1, r2, r3, r
 Both Bob and John are free to \textit{move} from their current room to an adjoined one.
 The only exception is that the door joining r3 and r4 has a lock and must be in an unlocked state in order for anything to pass through it.
 Both Bob and John can \textit{lock} and \textit{unlock} the door when next to it.
-A visual description of this example is shown in figure~\ref{fig:aia_example}.
+A visual description of this example is shown in \cref{fig:aia_example}.
 
 \begin{figure}[h]
     \centering
@@ -949,7 +949,7 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
     \end{itemize}
 \end{definition}
 
-These propositions are just simple extensions of definition~\ref{def:authorization_event_compliance}.
+These propositions are just simple extensions of \cref{def:authorization_event_compliance}.
 However, they are useful because they cause an ASP solver to output a Yes/No answer to the problem.
 So, continuing the previous example, one would write:
 \begin{lstlisting}[language=Prolog]
