@@ -3,7 +3,7 @@ stages:
   - graphs
   - pdf
 
-Graphviz figures:
+Graphviz figures to PDF:
   stage: graphs
   image: alpine
   needs:
@@ -15,7 +15,7 @@ Graphviz figures:
     paths:
       - 'Figures/**/*.pdf'
 
-PlantUML figures:
+PlantUML figures to PDF:
   stage: graphs
   image:
     name: think/plantuml
@@ -30,7 +30,7 @@ PlantUML figures:
     paths:
       - 'Figures/**/*.pdf'
 
-Draw.io figures:
+Draw.io figures to SVG:
   stage: draw.io graphs
   image:
     name: rlespinasse/drawio-export
@@ -54,11 +54,11 @@ Draw.io figures:
     paths:
       - 'Figures/**/*.svg'
 
-SVG figures:
+SVG figures to PDF:
   stage: graphs
   image: alpine:3.12
   needs:
-    - Draw.io figures
+    - Draw.io figures to SVG
   script:
     - apk update
     - apk add make inkscape
@@ -71,10 +71,10 @@ PDF:
   stage: pdf
   image: blang/latex:ctanfull
   needs:
-    - PlantUML figures
-    - Graphviz figures
-    - Draw.io figures
-    - SVG figures
+    - PlantUML figures to PDF
+    - Graphviz figures to PDF
+    - Draw.io figures to SVG
+    - SVG figures to PDF
   script:
     - latexmk -pdf
 
