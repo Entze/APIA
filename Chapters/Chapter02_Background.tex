@@ -626,7 +626,7 @@ Hence, it takes three more iterations of the control loop to move to r4 ($stop(1
 \section{Logic-based approaches to representing and reasoning over agent policies}
 \label{sec:policies}
 
-Real-world applications may require agents to behave in particular ways, though they are granted autonomy.
+Though the agent architectures discussed thus far allow agents to be fully autonomous, real-world applications may require agents to behave in particular ways.
 For example, a controller may want to require an agent to follow certain ethical constraints and may choose to penalize an agent when acting in violation of them.
 Thus, it is necessary to introduce a discussion on policies for agent behavior and a formalism with which agents can deduce the compliance of their actions.
 
@@ -749,18 +749,19 @@ Thus, we could write:
 It is important to note that our policy is ambiguous at this point.
 In the case a colonel authorized a mission and begins to command it, he would be both compliant and non-compliant.
 To clarify, we will add labels to the previous statements then prefer honoring the second statement over the first.
-\begin{gather*}
-    d_1(C, M): \textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M) \\
-    d_2(C, M): \textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C) \\
-    prefer(d_2(C,M),d_1(C,M))
-\end{gather*}
+\begin{gather}
+    d_1(C, M): \textbf{normally } \neg permitted(assume\_command(C, M)) \textbf{ if } authorized(C, M) \label{eq:apl_example_policy_1} \\
+    d_2(C, M): \textbf{normally } permitted(assume\_command(C, M)) \textbf{ if } colonel(C) \label{eq:apl_example_policy_2} \\
+    prefer(d_2(C,M),d_1(C,M)) \label{eq:apl_example_policy_3}
+\end{gather}
 
 Lastly, the third policy statement can be represented with a strict authorization statement.
-\[
-\neg permitted(authorize(C, M)) \textbf{ if } observer(C)
-\]
+\begin{equation}
+    \label{eq:apl_example_policy_4}
+    \neg permitted(authorize(C, M)) \textbf{ if } observer(C)
+\end{equation}
 
-In total, our policy $P$ be the set of the above two statement blocks.
+In total, our policy $P$ be the set of the above two statement blocks (\cref{eq:apl_example_policy_1,eq:apl_example_policy_2,eq:apl_example_policy_3,eq:apl_example_policy_4}).
 
 \subsubsection{Answer Set Programming}
 \label{subsubsec:asp}
@@ -827,11 +828,6 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 \end{definition}
 
 \begin{definition}
-    \label{def:entails}
-    If a consistent logic program $\Pi$ has a literal $l$ which belongs to every answer set of $\Pi$, $\Pi$ \textit{entails} $l$~\citep{gelfond_authorization_2008}.
-\end{definition}
-
-\begin{definition}
     \label{def:authorization_consistent}
     \label{def:authorization_categorical}
     ~
@@ -840,6 +836,11 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
         \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent~\citep{gelfond_authorization_2008}.
         \item An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical~\citep{gelfond_authorization_2008}.
     \end{itemize}
+\end{definition}
+
+\begin{definition}
+    \label{def:entails}
+    If a consistent logic program $\Pi$ has a literal $l$ which belongs to every answer set of $\Pi$, $\Pi$ \textit{entails} $l$~\citep{gelfond_authorization_2008}.
 \end{definition}
 
 \begin{definition}
@@ -911,10 +912,10 @@ While such an action would be weakly compliant according to $P_m$ (since $permit
 Such an action description might look like the following:
 
 \begin{gather}
-    authorize(c_1, m_1) \textbf{ causes } authorized(c_1, m_1) \nonumber \\
-    assume\_command(c_1, m_1) \textbf{ causes } commands(c_1, m_1) \nonumber \\
-    \textbf{impossible } authorize(c_1, m_1) \textbf{ if } authorized(c_1, m_1) \nonumber \\
-    \textbf{impossible } assume\_command(c_1, m_1) \textbf{ if } commands(c_1, m_1) \label{eq:apl_action_description}
+    authorize(c_1, m_1) \textbf{ causes } authorized(c_1, m_1) \label{eq:apl_action_description_1} \\
+    assume\_command(c_1, m_1) \textbf{ causes } commands(c_1, m_1) \label{eq:apl_action_description_2} \\
+    \textbf{impossible } authorize(c_1, m_1) \textbf{ if } authorized(c_1, m_1) \label{eq:apl_action_description_3} \\
+    \textbf{impossible } assume\_command(c_1, m_1) \textbf{ if } commands(c_1, m_1) \label{eq:apl_action_description_4}
 \end{gather}
 
 Intuitively, if $c_1$ has already authorized $m_1$, he cannot authorize it again.
@@ -1031,7 +1032,7 @@ Continuing the running example, suppose an agent did not know that $c_1$ is a co
 $D$ is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/D.lp}
 
-The static laws from the action description in \cref{eq:apl_action_description} can be encoded as follows:
+The static laws from the action description in \cref{eq:apl_action_description_1,eq:apl_action_description_2,eq:apl_action_description_3,eq:apl_action_description_4} can be encoded as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/SL.lp}
 
 The encodinng of $\delta(V_{lim})$ is as follows:
