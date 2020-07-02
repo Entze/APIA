@@ -1055,17 +1055,17 @@ For example,
 lp(V(f,s)=y, I) = val(f,y,I).
 \]
 
-For a history $H_n=<s, a_0, a_1, \dots, a_{n-1}>$, they also add:
+For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
 \begin{gather*}
     lp(a, I)=occurs(a, I). \\
-    lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(a_0, 0) \cup lp(a_1, 1) \cup \dots \cup lp(a_{i-1}, I-1)
+    lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
 \end{gather*}
 
 Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}$
 
 \begin{definition}
     \label{def:model_of_history}
-    A trajectory $s_0, a_0, s_1, a_1, \dots, a_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, a_0, a_1, \dots, a_{n-1}>$ if $s \subseteq s_0$~\citep{gelfond_authorization_2008}.
+    A trajectory $s_0, A_0, s_1, A_1, \dots, A_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, A_0, A_1, \dots, A_{n-1}>$ if $s \subseteq s_0$~\citep{gelfond_authorization_2008}.
     Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
 \end{definition}
 
