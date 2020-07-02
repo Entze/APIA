@@ -1,8 +1,7 @@
 % Check_1.lp
 -strongly_compliant :-
-    occurs(A, I),
-    not permitted(A, I),
-    A = assume_command(c1, m1).
+    occurs(assume_command(c1, m1), I),
+    not permitted(assume_command(c1, m1)A, I).
 
 :-
     not -strongly_compliant.
