@@ -1,10 +1,10 @@
 $ echo ':- permitted(assume_command(c1, m1)).' | clingo Pm.lp s0.lp -
-clingo version 5.2.2
+clingo version 5.4.0
 Reading from Pm.lp ...
 Solving...
 UNSATISFIABLE
 
 Models       : 0
 Calls        : 1
-Time         : 0.001s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
-CPU Time     : 0.001s
+Time         : 0.002s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
+CPU Time     : 0.002s
