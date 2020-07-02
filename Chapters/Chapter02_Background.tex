@@ -879,18 +879,18 @@ $P_m$ is as follows:
 \end{gather*}
 
 The logic translation of $P_m$, $lp(P_m)$ is the following:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/Pm.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/Pm.lp}
 
 Suppose the agent's environment can be represented by the following state:
 \[
 s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
 \]
-Its logic encoding $lp(s0)$ would be:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/Example_1/s0.lp}
+Its logic encoding $lp(s_0)$ would be:
+\lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/s0.lp}
 
 Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as clingo.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
-\lstinputlisting{Figures/APL_Language/Example_1/clingo.txt}
+\lstinputlisting{Figures/APL_Language/01_Initial_Example/clingo.txt}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
@@ -938,7 +938,7 @@ So, continuing the previous example, one would write:
 :- permitted(assume_command(c1, m1)).
 \end{lstlisting}
 This logic program results in:
-\lstinputlisting{Figures/APL_Language/Example_1/clingo_full_knowledge.txt}
+\lstinputlisting{Figures/APL_Language/02_Full_Knowledge/clingo.txt}
 Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a) \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
 \subsubsection{Checking compliance with partial knowledge of state}
@@ -990,6 +990,12 @@ Let $D = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
     \end{itemize}
 \end{definition}
 
+\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/s0_lim.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/D.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/SL.lp}
+
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/clingo.txt}
+
 \subsubsection{Checking compliance with minimal knowledge of state}
 
 \citet{gelfond_authorization_2008} note that the above two approaches will not work for agents in the AAA architecture (or for that matter, the $\mathcal{AIA}$ architecture).
@@ -1038,6 +1044,10 @@ Let $Check_2(H_n)$ be the following subprogram:
         \item A model of history that is neither strongly compliant nor weakly compliant must be non-compliant~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
+
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Hn.lp}
+
+\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/clingo.txt}
 
 \subsection{Language $\mathcal{AOPL}$}
 
