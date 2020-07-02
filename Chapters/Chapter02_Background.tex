@@ -971,7 +971,7 @@ lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
 
 Let $SL$ be the set of all static laws from the action description.
 
-Let $D = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
+Let $D = \{ (f,y) \in \boldsymbol{F_{lim}} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
 
 \begin{definition}
     Let $V_{lim}$ be a simple-knowledge state from an action description in $\mathcal{AL}$.
@@ -986,7 +986,7 @@ Let $D = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
         \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
         \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
         \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a) \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$~\citep{gelfond_authorization_2008}.
+        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a) \}$ is consistent~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
