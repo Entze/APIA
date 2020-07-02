@@ -73,7 +73,6 @@ PDF:
   needs:
     - PlantUML figures to PDF
     - Graphviz figures to PDF
-    - Draw.io figures to SVG
     - SVG figures to PDF
   script:
     - latexmk -pdf
