@@ -1001,15 +1001,15 @@ Let $D = \{ (f,y) \in \boldsymbol{F_{lim}} \times \boldsymbol{V} | lp(V(f,s)=y)\
     ~
 
     \begin{itemize}
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
+        \item For all states $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \[
                 lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}
             \]
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the following program is inconsistent~\citep{gelfond_authorization_2008}:
+        \item For all states $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \[
                 lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
             \]
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
+        \item For all states $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \[
                 lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}
             \]
