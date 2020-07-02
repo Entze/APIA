@@ -856,9 +856,18 @@ If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
     ~
 
     \begin{itemize}
-        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $\forall a \in A\ permitted(a) \in P(s)$~\citep{gelfond_authorization_2008}.
-        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $\forall a \in A\ \neg permitted(a) \not \in P(s)$~\citep{gelfond_authorization_2008}.
-        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $\exists a \in A\ \neg permitted(a) \in P(s)$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if~\citep{gelfond_authorization_2008}:
+            \[
+                \forall a \in A\ permitted(a) \in P(s)
+            \]
+        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if~\citep{gelfond_authorization_2008}:
+            \[
+                \forall a \in A\ \neg permitted(a) \not \in P(s)
+            \]
+        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if~\citep{gelfond_authorization_2008}:
+            \[
+                \exists a \in A\ \neg permitted(a) \in P(s)
+            \]
     \end{itemize}
 \end{definition}
 
@@ -925,9 +934,18 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
     ~
 
     \begin{itemize}
-        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}$ is consistent~\citep{gelfond_authorization_2008}.
-        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the logic program $lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, s) \cup \{ \leftarrow permitted(a). \}
+            \]
+        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the following logic program is consistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
+            \]
+        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
+            \]
     \end{itemize}
 \end{definition}
 
@@ -983,10 +1001,22 @@ Let $D = \{ (f,y) \in \boldsymbol{F_{lim}} \times \boldsymbol{V} | lp(V(f,s)=y)\
     ~
 
     \begin{itemize}
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the program $lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the program $lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}$ is consistent~\citep{gelfond_authorization_2008}.
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}
+            \]
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the following program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
+            \]
+        \item For all actions $s \in \delta(V_{lim})$, the event $<s, a>$ is \textit{non-compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, s) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}
+            \]
+        \item If $P$ is categorical, then an event $<s, a>$, where $s \in \delta(V_{lim})$, is also non-compliant with $P$ if the following program is consistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P,s) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
+            \]
     \end{itemize}
 \end{definition}
 
@@ -1040,8 +1070,14 @@ Let $Check_2(H_n)$ be the following subprogram:
     ~
 
     \begin{itemize}
-        \item A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_1$ is inconsistent~\citep{gelfond_authorization_2008}.
-        \item A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the program $lp(P, H_n) \cup D \cup lp(A) \cup Check_2$ is inconsistent~\citep{gelfond_authorization_2008}.
+        \item A model of history $H_n$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, H_n) \cup D \cup lp(A) \cup Check_1
+            \]
+        \item A model of history $H_n$ is \textit{weakly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
+            \[
+                lp(P, H_n) \cup D \cup lp(A) \cup Check_2
+            \]
         \item A model of history that is neither strongly compliant nor weakly compliant must be non-compliant~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
@@ -1140,9 +1176,9 @@ Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
     ~
 
     \begin{itemize}
-        \item Let $P_a$ be a derivative policy of $P$ that only has the authorization rules of $P$.
+        \item Let $P_a$ be a derivative policy of $P$ that only has the authorization statements of $P$.
             $P_a$ is an authorization policy \textit{induced} by $P$~\citep{gelfond_authorization_2008}.
-        \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation rules of $P$.
+        \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation statements of $P$.
             $P_o$ is an obligation policy \textit{induced} by $P$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
