@@ -1098,10 +1098,21 @@ Let $Check_2(H_n)$ be the following subprogram:
     \end{itemize}
 \end{definition}
 
+Continuing the previous example, the logic encoding of $P_m$ with the new $lp$ function is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Pm.lp}
+
+Suppose our agent has the following history:
+\begin{gather*}
+    s_0 = \{ colonel(c_1), -observer(c_1), -authorized(c_1, m_1), -commands(c_1, m_1) \} \\
+    A_0 = \{ authorize(c_1, m_1) \} \\
+    H_1 = < s_0, A_0 >
+\end{gather*}
+
+The logic encoding of $H_1$, $lp(H_1)$, would be as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Hn.lp}
+
 %\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/D.lp}
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/A.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/A1.lp}
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_1.lp}
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_2.lp}
 
