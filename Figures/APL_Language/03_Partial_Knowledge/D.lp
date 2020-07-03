@@ -1,9 +1,6 @@
 % D.lp
-val(authorized(c1, m1), t).
-val(authorized(c1, m1), f).
+authorized(c1, m1) | -authorized(c1, m1).
 
-val(-commands(c1, m1), t).
-val(-commands(c1, m1), f).
+commands(c1, m1) | -commands(c1, m1).
 
-val(-observer(c1), t).
-val(-observer(c1), f).
+observer(c1) | -observer(c1).
