@@ -957,7 +957,7 @@ So, continuing the previous example, one would write:
 \begin{lstlisting}[language=Prolog]
 :- permitted(assume_command(c1, m1)).
 \end{lstlisting}
-This logic program results in:
+The logic program $lp(P, s) \cup \{ \leftarrow permitted(assume\_command(c_1, m_1)). \}$ results in:
 \lstinputlisting{Figures/APL_Language/02_Full_Knowledge/clingo.txt}
 Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
@@ -996,7 +996,6 @@ Let $SL$ be the set of all static laws from the action description.
 Let $D = \{ (f,y) \in \boldsymbol{F_{lim}} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
 
 \begin{definition}
-    Let $V_{lim}$ be a simple-knowledge state from an action description in $\mathcal{AL}$.
     $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$~\citep{gelfond_authorization_2008}.
 \end{definition}
 
