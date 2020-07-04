@@ -494,11 +494,17 @@ Suppose an agent in the AAA architecture has the following action description (b
     b \textbf{ causes } \neg p
 \end{gather}
 
-Suppose the agent has the following history:
+Suppose the agent has the following history\footnotemark:
 \begin{equation}
     \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
 \end{equation}
 where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(a, I)$ that action $a$ happened at time step $I$.
+
+\footnotetext{
+    \citet{blount_towards_2014} uses a slightly different notation than what \citet{balduccini_aaa_2008} introduced.
+    \citet{balduccini_aaa_2008} denote the $obs$ predicate as $obs(FluentName, State, FluentValue)$ whereas \citet{blount_towards_2014} writes $obs(FluentName, FluentValue, State)$ to denote the same history.
+    Since these notations are equivalent and merely a matter of preference, this paper will use the style introduced by \citet{blount_towards_2014}.
+}
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
 The $\mathcal{AIA}$ architecture avoids this inconsistency by adding two history statements.
