@@ -1,4 +1,6 @@
 .codemod.bookmark
+*.clingo.txt
+*.clingo.out.txt
 
 #### TeX ####
 ## Core latex/pdflatex auxiliary files:

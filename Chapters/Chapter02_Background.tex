@@ -900,7 +900,7 @@ Its logic encoding $lp(s_0)$ would be:
 
 Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as clingo.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
-\lstinputlisting{Figures/APL_Language/01_Initial_Example/clingo.txt}
+\lstinputlisting{Figures/APL_Language/01_Initial_Example/run.clingo.txt}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
@@ -958,7 +958,7 @@ So, continuing the previous example, one would write:
 :- permitted(assume_command(c1, m1)).
 \end{lstlisting}
 The logic program $lp(P, s) \cup \{ \leftarrow permitted(assume\_command(c_1, m_1)). \}$ results in:
-\lstinputlisting{Figures/APL_Language/02_Full_Knowledge/clingo.txt}
+\lstinputlisting{Figures/APL_Language/02_Full_Knowledge/strongly_compliant.clingo.txt}
 Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
 \subsubsection{Checking compliance with partial knowledge of state}
@@ -1040,7 +1040,9 @@ The encodinng of $\delta(V_{lim})$ is as follows:
 
 %\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/Pm.lp}
 
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/strongly_compliant.clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/weakly_compliant.clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant.clingo.txt}
 
 \subsubsection{Checking compliance with minimal knowledge of state}
 
@@ -1115,7 +1117,8 @@ The logic encoding of $H_1$, $lp(H_1)$, would be as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_1.lp}
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_2.lp}
 
-\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_1.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_2.clingo.txt}
 
 \subsection{Language $\mathcal{AOPL}$}
 
@@ -1278,7 +1281,8 @@ obl(\neg accept\_unauthorized\_help(S)).
 
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/P.lp}
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/s.lp}
-\lstinputlisting{Figures/AOPL_Language/01_Example/clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Example/Check_1.clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Example/Check_2.clingo.txt}
 
 \subsection{\texorpdfstring{BGI\textsubscript{PDC}}{BGI-PDC}}
 
