@@ -1,2 +1,2 @@
 % A1.lp
-assume_command(c1, m1).
+occurs(assume_command(c1, m1), 1).
