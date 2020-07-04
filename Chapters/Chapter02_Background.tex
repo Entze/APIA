@@ -248,15 +248,16 @@ It is worth noting that there can only be at most one $ s' $ satisfying the abov
 Therefore, $ a $ is deterministic for every state.
 
 Suppose we had the following action description in $\mathcal{A}$, as given by \citet{gelfond_action_1998}:
-\[
-a \textbf{ causes } P \textbf{ if } Q
-\]
+\begin{equation}
+    \label{eq:action_language_a_example}
+    a \textbf{ causes } P \textbf{ if } Q
+\end{equation}
 In this case, the action description language models the transition system shown in \cref{fig:action_language_a_example}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{Figures/Action_Language_A/Example}
-    \caption{Transition system corresponding to example}
+    \caption{Transition system corresponding to \cref{eq:action_language_a_example}}
     \label{fig:action_language_a_example}
 \end{figure}
 
@@ -487,16 +488,16 @@ Previously, we mentioned that a differing aspect of the $\mathcal{AIA}$ architec
 This has significant implications on how the agent's history is represented.
 Suppose an agent in the AAA architecture has the following action description (borrowed from~\citep{blount_towards_2014}):
 
-\begin{gather*}
+\begin{gather}
     a_1 \textbf{ causes } f \\
     a_2 \textbf{ causes } g \textbf{ if } f, p \\
     b \textbf{ causes } \neg p
-\end{gather*}
+\end{gather}
 
 Suppose the agent has the following history:
-\[
-\Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
-\]
+\begin{equation}
+    \Gamma=\{obs\left(p,true,0\right),obs\left(f,false,0\right),hpd\left(a_{1,}0\right),hpd\left(a_{2,}1\right),obs\left(g,false,2\right)\}
+\end{equation}
 where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ at time step $I$ and $hpd(a, I)$ that action $a$ happened at time step $I$.
 
 This history is inconsistent, since the execution of action $a_2$ should have caused $g$ ($g$ is still false afterwards).
@@ -505,12 +506,12 @@ When executing an action $a$ at time step $I$, the agent records its attempt to 
 During the $I+1$ iteration of the control loop, the agent records $hpd(a, I)$ if the effects of the previous action are observed, otherwise $\neg hpd(a, I)$.
 Thus, an agent in the $\mathcal{AIA}$ architecture will have the following history for the previous example
 
-\begin{multline*}
+\begin{multline}
     \Gamma=\{
         obs\left(p,true,0\right),obs\left(f,false,0\right),attempt(a_1, 0),hpd\left(a_{1,}0\right) \\
         attempt(a_2, 1), \neg hpd\left(a_{2,}1\right),obs\left(g,false,2\right)
     \}
-\end{multline*}
+\end{multline}
 
 This history is consistent.
 
@@ -738,10 +739,10 @@ For reference, information on military ranking is provided below:
 \end{itemize}
 
 Suppose we have a transition system $T=<\boldsymbol{V}=\{t,f\},\boldsymbol{F},\boldsymbol{A}>$, where
-\begin{gather*}
+\begin{gather}
     \boldsymbol{A}=\{authorize(C,M),\ assume\_command(C, M)\} \\
     \boldsymbol{F}=\{authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)\}
-\end{gather*}
+\end{gather}
 and $M$ and $C$ are variables that range over all missions and commanders, respectively.
 
 As a policy designer, we might interpret the first statement as defeasible as there might be a rare scenario where an officer might be forced to command his own mission.
@@ -903,20 +904,20 @@ will be simplified to resemble the syntax of \citet{gelfond_action_1998,balducci
 To demonstrate compliance checking, \citet{gelfond_authorization_2008} will use their working example in the context of particular missions and commanders.
 Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$.
 $P_m$ is as follows:
-\begin{gather*}
+\begin{gather}
     d_1(c_1, m_1): \textbf{normally } \neg permitted(assume\_command(c_1, m_1)) \textbf{ if } authorized(c_1, m_1) \\
     d_2(c_1, m_1): \textbf{normally } permitted(assume\_command(c_1, m_1)) \textbf{ if } colonel(c_1) \\
     prefer(d_2(c_1,m_1),d_1(c_1,m_1)) \\
     \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
-\end{gather*}
+\end{gather}
 
 The logic translation of $P_m$, $lp(P_m)$ is the following:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/Pm.lp}
 
 Suppose the agent's environment can be represented by the following state:
-\[
-s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
-\]
+\begin{equation}
+    s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
+\end{equation}
 Its logic encoding $lp(s_0)$ would be:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/s0.lp}
 
@@ -927,9 +928,9 @@ Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
 For completeness, one might be curious to consider actions such as:
-\[
-A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}
-\]
+\begin{equation}
+    A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}
+\end{equation}
 While such an action would be weakly compliant according to $P_m$ (since $permitted(authorize(c_1, m_1))$ is missing but neither $\neg permitted(assume\_command(c_1, m_1))$ or $\neg permitted(authorize(c_1, m_1))$ is present), a designer would likely render this combination of actions invalid by accompanying $P_m$ with an action description in $\mathcal{AL}$.
 Such an action description might look like the following:
 
@@ -1009,9 +1010,9 @@ Let $V_{lim} = \{ f \in \boldsymbol{F_{lim}} | V(f, s)\}$.
 However, in order to evaluate any of the above statements, an agent needs to first compute $\delta(V_{lim})$.
 To do so, \citet{gelfond_authorization_2008} rely on converting an action description in $\mathcal{AL}$ to an ASP logic program and joining it to $lp(P, s)$.
 They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
-\[
-lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
-\]
+\begin{equation}
+    lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
+\end{equation}
 
 Let $SL$ be the set of all static laws from the action description.
 
@@ -1046,10 +1047,10 @@ Let $D = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor
 \end{definition}
 
 Continuing the running example, suppose an agent did not know that $c_1$ is a colonel. Then:
-\begin{gather*}
+\begin{gather}
     \boldsymbol{F_{lim}} = \{ authorized(c_1, m1), commands(c_1, m_1), observer(c_1) \} \\
     V_{lim} = \{ V(authorized(c_1, m1), s) = t, V(commands(c_1, m_1), s) = t, V(observer(c_1), s) = t \}
-\end{gather*}
+\end{gather}
 
 $D$ is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/D.lp}
@@ -1074,15 +1075,15 @@ As mentioned previously, agents in the AAA architecture have an initial descript
 
 \citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$.
 For example,
-\[
-lp(V(f,s)=y, I) = val(f,y,I).
-\]
+\begin{equation}
+    lp(V(f,s)=y, I) = val(f,y,I).
+\end{equation}
 
 For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
-\begin{gather*}
+\begin{gather}
     lp(a, I)=occurs(a, I). \\
     lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
-\end{gather*}
+\end{gather}
 
 Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}$
 
@@ -1129,11 +1130,11 @@ Continuing the previous example, the logic encoding of $P_m$ with the new $lp$ f
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Pm.lp}
 
 Suppose our agent has the following history\footnotemark:
-\begin{gather*}
+\begin{gather}
     s_0 = \{ colonel(c_1), -observer(c_1), -authorized(c_1, m_1), -commands(c_1, m_1) \} \\
     A_0 = \{ authorize(c_1, m_1) \} \\
     H_1 = < s_0, A_0 >
-\end{gather*}
+\end{gather}
 
 \footnotetext{
     \citet{gelfond_authorization_2008} use a different notation than what was introduced in \cref{subsubsec:domain_history} while describing the work of \citet{blount_towards_2014}.
@@ -1204,6 +1205,8 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg obl(a). \\
+\end{multline}
+\begin{multline}
     lp(d: \textbf{normally } \neg obl(a) \textbf{ if } F) =
         \neg obl(a) \leftarrow \\
             lp(F),
@@ -1258,57 +1261,57 @@ He might have requirements such as:
 
 Before we encode these obligations, we need to first define the transition system for this scenario.
 Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where:
-\begin{multline*}
+\begin{multline}
     \boldsymbol{F} = \{enrolled(Student, Class), m(Class, SessionNum), \\
         due\_date(SessionNum, Assignment), family\_emergency(Student, SessionNum), \\
         religious\_holiday(M)\}
-\end{multline*}
-\begin{multline*}
+\end{multline}
+\begin{multline}
     \boldsymbol{A} = \{attend(Student, Class), submit(Student, Assignment, SessionNum), \\
         accept\_unauthorized\_help(Student)\}
-\end{multline*}
+\end{multline}
 and $Student$, $Class$, $Assignment$, and $SessionNum$ are variables that range over their respective values.
 
 Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
 \citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
-\[
-d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
-\]
+\begin{equation}
+    d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
+\end{equation}
 
 \citet{gelfond_authorization_2008} assume that such an implicit exception may be ``Students do not need to attend class during family emergencies.''
 Its encoding would be as follows:
-\[
-\neg obl(attend(S,M)) \textbf{ if } family\_emergency(S,M).
-\]
+\begin{equation}
+    \neg obl(attend(S,M)) \textbf{ if } family\_emergency(S,M).
+\end{equation}
 
 Similarly, they suggest that another exception may be ``Students should not attend class on a religious holiday.''
 Its encoding might be as follows:
-\[
-d_2(S,M): \textbf{ normally } obl(\neg attend(S, M)) \textbf{ if } religious\_holiday(M).
-\]
+\begin{equation}
+    d_2(S,M): \textbf{ normally } obl(\neg attend(S, M)) \textbf{ if } religious\_holiday(M).
+\end{equation}
 
 \citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
 If he does, he may write:
-\[
-prefer(d_2(S, m(C,N)),d_1(S,C,N))
-\]
+\begin{equation}
+    prefer(d_2(S, m(C,N)),d_1(S,C,N))
+\end{equation}
 Otherwise, he may write:
-\[
-prefer(d_1(S,C,N), d_2(S, m(C,N)))
-\]
+\begin{equation}
+    prefer(d_1(S,C,N), d_2(S, m(C,N)))
+\end{equation}
 
 While it is possible to omit such a statement from the policy description, doing so would produce an ambiguous policy that would allow an agent to choose which rule it would prefer to uphold.
 \citet{gelfond_authorization_2008} do not recommend allowing this behavior.
 
 The second rule may be seen as defeasible to encompass assignment extensions.
-\begin{multline*}
+\begin{multline}
     d_3(S,C,N_1,N_2): \textbf{ normally } obl(submit(S,a(C,N_1),m(C,N_2)) \textbf{ if } enrolled(S,C), \\
         due\_date(m(C,N_2), a(C,N_1)).
-\end{multline*}
+\end{multline}
 Lastly, since cheating is never permissible:
-\[
-obl(\neg accept\_unauthorized\_help(S)).
-\]
+\begin{equation}
+    obl(\neg accept\_unauthorized\_help(S)).
+\end{equation}
 
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/P.lp}
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/s.lp}
