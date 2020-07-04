@@ -43,4 +43,5 @@ clean:
 	-rm -- $(shell find -name '*.clingo.txt') $(shell find -name '*.clingo.out.txt')
 
 .PHONY: build build-graphviz build-plantuml build-svg clean
+.SECONDARY:
 .PRECIOUS: %.clingo.txt
