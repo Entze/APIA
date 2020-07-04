@@ -214,9 +214,9 @@ First, we will discuss action language $ \mathcal{A} $.
 Action language $ \mathcal{A} $ was first proposed by \citet{pednault_formulating_1987}.
 $ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
-\[
-a \textbf{ causes } L \textbf{ if } F
-\]
+\begin{equation}
+    a \textbf{ causes } L \textbf{ if } F
+\end{equation}
 where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
 A literal is an element of $(\boldsymbol{F} \cup \{f \in \boldsymbol{F} | \neg f\})$.
 Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $a$ occurs.
@@ -272,14 +272,14 @@ An action description in $\mathcal{B}$ is a set of static and dynamic laws, whic
 
 \begin{itemize}
     \item A static law is written in the following form:
-        \[
-        L \textbf{ if } F
-        \]
+        \begin{equation}
+            L \textbf{ if } F
+        \end{equation}
 
     \item A dynamic law, like in $\mathcal{A}$, is written in the form:
-        \[
-        a \textbf{ causes } L \textbf{ if } F
-        \]
+        \begin{equation}
+            a \textbf{ causes } L \textbf{ if } F
+        \end{equation}
 \end{itemize}
 
 \noindent
@@ -314,9 +314,9 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
         \item $S$ is the set of all interpretations of $\boldsymbol{F}$ that are closed under the static laws of $D$.
         \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item $R$ is the set of all triples $<s, \{a\}, s'>$ such that
-            \[
-            s'=C_{n_Z}\left(E\left(a,s\right)\cup\left(s \cap s'\right)\right)
-            \]
+            \begin{equation}
+                s'=C_{n_Z}\left(E\left(a,s\right)\cup\left(s \cap s'\right)\right)
+            \end{equation}
             $ Z $ is the set of all static laws of $D$ and $E(a, s)$, as before, is the set of heads $L$ of all propositions $a \textbf{ causes } L \textbf{ if } F$ in $D$ such that $s$ satisfies $F$.
     \end{itemize}
 \end{definition}
@@ -334,19 +334,19 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
 
 \begin{itemize}
     \item Dynamic laws (from Action language $ \mathcal{A} $):
-        \[
-        a \textbf{ causes } L \textbf{ if } F
-        \]
+        \begin{equation}
+            a \textbf{ causes } L \textbf{ if } F
+        \end{equation}
 
     \item Static laws (from Action language $ \mathcal{B} $):
-        \[
-        L \textbf{ if } F
-        \]
+        \begin{equation}
+            L \textbf{ if } F
+        \end{equation}
 
     \item Executability constraints:
-        \[
-        \textbf{ impossible } a_0, a_1, \dots, a_k \textbf{ if } F
-        \]
+        \begin{equation}
+            \textbf{ impossible } a_0, a_1, \dots, a_k \textbf{ if } F
+        \end{equation}
 \end{itemize}
 
 Like in $\mathcal{A}$ and $\mathcal{B}$, $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
@@ -440,7 +440,7 @@ In order to persist them, plans are pre-computed and stored as a set of statics.
 In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an \textit{activity}.
 Activities are the set of the following statics~\citep{blount_architecture_2013, blount_towards_2014}:
 
-\begin{gather*}
+\begin{gather}
     activity(M). \\
     component(M, 1, C_1). \\
     component(M, 2, C_2). \\
@@ -448,7 +448,7 @@ Activities are the set of the following statics~\citep{blount_architecture_2013,
     component(M, L, C_L). \\
     length(M, L). \\
     goal(M, G).
-\end{gather*}
+\end{gather}
 
 \noindent
 where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
@@ -661,23 +661,23 @@ These policies are transcribed using static laws in a similar form to action lan
     \label{def:authorization_statements}
     Authorization policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
 
-    \begin{gather*}
+    \begin{gather}
         permitted\left(a\right) \textbf{ if } F \\
         \neg permitted\left(a\right) \textbf{ if } F \\
         \textbf{normally } permitted(a) \textbf{ if } F \\
         \textbf{normally } \neg permitted(a) \textbf{ if } F
-    \end{gather*}
+    \end{gather}
 
     \noindent
     where
     $s \in S$
     and
-    \begin{multline*}
+    \begin{multline}
         F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(a),
         \neg permitted(a), \\
         \textbf{normally } permitted(a),
         \textbf{normally } \neg permitted(a)\}
-    \end{multline*}
+    \end{multline}
 \end{definition}
 
 \begin{definition}
@@ -712,11 +712,11 @@ These policies are transcribed using static laws in a similar form to action lan
 Defeasible authorization policy statements permit exceptions when they are in conflict with other authorization statements of higher importance.
 To encode the relative hierarchy of defeasible statements, \citet{gelfond_authorization_2008} provide an option to label defeasible statements with terms $d_1,d_2,\ldots,d_n$ and use the static $prefer\left(d_i,d_j\right)$ to prioritize statement $d_i$ over statement $d_j$.
 Thus, defeasible authorization policy statements can be written in the following form~\citep{gelfond_authorization_2008}.
-\begin{gather*}
+\begin{gather}
     d_i: \textbf{normally } permitted(a) \textbf{ if } F \\
     d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F \\
     prefer(d_i, d_j)
-\end{gather*}
+\end{gather}
 If a defeasible authorization policy statement is not referenced in a $prefer$ static, then its corresponding label is optional.
 
 \subsubsection{Semantics}
@@ -786,7 +786,7 @@ The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*}
 As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
 To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
-\begin{gather*}
+\begin{gather}
     lp(P,s) = lp(P)\cup lp(s). \\
     lp(P)=\{statement \in P | lp(statement)\} \\
     lp\left(V(f,s)=y\right) =
@@ -801,25 +801,25 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
     lp(\neg permitted(a) \textbf{ if } F) =
         \neg permitted(a) \leftarrow
             lp(F).
-\end{gather*}
-\begin{multline*}
+\end{gather}
+\begin{multline}
     lp(d: \textbf{normally } permitted(a) \textbf{ if } F) = \\
         permitted(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg permitted(a).
-\end{multline*}
-\begin{multline*}
+\end{multline}
+\begin{multline}
     lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) = \\
         \neg permitted(a) \leftarrow
         lp(F),
         \textbf{not } ab(d),
         \textbf{not } permitted(a).
-\end{multline*}
-\begin{gather*}
+\end{multline}
+\begin{gather}
     lp(prefer(d_1, d_2)) =
         ab(d_2) \leftarrow lp(cond_1).
-\end{gather*}
+\end{gather}
 
 \noindent
 where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
@@ -831,12 +831,12 @@ In order to maintain a continuity of syntax between the work of \citet{gelfond_a
         val\left(f,y\right).
 \]
 will be simplified to resemble the syntax of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013} as follows:
-\begin{gather*}
+\begin{gather}
     lp\left(V(f,s)=t\right) =
         f. \\
     lp\left(V(f,s)=f\right) =
         \neg f. \\
-\end{gather*}
+\end{gather}
 
 \begin{definition}
     \label{def:lp_consistent}
@@ -880,17 +880,17 @@ will be simplified to resemble the syntax of \citet{gelfond_action_1998,balducci
 
     \begin{itemize}
         \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 \forall a \in A\ permitted(a) \in P(s)
-            \]
+            \end{equation}
         \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 \forall a \in A\ \neg permitted(a) \not \in P(s)
-            \]
+            \end{equation}
         \item An event $<s, A>$ is \textit{non-compliant} with $P$ if~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 \exists a \in A\ \neg permitted(a) \in P(s)
-            \]
+            \end{equation}
     \end{itemize}
 \end{definition}
 
@@ -959,17 +959,17 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
 
     \begin{itemize}
         \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, s) \cup \{ \leftarrow permitted(a). \}
-            \]
+            \end{equation}
         \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the following logic program is consistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
-            \]
+            \end{equation}
         \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
-            \]
+            \end{equation}
     \end{itemize}
 \end{definition}
 
@@ -1027,21 +1027,21 @@ Let $D = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor
 
     \begin{itemize}
         \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}
-            \]
+            \end{equation}
         \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
-            \]
+            \end{equation}
         \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{non-compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}
-            \]
+            \end{equation}
         \item If $P$ is categorical, then an event $<s_{possible}, a>$, where $s_{possible} \in \delta(V_{lim})$, is also non-compliant with $P$ if the following program is consistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P,s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
-            \]
+            \end{equation}
     \end{itemize}
 \end{definition}
 
@@ -1097,16 +1097,16 @@ Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}
 \end{definition}
 
 Let $Check_1(H_n)$ be the following subprogram:
-\begin{gather*}
+\begin{gather}
     \neg strongly\_compliant \leftarrow occurs(A, I), \textbf{ not } permitted(A, I). \\
     \leftarrow \textbf{ not } \neg strongly\_compliant.
-\end{gather*}
+\end{gather}
 
 Let $Check_2(H_n)$ be the following subprogram:
-\begin{gather*}
+\begin{gather}
     \neg weakly\_compliant \leftarrow occurs(A, I), \neg permitted(A, I). \\
     \leftarrow \textbf{ not } \neg weakly\_compliant.
-\end{gather*}
+\end{gather}
 
 \begin{definition}
     \label{def:authorization_event_compliance_history_knowledge}
@@ -1114,13 +1114,13 @@ Let $Check_2(H_n)$ be the following subprogram:
 
     \begin{itemize}
         \item A model of $H_n$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, H_n) \cup D \cup lp(A) \cup Check_1
-            \]
+            \end{equation}
         \item A model of $H_n$ is \textit{weakly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \[
+            \begin{equation}
                 lp(P, H_n) \cup D \cup lp(A) \cup Check_2
-            \]
+            \end{equation}
         \item A model of $H_n$ that is neither strongly compliant nor weakly compliant must be non-compliant~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
@@ -1166,27 +1166,27 @@ If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ 
 
 \begin{definition}
     Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
-    \begin{gather*}
+    \begin{gather}
         obl\left(a\right) \textbf{ if } F \\
         \neg obl\left(a\right) \textbf{ if } F \\
         d_i: \textbf{normally } obl(a) \textbf{ if } F \\
         d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
         prefer(d_i, d_j)
-    \end{gather*}
+    \end{gather}
     where $s \in S$, $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$, and
-    \begin{multline*}
+    \begin{multline}
         F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a),
             \neg obl(a), \\
             \textbf{normally } obl(a),
             \textbf{normally } \neg obl(a)\}
-    \end{multline*}
+    \end{multline}
 \end{definition}
 
 \subsubsection{Checking compliance}
 
 To evaluate the compliance of action $a$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
-\begin{gather*}
+\begin{gather}
     lp(obl(a)) =
         obl(a). \\
     lp(\neg obl(a)) =
@@ -1197,8 +1197,8 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
     lp(\neg obl(a) \textbf{ if } F) =
         \neg obl(a) \leftarrow
             lp(F).
-\end{gather*}
-\begin{multline*}
+\end{gather}
+\begin{multline}
     lp(d: \textbf{normally } obl(a) \textbf{ if } F) =
         obl(a) \leftarrow \\
             lp(F),
@@ -1209,11 +1209,11 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } obl(a).
-\end{multline*}
-\begin{gather*}
+\end{multline}
+\begin{gather}
     lp(prefer(d_1, d_2)) =
         ab(d_2) \leftarrow lp(cond_1).
-\end{gather*}
+\end{gather}
 
 \begin{definition}
     $obl(h) \in P(s)$ iff the logic program $lp(P, s)$ entails $obl(h)$
