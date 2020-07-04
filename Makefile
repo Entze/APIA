@@ -20,8 +20,8 @@ build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
 	latexmk -pdf
 
-%.pdf: %.dot
-	dot -Tpdf -o $@ $^
+%.pdf %.svg %.png: %.dot
+	dot -T$(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') -o $@ $^
 
 %.svg: %.plantuml
 	plantuml -tsvg $<
