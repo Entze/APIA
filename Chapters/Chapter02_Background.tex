@@ -188,6 +188,15 @@ The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an 
     If the action signature of a transition system is propositional, then the transition system is said to be \textit{propositional}~\citep{gelfond_action_1998}.
 \end{definition}
 
+\begin{definition}
+    Fluents of a propositional action signature are sometimes referred to as \textit{boolean fluents}.
+    Otherwise, there are called \textit{functional fluents}~\citep{chintabathina_modeling_2004}.
+\end{definition}
+
+\begin{definition}
+    An action $a \in A$ is sometimes called an \textit{elementary action} where $A$ is called a \textit{compound action}~\citep{gelfond_authorization_2008}.
+\end{definition}
+
 \subsection{Action languages}
 \label{subsec:action_languages}
 
@@ -816,6 +825,19 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
 If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
 
+In order to maintain a continuity of syntax between the work of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013,gelfond_authorization_2008}, if $\boldsymbol{V} = \{t,f\}$, this paper will adjust $lp$ such that the following translation written in syntax provided by \citet{gelfond_authorization_2008}:
+\[
+    lp\left(V(f,s)=y\right) =
+        val\left(f,y\right).
+\]
+will be simplified to resemble the syntax of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013} as follows:
+\begin{gather*}
+    lp\left(V(f,s)=t\right) =
+        f. \\
+    lp\left(V(f,s)=f\right) =
+        \neg f. \\
+\end{gather*}
+
 \begin{definition}
     \label{def:lp_consistent}
     \label{def:lp_categorical}
@@ -912,7 +934,7 @@ While such an action would be weakly compliant according to $P_m$ (since $permit
 Such an action description might look like the following:
 
 \begin{gather}
-    -observer(c_1) \textbf{ if } colonel(c_1) \label{eq:apl_action_description_5} \\
+    \neg observer(c_1) \textbf{ if } colonel(c_1) \label{eq:apl_action_description_5} \\
     authorize(c_1, m_1) \textbf{ causes } authorized(c_1, m_1) \label{eq:apl_action_description_1} \\
     assume\_command(c_1, m_1) \textbf{ causes } commands(c_1, m_1) \label{eq:apl_action_description_2} \\
     \textbf{impossible } authorize(c_1, m_1) \textbf{ if } authorized(c_1, m_1) \label{eq:apl_action_description_3} \\
@@ -993,7 +1015,7 @@ lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
 
 Let $SL$ be the set of all static laws from the action description.
 
-Let $D = \{ (f,y) \in \boldsymbol{F_{lim}} \times \boldsymbol{V} | lp(V(f,s)=y)\}$
+Let $D = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n)\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$.
 
 \begin{definition}
     $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$~\citep{gelfond_authorization_2008}.
@@ -1066,8 +1088,12 @@ Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}
 
 \begin{definition}
     \label{def:model_of_history}
-    A trajectory $s_0, A_0, s_1, A_1, \dots, A_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, A_0, A_1, \dots, A_{n-1}>$ if $s \subseteq s_0$~\citep{gelfond_authorization_2008}.
+    A trajectory\footnotemark $s_0, A_0, s_1, A_1, \dots, A_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, A_0, A_1, \dots, A_{n-1}>$ if $s \subseteq s_0$~\citep{gelfond_authorization_2008}.
     Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
+    \footnotetext{
+        \citet{gelfond_authorization_2008} define `trajectory' and `history' in terms of elementary actions in contrast to \citet{blount_architecture_2013,gelfond_action_1998}.
+        In order to maintain continuity with the definition of action signatures and transition systems presented in \cref{def:transition_system}, \cref{def:model_of_history} has been extended to include compound actions.
+    }
 \end{definition}
 
 Let $Check_1(H_n)$ be the following subprogram:
@@ -1102,12 +1128,17 @@ Let $Check_2(H_n)$ be the following subprogram:
 Continuing the previous example, the logic encoding of $P_m$ with the new $lp$ function is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Pm.lp}
 
-Suppose our agent has the following history:
+Suppose our agent has the following history\footnotemark:
 \begin{gather*}
     s_0 = \{ colonel(c_1), -observer(c_1), -authorized(c_1, m_1), -commands(c_1, m_1) \} \\
     A_0 = \{ authorize(c_1, m_1) \} \\
     H_1 = < s_0, A_0 >
 \end{gather*}
+
+\footnotetext{
+    \citet{gelfond_authorization_2008} use a different notation than what was introduced in \cref{subsubsec:domain_history} while describing the work of \citet{blount_towards_2014}.
+    However, since \citet{gelfond_authorization_2008} do not explicitly provide the logic translation for an agent's history, the approach of \citet{balduccini_aaa_2008,blount_towards_2014} is used below.
+}
 
 The logic encoding of $H_1$, $lp(H_1)$, would be as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Hn.lp}
