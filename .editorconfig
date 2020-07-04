@@ -1,5 +1,11 @@
 # EditorConfig: a universal project-level configuration file for text editors & IDEs
 # Download your plugin at https://editorconfig.org/#download
+#
+# This list is maintained at https://gitlab.com/0x326/editorconfig
+# and released into the public domain (See https://gitlab.com/0x326/editorconfig/-/blob/master/LICENSE)
+# To update this file, run:
+#
+#     wget https://gitlab.com/0x326/editorconfig/-/raw/master/.editorconfig -O .editorconfig
 
 root = true
 
@@ -14,29 +20,89 @@ indent_size = 4
 [Makefile]
 indent_style = tab
 
-[*.tex]
+[Bakefile]
 indent_size = 4
 
-[*.bib]
-indent_style = tab
+[Dockerfile]
+indent_size = 4
 
-[*.{R,r}]
+[Caddyfile]
+indent_size = 4
+
+# Web programming
+[*.{html,htm}]
 indent_size = 2
 
+[*.css]
+indent_size = 4
+
+[*.{js,ts}]
+indent_size = 2
+
+[*.{jsx,tsx}]
+indent_size = 2
+
+[*.php]
+indent_size = 2
+
+# Java
+[*.java]
+indent_size = 4
+
+# Python
 [*.py]
 indent_size = 4
 
-[*.sql]
+# C/C++
+[*.{c,cpp}]
 indent_size = 4
 
+# Shell scripting
+[*.sh]
+indent_size = 4
+
+[*.ps1]
+indent_size = 4
+
+# Data serialization
 [*.json]
 indent_size = 2
 
 [*.{yml,yaml}]
 indent_size = 2
 
+# Documentation
 [*.{md,markdown}]
 indent_size = 2
 
 [*.rst]
 indent_size = 3
+
+# Misc
+
+[*.{R,r}]
+indent_size = 4
+
+[CMakeLists.txt]
+indent_size = 4
+
+[*.sql]
+indent_size = 4
+
+[*.tex]
+indent_size = 4
+
+[*.bib]
+indent_style = tab
+
+[*.lp]
+indent_size = 4
+
+[{.tmux.conf,.tmux.conf.local}]
+indent_size = 2
+
+[.ssh/config]
+indent_style = tab
+
+[.gitconfig]
+indent_style = tab
