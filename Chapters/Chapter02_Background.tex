@@ -678,13 +678,18 @@ These policies are transcribed using static laws in a similar form to action lan
     \noindent
     where
     $s \in S$
-    and
+    and\footnotemark
     \begin{multline}
         F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(a),
         \neg permitted(a), \\
         \textbf{normally } permitted(a),
         \textbf{normally } \neg permitted(a)\}
     \end{multline}
+
+    \footnotetext{
+        \citet{gelfond_authorization_2008} use the syntax $f = y$ to denote $V(f, s)=y$ for the current state $s$.
+        Usages of this new syntax have been translated in terms of the notation already introduced in this paper so as to highlight the connection between previous concepts.
+    }
 \end{definition}
 
 \begin{definition}
@@ -794,22 +799,23 @@ As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the
 To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
 \begin{gather}
-    lp(P,s) = lp(P)\cup lp(s). \\
-    lp(P)=\{statement \in P | lp(statement)\} \\
+    lp(P,s) = lp(P)\cup lp(s). \label{eq:apl_lp_01} \\
+    lp(P)=\{statement \in P | lp(statement)\} \label{eq:apl_lp_02} \\
     lp\left(V(f,s)=y\right) =
-        val\left(f,y\right). \\
+        val\left(f,y\right). \label{eq:apl_lp_03} \\
     lp(permitted(a)) =
-        permitted(a). \\
+        permitted(a). \label{eq:apl_lp_04} \\
     lp(\neg permitted(a)) =
-        \neg permitted(a). \\
+        \neg permitted(a). \label{eq:apl_lp_05} \\
     lp(permitted(a) \textbf{ if } F) =
         permitted(a) \leftarrow
-            lp(F). \\
+            lp(F). \label{eq:apl_lp_06} \\
     lp(\neg permitted(a) \textbf{ if } F) =
         \neg permitted(a) \leftarrow
-            lp(F).
+            lp(F). \label{eq:apl_lp_07}
 \end{gather}
 \begin{multline}
+    \label{eq:apl_lp_08}
     lp(d: \textbf{normally } permitted(a) \textbf{ if } F) = \\
         permitted(a) \leftarrow
             lp(F),
@@ -817,6 +823,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
             \textbf{not } \neg permitted(a).
 \end{multline}
 \begin{multline}
+    \label{eq:apl_lp_09}
     lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) = \\
         \neg permitted(a) \leftarrow
         lp(F),
@@ -825,7 +832,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \end{multline}
 \begin{gather}
     lp(prefer(d_1, d_2)) =
-        ab(d_2) \leftarrow lp(cond_1).
+        ab(d_2) \leftarrow lp(cond_1). \label{eq:apl_lp_10}
 \end{gather}
 
 \noindent
@@ -1035,20 +1042,20 @@ Let $D = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor
     \begin{itemize}
         \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
+                \label{eq:authorization_partial_knowledge_strongly_compliant}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}
             \end{equation}
         \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
+                \label{eq:authorization_partial_knowledge_weakly_compliant}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
             \end{equation}
         \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{non-compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
+                \label{eq:authorization_partial_knowledge_non_compliant}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}
             \end{equation}
-        \item If $P$ is categorical, then an event $<s_{possible}, a>$, where $s_{possible} \in \delta(V_{lim})$, is also non-compliant with $P$ if the following program is consistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                lp(P,s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
-            \end{equation}
+        \item If $P$ is categorical, then an event $<s_{possible}, a>$, where $s_{possible} \in \delta(V_{lim})$, is also non-compliant with $P$ if the program \cref{eq:authorization_partial_knowledge_weakly_compliant} is consistent~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1069,9 +1076,21 @@ The encoding of $\delta(V_{lim})$ is as follows:
 
 %\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/Pm.lp}
 
+The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/strongly_compliant.clingo.txt}
+Thus $A$ is not strongly compliant with $P_m$.
+
+The result of logic program \cref{eq:authorization_partial_knowledge_weakly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/weakly_compliant.clingo.txt}
+Thus $A$ is not weakly compliant with $P_m$.
+
+The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant.clingo.txt}
+However, before we can say $A$ is non-compliant, we must first determine whether $P_m$ is categorical.
+To do so, we will rerun the second test giving clingo the option ``0'', which instructs clingo to find every satisfiable model instead of stopping at the first one.
+The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with option ``0'' is as follows:
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.clingo.txt}
+Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
 
 \subsubsection{Checking compliance with minimal knowledge of state}
 
@@ -1079,16 +1098,57 @@ The encoding of $\delta(V_{lim})$ is as follows:
 Nonetheless, they develop a method for checking policy compliance under the AAA architecture knowledge constraints.
 As mentioned previously, agents in the AAA architecture have an initial description of their initial state (complete or partial), a history of their actions $A_0, A_1, \dots, A_n$, and may have memory of fluent values at particular points in time.
 
-\citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$.
-For example,
-\begin{equation}
-    lp(V(f,s)=y, I) = val(f,y,I).
-\end{equation}
+\citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$ (\cref{eq:apl_lp_01,eq:apl_lp_02,eq:apl_lp_03,eq:apl_lp_04,eq:apl_lp_05,eq:apl_lp_06,eq:apl_lp_07,eq:apl_lp_08,eq:apl_lp_09,eq:apl_lp_10}).
+The new $lp$ function is defined as follows:
+\begin{gather}
+    lp(P,s,I) = lp(P,I)\cup lp(s,I). \label{eq:apl_lp_inc_01} \\
+    lp(P,I)=\{statement \in P | lp(statement,I)\} \label{eq:apl_lp_inc_02} \\
+    lp\left(V(f,s)=y,I\right) =
+        val\left(f,y,I\right). \label{eq:apl_lp_inc_03} \\
+    lp(permitted(a),I) =
+        permitted(a, I). \label{eq:apl_lp_inc_04} \\
+    lp(\neg permitted(a),I) =
+        \neg permitted(a, I). \label{eq:apl_lp_inc_05} \\
+    lp(permitted(a) \textbf{ if } F, I) =
+        permitted(a, I) \leftarrow
+            lp(F, I). \label{eq:apl_lp_inc_06} \\
+    lp(\neg permitted(a) \textbf{ if } F, I) =
+        \neg permitted(a, I) \leftarrow
+            lp(F, I). \label{eq:apl_lp_inc_07}
+\end{gather}
+\begin{multline}
+    \label{eq:apl_lp_inc_08}
+    lp(d: \textbf{normally } permitted(a) \textbf{ if } F, I) = \\
+        permitted(a, I) \leftarrow
+            lp(F, I),
+            \textbf{not } ab(d, I),
+            \textbf{not } \neg permitted(a, I).
+\end{multline}
+\begin{multline}
+    \label{eq:apl_lp_inc_09}
+    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F, I) = \\
+        \neg permitted(a, I) \leftarrow
+            lp(F, I),
+            \textbf{not } ab(d, I),
+            \textbf{not } permitted(a, I).
+\end{multline}
+\begin{gather}
+    lp(prefer(d_1, d_2), I) =
+        ab(d_2, I) \leftarrow lp(cond_1, I). \label{eq:apl_lp_inc_10}
+\end{gather}
 
 For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
 \begin{gather}
     lp(a, I)=occurs(a, I). \\
     lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
+\end{gather}
+
+Similar to before, the notation of \citet{gelfond_authorization_2008} will be simplified when $\boldsymbol{V}=\{t,f\}$ so that \cref{eq:apl_lp_inc_03} will represented as:
+\begin{gather}
+    lp\left(V(f,s)=t,I\right) =
+        val\left(f,I\right). \\
+    lp\left(V(f,s)=f,I\right) =
+        -val\left(f,I\right). \\
 \end{gather}
 
 Let $D_0 = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0)\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
@@ -1122,10 +1182,12 @@ Let $Check_2(H_n)$ be the following subprogram:
     \begin{itemize}
         \item A model of $H_n$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
+                \label{eq:authorization_history_knowledge_strongly_compliant}
                 lp(P, H_n) \cup D \cup lp(A) \cup Check_1
             \end{equation}
         \item A model of $H_n$ is \textit{weakly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
+                \label{eq:authorization_history_knowledge_weakly_compliant}
                 lp(P, H_n) \cup D \cup lp(A) \cup Check_2
             \end{equation}
         \item A model of $H_n$ that is neither strongly compliant nor weakly compliant must be non-compliant~\citep{gelfond_authorization_2008}.
@@ -1147,16 +1209,31 @@ Suppose our agent has the following history\footnotemark:
     However, since \citet{gelfond_authorization_2008} do not explicitly provide the logic translation for an agent's history, the approach of \citet{balduccini_aaa_2008,blount_towards_2014} is used below.
 }
 
-The logic encoding of $H_1$, $lp(H_1)$, would be as follows:
+The logic encoding $lp(H_1)$ would be as follows\footnotemark:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Hn.lp}
 
-%\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/D.lp}
+\footnotetext{
+    It is worth noting that the syntax \citet{gelfond_authorization_2008} provide for $lp(H_1)$ is very similar to that introduced in \citet{blount_towards_2014}.
+    Whereas \citet{blount_towards_2014} would write $obs(FluentName, FluentValue, State)$ and $hpd(ActionName, State)$,\citet{gelfond_authorization_2008} write $val(FluentName, FluentValue, State)$ and $occurs(ActionName, State)$, respectively.
+}
+
+$D_0$ is as follows:
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/D0.lp}
+
+The logic encoding $lp(A_1)$ is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/A1.lp}
+
+$Check_1$ and $Check_2$ are as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_1.lp}
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_2.lp}
 
+The output of logic program \cref{eq:authorization_history_knowledge_strongly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_1.clingo.txt}
+
+The output of logic program \cref{eq:authorization_history_knowledge_weakly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_2.clingo.txt}
+
+Thus, $H_n$ is weakly compliant.
 
 \subsection{Language $\mathcal{AOPL}$}
 
