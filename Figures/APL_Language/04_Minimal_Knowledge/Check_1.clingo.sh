@@ -1,1 +1,1 @@
-clingo Pm.lp Hn.lp D.lp A1.lp Check_1.lp
+clingo Pm_1.lp Hn.lp D0.lp A1.lp Check_1.lp

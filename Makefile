@@ -40,7 +40,7 @@ build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 
 clean:
 	latexmk -C
-	rm $(shell find -name '*.clingo.txt') $(shell find -name '*.clingo.out.txt')
+	-rm -- $(shell find -name '*.clingo.txt') $(shell find -name '*.clingo.out.txt')
 
 .PHONY: build build-graphviz build-plantuml build-svg clean
 .PRECIOUS: %.clingo.txt
