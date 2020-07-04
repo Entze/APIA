@@ -1091,7 +1091,7 @@ For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
     lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
 \end{gather}
 
-Let $D_0 = \{ (f,y) \in \boldsymbol{F} \times \boldsymbol{V} | lp(V(f,s)=y, 0)\}$
+Let $D_0 = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0)\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
 
 \begin{definition}
     \label{def:model_of_history}
