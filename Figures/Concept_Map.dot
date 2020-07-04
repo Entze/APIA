@@ -62,10 +62,10 @@ digraph concept_map {
         "Language APL";
         "Language AOPL";
 
-        "Language APL" -> "Action language AL";
+        "Language APL" -> "Action Language AL";
 
         "Language AOPL" -> "Language APL";
-        "Language AOPL" -> "Action language AL";
+        "Language AOPL" -> "Action Language AL";
     }
     subgraph other {
         style = filled;
@@ -75,15 +75,15 @@ digraph concept_map {
         "A-Prolog language";
         "CR-Prolog language";
         "CR-MODELS engine";
-        "CR-Prolog2 langauge";
+        "CR-Prolog2 language";
         "Prolog";
 
-        "Answer Set Programming (ASP)" -> "A-Prolog langauge";
-        "CR-Prolog language" -> "A-Prolog langauge";
+        "Answer Set Programming (ASP)" -> "A-Prolog language";
+        "CR-Prolog language" -> "A-Prolog language";
         "CR-MODELS engine" -> "CR-Prolog language";
         "CR-Prolog2 language" -> "CR-Prolog language";
 
-        "A-Prolog langauge" -> "Prolog";
+        "A-Prolog language" -> "Prolog";
     }
     subgraph other2 {
         style = filled;
