@@ -5,6 +5,8 @@ stages:
 
 Graphviz figures to PDF:
   stage: graphs
+  when: manual
+  allow_failure: false
   image: alpine
   needs:
   script:
@@ -17,6 +19,8 @@ Graphviz figures to PDF:
 
 PlantUML figures to PDF:
   stage: graphs
+  when: manual
+  allow_failure: false
   image:
     name: think/plantuml
     entrypoint:
@@ -32,6 +36,8 @@ PlantUML figures to PDF:
 
 Draw.io figures to SVG:
   stage: draw.io graphs
+  when: manual
+  allow_failure: false
   image:
     name: rlespinasse/drawio-export
     entrypoint:
@@ -56,6 +62,8 @@ Draw.io figures to SVG:
 
 SVG figures to PDF:
   stage: graphs
+  when: manual
+  allow_failure: false
   image: alpine:3.12
   needs:
     - Draw.io figures to SVG
@@ -69,6 +77,8 @@ SVG figures to PDF:
 
 PDF:
   stage: pdf
+  when: manual
+  allow_failure: false
   image: blang/latex:ctanfull
   needs:
     - PlantUML figures to PDF
