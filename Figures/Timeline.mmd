@@ -1,0 +1,21 @@
+gantt
+	title Timeline
+	dateFormat  YYYY-MM-DD
+
+	section Research
+		Create examples				: create_examples, 2020-08-24, 2w
+		Update AIA to use clingo	: update_aia, after create_examples, 4w
+		Implement AIA/AOPL			: implement_aia_aopl, after update_aia, 3w
+		Apply AIA/AOPL to examples	: apply_aia_aopl, after implement_aia_aopl, 2w
+
+	section Academic break
+		Christmas break				: christmas_break, 2020-12-09, 2021-01-25
+
+	section Write-up
+		Write thesis				: thesis, after create_examples, 2020-12-09
+		Write thesis				: thesis, after christmas_break, 2021-04-01
+		Submit to thesis committee	: committee_submission, 2021-04-01, 1d
+		Prepare for Thesis Defense	: after committee_submission, 7d
+		Thesis Defense				: crit, defense, 2021-04-10, 1d
+		Apply final edits			: after defense, 2021-04-17
+		Submit to Graduate school	: crit, final_submission, 2021-04-17, 1d
