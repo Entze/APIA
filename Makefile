@@ -1,3 +1,5 @@
+export NODE_OPTIONS := --unhandled-rejections=strict
+
 GRAPHVIZ_FIGURES := $(shell find Figures/ -name '*.dot' -type f)
 PLANTUML_FIGURES := $(shell find Figures/ -name '*.plantuml' -type f)
 SVG_FIGURES := $(shell find Figures/ -name '*.svg' -type f)
