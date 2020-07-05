@@ -104,7 +104,7 @@ indent_size = 4
 
 # Mermaid (https://mermaid-js.github.io/mermaid/)
 [*.mmd]
-indent_size = 4
+indent_style = tab
 
 [{.tmux.conf,.tmux.conf.local}]
 indent_size = 2
