@@ -52,7 +52,7 @@ build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 %.svg: %.plantuml
 	plantuml -tsvg $<
 
-%.svg %.png %.pdf: %.mmd
+%.svg %.png: %.mmd
 	yarn run mmdc -i $< -o $@
 
 %.pdf: %.svg
