@@ -5,6 +5,7 @@
 ```bash
 conda env update --prune
 conda activate thesis
+yarn install
 ```
 
 ## Usage
