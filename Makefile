@@ -49,6 +49,9 @@ build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 %.svg: %.plantuml
 	plantuml -tsvg $<
 
+%.svg %.png %.pdf: %.mmd
+	yarn run mmdc -i $< -o $@
+
 %.pdf: %.svg
 	inkscape --export-filename=$@ $<
 
