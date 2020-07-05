@@ -95,7 +95,15 @@ indent_size = 4
 [*.bib]
 indent_style = tab
 
+# clingo (https://potassco.org/clingo/)
 [*.lp]
+indent_size = 4
+
+[*.dot]
+indent_size = 4
+
+# Mermaid (https://mermaid-js.github.io/mermaid/)
+[*.mmd]
 indent_size = 4
 
 [{.tmux.conf,.tmux.conf.local}]
