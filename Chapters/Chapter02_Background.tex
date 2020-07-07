@@ -218,7 +218,7 @@ It is composed of propositions of the form:
     a \textbf{ causes } L \textbf{ if } F
 \end{equation}
 where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
-A literal is an element of $(\boldsymbol{F} \cup \{f \in \boldsymbol{F} | \neg f\})$.
+A literal is an element of $(\boldsymbol{F} \cup \{\neg f | f \in \boldsymbol{F}\})$.
 Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $a$ occurs.
 Likewise, $\neg L$ denotes $V(L, s')=f$.
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
@@ -284,7 +284,7 @@ An action description in $\mathcal{B}$ is a set of static and dynamic laws, whic
 \end{itemize}
 
 \noindent
-where $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a, possibly empty, conjunction of literals.
+where $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{\neg f | f \in \boldsymbol{F}\})$ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{\neg f | f \in \boldsymbol{F}\})$ is a, possibly empty, conjunction of literals.
 
 Similar to $\mathcal{A}$, if $F$ is empty then it is denoted as $True$ and can be omitted.
 
@@ -350,7 +350,7 @@ An action description in $ \mathcal{AL} $ is a set of propositions written in th
         \end{equation}
 \end{itemize}
 
-Like in $\mathcal{A}$ and $\mathcal{B}$, $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{f \in \boldsymbol{F}| \neg f\})$ is a possibly empty conjunction of literals.
+Like in $\mathcal{A}$ and $\mathcal{B}$, $a \in \boldsymbol{A}$ is the action name, $L \in(\boldsymbol{F} \cup\{\neg f | f \in \boldsymbol{F}\}) $ is a literal (or \textit{head}) and $F \subseteq(\boldsymbol{F} \cup\{\neg f | f \in \boldsymbol{F}\})$ is a possibly empty conjunction of literals.
 
 Later work by \citet{gelfond_knowledge_2014} proposes classifications for literals: \textit{statics}, \textit{inertial fluents}, and \textit{defined fluents}.
 The term \textit{fluent} has a slightly different meaning in this context.
@@ -681,7 +681,7 @@ These policies are transcribed using static laws in a similar form to action lan
     $s \in S$
     and\footnotemark
     \begin{multline}
-        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{permitted(a),
+        F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{permitted(a),
         \neg permitted(a), \\
         \textbf{normally } permitted(a),
         \textbf{normally } \neg permitted(a)\}
@@ -801,7 +801,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 
 \begin{gather}
     lp(P,s) = lp(P)\cup lp(s). \label{eq:apl_lp_01} \\
-    lp(P)=\{statement \in P | lp(statement)\} \label{eq:apl_lp_02} \\
+    lp(P)=\{lp(statement) | statement \in P\} \label{eq:apl_lp_02} \\
     lp\left(V(f,s)=y\right) =
         val\left(f,y\right). \label{eq:apl_lp_03} \\
     lp(permitted(a)) =
@@ -838,7 +838,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 
 \noindent
 where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
-If S is a set of atoms, then $lp(S)=\{atom \in S | lp(atom)\}$
+If S is a set of atoms, then $lp(S)=\{lp(atom) | atom \in S\}$
 
 In order to maintain a continuity of syntax between the work of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013,gelfond_authorization_2008}, if $\boldsymbol{V} = \{t,f\}$, this paper will adjust $lp$ such that the following translation written in syntax provided by \citet{gelfond_authorization_2008}:
 \[
@@ -1003,7 +1003,7 @@ Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a)
 It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
 \citet{gelfond_authorization_2008} show that checking policy compliance can also be possible when an agent only knows the value of a subset of fluents in $s$.
 Let $\boldsymbol{F_{lim}} \subseteq \boldsymbol{F}$ be the subset of fluents for which the agent knows $V(f, s)$ where $f \in \boldsymbol{F_{lim}}$.
-Let $V_{lim} = \{ f \in \boldsymbol{F_{lim}} | V(f, s)\}$.
+Let $V_{lim} = \{V(f, s) |  f \in \boldsymbol{F_{lim}}\}$.
 
 \begin{definition}
     \label{def:simple_knowledge_state}
@@ -1030,7 +1030,7 @@ They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
 
 Let $SL$ be the set of all static laws from the action description.
 
-Let $D = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n)\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$.
+Let $D = \{lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n) |  f \in \boldsymbol{F_{lim}}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$.
 
 \begin{definition}
     $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$~\citep{gelfond_authorization_2008}.
@@ -1103,7 +1103,7 @@ As mentioned previously, agents in the AAA architecture have an initial descript
 The new $lp$ function is defined as follows:
 \begin{gather}
     lp(P,s,I) = lp(P,I)\cup lp(s,I). \label{eq:apl_lp_inc_01} \\
-    lp(P,I)=\{statement \in P | lp(statement,I)\} \label{eq:apl_lp_inc_02} \\
+    lp(P,I)=\{lp(statement,I) | statement \in P\} \label{eq:apl_lp_inc_02} \\
     lp\left(V(f,s)=y,I\right) =
         val\left(f,y,I\right). \label{eq:apl_lp_inc_03} \\
     lp(permitted(a),I) =
@@ -1152,7 +1152,7 @@ Similar to before, the notation of \citet{gelfond_authorization_2008} will be si
         -val\left(f,I\right). \\
 \end{gather}
 
-Let $D_0 = \{ f \in \boldsymbol{F_{lim}} | lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0)\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
+Let $D_0 = \{lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0) |  f \in \boldsymbol{F_{lim}}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
 
 \begin{definition}
     \label{def:model_of_history}
@@ -1258,9 +1258,9 @@ If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ 
         d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
         prefer(d_i, d_j)
     \end{gather}
-    where $s \in S$, $a \in \boldsymbol{A} \cup \{a' \in \boldsymbol{A} | \neg a'\}$, and
+    where $s \in S$, $a \in \boldsymbol{A} \cup \{\neg a' | a' \in \boldsymbol{A}\}$, and
     \begin{multline}
-        F\subseteq\left(\{(f, y) \in \boldsymbol{F} \times \boldsymbol{V} | V(f,s)=y\}\right) \cup (\{obl(a),
+        F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{obl(a),
             \neg obl(a), \\
             \textbf{normally } obl(a),
             \textbf{normally } \neg obl(a)\}
