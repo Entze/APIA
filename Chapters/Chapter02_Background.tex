@@ -800,24 +800,24 @@ As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the
 To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
 
 \begin{gather}
-    lp(P,s) = lp(P)\cup lp(s). \label{eq:apl_lp_01} \\
-    lp(P)=\{lp(statement) | statement \in P\} \label{eq:apl_lp_02} \\
-    lp\left(V(f,s)=y\right) =
+    lp(P,s) =_{def} lp(P)\cup lp(s). \label{eq:apl_lp_01} \\
+    lp(P)=_{def}\{lp(statement) | statement \in P\} \label{eq:apl_lp_02} \\
+    lp\left(V(f,s)=y\right) =_{def}
         val\left(f,y\right). \label{eq:apl_lp_03} \\
-    lp(permitted(a)) =
+    lp(permitted(a)) =_{def}
         permitted(a). \label{eq:apl_lp_04} \\
-    lp(\neg permitted(a)) =
+    lp(\neg permitted(a)) =_{def}
         \neg permitted(a). \label{eq:apl_lp_05} \\
-    lp(permitted(a) \textbf{ if } F) =
+    lp(permitted(a) \textbf{ if } F) =_{def}
         permitted(a) \leftarrow
             lp(F). \label{eq:apl_lp_06} \\
-    lp(\neg permitted(a) \textbf{ if } F) =
+    lp(\neg permitted(a) \textbf{ if } F) =_{def}
         \neg permitted(a) \leftarrow
             lp(F). \label{eq:apl_lp_07}
 \end{gather}
 \begin{multline}
     \label{eq:apl_lp_08}
-    lp(d: \textbf{normally } permitted(a) \textbf{ if } F) = \\
+    lp(d: \textbf{normally } permitted(a) \textbf{ if } F) =_{def} \\
         permitted(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
@@ -825,31 +825,31 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \end{multline}
 \begin{multline}
     \label{eq:apl_lp_09}
-    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) = \\
+    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) =_{def} \\
         \neg permitted(a) \leftarrow
         lp(F),
         \textbf{not } ab(d),
         \textbf{not } permitted(a).
 \end{multline}
 \begin{gather}
-    lp(prefer(d_1, d_2)) =
+    lp(prefer(d_1, d_2)) =_{def}
         ab(d_2) \leftarrow lp(cond_1). \label{eq:apl_lp_10}
 \end{gather}
 
 \noindent
 where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
-If S is a set of atoms, then $lp(S)=\{lp(atom) | atom \in S\}$
+If S is a set of atoms, then $lp(S)=_{def}\{lp(atom) | atom \in S\}$
 
 In order to maintain a continuity of syntax between the work of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013,gelfond_authorization_2008}, if $\boldsymbol{V} = \{t,f\}$, this paper will adjust $lp$ such that the following translation written in syntax provided by \citet{gelfond_authorization_2008}:
 \[
-    lp\left(V(f,s)=y\right) =
+    lp\left(V(f,s)=y\right) =_{def}
         val\left(f,y\right).
 \]
 will be simplified to resemble the syntax of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013} as follows:
 \begin{gather}
-    lp\left(V(f,s)=t\right) =
+    lp\left(V(f,s)=t\right) =_{def}
         f. \\
-    lp\left(V(f,s)=f\right) =
+    lp\left(V(f,s)=f\right) =_{def}
         \neg f. \\
 \end{gather}
 
@@ -1025,7 +1025,7 @@ However, in order to evaluate any of the above statements, an agent needs to fir
 To do so, \citet{gelfond_authorization_2008} rely on converting an action description in $\mathcal{AL}$ to an ASP logic program and joining it to $lp(P, s)$.
 They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
 \begin{equation}
-    lp(V(L,s)=y \textbf{ if } F) = val(l, y) \leftarrow lp(F).
+    lp(V(L,s)=y \textbf{ if } F) =_{def} val(l, y) \leftarrow lp(F).
 \end{equation}
 
 Let $SL$ be the set of all static laws from the action description.
@@ -1102,24 +1102,24 @@ As mentioned previously, agents in the AAA architecture have an initial descript
 \citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$ (\cref{eq:apl_lp_01,eq:apl_lp_02,eq:apl_lp_03,eq:apl_lp_04,eq:apl_lp_05,eq:apl_lp_06,eq:apl_lp_07,eq:apl_lp_08,eq:apl_lp_09,eq:apl_lp_10}).
 The new $lp$ function is defined as follows:
 \begin{gather}
-    lp(P,s,I) = lp(P,I)\cup lp(s,I). \label{eq:apl_lp_inc_01} \\
-    lp(P,I)=\{lp(statement,I) | statement \in P\} \label{eq:apl_lp_inc_02} \\
-    lp\left(V(f,s)=y,I\right) =
+    lp(P,s,I) =_{def} lp(P,I)\cup lp(s,I). \label{eq:apl_lp_inc_01} \\
+    lp(P,I)=_{def}\{lp(statement,I) | statement \in P\} \label{eq:apl_lp_inc_02} \\
+    lp\left(V(f,s)=y,I\right) =_{def}
         val\left(f,y,I\right). \label{eq:apl_lp_inc_03} \\
-    lp(permitted(a),I) =
+    lp(permitted(a),I) =_{def}
         permitted(a, I). \label{eq:apl_lp_inc_04} \\
-    lp(\neg permitted(a),I) =
+    lp(\neg permitted(a),I) =_{def}
         \neg permitted(a, I). \label{eq:apl_lp_inc_05} \\
-    lp(permitted(a) \textbf{ if } F, I) =
+    lp(permitted(a) \textbf{ if } F, I) =_{def}
         permitted(a, I) \leftarrow
             lp(F, I). \label{eq:apl_lp_inc_06} \\
-    lp(\neg permitted(a) \textbf{ if } F, I) =
+    lp(\neg permitted(a) \textbf{ if } F, I) =_{def}
         \neg permitted(a, I) \leftarrow
             lp(F, I). \label{eq:apl_lp_inc_07}
 \end{gather}
 \begin{multline}
     \label{eq:apl_lp_inc_08}
-    lp(d: \textbf{normally } permitted(a) \textbf{ if } F, I) = \\
+    lp(d: \textbf{normally } permitted(a) \textbf{ if } F, I) =_{def} \\
         permitted(a, I) \leftarrow
             lp(F, I),
             \textbf{not } ab(d, I),
@@ -1127,28 +1127,28 @@ The new $lp$ function is defined as follows:
 \end{multline}
 \begin{multline}
     \label{eq:apl_lp_inc_09}
-    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F, I) = \\
+    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F, I) =_{def} \\
         \neg permitted(a, I) \leftarrow
             lp(F, I),
             \textbf{not } ab(d, I),
             \textbf{not } permitted(a, I).
 \end{multline}
 \begin{gather}
-    lp(prefer(d_1, d_2), I) =
+    lp(prefer(d_1, d_2), I) =_{def}
         ab(d_2, I) \leftarrow lp(cond_1, I). \label{eq:apl_lp_inc_10}
 \end{gather}
 
 For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
 \begin{gather}
-    lp(a, I)=occurs(a, I). \\
-    lp(P, H) = lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
+    lp(a, I)=_{def}occurs(a, I). \\
+    lp(P, H) =_{def} lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
 \end{gather}
 
 Similar to before, the notation of \citet{gelfond_authorization_2008} will be simplified when $\boldsymbol{V}=\{t,f\}$ so that \cref{eq:apl_lp_inc_03} will represented as:
 \begin{gather}
-    lp\left(V(f,s)=t,I\right) =
+    lp\left(V(f,s)=t,I\right) =_{def}
         val\left(f,I\right). \\
-    lp\left(V(f,s)=f,I\right) =
+    lp\left(V(f,s)=f,I\right) =_{def}
         -val\left(f,I\right). \\
 \end{gather}
 
@@ -1272,33 +1272,33 @@ If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ 
 To evaluate the compliance of action $a$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
 \begin{gather}
-    lp(obl(a)) =
+    lp(obl(a)) =_{def}
         obl(a). \\
-    lp(\neg obl(a)) =
+    lp(\neg obl(a)) =_{def}
         \neg obl(a). \\
-    lp(obl(a) \textbf{ if } F) =
+    lp(obl(a) \textbf{ if } F) =_{def}
         obl(a) \leftarrow
             lp(F). \\
-    lp(\neg obl(a) \textbf{ if } F) =
+    lp(\neg obl(a) \textbf{ if } F) =_{def}
         \neg obl(a) \leftarrow
             lp(F).
 \end{gather}
 \begin{multline}
-    lp(d: \textbf{normally } obl(a) \textbf{ if } F) =
+    lp(d: \textbf{normally } obl(a) \textbf{ if } F) =_{def}
         obl(a) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg obl(a). \\
 \end{multline}
 \begin{multline}
-    lp(d: \textbf{normally } \neg obl(a) \textbf{ if } F) =
+    lp(d: \textbf{normally } \neg obl(a) \textbf{ if } F) =_{def}
         \neg obl(a) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } obl(a).
 \end{multline}
 \begin{gather}
-    lp(prefer(d_1, d_2)) =
+    lp(prefer(d_1, d_2)) =_{def}
         ab(d_2) \leftarrow lp(cond_1).
 \end{gather}
 
