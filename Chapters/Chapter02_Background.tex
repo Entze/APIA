@@ -154,23 +154,23 @@ The formal definition is as follows:
 
 \begin{definition}
     \label{def:transition_system}
-    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow \boldsymbol{V} $, and $ R \subseteq S \times \mathcal{P}(\boldsymbol{A}) \times S $.
+    A transition system of an action signature $ < \boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}> $ consists of a set $ S $ of states, a function $ V : \boldsymbol{F} \times S\rightarrow \boldsymbol{V} $, and a set of transitions $ R \subseteq S \times \mathcal{P}(\boldsymbol{A}) \times S $.
 \end{definition}
 
 $ V(P,s) $ is said to be the value of fluent $ P $ in state $ s $.
-The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an actions' $ A $ execution in state $ s $.
+The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an action $ A $'s execution in state $ s $.
 
 \begin{definition}
     \label{def:action_a_determinism}
-    $ A $ is \textit{deterministic} in $ s $ if there is exactly one $ s' $~\citep{gelfond_action_1998}.
-    If $ A $ is \textit{non-deterministic}, then each $ s' $ \textit{may} be the result of $ A $~\citep{blount_architecture_2013}.
+    Action $ A $ is \textit{deterministic} in state $ s $ if there is exactly one state $ s' $~\citep{gelfond_action_1998}.
+    If $ A $ is \textit{non-deterministic}, then each state $ s' $ \textit{may} be the result of action $ A $~\citep{blount_architecture_2013}.
     $ A $ is \textit{executable} in $ s $ iff there is at least one state $ s' $ where $ <s, A, s'> \in R $.
     When $ \left|A\right|>1 $, $A$ represents the execution of concurrent actions~\citep{gelfond_action_1998, blount_architecture_2013}.
 \end{definition}
 
 \begin{definition}
     \label{def:wait}
-    When $A = \emptyset$, $A$ is sometimes denoted as $Wait$~\citep{gelfond_action_1998}.
+    When action $A = \emptyset$, $A$ is sometimes denoted as $Wait$~\citep{gelfond_action_1998}.
 \end{definition}
 
 \begin{definition}
@@ -224,6 +224,8 @@ Likewise, $\neg L$ denotes $V(L, s')=f$.
 In the case $ F $ is empty, it is denoted as $ True $ and can be omitted (along with the preceding ``if'').
 A set of these propositions is called an \textit{action description}~\citep{gelfond_action_1998}.
 
+To formally define the semantics of an action description in $\mathcal{A}$, we need to first define an interpretation.
+
 \begin{definition}
     \label{def:interpretation}
     A function $G$ is an \textit{interpretation} of a set $S$ iff $G: S \rightarrow \{t, f\}$~\citep{gelfond_action_1998}.
@@ -238,14 +240,13 @@ A set of these propositions is called an \textit{action description}~\citep{gelf
         \item $ V(P, s) $ is the value of fluent $P$ in state $s$.
         \item R is the set of all triples $ <s, \{a\}, s'> $ such that $ E(a,s) \subseteq s' \subseteq E(a,s) \cup s $.
     \end{itemize}
+    where $ E(a, s) $ is the set of heads $ L $ of all propositions $ a \textbf{ causes } L \textbf{ if } F $ in $ D $ such that $ s $ satisfies $ F $.
+    $ E(a, s) $ represents all effects of an action $ a $ in state $ s $~\citep{gelfond_action_1998}.
+    Writing $ E\left(a,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ a $ are actually present.
+    Adding $ \subseteq E\left(a,s\right)\cup s $, allows $ s' $ to equal $ s $.
+    It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\citep{gelfond_action_1998}.
+    Therefore, $ a $ is deterministic for every state.
 \end{definition}
-
-$ E(a, s) $ is the set of heads $ L $ of all propositions $ a \textbf{ causes } L \textbf{ if } F $ in $ D $ such that $ s $ satisfies $ F $.
-$ E(a, s) $ represents all effects of an action $ a $ in state $ s $~\citep{gelfond_action_1998}.
-Writing $ E\left(a,s\right)\subseteq s' $ constrains $ s' $ such that it must represent states in which the effects of $ a $ are actually present.
-Adding $ \subseteq E\left(a,s\right)\cup s $, allows $ s' $ to equal $ s $.
-It is worth noting that there can only be at most one $ s' $ satisfying the above equation~\citep{gelfond_action_1998}.
-Therefore, $ a $ is deterministic for every state.
 
 Suppose we had the following action description in $\mathcal{A}$, as given by \citet{gelfond_action_1998}:
 \begin{equation}
@@ -361,7 +362,7 @@ It is worth noting that the distinction between these fluents and statics is onl
 Representing statics as a runtime constant can result in performance improvements.
 
 \citet{gelfond_knowledge_2014} further partition the term \textit{fluent} into \textit{defined fluents} and \textit{inertial fluents}.
-Inertial fluents are inspired by the law of inertial in that their value persists from state to state unless an action explicitly changes it (either directly or indirectly).
+Inertial fluents are inspired by the law of inertia in that their value persists from state to state unless an action explicitly changes it (either directly or indirectly).
 Defined fluents, on the other hand, are defined in terms of other fluents and do not necessarily persist from state to state.
 Due to the constraints on their definition, they cannot be directly caused by an action.
 
@@ -502,7 +503,7 @@ where $obs(F, V, I)$ denotes that the fluent $F$ was observed to have value $V$ 
 
 \footnotetext{
     \citet{blount_towards_2014} uses a slightly different notation than what \citet{balduccini_aaa_2008} introduced.
-    \citet{balduccini_aaa_2008} denote the $obs$ predicate as $obs(FluentName, State, FluentValue)$ whereas \citet{blount_towards_2014} writes $obs(FluentName, FluentValue, State)$ to denote the same history.
+    \citet{balduccini_aaa_2008} denote the $obs$ predicate as $obs(FluentName, TimeStep, FluentValue)$ whereas \citet{blount_towards_2014} writes $obs(FluentName, FluentValue, TimeStep)$ to denote the same history.
     Since these notations are equivalent and merely a matter of preference, this paper will use the style introduced by \citet{blount_towards_2014}.
 }
 
@@ -870,8 +871,8 @@ will be simplified to resemble the syntax of \citet{gelfond_action_1998,balducci
     ~
 
     \begin{itemize}
-        \item An authorization policy $P$ for $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent~\citep{gelfond_authorization_2008}.
-        \item An authorization policy $P$ for $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical~\citep{gelfond_authorization_2008}.
+        \item An authorization policy $P$ for transition system $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent~\citep{gelfond_authorization_2008}.
+        \item An authorization policy $P$ for transition system $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -881,7 +882,7 @@ will be simplified to resemble the syntax of \citet{gelfond_action_1998,balducci
 \end{definition}
 
 \begin{definition}
-    Let $P$ be a consistent authorization policy for $T$.
+    Let $P$ be a consistent authorization policy for transition system $T$.
 
     \begin{itemize}
         \item $permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(a)$~\citep{gelfond_authorization_2008}.
@@ -911,7 +912,7 @@ will be simplified to resemble the syntax of \citet{gelfond_action_1998,balducci
 
 \begin{definition}
     \label{def:authorization_path_compliance}
-    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of $T$ can be similarly categorized into \textit{strongly compliant} or \textit{weakly compliant} if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification~\citep{gelfond_authorization_2008}.
+    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of transition system $T$ can be similarly categorized into \textit{strongly compliant} or \textit{weakly compliant} if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification~\citep{gelfond_authorization_2008}.
     If the path has at least one non-compliant event, then the path is \textit{non-compliant}.
 \end{definition}
 
@@ -935,9 +936,13 @@ Suppose the agent's environment can be represented by the following state:
 Its logic encoding $lp(s_0)$ would be:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/s0.lp}
 
-Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as clingo.
+Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as \textsc{clingo}\footnotemark.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
 \lstinputlisting{Figures/APL_Language/01_Initial_Example/run.clingo.txt}
+
+\footnotetext{
+    \textsc{clingo}~\citep{balduccini_potassco_2011} is available for download at this URL: \url{https://potassco.org/clingo/}
+}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
@@ -973,15 +978,15 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
     ~
 
     \begin{itemize}
-        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
+        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow permitted(a). \}
             \end{equation}
-        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for $T$ iff the following logic program is consistent~\citep{gelfond_authorization_2008}:
+        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is consistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
             \end{equation}
-        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
+        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
             \end{equation}
@@ -1088,7 +1093,7 @@ Thus $A$ is not weakly compliant with $P_m$.
 The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant.clingo.txt}
 However, before we can say $A$ is non-compliant, we must first determine whether $P_m$ is categorical.
-To do so, we will rerun the second test giving clingo the option ``0'', which instructs clingo to find every satisfiable model instead of stopping at the first one.
+To do so, we will rerun the second test giving \textsc{clingo} the option ``0'', which instructs \textsc{clingo} to find every satisfiable model instead of stopping at the first one.
 The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with option ``0'' is as follows:
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.clingo.txt}
 Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
