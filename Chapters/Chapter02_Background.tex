@@ -219,7 +219,7 @@ It is composed of propositions of the form:
 \begin{equation}
     a \textbf{ causes } L \textbf{ if } F
 \end{equation}
-where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
+where $ a \in \boldsymbol{A} $ is an action name, $ L $ is a literal (also known as the head), and $ F \subseteq(\boldsymbol{F} \cup\{\neg f | f \in \boldsymbol{F}\}) $ is a possibly empty conjunction of literals~\citep{gelfond_action_1998}.
 A literal is an element of $(\boldsymbol{F} \cup \{\neg f | f \in \boldsymbol{F}\})$.
 Since we model a propositional transition system, $L$ denotes $V(L, s') = t$ for a transition from $s$ to $s'$ where $F$ holds in $s$ and $a$ occurs.
 Likewise, $\neg L$ denotes $V(L, s')=f$.
@@ -680,12 +680,10 @@ These policies are transcribed using static laws in a similar form to action lan
     \end{gather}
 
     \noindent
-    where
-    $s \in S$
-    and:\footnotemark
+    where $a \in \boldsymbol{A}$ is an action and $F$ is a, possibly empty, conjunction of fluents, actions, or their negations.
+    Formally, $F$ is as follows for a state $s$:\footnotemark
     \begin{equation}
-        F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{permitted(a),
-        \neg permitted(a)\}
+        F\subseteq\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\} \cup \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\} \cup \{permitted(a), \neg permitted(a)\}
     \end{equation}
 
     \footnotetext{
@@ -1266,10 +1264,10 @@ Likewise, for $\neg obl(\neg a)$.
         d_j: \textbf{normally } \neg obl(h) \textbf{ if } F \\
         prefer(d_i, d_j)
     \end{gather}
-    where $s \in S$, $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$, and:
+    where $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$ is a \textit{happening} and $F$ is a, possibly empty, conjunction of fluents, actions, or their negations.
+    Formally, $F$ is as follows for a state $s$:
     \begin{equation}
-        F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{obl(h),
-            \neg obl(h)\}
+        F\subseteq\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\} \cup \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\} \cup \{obl(h), \neg obl(h)\}
     \end{equation}
 \end{definition}
 
