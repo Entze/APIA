@@ -200,7 +200,9 @@ The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an 
 \subsection{Action languages}
 \label{subsec:action_languages}
 
-Action languages are formal models that describe the effects of actions~\citep{gelfond_action_1998}.
+While transition systems are useful because of their strong mathematical foundation, specifying complex transition systems is very difficult in practice.
+To remedy this, helpful abstractions of transitions systems called \textit{action languages} have been proposed.
+Action languages are formal models that describe the effects of actions in a concise format~\citep{gelfond_action_1998}.
 There are two kinds of action languages: action description languages and action query languages.
 Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system~\citep{gelfond_action_1998}.
 We will focus only on action description languages and will use the term \textit{action languages} to refer to them.
@@ -357,7 +359,7 @@ Later work by \citet{gelfond_knowledge_2014} proposes classifications for litera
 The term \textit{fluent} has a slightly different meaning in this context.
 \citet{gelfond_knowledge_2014} use the term \textit{domain property} to refer to the \textit{fluent names} introduced in our discussion of action signatures.
 By \textit{fluent}, \citet{gelfond_knowledge_2014} mean the domain properties that might actually change between states.
-The authors call domain properties that will not change between states (i.e.~the static law $L$) \textit{statics}.
+The authors call domain properties that will not change between states \textit{statics}.
 It is worth noting that the distinction between these fluents and statics is only useful when considering the implementation of a system using action language $\mathcal{AL}$.
 Representing statics as a runtime constant can result in performance improvements.
 
@@ -680,13 +682,11 @@ These policies are transcribed using static laws in a similar form to action lan
     \noindent
     where
     $s \in S$
-    and\footnotemark
-    \begin{multline}
+    and:\footnotemark
+    \begin{equation}
         F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{permitted(a),
-        \neg permitted(a), \\
-        \textbf{normally } permitted(a),
-        \textbf{normally } \neg permitted(a)\}
-    \end{multline}
+        \neg permitted(a)\}
+    \end{equation}
 
     \footnotetext{
         \citet{gelfond_authorization_2008} use the syntax $f = y$ to denote $V(f, s)=y$ for the current state $s$.
@@ -1008,7 +1008,7 @@ Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a)
 It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
 \citet{gelfond_authorization_2008} show that checking policy compliance can also be possible when an agent only knows the value of a subset of fluents in $s$.
 Let $\boldsymbol{F_{lim}} \subseteq \boldsymbol{F}$ be the subset of fluents for which the agent knows $V(f, s)$ where $f \in \boldsymbol{F_{lim}}$.
-Let $V_{lim} = \{V(f, s) |  f \in \boldsymbol{F_{lim}}\}$.
+Let $V_{lim} = \{V(f, s) | f \in \boldsymbol{F_{lim}}\}$.
 
 \begin{definition}
     \label{def:simple_knowledge_state}
@@ -1035,7 +1035,7 @@ They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
 
 Let $SL$ be the set of all static laws from the action description.
 
-Let $D = \{lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n) |  f \in \boldsymbol{F_{lim}}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$.
+Let $D = \{lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n) | f \in \boldsymbol{F}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$.
 
 \begin{definition}
     $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$~\citep{gelfond_authorization_2008}.
@@ -1157,7 +1157,7 @@ Similar to before, the notation of \citet{gelfond_authorization_2008} will be si
         -val\left(f,I\right). \\
 \end{gather}
 
-Let $D_0 = \{lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0) |  f \in \boldsymbol{F_{lim}}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
+Let $D_0 = \{lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0) | f \in \boldsymbol{F}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
 
 \begin{definition}
     \label{def:model_of_history}
@@ -1266,13 +1266,11 @@ Likewise, for $\neg obl(\neg a)$.
         d_j: \textbf{normally } \neg obl(h) \textbf{ if } F \\
         prefer(d_i, d_j)
     \end{gather}
-    where $s \in S$, $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$, and
-    \begin{multline}
+    where $s \in S$, $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$, and:
+    \begin{equation}
         F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{obl(h),
-            \neg obl(h), \\
-            \textbf{normally } obl(h),
-            \textbf{normally } \neg obl(h)\}
-    \end{multline}
+            \neg obl(h)\}
+    \end{equation}
 \end{definition}
 
 \subsubsection{Checking compliance}
