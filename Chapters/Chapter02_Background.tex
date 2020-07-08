@@ -1209,6 +1209,7 @@ Suppose our agent has the following history\footnotemark:
     A_0 = \{ authorize(c_1, m_1) \} \\
     H_1 = < s_0, A_0 >
 \end{gather}
+and we want to check the compliance of action $A_1 = \{ assume\_command(c_1, m_1) \}$.
 
 \footnotetext{
     \citet{gelfond_authorization_2008} use a different notation for describing an agent's history than what was introduced in \cref{subsubsec:domain_history} while describing the work of \citet{blount_towards_2014}.
@@ -1253,22 +1254,24 @@ Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its under
 $\mathcal{AOPL}$ adds a $obl(a)$ statement in contrast to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
+Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or not).
+Likewise, for $\neg obl(\neg a)$.
 
 \begin{definition}
     Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
     \begin{gather}
-        obl\left(a\right) \textbf{ if } F \\
-        \neg obl\left(a\right) \textbf{ if } F \\
-        d_i: \textbf{normally } obl(a) \textbf{ if } F \\
-        d_j: \textbf{normally } \neg obl(a) \textbf{ if } F \\
+        obl\left(h\right) \textbf{ if } F \\
+        \neg obl\left(h\right) \textbf{ if } F \\
+        d_i: \textbf{normally } obl(h) \textbf{ if } F \\
+        d_j: \textbf{normally } \neg obl(h) \textbf{ if } F \\
         prefer(d_i, d_j)
     \end{gather}
-    where $s \in S$, $a \in \boldsymbol{A} \cup \{\neg a' | a' \in \boldsymbol{A}\}$, and
+    where $s \in S$, $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$, and
     \begin{multline}
-        F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{obl(a),
-            \neg obl(a), \\
-            \textbf{normally } obl(a),
-            \textbf{normally } \neg obl(a)\}
+        F\subseteq\left(\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\}\right) \cup (\{obl(h),
+            \neg obl(h), \\
+            \textbf{normally } obl(h),
+            \textbf{normally } \neg obl(h)\}
     \end{multline}
 \end{definition}
 
@@ -1277,30 +1280,30 @@ If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ 
 To evaluate the compliance of action $a$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
 \begin{gather}
-    lp(obl(a)) =_{def}
-        obl(a). \\
-    lp(\neg obl(a)) =_{def}
-        \neg obl(a). \\
-    lp(obl(a) \textbf{ if } F) =_{def}
-        obl(a) \leftarrow
+    lp(obl(h)) =_{def}
+        obl(h). \\
+    lp(\neg obl(h)) =_{def}
+        \neg obl(h). \\
+    lp(obl(h) \textbf{ if } F) =_{def}
+        obl(h) \leftarrow
             lp(F). \\
-    lp(\neg obl(a) \textbf{ if } F) =_{def}
-        \neg obl(a) \leftarrow
+    lp(\neg obl(h) \textbf{ if } F) =_{def}
+        \neg obl(h) \leftarrow
             lp(F).
 \end{gather}
 \begin{multline}
-    lp(d: \textbf{normally } obl(a) \textbf{ if } F) =_{def}
-        obl(a) \leftarrow \\
+    lp(d: \textbf{normally } obl(h) \textbf{ if } F) =_{def}
+        obl(h) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } \neg obl(a). \\
+            \textbf{not } \neg obl(h). \\
 \end{multline}
 \begin{multline}
-    lp(d: \textbf{normally } \neg obl(a) \textbf{ if } F) =_{def}
-        \neg obl(a) \leftarrow \\
+    lp(d: \textbf{normally } \neg obl(h) \textbf{ if } F) =_{def}
+        \neg obl(h) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } obl(a).
+            \textbf{not } obl(h).
 \end{multline}
 \begin{gather}
     lp(prefer(d_1, d_2)) =_{def}
@@ -1317,12 +1320,16 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
 
 This definition of compliance contrasts with that for authorization policies.
 Given a set of actions $A$, the definition for authorization policies can be thought of first enumerating action $a \in A$ then checking to see if $permitted(a)$ exists.
-The definition for obligation policies, by contrast, can be thought of first searching for $obl(a)$ statements, then checking to see if $a \in A$ exists.
+The definition for obligation policies, by contrast, can be thought of first searching for $obl(a)$ statements, then checking to see if $a \in A$ exists (or $a \not \in A$ in the case of $obl(\neg a)$).
 
 Furthermore, the definition for obligation compliance does not make differentiate between strong compliance and weak compliance.
-Were such a differentiation to exist, it would center around instances where neither $\neg obl(a)$ nor $obl(a)$ is true.
+Were such a differentiation to exist, it would center around instances where neither $\neg obl(a)$ nor $obl(a)$ is true\footnotemark.
 For such a case, an obligation policy would not explicitly impose nor explicitly waive an agent from an obligation to perform action $a$.
 However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situation is simply called \textit{compliant}.
+
+\footnotetext{
+    A similar statement can be made about when neither $\neg obl(\neg a)$ nor $obl(\neg a)$ is true.
+}
 
 \begin{definition}
     Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.

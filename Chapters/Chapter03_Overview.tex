@@ -81,9 +81,9 @@ For this, the proposed work will formally demonstrate the relevant compliance/no
 \subsection{Updating prior work to use latest ASP tools}
 
 Another aspect of this proposal is to update prior work to use a modern ASP solver so that the proposed thesis can compare the performance of prior work to the implementation of its own contribution.
-More specifically, this proposed work is to refactor Blount's implementation of the $\mathcal{AIA}$ agent architecture, which is written in the Java programming language and uses the CR-Models2 solver, such that it uses the clingo solver.
+More specifically, this proposed work is to refactor Blount's implementation of the $\mathcal{AIA}$ agent architecture, which is written in the Java programming language and uses the \textsc{CR-Models2}~\citep{balduccini_cr-models_2007} solver, such that it uses the clingo solver.
 
-This refactor will not only update references to CR-Models2 but also upgrade ASP syntax and investigate new solver features to maximize the performance of Blount's $\mathcal{AIA}$ implementation.
+This refactor will not only update references to \textsc{CR-Models2} but also upgrade ASP syntax and investigate new solver features to maximize the performance of Blount's $\mathcal{AIA}$ implementation.
 
 Updating Blount's implementation of $\mathcal{AIA}$ will also benefit the larger logic programming community as it will enable future approaches to compare themselves to the performance of $\mathcal{AIA}$.
 
@@ -108,7 +108,7 @@ Furthermore, non-intuitive agent behavior should be formally explained according
 
 \subsection{Stopping Criteria for updating $\mathcal{AIA}$}
 
-The refactoring of Blount's implementation of $\mathcal{AIA}$ will be considered complete when the dependency on CR-Models2 is completely replaced with clingo and the updated implementation is verified by the against its original counterpart on the basis of a few examples provided by Blount.
+The refactoring of Blount's implementation of $\mathcal{AIA}$ will be considered complete when the dependency on \textsc{CR-Models2} is completely replaced with clingo and the updated implementation is verified by the against its original counterpart on the basis of a few examples provided by Blount.
 
 \section{Evaluation Methodology and Metrics}
 
