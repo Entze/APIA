@@ -24,7 +24,7 @@
 \usepackage{url}
 \usepackage{verbatim}
 
-\hypersetup{colorlinks, citecolor=black, filecolor=black, linkcolor=black, urlcolor=black, linktocpage}
+% Custom imports
 
 % Enable \enquote{} command
 \usepackage{csquotes}
@@ -32,17 +32,9 @@
 % enable graphics for images
 \usepackage{graphicx}
 
-% Define image file extensions
-\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg}
-
 \usepackage{bm}
 
 \usepackage{amsthm}
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{example}{Example}
-\newtheorem{example_scenario}{Example Scenario}
 
 \usepackage{cleveref}
 
@@ -53,6 +45,17 @@
 \usepackage{xcolor}
 
 \usepackage{listings}
+
+\hypersetup{colorlinks, citecolor=black, filecolor=black, linkcolor=black, urlcolor=black, linktocpage}
+
+% Define image file extensions
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
+\newtheorem{example_scenario}{Example Scenario}
 
 \lstset{
   % backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
