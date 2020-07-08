@@ -7,6 +7,8 @@ codemod --extensions tex '\. +' '.\n'
 codemod --extensions tex '(i\.e\.)\n' '\1'
 codemod --extensions tex '(e\.g\.)\n' '\1'
 codemod --extensions tex '(etc\.)\n' '\1'
+codemod --extensions tex '(i\.e\.) +' '\1~'
+codemod --extensions tex '(e\.g\.) +' '\1~'
 
 clear
 echo 'Next: Converting smart quotes'
