@@ -1201,13 +1201,17 @@ Let $Check_2(H_n)$ be the following subprogram:
 Continuing the previous example, the logic encoding of $P_m$ with the new $lp$ function is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Pm.lp}
 
+$D_0$ is as follows:
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/D0.lp}
+
 Suppose our agent has the following history\footnotemark:
 \begin{gather}
     s_0 = \{ colonel(c_1), -observer(c_1), -authorized(c_1, m_1), -commands(c_1, m_1) \} \\
     A_0 = \{ authorize(c_1, m_1) \} \\
     H_1 = < s_0, A_0 >
 \end{gather}
-and we want to check the compliance of action $A_1 = \{ assume\_command(c_1, m_1) \}$.
+and is considering executing action $A_1 = \{ assume\_command(c_1, m_1) \}$ in the current time step 1.
+Before executing $A_1$, our agent first wants to verify its compliance.
 
 \footnotetext{
     \citet{gelfond_authorization_2008} use a different notation for describing an agent's history than what was introduced in \cref{subsubsec:domain_history} while describing the work of \citet{blount_towards_2014}.
@@ -1220,9 +1224,6 @@ The logic encoding $lp(H_1)$ would be as follows\footnotemark:
     It is worth noting that the syntax \citet{gelfond_authorization_2008} provide for $lp(H_1)$ is very similar to that introduced in \citet{blount_towards_2014}.
     Whereas \citet{blount_towards_2014} would write $obs(FluentName, FluentValue, TimeStep)$ and $hpd(ActionName, TimeStep)$,\citet{gelfond_authorization_2008} write $val(FluentName, FluentValue, TimeStep)$ and $occurs(ActionName, TimeStep)$, respectively.
 }
-
-$D_0$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/D0.lp}
 
 The logic encoding $lp(A_1)$ is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/A1.lp}
