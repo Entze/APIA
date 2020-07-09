@@ -816,7 +816,7 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \end{gather}
 \begin{multline}
     \label{eq:apl_lp_08}
-    lp(d: \textbf{normally } permitted(a) \textbf{ if } F) =_{def} \\
+    lp(d_i: \textbf{normally } permitted(a) \textbf{ if } F_i) =_{def} \\
         permitted(a) \leftarrow
             lp(F),
             \textbf{not } ab(d),
@@ -824,15 +824,15 @@ To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to tr
 \end{multline}
 \begin{multline}
     \label{eq:apl_lp_09}
-    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F) =_{def} \\
+    lp(d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F_j) =_{def} \\
         \neg permitted(a) \leftarrow
         lp(F),
         \textbf{not } ab(d),
         \textbf{not } permitted(a).
 \end{multline}
 \begin{gather}
-    lp(prefer(d_1, d_2)) =_{def}
-        ab(d_2) \leftarrow lp(cond_1). \label{eq:apl_lp_10}
+    lp(prefer(d_i, d_j)) =_{def}
+        ab(d_j) \leftarrow lp(F_1). \label{eq:apl_lp_10}
 \end{gather}
 
 \noindent
@@ -1122,7 +1122,7 @@ The new $lp$ function is defined as follows:
 \end{gather}
 \begin{multline}
     \label{eq:apl_lp_inc_08}
-    lp(d: \textbf{normally } permitted(a) \textbf{ if } F, I) =_{def} \\
+    lp(d_i: \textbf{normally } permitted(a) \textbf{ if } F_i, I) =_{def} \\
         permitted(a, I) \leftarrow
             lp(F, I),
             \textbf{not } ab(d, I),
@@ -1130,15 +1130,15 @@ The new $lp$ function is defined as follows:
 \end{multline}
 \begin{multline}
     \label{eq:apl_lp_inc_09}
-    lp(d: \textbf{normally } \neg permitted(a) \textbf{ if } F, I) =_{def} \\
+    lp(d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F_j, I) =_{def} \\
         \neg permitted(a, I) \leftarrow
             lp(F, I),
             \textbf{not } ab(d, I),
             \textbf{not } permitted(a, I).
 \end{multline}
 \begin{gather}
-    lp(prefer(d_1, d_2), I) =_{def}
-        ab(d_2, I) \leftarrow lp(cond_1, I). \label{eq:apl_lp_inc_10}
+    lp(prefer(d_i, d_j), I) =_{def}
+        ab(d_j, I) \leftarrow lp(F_1, I). \label{eq:apl_lp_inc_10}
 \end{gather}
 
 For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
@@ -1297,22 +1297,22 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
             lp(F).
 \end{gather}
 \begin{multline}
-    lp(d: \textbf{normally } obl(h) \textbf{ if } F) =_{def}
+    lp(d_i: \textbf{normally } obl(h) \textbf{ if } F_i) =_{def}
         obl(h) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg obl(h). \\
 \end{multline}
 \begin{multline}
-    lp(d: \textbf{normally } \neg obl(h) \textbf{ if } F) =_{def}
+    lp(d_j: \textbf{normally } \neg obl(h) \textbf{ if } F_j) =_{def}
         \neg obl(h) \leftarrow \\
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } obl(h).
 \end{multline}
 \begin{gather}
-    lp(prefer(d_1, d_2)) =_{def}
-        ab(d_2) \leftarrow lp(cond_1).
+    lp(prefer(d_i, d_j)) =_{def}
+        ab(d_j) \leftarrow lp(F_1).
 \end{gather}
 
 \begin{definition}
