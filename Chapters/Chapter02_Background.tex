@@ -1238,7 +1238,15 @@ The output of logic program \cref{eq:authorization_history_knowledge_strongly_co
 The output of logic program \cref{eq:authorization_history_knowledge_weakly_compliant} is as follows:
 \lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_2.clingo.txt}
 
-Thus, $H_n$ is weakly compliant.
+By this output, we might be led to say that action $A_1$ is weakly compliant given history $H_n$.
+However, \citet{gelfond_authorization_2008} implicitly assume that the inertia property of inertial fluents is already encoded in logic form.
+To do this, we must add the following \textit{inertia axiom} for the inertial fluents $authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)$:
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Inertia_Axiom.lp}
+
+With this inertia axiom, \cref{eq:authorization_history_knowledge_strongly_compliant} is inconsistent hence action $A_1$ is strongly compliant given history $H_n$.
+
+\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_1_with_Inertia_Axiom.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_2_with_Inertia_Axiom.clingo.txt}
 
 \subsection{Language $\mathcal{AOPL}$}
 \label{subsec:aopl}
