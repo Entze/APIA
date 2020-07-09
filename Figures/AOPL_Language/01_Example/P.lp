@@ -4,7 +4,9 @@
 -obl(attend(Student, meeting(Class, MeetingNum))) :-
     enrolled(Student, Class),
     not ab(d1(Student, Class, MeetingNum)),
-    not obl(attend(Student, meeting(Class, MeetingNum)).
+    not obl(attend(Student, meeting(Class, MeetingNum)),
+    % Supplementary atom to bind MeetingNum to value
+    meeting(Class, MeetingNum).
 
 % "Students do not need to attend class during family emergencies"
 -obl(attend(Student, meeting(Class, MeetingNum))) :-
@@ -14,10 +16,16 @@
 obl(-attend(Student, meeting(Class, MeetingNum)) :-
     religious_holiday(meeting(Class, MeetingNum)),
     not ab(d2(Student, Class, MeetingNum)),
-    not -obl(-attend(Student, meeting(Class, MeetingNum))).
+    not -obl(-attend(Student, meeting(Class, MeetingNum))),
+    % Supplementary atoms to bind Student and MeetingNum variables
+    student(Student),
+    meeting(Class, MeetingNum).
 
 % "I would rather a student follow participate in religious holidays than attend class"
-prefer(d2(Student, Class, MeetingNum), d1(Student, Class, MeetingNum)).
+ab(d1(Student, Class, MeetingNum)) :-
+    religious_holiday(meeting(Class, MeetingNum)),
+    % Supplementary atoms to bind Student and MeetingNum variables
+    student(Student).
 
 % "Students should submit homework on time"
 obl(submit(Student, assignment(Class, AssignmentNum))) :-
