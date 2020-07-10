@@ -984,17 +984,18 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
             \end{equation}
-            \footnotetext{
-                To improve the readability of this document, the definition of weak compliance has been adjusted from how \citet{gelfond_authorization_2008} define it.
-                \citet{gelfond_authorization_2008} define weakly compliance to be when the logic program $lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a).$ is consistent.
-                The provided definition a simple logic negation of this definition and, hence, is equivalent to it.
-            }
         \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
             \end{equation}
     \end{itemize}
 \end{definition}
+
+\footnotetext{
+    To improve the readability of this document, the definition of weak compliance has been adjusted from how \citet{gelfond_authorization_2008} define it.
+    \citet{gelfond_authorization_2008} define weakly compliance to be when the logic program $lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a).$ is consistent.
+    The provided definition a simple logic negation of this definition and, hence, is equivalent to it.
+}
 
 These propositions are just simple extensions of \cref{def:authorization_event_compliance}.
 However, they are useful because they cause an ASP solver to output a Yes/No answer to the problem.
