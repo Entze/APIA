@@ -1,4 +1,4 @@
-% s.lp
+% s0.lp
 
 % All students are enrolled in all classes
 enrolled(Student, Class) :-
