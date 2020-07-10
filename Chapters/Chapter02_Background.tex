@@ -1424,7 +1424,7 @@ Lastly, since cheating is never permissible:
 \end{equation}
 
 The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/P.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/P.lp}
 
 To keep logic programs in this example from becoming unnecessarily long, the above source (as well as those that will follow it) will favor the use of ASP variables over the manual enumeration of primitive variable values.
 To bind variable values to an ASP variable, we will use the following convention:
@@ -1454,13 +1454,13 @@ To bind variable values to an ASP variable, we will use the following convention
 \end{itemize}
 
 Suppose we have the following instantiation of variables:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/Instantiate_Variables.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Instantiate_Variables.lp}
 
 Suppose we have the following state $s_0$:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/s0.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/s0.lp}
 
-\lstinputlisting{Figures/AOPL_Language/01_Example/Check_1.clingo.txt}
-\lstinputlisting{Figures/AOPL_Language/01_Example/Check_2.clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/strongly_compliant.clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/weakly_or_non_compliant.clingo.txt}
 
 \subsection{\texorpdfstring{BGI\textsubscript{PDC}}{BGI-PDC}}
 
