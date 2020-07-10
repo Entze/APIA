@@ -1,1 +1,1 @@
-clingo P.lp s.lp Check_2.lp
+clingo P.lp s0.lp Check_2.lp
