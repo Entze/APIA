@@ -22,6 +22,8 @@ build-plantuml: $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES))
 
 build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 
+build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
+
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
 	latexmk -pdf
 
@@ -72,6 +74,6 @@ clean:
 	-rm -- $(shell find -name '*.clingo.txt') $(shell find -name '*.clingo.out.txt')
 	-rm -- $(foreach DRAWIO_FILTER,$(DRAWIO_FILTERS),$(foreach EXT,pdf svg png,$(shell find -name '*-$(DRAWIO_FILTER).$(EXT)')))
 
-.PHONY: build build-graphviz build-plantuml build-svg clean
+.PHONY: build build-graphviz build-plantuml build-svg build-clingo clean
 .SECONDARY:
 .PRECIOUS: %.clingo.txt
