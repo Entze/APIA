@@ -62,7 +62,7 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
 %.clingo.out.txt: %.clingo.sh
 	-mkdir -p $(@D)
-	-cd $(@D) && (cat $(notdir $<) | bash > $(notdir $@))
+	cd $(@D) && (cat $(notdir $<) | bash > $(notdir $@)); test $$? -le 32
 
 %.clingo.txt: %.clingo.sh %.clingo.out.txt
 	-mkdir -p $(@D)
