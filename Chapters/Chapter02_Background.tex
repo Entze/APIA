@@ -1373,23 +1373,26 @@ Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}
         submit(Student, assignment(Class, AssignmentNum), meeting(Class, MeetingNum)), \\
         accept\_unauthorized\_help(Student)\}
 \end{multline}
-and $Student$, $Class$, $Assignment$, and $Meeting$ are variables that range over their respective values.
+and $Student$, $Class$, $AssignmentNum$, and $MeetingNum$ are variables that range over their respective values.
 
 Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
 \citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
 \begin{equation}
+    \label{eq:aopl_example_line_1}
     d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
 \end{equation}
 
 \citet{gelfond_authorization_2008} assume that such an implicit exception may be ``Students do not need to attend class during family emergencies.''
 Its encoding would be as follows:
 \begin{equation}
+    \label{eq:aopl_example_line_2}
     \neg obl(attend(S,meeting(C, N))) \textbf{ if } family\_emergency(S,meeting(C, N)).
 \end{equation}
 
 Similarly, they suggest that another exception may be ``Students should not attend class on a religious holiday.''
 Its encoding might be as follows:
 \begin{multline}
+    \label{eq:aopl_example_line_3}
     d_2(S,C,N): \textbf{ normally } obl(\neg attend(S, meeting(C, N))) \\
         \textbf{ if } religious\_holiday(meeting(C, N)).
 \end{multline}
@@ -1397,10 +1400,12 @@ Its encoding might be as follows:
 \citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
 If he does, he may write:
 \begin{equation}
+    \label{eq:aopl_example_line_4}
     prefer(d_2(S,C,N),d_1(S,C,N))
 \end{equation}
 Otherwise, he may write:
 \begin{equation}
+    \label{eq:aopl_example_line_5}
     prefer(d_1(S,C,N), d_2(S,C,N))
 \end{equation}
 
@@ -1409,15 +1414,51 @@ While it is possible to omit such a statement from the policy description, doing
 
 The second rule may be seen as defeasible to encompass assignment extensions.
 \begin{multline}
+    \label{eq:aopl_example_line_6}
     d_3(S,C,A,N): \textbf{ normally } obl(submit(S,assignment(C,A),meeting(C,N)) \\ \textbf{ if } enrolled(S,C), due\_date(meeting(C,N), assignment(C,A)).
 \end{multline}
 Lastly, since cheating is never permissible:
 \begin{equation}
+    \label{eq:aopl_example_line_7}
     obl(\neg accept\_unauthorized\_help(S)).
 \end{equation}
 
+The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/P.lp}
+
+To keep logic programs in this example from becoming unnecessarily long, the above source (as well as those that will follow it) will favor the use of ASP variables over the manual enumeration of primitive variable values.
+To bind variable values to an ASP variable, we will use the following convention:
+\begin{itemize}
+    \item If the variable $Student$ ranges over values $Student_1, Student_2, \dots, Student_n$, then it will be encoded as follows:
+        \begin{gather}
+            student(Student_1). \\
+            student(Student_2). \\
+            \dots \\
+            student(Student_n). \\
+        \end{gather}
+    \item If the variable $Class$ ranges over values $Class_1, Class_2, \dots, Class_n$, then it will be encoded as follows:
+        \begin{gather}
+            class(Class_1). \\
+            class(Class_2). \\
+            \dots \\
+            class(Class_n). \\
+        \end{gather}
+    \item If the variable $MeetingNum$ ranges over values $1, 2, \dots, n$, then it will be encoded as follows:
+        \begin{equation}
+            1, 2, \dots, n
+        \end{equation}
+    \item If the variable $AssignmentNum$ ranges over values $1, 2, \dots, n$, then it will be encoded as follows:
+        \begin{equation}
+            1, 2, \dots, n
+        \end{equation}
+\end{itemize}
+
+Suppose we have the following instantiation of variables:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/Instantiate_Variables.lp}
+
+Suppose we have the following state $s$:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Example/s.lp}
+
 \lstinputlisting{Figures/AOPL_Language/01_Example/Check_1.clingo.txt}
 \lstinputlisting{Figures/AOPL_Language/01_Example/Check_2.clingo.txt}
 
