@@ -980,10 +980,15 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow permitted(a). \}
             \end{equation}
-        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is consistent~\citep{gelfond_authorization_2008}:
+        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent\footnotemark~\citep{gelfond_authorization_2008}:
             \begin{equation}
-                lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
+                lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
             \end{equation}
+            \footnotetext{
+                To improve the readability of this document, the definition of weak compliance has been adjusted from how \citet{gelfond_authorization_2008} define it.
+                \citet{gelfond_authorization_2008} define weakly compliance to be when the logic program $lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a).$ is consistent.
+                The provided definition a simple logic negation of this definition and, hence, is equivalent to it.
+            }
         \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
             \begin{equation}
                 lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
