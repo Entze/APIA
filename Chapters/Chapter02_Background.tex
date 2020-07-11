@@ -1258,7 +1258,7 @@ With this inertia axiom, \cref{eq:authorization_history_knowledge_strongly_compl
 \label{subsec:aopl}
 
 In addition to introducing language $\mathcal{APL}$, \citet{gelfond_authorization_2008} introduce language $\mathcal{AOPL}$ to consider ``obligation policies'' in addition to authorization policies.
-Authorization policies describe what an agent can do whereas obligation policies describe what an agent cannot do.
+Authorization policies describe what an agent can do whereas obligation policies describe what an agent must do.
 
 \subsubsection{Definition}
 
@@ -1267,7 +1267,7 @@ Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its under
 $\mathcal{AOPL}$ adds a $obl(a)$ statement in contrast to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
-Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or not).
+Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
 Likewise, for $\neg obl(\neg a)$.
 
 \begin{definition}
@@ -1288,7 +1288,7 @@ Likewise, for $\neg obl(\neg a)$.
 
 \subsubsection{Checking compliance}
 
-To evaluate the compliance of action $a$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
+To evaluate the compliance of happening $h$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
 \begin{gather}
     lp(obl(h)) =_{def}
@@ -1301,22 +1301,16 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
     lp(\neg obl(h) \textbf{ if } F) =_{def}
         \neg obl(h) \leftarrow
             lp(F).
-\end{gather}
-\begin{multline}
     lp(d_i: \textbf{normally } obl(h) \textbf{ if } F_i) =_{def}
-        obl(h) \leftarrow \\
+        obl(h) \leftarrow
             lp(F),
             \textbf{not } ab(d),
             \textbf{not } \neg obl(h). \\
-\end{multline}
-\begin{multline}
     lp(d_j: \textbf{normally } \neg obl(h) \textbf{ if } F_j) =_{def}
-        \neg obl(h) \leftarrow \\
+        \neg obl(h) \leftarrow
             lp(F),
             \textbf{not } ab(d),
-            \textbf{not } obl(h).
-\end{multline}
-\begin{gather}
+            \textbf{not } obl(h). \\
     lp(prefer(d_i, d_j)) =_{def}
         ab(d_j) \leftarrow lp(F_1).
 \end{gather}
@@ -1326,7 +1320,7 @@ To evaluate the compliance of action $a$ at state $s$ with an obligation policy 
 \end{definition}
 
 \begin{definition}
-    An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall a \in A \ obl(a) \in P(s)) \land (\forall a \not \in A \ obl(\neg a) \in P(s))$
+    An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall obl(a) \in P(s) \ a \in A) \land (\forall obl(\neg a) \in P(s) \ a \not \in A)$
 \end{definition}
 
 This definition of compliance contrasts with that for authorization policies.
@@ -1353,10 +1347,20 @@ However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situat
     \end{itemize}
 \end{definition}
 
+\begin{definition}
+    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
+    Let $P_a$ and $P_o$ be the authorization and obligation policy induced by $P$, respectively.
+
+    \begin{itemize}
+        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $<s, A>$ is strongly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $<s, A>$ is weakly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $<s, A>$ is neither strongly compliant nor weakly compliant with $P$.
+    \end{itemize}
+\end{definition}
+
 \subsubsection{Obligation example}
 
 To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} provide the following example.
-
 Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
 He might have requirements such as:
 
@@ -1465,8 +1469,8 @@ Suppose we have the following instantiation of variables:
 Suppose we have the following state $s_0$:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/s0.lp}
 
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/strongly_compliant.clingo.txt}
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/weakly_or_non_compliant.clingo.txt}
+% \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/strongly_compliant.clingo.txt}
+% \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/weakly_or_non_compliant.clingo.txt}
 
 \subsection{\texorpdfstring{BGI\textsubscript{PDC}}{BGI-PDC}}
 
