@@ -1354,9 +1354,13 @@ However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situat
     \begin{itemize}
         \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $<s, A>$ is strongly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
         \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $<s, A>$ is weakly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
-        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $<s, A>$ is neither strongly compliant nor weakly compliant with $P$.
+        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $<s, A>$ is neither strongly compliant nor weakly compliant with $P$\footnotemark.
     \end{itemize}
 \end{definition}
+
+\footnotetext{
+    This definition is not explicitly provided by \citet{gelfond_authorization_2008}.
+}
 
 \subsubsection{Obligation example}
 
