@@ -1,5 +1,3 @@
-% s0.lp
-
 % Jack and Jill are enrolled in all classes
 enrolled(Student, Class) :-
     class(Class),

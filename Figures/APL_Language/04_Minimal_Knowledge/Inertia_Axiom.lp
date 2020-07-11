@@ -1,4 +1,3 @@
-% Inertia_Axiom.lp
 #const max_I = 1.
 
 val(FluentName, I + 1) :-

@@ -1,4 +1,3 @@
-% D.lp
 val(FluentName) | -val(FluentName) :-
     FluentName = (
         enrolled(Student, Class);

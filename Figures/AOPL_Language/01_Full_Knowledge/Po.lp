@@ -1,5 +1,3 @@
-% P.lp
-
 % "Students are expected to not miss class"
 -obl(attend(Student, meeting(Class, MeetingNum))) :-
     enrolled(Student, Class),

@@ -1,5 +1,3 @@
-% instantiate_variables.lp
-
 % There is an English class
 class("English").
 
