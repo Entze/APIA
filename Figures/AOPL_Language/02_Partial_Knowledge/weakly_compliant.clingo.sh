@@ -1,1 +1,1 @@
-echo ':- not -permitted().' | clingo P.lp delta_V_lim.lp D.lp SL.lp -
+echo ':- not -obl().' | clingo P.lp delta_V_lim.lp D.lp SL.lp -
