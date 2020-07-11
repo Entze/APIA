@@ -1,1 +1,1 @@
-clingo P.lp s0.lp Instantiate_Variables.lp filter.lp obligation_compliant.lp
+clingo P.lp s0.lp instantiate_variables.lp strongly_compliant.lp
