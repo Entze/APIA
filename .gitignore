@@ -698,3 +698,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#### Overrides ####
+![Ss]cripts
