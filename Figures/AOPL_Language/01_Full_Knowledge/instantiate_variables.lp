@@ -6,6 +6,7 @@ class("English").
 % There is a Math class
 class("Math").
 
-% There are two students: Jack and Jill
+% There are two students: Jack, Jill, and Bob
 student("Jack").
 student("Jill").
+student("Bob").

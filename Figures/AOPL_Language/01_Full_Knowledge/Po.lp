@@ -28,7 +28,7 @@ ab(d1(Student, Class, MeetingNum)) :-
     student(Student).
 
 % "Students should submit homework on time"
-obl(submit(Student, assignment(Class, AssignmentNum))) :-
+obl(submit(Student, assignment(Class, AssignmentNum), meeting(Class, MeetingNum))) :-
     enrolled(Student, Class),
     due_date(meeting(Class, MeetingNum), assignment(Class, AssignmentNum)),
     not ab(d3(Student, Class, AssignmentNum, MeetingNum)),

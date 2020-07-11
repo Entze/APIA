@@ -1437,8 +1437,8 @@ Lastly, since cheating is never permissible:
     obl(\neg accept\_unauthorized\_help(S)).
 \end{equation}
 
-The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/P.lp}
+The policy $P_o$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Po.lp}
 
 To keep logic programs in this example from becoming unnecessarily long, the above source (as well as those that will follow it) will favor the use of ASP variables over the manual enumeration of primitive variable values.
 To bind variable values to an ASP variable, we will use the following convention:
@@ -1448,14 +1448,14 @@ To bind variable values to an ASP variable, we will use the following convention
             student(Student_1). \\
             student(Student_2). \\
             \dots \\
-            student(Student_n). \\
+            student(Student_n).
         \end{gather}
     \item If the variable $Class$ ranges over values $Class_1, Class_2, \dots, Class_n$, then it will be encoded as follows:
         \begin{gather}
             class(Class_1). \\
             class(Class_2). \\
             \dots \\
-            class(Class_n). \\
+            class(Class_n).
         \end{gather}
     \item If the variable $MeetingNum$ ranges over values $1, 2, \dots, n$, then it will be encoded as follows:
         \begin{equation}
@@ -1472,9 +1472,6 @@ Suppose we have the following instantiation of variables:
 
 Suppose we have the following state $s_0$:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/s0.lp}
-
-% \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/strongly_compliant.clingo.txt}
-% \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/weakly_or_non_compliant.clingo.txt}
 
 \subsection{\texorpdfstring{BGI\textsubscript{PDC}}{BGI-PDC}}
 
