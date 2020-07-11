@@ -16,6 +16,8 @@
     "**/.codemod.bookmark": true,
     "**/node_modules": true,
     "Session.vim": true,
+    "**/*.clingo.out.txt": true,
+    "**/*.clingo.txt": true,
   },
   "files.autoSave": "onWindowChange",
   "editor.wordWrap": "bounded",
