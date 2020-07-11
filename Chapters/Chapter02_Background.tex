@@ -1467,11 +1467,33 @@ To bind variable values to an ASP variable, we will use the following convention
         \end{equation}
 \end{itemize}
 
-Suppose we have the following instantiation of variables:
+\citet{gelfond_authorization_2008} do not provide a concrete example that instantiates all of the above variables.
+However, in order to provide a complete discussion of their work, we will use the following variables and the following state $s_0$:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/instantiate_variables.lp}
-
-Suppose we have the following state $s_0$:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/s0.lp}
+
+Suppose we want to check the compliance of the following occurance of actions $A$:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/A.lp}
+
+We can check for compliance using the following logic programs:
+\lstinputlisting[language=Python]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/util.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/authorization_compliance.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/obligation_compliance.lp}
+
+Lastly, if we add:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/strongly_compliant.lp}
+we can see that the event $<s_0, A>$ is not strongly compliant:
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/strongly_compliant.clingo.txt}
+
+Upon further investigation (which is not shown here for brevity), one can see that this is because our policy $P_o$ does not have any authorization statements.
+Hence, no action is strongly compliant.
+However, the event $<s_0, A>$ is weakly compliant:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/weakly_compliant.lp}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/weakly_compliant.clingo.txt}
+
+For completeness, the event $<s_0, A>$ is not non compliant:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/non_compliant.lp}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/non_compliant.clingo.txt}
 
 \subsection{\texorpdfstring{BGI\textsubscript{PDC}}{BGI-PDC}}
 

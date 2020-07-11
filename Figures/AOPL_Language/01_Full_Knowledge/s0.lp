@@ -45,7 +45,7 @@ religious_holiday(meeting(Class, MeetingNum)) :-
     meeting(Class, MeetingNum),
     MeetingNum = 3.
 
-% A student named Jill, if she exists, has a family emergency that interferes with all classes occuring on the second day of school
+% Jill has a family emergency that interferes with all classes occuring on the second day of school
 family_emergency(Student, meeting(Class, MeetingNum)) :-
     student(Student),
     meeting(Class, MeetingNum),
