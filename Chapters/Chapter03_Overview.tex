@@ -113,11 +113,11 @@ The refactoring of Blount's implementation of $\mathcal{AIA}$ will be considered
 
 \section{Evaluation Methodology and Metrics}
 
-It is worth noting that since this thesis proposal considers a contribution in the domain of Knowledge Representation \& Reasoning (KR\&R), it will be evaluated by the customs established in this field instead of with commonplace metrics used under the broader Computer Science umbrella.
+It is worth noting that since this thesis proposal considers a contribution in the domain of Knowledge Representation \& Reasoning (KRR), it will be evaluated by the customs established in this field instead of with commonplace metrics used under the broader Computer Science umbrella.
 As such, the majority of the evaluation of this thesis proposal will be formal in nature and focused on syntax, conciseness, and expressivity over run-time performance.
 
 The first metric on which the contribution of the proposed work will be measured is its conciseness and expressivity.
-The contribution will measure the writability of policy in logic form (how ``easy'' it is for a computer scientist unfamiliar with KR\&R is to encode the policy himself) and the readability (how ``easy'' it is for the same computer scientist to infer the meaning of the policy when given the logic program code).
+The contribution will measure the writability of policy in logic form (how ``easy'' it is for a computer scientist unfamiliar with KRR is to encode the policy himself) and the readability (how ``easy'' it is for the same computer scientist to infer the meaning of the policy when given the logic program code).
 This will not be measured empirically.
 Rather, this metric will appeal to common intuition to differentiate simpler notations from more complex ones.
 
@@ -126,11 +126,11 @@ The proposed work will briefly overview how the examples the work provides could
 Though this discussion will not be as detailed as the discussion on the ten examples the work provides, it should nonetheless give a brief idea as to the extent to which further examples can be explored without major changes to the agent's knowledge base, action description, or policy.
 
 The third metric on which the contribution will be measured is how hard bringing it to completion was.
-This is notable since, unlike other programming languages, there are not many tools that a developer in KR\&R can use to troubleshoot unexpected behavior or pin-point logical inconsistencies.
+This is notable since, unlike other programming languages, there are not many tools that a developer in KRR can use to troubleshoot unexpected behavior or pin-point logical inconsistencies.
 Often logic programs may become wholly unsatisfiable or exclude externally valid solutions from the answer set.
 Most ASP solvers do not provide a stack trace or any clues as to which constraint is excluding the desired answer set.
 (An exception to this would be an ASP solver such as Z3, which includes UNSAT-responsible constraints in an `UNSAT-core').
-The tools available to KR\&R developers are source code highlighters and SeaLion, which enables refactoring of predicate names.
+The tools available to KRR developers are source code highlighters and SeaLion, which enables refactoring of predicate names.
 
 The last metric for this contribution will be a traditional benchmark between the run-time performance of Blount's implementation of the $\mathcal{AIA}$ architecture and the performance of this work's implementation of the $\mathcal{AIA}$ architecture (without $\mathcal{AOPL}$).
 This will compare both the original version of Blount's implementation as well as the updated version.
