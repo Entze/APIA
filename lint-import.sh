@@ -18,8 +18,8 @@ codemod --extensions tex '”' "''"
 codemod --extensions tex '‘' '`'
 codemod --extensions tex '’' "'"
 codemod --extensions tex '…' "..."
-codemod --extensions tex '...' "\dots"
-codemod --extensions tex '\ldots' "\dots"
+codemod --extensions tex '\.\.\.' "\dots"
+codemod --extensions tex '\\ldots' "\dots"
 
 clear
 echo 'Next: Converting Word lists'
