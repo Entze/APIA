@@ -722,7 +722,7 @@ These policies are transcribed using static laws in a similar form to action lan
 \end{definition}
 
 Defeasible authorization policy statements permit exceptions when they are in conflict with other authorization statements of higher importance.
-To encode the relative hierarchy of defeasible statements, \citet{gelfond_authorization_2008} provide an option to label defeasible statements with terms $d_1,d_2,\ldots,d_n$ and use the static $prefer\left(d_i,d_j\right)$ to prioritize statement $d_i$ over statement $d_j$.
+To encode the relative hierarchy of defeasible statements, \citet{gelfond_authorization_2008} provide an option to label defeasible statements with terms $d_1,d_2,\dots,d_n$ and use the static $prefer\left(d_i,d_j\right)$ to prioritize statement $d_i$ over statement $d_j$.
 Thus, defeasible authorization policy statements can be written in the following form~\citep{gelfond_authorization_2008}.
 \begin{gather}
     d_i: \textbf{normally } permitted(a) \textbf{ if } F \\
@@ -787,11 +787,114 @@ In total, our policy $P$ be the set of the above two statement blocks (\cref{eq:
 \subsubsection{Answer Set Programming}
 \label{subsubsec:asp}
 
-To check the compliance of an action with a given policy, \citet{gelfond_authorization_2008} first translate the policy using Answer Set Programming and thereby reduce the problem to finding satisfiable models under stable model semantics.
+To check the compliance of an action with a given policy, Gelfond and Lobo [12] first translate the policy into logic program using Answer Set Programming.
+\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards quickly searching NP problems~\citep{vladimir_lifschitz_what_2008}.
+It has its foundations in Knowledge Representation and Reasoning, Logic Programming, Databases, and Boolean Constraint Solving~\citep{gebser_potassco_2011}.
+Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of SAT~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
+Its execution comes in two stages: grounding and solving~\citep{gebser_potassco_2011}.
 
-\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards NP-hard problems~\citep{vladimir_lifschitz_what_2008}.
-It is based on stable model semantics~\citep{gelfond_stable_1988}.
 The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog}~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
+
+It is based on stable model semantics~\citep{gelfond_stable_1988}.
+
+Below we will define the syntax of programs in ASP:
+
+\begin{definition}
+    A \textit{signature} is a four tuple $\Sigma = <\mathcal{O}, \mathcal{F}, \mathcal{P}, \mathcal{V}>$, where $\mathcal{O}$, $\mathcal{F}$, $\mathcal{P}$, $\mathcal{V}$ are mutually disjoint sets of objects, functions, predicates, and variables, respectively~\citep{blount_architecture_2013}.
+\end{definition}
+
+\begin{definition}
+    A \textit{term} over a signature $\Sigma$ consists of any of the following~\citep{blount_architecture_2013}:
+    \begin{itemize}
+        \item Variables
+        \item Object constants
+        \item $f(t_1, t_2, \dots, t_n)$, if $t_1, t_2, \dots, t_n$ are terms and $f$ is a function symbol with arity $n$
+    \end{itemize}
+    For simplicity, we use infix notation for math expressions $1+2$ instead of $+(1, 2)$.
+\end{definition}
+
+% \begin{definition}
+%     An \textit{atom} is
+% \end{definition}
+
+\begin{definition}
+    A \textit{literal} is either an atom $a$ or its negation $\neg a$~\citep{balduccini_asp_2011}.
+\end{definition}
+
+\begin{definition}
+    A term/literal is called \textit{ground} if it does not contain any variables or arithmetic functions~\citep{blount_architecture_2013}.
+\end{definition}
+
+\begin{definition}
+    A \textit{rule} is a statement of the form~\citep{balduccini_asp_2011}:
+    \begin{equation}
+    h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m, \textbf{ not } l_{m+1}, \textbf{ not } l_{m+2}, \dots, \textbf{ not } l_n
+    \end{equation}
+    where $h_1, h_2, \dots, h_n and l_1, l_2, \dots, l_n$ are ground literals.
+    $\textbf{not}$ refers to default negation~\citep{balduccini_asp_2011}.
+\end{definition}
+
+\begin{definition}
+    A \textit{constraint} is a rule where $\{ h_1, h_2, \dots, h_n \} = \emptyset$~\citep{balduccini_asp_2011}.
+\end{definition}
+
+\begin{definition}
+    ``A program is a pair $<\Sigma, \Pi>$ where $\Sigma$ is a signature and $\Pi$ is a set of rules over $\Sigma$~\citep{balduccini_asp_2011}''
+\end{definition}
+
+\begin{definition}
+    An answer set or model of a program $\Pi$ is a collection of the consequences of $\Pi$ under ASP semantics~\citep{balduccini_asp_2011}.
+    More formally,
+
+    \textbf{Case 1:} Program $\Pi$ consists only of rules without default negation~\citep{blount_architecture_2013}, e.g. those of the form:
+    \begin{equation}
+        h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m
+    \end{equation}
+
+    An answer set of $\Pi$ is a consistent set S of ground literals such that~\citep{blount_architecture_2013}:
+    \begin{itemize}
+        \item ``$S$ satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
+        \item ``$S$ is minimal, i.e. there is no proper subset of $S$ which satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
+    \end{itemize}
+
+    \textbf{Case 2:} $\Pi$ is an arbitrary program.
+    Let $S$ is a set of ground literals.
+    Let $\Pi^S$ be a derivative program of $\Pi$ such that:
+    \begin{itemize}
+        \item For all literals $l \in S$, remove all rules that contain $\textbf{not } l$
+        \item Remove all other clauses containing $\textbf{not}$
+    \end{itemize}
+    $S$ is an answer set of $\Pi$ if $S$ is an answer set of $pi^S$ (see Case 1)~\citep{blount_architecture_2013}.
+\end{definition}
+
+$\Pi$ can have multiple answer sets.
+For example, the following program (borrowed from \citet{balduccini_asp_2011}):
+\begin{gather}
+    p \leftarrow \textbf{ not } q. \\
+    q \leftarrow \textbf{ not } p.
+\end{gather}
+has two answer sets: $\{p\}$ and $\{q\}$.
+
+In order to simplify the expression of alternatives for which multiple answer sets can be created, ASP also supports constraint literals~\citep{balduccini_asp_2011}.
+
+\begin{definition}
+    A \textit{constraint literal} is an expression of the form~\citep{balduccini_asp_2011}:
+    \begin{equation}
+        m\{l_1,l_2, \dots, l_k\}n
+    \end{equation}
+    where $ l_1,l_2, \dots, l_k $ are literals and $m$, $n$ are arithmetic expressions.
+    This expression is satisfied when $m \le |\{ l_1,l_2, \dots, l_k\}| \le n$.
+
+    To simplify this syntax even further, one can also use variables to simplify a constraint literal such as~\citep{balduccini_asp_2011}:
+    \begin{equation}
+        m\{l(a_1, b_2),l(a_2,b_2), \dots, l(a_k, b_k)\}n
+    \end{equation}
+    into an expression of the form:
+    \begin{equation}
+        m\{l(A, B) : dom_a(A), dom_b(B)\}n
+    \end{equation}
+    where $dom_a$ and $dom_b$ define the domain of variables $A$ and $B$, respectively.
+\end{definition}
 
 \subsubsection{Checking compliance}
 
