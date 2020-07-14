@@ -1,24 +1,19 @@
 digraph {
-    "Domain Interface";
-    subgraph Execution_Module {
+    node [shape = rectangle];
+    "Domain Interface"
+    subgraph cluster_Execution_Module {
         label = "Execution Module";
-        color = "lightgrey";
-        style = "filled";
         "Execution Engine";
     }
-    subgraph State_Module {
+    subgraph cluster_State_Module {
         label = "State Module";
-        color = "lightgrey";
-        style = "filled";
-        "Intention Set";
-        "Goal Set";
-        "Contracts, Policies, Other Beliefs";
+        "Intention Set" [shape = oval];
+        "Goal Set" [shape = oval];
+        "Contracts, Policies, Other Beliefs" [shape = oval];
     }
-    subgraph Interpreter {
+    subgraph cluster_Interpreter {
         label = "Interpreter";
-        color = "lightgrey";
-        style = "filled";
-        "Plan Library";
+        "Plan Library" [shape = oval];
         "Plan Engine";
         "Goal Maintenance";
         "Contract Engine";
@@ -26,38 +21,31 @@ digraph {
         "Event Treating Engine";
         "Belief Update";
         "Communication Interface";
-
-        "Plan Library" -> "Plan Engine";
-
-        "Contract Engine" -> "Event Treating Engine" [label = "COblE, DesE"];
-
-        "Event Treating Engine" -> "Policy Engine" [label = "ExtE, PRE"];
-        "Event Treating Engine" -> "Contract Engine" [label = "ExtE"];
-        "Event Treating Engine" -> "Goal Maintenance" [label = "DesE, POblE, COblE"];
-        "Event Treating Engine" -> "Belief Update" [label = "ExtE"];
-        "Event Treating Engine" -> "Communication Interface" [label = "EnvE"];
     }
-    "Domain Interface" -> "Execution Engine" [label = "External Actions"];
 
-    "Execution Engine" -> "Domain Interface" [label = "External Actions"];
+    "Execution Engine" -> "Domain Interface" [dir = both label = "External Actions"];
     "Execution Engine" -> "Belief Update";
     "Execution Engine" -> "Event Treating Engine" [label = "DesE, CooperationInfo, PRE"];
 
-    "Contracts, Policies, Other Beliefs" -> "Belief Update";
-    "Contracts, Policies, Other Beliefs" -> "Contract Engine";
-    "Contracts, Policies, Other Beliefs" -> "Policy Engine";
-
     "Plan Engine" -> "Intention Set";
-    "Plan Engine" -> "Plan Library";
+    "Plan Engine" -> "Plan Library" [dir = both];
     "Plan Engine" -> "Execution Engine";
     "Plan Engine" -> "Contracts, Policies, Other Beliefs";
     "Plan Engine" -> "Goal Set";
 
     "Goal Maintenance" -> "Goal Set";
 
-    "Contract Engine" -> "Contracts, Policies, Other Beliefs";
+    "Contract Engine" -> "Contracts, Policies, Other Beliefs" [dir = both];
+    "Contract Engine" -> "Event Treating Engine" [label = "COblE, DesE"];
 
     "Policy Engine" -> "Event Treating Engine" [label = "POblE"];
+    "Policy Engine" -> "Contracts, Policies, Other Beliefs" [dir = both];
 
-    "Belief Update" -> "Contracts, Policies, Other Beliefs";
+    "Event Treating Engine" -> "Policy Engine" [label = "ExtE, PRE"];
+    "Event Treating Engine" -> "Contract Engine" [label = "ExtE"];
+    "Event Treating Engine" -> "Goal Maintenance" [label = "DesE, POblE, COblE"];
+    "Event Treating Engine" -> "Belief Update" [label = "ExtE"];
+    "Event Treating Engine" -> "Communication Interface" [dir = both label = "EnvE"];
+
+    "Belief Update" -> "Contracts, Policies, Other Beliefs" [dir = both];
 }
