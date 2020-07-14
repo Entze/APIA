@@ -8,10 +8,10 @@ MERMAID_FIGURES := $(shell find Figures/ -name '*.mmd' -type f)
 CODE_FIGURES := $(shell find Figures/ -name '*.lp' -type f) $(shell find Figures/ -name '*.txt' -type f)
 CLINGO_FIGURES := $(shell find Figures/ -name '*.clingo.sh' -type f)
 
-DRAWIO_FILTERS := dot neato twopi circo fdp sfdp patchwork osage
+GRAPHVIZ_FILTERS := dot neato twopi circo fdp sfdp patchwork osage
 
 LATEX_SOURCES := $(wildcard *.tex) $(wildcard */*.tex) $(wildcard *.bib)
-LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach DRAWIO_FILTER,$(DRAWIO_FILTERS),$(patsubst %.dot,%-$(DRAWIO_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
+LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%-$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 REMOTE_RESOURCES :=
 
 build: Thesis.pdf
@@ -72,7 +72,7 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 clean:
 	latexmk -C
 	-rm -- $(shell find -name '*.clingo.txt') $(shell find -name '*.clingo.out.txt')
-	-rm -- $(foreach DRAWIO_FILTER,$(DRAWIO_FILTERS),$(foreach EXT,pdf svg png,$(shell find -name '*-$(DRAWIO_FILTER).$(EXT)')))
+	-rm -- $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find -name '*-$(GRAPHVIZ_FILTER).$(EXT)')))
 
 .PHONY: build build-graphviz build-plantuml build-svg build-clingo clean
 .SECONDARY:
