@@ -18,6 +18,7 @@
     "Session.vim": true,
     "**/*.clingo.out.txt": true,
     "**/*.clingo.txt": true,
+    "**/*.svg": true,
   },
   "files.autoSave": "onWindowChange",
   "editor.wordWrap": "bounded",
