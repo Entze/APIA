@@ -64,7 +64,7 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 $(patsubst %.drawio,%.svg,$(DRAWIO_FIGURES)): $(DRAWIO_FIGURES)
 	docker run -it -v "$(shell pwd):/pwd" -w /pwd rlespinasse/drawio-export --fileext svg --folder export
 	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine ./organize-drawio-exports.sh
-	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine chown $(UID):$(GID) $@
+	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine find -user root -exec chown $(UID):$(GID) '{}' \;
 
 %.pdf: %.svg
 	inkscape --export-filename=$@ $<
