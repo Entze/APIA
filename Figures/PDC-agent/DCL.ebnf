@@ -1,0 +1,13 @@
+Ontology ::= 'Ontology(' OntologyID
+                         [VersionDeclaration]
+                         [OntologyCitation]
+                         [SynonymousConcepts]
+                         [SynonymousProperties]
+                         [PropertyDefinitions]
+                         [ConceptDefinitions]
+                         [TypeDefinitions] )
+ConceptDefinitions ::= { 'Concept(' ConceptName
+                                    ['Super:' {SuperClassName}]
+                                    { SlotName ':' {AspectName AspectContent ','} ';' }
+                                    ['Constraint:' ConditionExpression] ')' }
+AspectName ::= 'val' | 'type' | 'mode' | 'number' | 'derive' | 'restriction' | 'unit' | 'inverse' | 'superslot'

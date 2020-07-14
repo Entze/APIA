@@ -1,0 +1,5 @@
+AgentPlan ::= 'AgentPlan(' PlanID Trigger [PreCondition], PlanBody, [MaintCondition], PostProcessing ')'
+Trigger ::= 'Trigger(' GoalEvent ')'
+PreCondition ::= 'PreCondition(' {ConditionExpression} ')'
+MaintCondition ::= 'MaintCondition(' {ConditionExpression} ')'
+PostProcessing ::= 'PostProcessing(' {AddBelief | DeleteBelief} ')'
