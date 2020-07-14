@@ -1,0 +1,30 @@
+digraph {
+    subgraph {
+        label = "Mental States";
+        "Beliefs";
+        "Goals";
+        "Intentions";
+    }
+
+    subgraph {
+        label = "Knowledge Repository";
+        "Belief Rules";
+        "Norm Rules";
+        "Policy Rules";
+        "Contract Rules";
+        "Desire Rules";
+        "Intention Rules";
+        "Plan Rules";
+    }
+
+    "Environment Perceiving";
+    "Belief Revision";
+    "Goal Generation";
+    "Intention Maintenance";
+    "Plan Execution";
+    "Environment Modifying";
+    "Environment Information";
+
+    "Environment Perceiving" -> "Belief Revision" -> "Goal Generation" -> "Intention Maintenance" -> "Plan Execution";
+    "Plan Execution" -> "Environment Modifying" -> "Environment Information" -> "Environment Perceiving";
+}

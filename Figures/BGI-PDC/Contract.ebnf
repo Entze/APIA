@@ -1,0 +1,6 @@
+Contract ::= 'Contract(' N Ag VMA {C-Clause} ')'
+C-Clause ::= 'Obl(' N subject Object Pred-1 [Pred-2] ')'
+    | 'Pms(' N subject Object Pred-1 [Pred-2] ')'
+    | 'Prh(' N subject Object Pred-1 [Pred-2] ')'
+Subject ::= VMA | Ag
+Object ::= VMA | Ag | Other-Role | Other-Agent
