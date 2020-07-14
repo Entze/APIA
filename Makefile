@@ -1,4 +1,6 @@
 export NODE_OPTIONS := --unhandled-rejections=strict
+UID := $(shell id -u)
+GID := $(shell id -g)
 
 GRAPHVIZ_FIGURES := $(shell find Figures/ -name '*.dot' -type f)
 PLANTUML_FIGURES := $(shell find Figures/ -name '*.plantuml' -type f)
@@ -11,7 +13,7 @@ CLINGO_FIGURES := $(shell find Figures/ -name '*.clingo.sh' -type f)
 GRAPHVIZ_FILTERS := dot neato twopi circo fdp sfdp patchwork osage
 
 LATEX_SOURCES := $(wildcard *.tex) $(wildcard */*.tex) $(wildcard *.bib)
-LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%-$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
+LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%-$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES)) $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
 REMOTE_RESOURCES :=
 
 build: Thesis.pdf
@@ -21,6 +23,8 @@ build-graphviz: $(patsubst %.dot,%.pdf,$(GRAPHVIZ_FIGURES))
 build-plantuml: $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES))
 
 build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
+
+build-drawio: $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
 
 build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
@@ -57,6 +61,11 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 %.svg %.png %.pdf: %.mmd
 	yarn run mmdc -i $< -o $@
 
+$(patsubst %.drawio,%.svg,$(DRAWIO_FIGURES)): $(DRAWIO_FIGURES)
+	docker run -it -v "$(shell pwd):/pwd" -w /pwd rlespinasse/drawio-export --fileext svg --folder export
+	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine ./organize-drawio-exports.sh
+	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine chown $(UID):$(GID) $@
+
 %.pdf: %.svg
 	inkscape --export-filename=$@ $<
 
@@ -73,6 +82,7 @@ clean:
 	latexmk -C
 	-rm -- $(shell find -name '*.clingo.txt') $(shell find -name '*.clingo.out.txt')
 	-rm -- $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find -name '*-$(GRAPHVIZ_FILTER).$(EXT)')))
+	-rm -- $(shell find -name '*.pdf')
 
 .PHONY: build build-graphviz build-plantuml build-svg build-clingo clean
 .SECONDARY:
