@@ -897,6 +897,28 @@ In order to simplify the expression of alternatives for which multiple answer se
     where $dom_a$ and $dom_b$ define the domain of variables $A$ and $B$, respectively.
 \end{definition}
 
+With the \textsc{clingo} grounder/solver\footnotemark, arithmetic expressions can also be expanded to evaluate the value of external functions~\citep{gebser_potassco_2019}.
+\footnotetext{
+    \textsc{clingo}~\citep{gebser_potassco_2011} is available for download at this URL: \url{https://potassco.org/clingo/}
+}
+\textsc{clingo} allows external functions to be written in Python, Lua, C, Rust, or Haskell, though the latter two have not yet reached a stable API~\citep{roland_kaminski_potasscoclingo_2020,sven_thiele_potasscoclingo-rs_2020,paul_ogris_tsahytclingo-haskell_2020}.
+External functions can either be included inline or provided externally\footnotemark.
+\footnotetext{
+    Only Python and Lua are supported inline.
+    \textsc{clingo} must be compiled with Python and/or Lua support for inline syntax to be executed.
+}
+
+For example, the program
+\lstinputlisting[language=Prolog]{Figures/ASP/inline_function.lp}
+is equivalent to:
+\lstinputlisting[language=Prolog]{Figures/ASP/base_equivalent.lp}
+
+While the above example is very trivial, it demonstrates a technique in which very powerful computations or queries can be delegated to functions in traditional programming languages.
+External functions should not be used to achieve side-effects.
+Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nondeterminstically according to internal heuristics.
+As such, a developer using \textsc{clingo} has no control over the values with which an external function is called.
+A developer can only define domain for variable values, by inserting or removing facts and production rules.
+
 \subsubsection{Checking compliance}
 
 As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
@@ -1038,13 +1060,9 @@ Suppose the agent's environment can be represented by the following state:
 Its logic encoding $lp(s_0)$ would be:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/s0.lp}
 
-Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as \textsc{clingo}\footnotemark.
+Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as \textsc{clingo}.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
 \lstinputlisting{Figures/APL_Language/01_Initial_Example/run.clingo.txt}
-
-\footnotetext{
-    \textsc{clingo}~\citep{gebser_potassco_2011} is available for download at this URL: \url{https://potassco.org/clingo/}
-}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
