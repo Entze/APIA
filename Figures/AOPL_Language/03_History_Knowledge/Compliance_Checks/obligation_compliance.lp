@@ -12,7 +12,7 @@ obl_satisfied(obl(-Action, I)) :-
     @is_positive(Action) = true,
     not occurs(Action, I).
 
-% Closed-word assumption:
+% Closed-world assumption:
 %   If we cannot derive obl(Happening) to be satisfied, then it is not satisfied
 -obl_satisfied(obl(Happening, I)) :-
     obl(Happening, I),

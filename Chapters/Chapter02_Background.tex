@@ -831,7 +831,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
     \begin{equation}
     h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m, \textbf{ not } l_{m+1}, \textbf{ not } l_{m+2}, \dots, \textbf{ not } l_n
     \end{equation}
-    where $h_1, h_2, \dots, h_n and l_1, l_2, \dots, l_n$ are ground literals.
+    where $h_1, h_2, \dots, h_n$ and $l_1, l_2, \dots, l_n$ are ground literals.
     $\textbf{not}$ refers to default negation~\citep{balduccini_asp_2011}.
 \end{definition}
 
@@ -860,7 +860,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
 
     \textbf{Case 2:} $\Pi$ is an arbitrary program.
     Let $S$ is a set of ground literals.
-    Let $\Pi^S$ be a derivative program of $\Pi$ such that:
+    Let $\Pi^S$ be a derivative program of $\Pi$ (called the \textit{reduct} of $\Pi$ with respect to $S$) such that:
     \begin{itemize}
         \item For all literals $l \in S$, remove all rules that contain $\textbf{not } l$
         \item Remove all other clauses containing $\textbf{not}$
@@ -875,6 +875,14 @@ For example, the following program (borrowed from \citet{balduccini_asp_2011}):
     q \leftarrow \textbf{ not } p.
 \end{gather}
 has two answer sets: $\{p\}$ and $\{q\}$.
+
+In the case when the condition of a constraint is satisfied, $\Pi$ will have zero answer sets (and will be called \textit{inconsistent} or \textit{unsatisfiable}).
+For example, the following program:
+\begin{gather}
+    p. \\
+    \leftarrow p. \label{eq:asp_constraint_example}
+\end{gather}
+is inconsistent since the literals of constraint \ref{eq:asp_constraint_example} are satisfied (i.e. $p$ is true).
 
 In order to simplify the expression of alternatives for which multiple answer sets can be created, ASP also supports constraint literals~\citep{balduccini_asp_2011}.
 
@@ -1497,7 +1505,11 @@ He might have requirements such as:
 \end{itemize}
 
 Before we encode these obligations, we need to first define the transition system for this scenario.
-Suppose the environment can be modeled by a transition system $T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>$ where:
+Suppose the environment can be modeled by a transition system $T$ where:
+
+\begin{equation}
+    T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>
+\end{equation}
 \begin{multline}
     \boldsymbol{F} = \{enrolled(Student, Class), meeting(Class, MeetingNum), \\
         due\_date(meeting(Class, MeetingNum), assignment(Class, AssignmentNum)), \\
@@ -1559,25 +1571,25 @@ Lastly, since cheating is never permissible:
     obl(\neg accept\_unauthorized\_help(S)).
 \end{equation}
 
-The policy $P_o$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Po.lp}
+The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/P.lp}
 
 To keep logic programs in this example from becoming unnecessarily long, the above source (as well as those that will follow it) will favor the use of ASP variables over the manual enumeration of primitive variable values.
 To bind variable values to an ASP variable, we will use the following convention:
 \begin{itemize}
-    \item If the variable $Student$ ranges over values $Student_1, Student_2, \dots, Student_n$, then it will be encoded as follows:
+    \item If the variable $Student$ ranges over values $student_1, student_2, \dots, student_n$, then it will be encoded as follows:
         \begin{gather}
-            student(Student_1). \\
-            student(Student_2). \\
+            student(student_1). \\
+            student(student_2). \\
             \dots \\
-            student(Student_n).
+            student(student_n).
         \end{gather}
-    \item If the variable $Class$ ranges over values $Class_1, Class_2, \dots, Class_n$, then it will be encoded as follows:
+    \item If the variable $Class$ ranges over values $class_1, class_2, \dots, class_n$, then it will be encoded as follows:
         \begin{gather}
-            class(Class_1). \\
-            class(Class_2). \\
+            class(class_1). \\
+            class(class_2). \\
             \dots \\
-            class(Class_n).
+            class(class_n).
         \end{gather}
     \item If the variable $MeetingNum$ ranges over values $1, 2, \dots, n$, then it will be encoded as follows:
         \begin{equation}
@@ -1602,12 +1614,18 @@ We can check for compliance using the following logic programs:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/authorization_compliance.lp}
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/obligation_compliance.lp}
 
-Lastly, if we add:
+In the above snippet, the inline Python script is instrumental in differentiating between $obl(a)$ and $obl(\neg a)$.
+Given the ASP expression $obl(Action)$, the variable $Action$ can be bound to either $a$ or $\neg a$ (in the case $obl(a)$ is true or $obl(\neg a)$ is true, respectively).
+Since $obl(a)$ and $obl(\neg a)$ have different semantics in $\mathcal{AOPL}$, they need to be addressed by two separate rules.
+By writing $obl(Action), \ @is\_positive(Action) = true$, the variable $Action$ can only be bound to $a$ (hence only $obl(a)$ will be matched).
+To address $obl(\neg a)$, we write $obl(-Action), \ @is\_positive(Action) = true$.
+
+Finally, if we add:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/strongly_compliant.lp}
 we can see that the event $<s_0, A>$ is not strongly compliant:
 \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/strongly_compliant.clingo.txt}
 
-Upon further investigation (which is not shown here for brevity), one can see that this is because our policy $P_o$ does not have any authorization statements.
+Upon further investigation (which is not shown here for brevity), one can see that this is because our policy $P$ does not have any authorization statements.
 Hence, no action is strongly compliant.
 However, the event $<s_0, A>$ is weakly compliant:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/weakly_compliant.lp}
