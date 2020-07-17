@@ -23,9 +23,9 @@ digraph {
         "Communication Interface";
     }
 
-    "Execution Engine" -> "Domain Interface" [dir = both label = "External Actions"];
+    "Execution Engine" -> "Domain Interface" [dir = both];
     "Execution Engine" -> "Belief Update";
-    "Execution Engine" -> "Event Treating Engine" [label = "DesE, CooperationInfo, PRE"];
+    "Execution Engine" -> "Event Treating Engine";
 
     "Plan Engine" -> "Intention Set";
     "Plan Engine" -> "Plan Library" [dir = both];
@@ -36,16 +36,16 @@ digraph {
     "Goal Maintenance" -> "Goal Set";
 
     "Contract Engine" -> "Contracts, Policies, Other Beliefs" [dir = both];
-    "Contract Engine" -> "Event Treating Engine" [label = "COblE, DesE"];
+    "Contract Engine" -> "Event Treating Engine";
 
-    "Policy Engine" -> "Event Treating Engine" [label = "POblE"];
+    "Policy Engine" -> "Event Treating Engine";
     "Policy Engine" -> "Contracts, Policies, Other Beliefs" [dir = both];
 
-    "Event Treating Engine" -> "Policy Engine" [label = "ExtE, PRE"];
-    "Event Treating Engine" -> "Contract Engine" [label = "ExtE"];
-    "Event Treating Engine" -> "Goal Maintenance" [label = "DesE, POblE, COblE"];
-    "Event Treating Engine" -> "Belief Update" [label = "ExtE"];
-    "Event Treating Engine" -> "Communication Interface" [dir = both label = "EnvE"];
+    "Event Treating Engine" -> "Policy Engine";
+    "Event Treating Engine" -> "Contract Engine";
+    "Event Treating Engine" -> "Goal Maintenance";
+    "Event Treating Engine" -> "Belief Update";
+    "Event Treating Engine" -> "Communication Interface" [dir = both];
 
     "Belief Update" -> "Contracts, Policies, Other Beliefs" [dir = both];
 }
