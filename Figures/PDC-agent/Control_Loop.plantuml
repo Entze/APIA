@@ -20,9 +20,9 @@ activate "Plan Engine"
 == Step 1 ==
 
 "Domain Interface" -> "Event Treating Engine" ++: Make observations
-"Event Treating Engine" -> "Belief Update" ++ : Send ExtE
-"Event Treating Engine" -> "Policy Engine" ++ : Send ExtE
-"Event Treating Engine" -> "Contract Engine" ++ : Send ExtE
+"Event Treating Engine" ->> "Belief Update" ++ : Send ExtE
+"Event Treating Engine" ->> "Policy Engine" ++ : Send ExtE
+"Event Treating Engine" ->> "Contract Engine" ++ : Send ExtE
 deactivate "Event Treating Engine"
 
 == Step 2 ==
@@ -30,16 +30,16 @@ deactivate "Event Treating Engine"
 "Belief Update" -> "Contracts, Policies, Other Beliefs" -- : Update beliefs
 
 "Policy Engine" -> "Policy Engine" : Evaluate policies
-"Policy Engine" -> "Event Treating Engine" -- : Send POblE
+"Policy Engine" ->> "Event Treating Engine" -- : Send POblE
 
 activate "Event Treating Engine"
 
 "Contract Engine" -> "Contract Engine" : Evaluate contracts
-"Contract Engine" -> "Event Treating Engine" -- : Send COblE, DesE
+"Contract Engine" ->> "Event Treating Engine" -- : Send COblE, DesE
 
 == Step 3 ==
 
-"Event Treating Engine" -> "Goal Maintenance" ++ : Send POblE, COblE, DesE
+"Event Treating Engine" ->> "Goal Maintenance" ++ : Send POblE, COblE, DesE
 deactivate "Event Treating Engine"
 
 == Step 4 ==
@@ -63,7 +63,7 @@ loop forever
     "Plan Engine" -> "Intention Stack" : Query for intention stacks
     "Plan Engine" <-- "Intention Stack" : Intention stack
     "Plan Engine" -> "Plan Engine" : Select topmost plan
-    "Plan Engine" -> "Execution Engine" ++ : Send next step in plan
+    "Plan Engine" ->> "Execution Engine" ++ : Send next step in plan
 end
 
 == Step 7 ==
@@ -72,12 +72,12 @@ alt Step is a domain action
     "Execution Engine" -> "Execution Engine" : Perform action
 else Step is a goal or action to be done by an external agent
     "Execution Engine" -> "Execution Engine" : Encapsulate step in CooperationInfo event
-    "Execution Engine" -> "Event Treating Engine" ++ : Send CooperationInfo
-    "Event Treating Engine" -> "Communication Interface" -- : Send CooperationInfo
+    "Execution Engine" ->> "Event Treating Engine" ++ : Send CooperationInfo
+    "Event Treating Engine" ->> "Communication Interface" -- : Send CooperationInfo
 else Step is a subgoal
     "Execution Engine" -> "Goal Set" : Suspend current plan
     "Execution Engine" -> "Execution Engine" : Encapsulate subgoal into DesE
-    "Execution Engine" -> "Event Treating Engine" : Send DesE
+    "Execution Engine" ->> "Event Treating Engine" : Send DesE
 end
 deactivate "Execution Engine"
 
