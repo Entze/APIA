@@ -1,4 +1,5 @@
 @startuml
+participant "Domain Interface"
 participant "Belief Update"
 database "Contracts, Policies, Other Beliefs"
 participant "Policy Engine"
@@ -6,7 +7,6 @@ participant "Contract Engine"
 participant "Goal Maintenance"
 database "Goal Set"
 participant "Event Treating Engine"
-participant "Domain Interface"
 participant "Plan Engine"
 database "Plan Library"
 database "Intention Set"
