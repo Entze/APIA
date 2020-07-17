@@ -36,13 +36,11 @@ digraph {
     "Goal Maintenance" -> "Goal Set";
 
     "Contract Engine" -> "Contracts, Policies, Other Beliefs" [dir = both];
-    "Contract Engine" -> "Event Treating Engine";
 
-    "Policy Engine" -> "Event Treating Engine";
     "Policy Engine" -> "Contracts, Policies, Other Beliefs" [dir = both];
 
-    "Event Treating Engine" -> "Policy Engine";
-    "Event Treating Engine" -> "Contract Engine";
+    "Event Treating Engine" -> "Policy Engine" [dir = both];
+    "Event Treating Engine" -> "Contract Engine" [dir = both];
     "Event Treating Engine" -> "Goal Maintenance";
     "Event Treating Engine" -> "Belief Update";
     "Event Treating Engine" -> "Communication Interface" [dir = both];
