@@ -1,0 +1,84 @@
+@startuml
+participant "Domain Interface"
+participant "Event Treating Engine"
+participant "Belief Update"
+database "Contracts, Policies, Other Beliefs"
+participant "Policy Engine"
+participant "Contract Engine"
+participant "Goal Maintenance"
+database "Goal Set"
+participant "Plan Engine"
+database "Plan Library"
+database "Intention Stack"
+database "Intention Set"
+
+participant "Execution Engine"
+participant "Communication Interface"
+
+activate "Plan Engine"
+
+== Step 1 ==
+
+"Domain Interface" -> "Event Treating Engine" ++: Make observations
+"Event Treating Engine" -> "Belief Update" ++ : Send ExtE
+"Event Treating Engine" -> "Policy Engine" ++ : Send ExtE
+"Event Treating Engine" -> "Contract Engine" ++ : Send ExtE
+deactivate "Event Treating Engine"
+
+== Step 2 ==
+
+"Belief Update" -> "Contracts, Policies, Other Beliefs" -- : Update beliefs
+
+"Policy Engine" -> "Policy Engine" : Evaluate policies
+"Policy Engine" -> "Event Treating Engine" -- : Send POblE
+
+activate "Event Treating Engine"
+
+"Contract Engine" -> "Contract Engine" : Evaluate contracts
+"Contract Engine" -> "Event Treating Engine" -- : Send COblE, DesE
+
+== Step 3 ==
+
+"Event Treating Engine" -> "Goal Maintenance" ++ : Send POblE, COblE, DesE
+deactivate "Event Treating Engine"
+
+== Step 4 ==
+
+"Goal Maintenance" -> "Goal Maintenance" : "Treats with conflicts among them"
+"Goal Maintenance" -> "Goal Set" -- : Update goals
+
+== Step 5 ==
+
+loop forever
+    "Plan Engine" -> "Goal Set" : Query for goal
+    "Plan Engine" <-- "Goal Set" : Goal
+    "Plan Engine" -> "Plan Library" : Query for plan
+    "Plan Engine" <-- "Plan Library" : Plan
+    "Plan Engine" -> "Intention Stack" : Push plan on stack
+end
+
+== Step 6 ==
+
+loop forever
+    "Plan Engine" -> "Intention Stack" : Query for intention stacks
+    "Plan Engine" <-- "Intention Stack" : Intention stack
+    "Plan Engine" -> "Plan Engine" : Select topmost plan
+    "Plan Engine" -> "Execution Engine" ++ : Send next step in plan
+end
+
+== Step 7 ==
+
+alt Step is a domain action
+    "Execution Engine" -> "Execution Engine" : Perform action
+else Step is a goal or action to be done by an external agent
+    "Execution Engine" -> "Execution Engine" : Encapsulate step in CooperationInfo event
+    "Execution Engine" -> "Event Treating Engine" ++ : Send CooperationInfo
+    "Event Treating Engine" -> "Communication Interface" -- : Send CooperationInfo
+else Step is a subgoal
+    "Execution Engine" -> "Goal Set" : Suspend current plan
+    "Execution Engine" -> "Execution Engine" : Encapsulate subgoal into DesE
+    "Execution Engine" -> "Event Treating Engine" : Send DesE
+end
+deactivate "Execution Engine"
+
+@enduml
