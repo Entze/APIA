@@ -1,0 +1,15 @@
+PlanBody ::= EndState | { '( <-' Planbody '(' State PlanBranch ')' ')'}
+EndState ::= InstancePattern
+State ::= InstancePattern
+PlanBranch ::= ExternalAction | InternalAction
+ExternalAction ::= FunctionCall
+InternalAction ::= AddBelief | DeleteBelief | AddDes | ExTestObj | AddCooperationInfo | AddPRE
+AddBelief ::= 'AddBelief(' Belief ')'
+DeleteBelief ::= 'DeleteBelief(' Belief ')'
+AddDes ::= 'AddDes(' Des ')'
+ExTestObj ::= 'ExTestObj(' TestObjective ')'
+AddCooperationInfo ::= 'AddCooperationInfo(' CooperationInfoE ')'
+AddPRE := 'AddPRE(' PRE ')'
+Des ::= AchieveObjective
+AchieveObjective ::= '!' InstancePattern
+TestObjective ::= '?' InstancePattern
