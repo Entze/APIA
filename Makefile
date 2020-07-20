@@ -78,8 +78,10 @@ $(patsubst %.drawio,%.svg,$(DRAWIO_FIGURES)) &: $(DRAWIO_FIGURES)
 	echo -n '$$ ' > $@
 	cat $^ >> $@
 
-clean:
+clean-latex:
 	latexmk -C
+
+clean-other:
 	find Figures/ -name '*.clingo.txt' -exec rm '{}' \;
 	find Figures/ -name '*.clingo.out.txt' -exec rm '{}' \;
 	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*-$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
@@ -87,6 +89,8 @@ clean:
 	find Figures/ -name '*.svg' -exec rm '{}' \;
 	find Figures/ -name '*.png' -exec rm '{}' \;
 
-.PHONY: build build-graphviz build-plantuml build-svg build-clingo clean
+clean: clean-latex clean-other
+
+.PHONY: build build-graphviz build-plantuml build-svg build-clingo clean clean-latex clean-other
 .SECONDARY:
 .PRECIOUS: %.clingo.txt
