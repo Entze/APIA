@@ -13,6 +13,8 @@ database "Intention Set"
 participant "Execution Engine"
 participant "Communication Interface"
 
+== Observation Loop ==
+
 "Domain Interface" -> "Event Treating Engine" ++: Make observations
 "Event Treating Engine" ->> "Belief Update" ++ : Send ExtE
 "Belief Update" -> "Contracts, Policies, Other Beliefs" -- : Update beliefs
@@ -32,6 +34,8 @@ activate "Goal Maintenance"
 "Goal Maintenance" -> "Goal Maintenance" : "Treats with conflicts among them"
 "Goal Maintenance" -> "Goal Set" -- : Update goals
 
+== Deliberation Loop ==
+
 activate "Plan Engine"
 loop forever
     "Plan Engine" -> "Goal Set" : Query for goal
@@ -48,6 +52,8 @@ loop forever
     "Plan Engine" ->> "Execution Engine" ++ : Send next step in plan
 end
 deactivate "Plan Engine"
+
+== Execution Loop ==
 
 alt Step is a domain action
     "Execution Engine" -> "Execution Engine" : Perform action
