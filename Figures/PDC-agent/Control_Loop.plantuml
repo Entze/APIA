@@ -38,16 +38,16 @@ activate "Goal Maintenance"
 
 activate "Plan Engine"
 loop forever
-    "Plan Engine" -> "Goal Set" : Query for goal
-    "Plan Engine" <-- "Goal Set" : Goal
-    "Plan Engine" -> "Plan Library" : Query for plan
-    "Plan Engine" <-- "Plan Library" : Plan
+    "Plan Engine" -> "Goal Set" ++ : Query for goal
+    "Plan Engine" <-- "Goal Set" -- : Goal
+    "Plan Engine" -> "Plan Library" ++ : Query for plan
+    "Plan Engine" <-- "Plan Library" -- : Plan
     "Plan Engine" -> "Intention Set" : Push plan on stack
 end
 
 loop forever
-    "Plan Engine" -> "Intention Set" : Query for intention stacks
-    "Plan Engine" <-- "Intention Set" : Intention stack
+    "Plan Engine" -> "Intention Set" ++ : Query for intention stacks
+    "Plan Engine" <-- "Intention Set" -- : Intention stack
     "Plan Engine" -> "Plan Engine" : Select topmost plan
     "Plan Engine" ->> "Execution Engine" ++ : Send next step in plan
 end
