@@ -61,8 +61,8 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 %.svg %.png %.pdf: %.mmd
 	yarn run mmdc -i $< -o $@
 
-$(patsubst %.drawio,%.svg,$(DRAWIO_FIGURES)) &: $(DRAWIO_FIGURES)
-	docker run -it -v "$(shell pwd):/pwd" -w /pwd rlespinasse/drawio-export --fileext svg --folder export
+%.svg: %.drawio
+	docker run -it -v "$(shell pwd)/$(@D):/pwd" -w /pwd rlespinasse/drawio-export --fileext $(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') --folder export
 	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine ./organize-drawio-exports.sh
 	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine find -user root -exec chown $(UID):$(GID) '{}' \;
 
