@@ -1638,46 +1638,46 @@ For completeness, the event $<s_0, A>$ is not non compliant:
 \section{Related Work}
 
 A survey of the literature shows that there have been many other attempts to enable agents to reason over various kinds of policies.
-Most involve reasoning over access control policies (e.g.) and a few utilize ASP as a reasoning tool (e.g.).
+Most involve reasoning over access control policies (e.g. \citet{ferraiolo_role-based_1995,alves_graph-based_2017,barker_logical_2012,sabri_temporal_2016}) and a few utilize ASP as a reasoning tool (e.g. \citet{barker_reasoning_2014,barker_logical_2012}).
 However, the work by \citet{liao_extended_2006} is the most relevant for discussion in this thesis.
 
 \subsection{PDC-agent}
 
-\citet{liao_extended_2006} present an extension of the BDI architecture call PDC-agent, which is based off of a policy and contract aware methodology they call BGI-PDC logic\footnotemark.
+\citet{liao_extended_2006} present an extension of the BDI architecture call PDC-agent, which is based off a policy and contract-aware methodology they call BGI-PDC logic\footnotemark.
 PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framework which allows for controlled and coordinated behavior among independent cooperative agents.
-\citet{liao_model_2005} use policies to control agent behavior and contracts to have agents coordinate actions between each other  .
+\citet{liao_model_2005} use policies to control agent behavior and contracts to have agents coordinate actions between each other.
 
 \footnotetext{
     \citet{liao_extended_2006} do not mention what these acronyms stand for.
 }
 
 \begin{definition}
-    PDC-agent for a single agent is defined as a collection of components grouped into modules.
+    The PDC-agent architecture for a single agent is defined as a collection of components, which are grouped into three modules.
     Other cooperative agents are defined likewise.
 \end{definition}
 
 \begin{definition}
-    The \textit{Interpreter} module is defined as a 7-tuple of the following components: $(Event Treating Engine, Belief Update, Contract Engine, Policy Engine, Goal Maintenance, Plan Engine, Plan Library)$~\citep{liao_extended_2006}.
-    The role of each component is presented below~\citep{liao_extended_2006}:
+    The \textit{Interpreter} module is defined as a 7-tuple of the following components: (Event Treating Engine, Belief Update, Contract Engine, Policy Engine, Goal Maintenance, Plan Engine, Plan Library)~\citep{liao_extended_2006}.
+    The role of each component is presented below:
 
     \begin{itemize}
-        \item The \textit{Event Treating Engine} is an event hub that passes messages and performs simple message manipulations.
+        \item The \textit{Event Treating Engine} is an event hub that passes messages and performs simple message manipulations~\citep{liao_extended_2006}.
             While some components send events to other components directly, most events are forwarded through the Event Treating Engine.
-        \item The \textit{Belief Update} component maintains the agent’s belief database on the basis of events and belief-manipulating actions (such as AddBelief or DeleteBelief).
-        \item The \textit{Contract Engine} listens for ExtE events and emits events when relevant contract clauses are satisfied.
-        \item The \textit{Policy Engine} evaluates policies.
-        \item The \textit{Goal Maintenance} component produces goals.
-        \item The \textit{Plan Engine} finds plans to meet goals, according to plans in the Plan Library.
+        \item The \textit{Belief Update} component maintains the agent's belief database on the basis of events and belief-manipulating actions (such as AddBelief or DeleteBelief)~\citep{liao_extended_2006}.
+        \item The \textit{Contract Engine} listens for events describing the current state of the environment and emits events when relevant contract clauses are satisfied~\citep{liao_extended_2006}.
+        \item The \textit{Policy Engine} evaluates policies~\citep{liao_extended_2006}.
+        \item The \textit{Goal Maintenance} component produces goals~\citep{liao_extended_2006}.
+        \item The \textit{Plan Engine} finds plans to meet goals, according to plans in the Plan Library~\citep{liao_extended_2006}.
     \end{itemize}
 \end{definition}
 
 \begin{definition}
-    The \textit{State Module} of a PDC-agent consists of the \textit{Intention Set}, \textit{Goal Set}, and \textit{beliefs}.
-    Beliefs constitute an agent’s understanding of its environment, the agent’s internal states, as well as a representation of contracts and policies.
+    The \textit{State Module} of a PDC-agent consists of the \textit{Intention Set}, \textit{Goal Set}, and \textit{Beliefs}~\citep{liao_extended_2006}.
+    Beliefs constitute an agent's understanding of its environment, the agent's internal states, as well as a representation of contracts and policies~\citep{liao_extended_2006}.
 \end{definition}
 
 \begin{definition}
-    The \textit{Execution Module} of a PDC-agent consists of the \textit{Execution Engine}, \textit{external actions}, and \textit{internal actions}.
+    The \textit{Execution Module} of a PDC-agent consists of the \textit{Execution Engine}, \textit{External actions}, and \textit{Internal actions}~\citep{liao_extended_2006}.
 \end{definition}
 
 This architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure}.
@@ -1686,7 +1686,7 @@ An informal representation of the components collective control loop is presente
 \begin{figure}[p]
     \includegraphics[width=\textwidth]{Figures/PDC-agent/Structure_2}
     \centering
-    \caption{Control loop of PDC-agent}
+    \caption{PDC-agent component interactions}
     \label{fig:pdc_agent_structure}
 \end{figure}
 
@@ -1694,19 +1694,19 @@ An informal representation of the components collective control loop is presente
     \begin{figure}[p]
         \includegraphics[width=\paperwidth]{Figures/PDC-agent/Control_Loop}
         \centering
-        \caption{Control loop of PDC-agent}
+        \caption{Simplified control loop of PDC-agent}
         \label{fig:pdc_agent_control_loop}
     \end{figure}
 \end{landscape}
 
 A major distinction of the PDC-agent agent architecture is that the PDC-agent architecture supports coordination among multiple agents.
-While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture can allow multiple agents to operate in a shared environment, the AAA and $\mathcal{AIA}$ architectures do not provide any mechanism to coordinate actions between to work towards a common goal.
+While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture can allow multiple agents to operate in a shared environment, the AAA and $\mathcal{AIA}$ architectures do not provide any mechanism to coordinate actions between separate agents to work towards a common goal.
 
 Similar to the $\mathcal{AIA}$ architecture, PDC-agent distinguishes between external actions and internal actions.
-Internal actions can update beliefs, analogous to $\mathcal{TI}$, but they can also emit events to the Event Treating Engine.
+Internal actions in the PDC-agent architecture can update beliefs (analogously to $\mathcal{TI}$) but they can also emit events to the Event Treating Engine.
 Internal actions available to agents in the PDC-agent architecture are: AddBelief, DeleteBelief, AddDes (which adds desires to the agent), ExTestObj (which executes “test objectives”), AddPRE (which adds policy reference events), and AddCooperationInfo (which gathers domain-specific information from cooperating agents).
 
 In spite of these similarities, the PDC-agent architecture has another crucial distinction.
 the PDC-agent architecture does not reason over a transition system (or, by extension, an action description) and does not use ASP.
-Instead, knowledge in PDC-agent is formally represented in terms of Domain Conceptualization Language (DCL)~\citep{ji_gao_sasa5_2005} and Concept Instance Pattern (CIP).
-For brevity, this thesis will not include the syntax of DCL and CIP as well as a discussion on how these languages are used to formally represent each entity in PDC-agent.
+Instead, knowledge in PDC-agent is formally represented in terms of a Domain Conceptualization Language (DCL)~\citep{ji_gao_sasa5_2005} and a Concept Instance Pattern (CIP).
+For brevity, this thesis will not include the syntax of DCL and CIP nor will it include a discussion on how these languages are used to formally represent each entity in PDC-agent.
