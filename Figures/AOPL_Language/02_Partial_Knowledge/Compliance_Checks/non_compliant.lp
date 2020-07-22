@@ -1,6 +1,10 @@
 #include "authorization_compliance.lp".
 #include "obligation_compliance.lp".
 
-% Non compliant if at least one of auth_compliant or obl_compliant is false
+% Non-compliant if auth_compliant is false
 :-
-    1 { -auth_compliant ; -obl_compliant }.
+    -auth_compliant.
+
+% Non-compliant if obl_compliant is false
+:-
+    -obl_compliant.

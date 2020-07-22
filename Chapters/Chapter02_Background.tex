@@ -793,7 +793,7 @@ It has its foundations in Knowledge Representation and Reasoning, Logic Programm
 Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of SAT~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
 Its execution comes in two stages: grounding and solving~\citep{gebser_potassco_2011}.
 
-The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog}~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
+The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog} in older literature~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
 
 % It is based on stable model semantics~\citep{gelfond_stable_1988}.
 
@@ -916,13 +916,13 @@ External functions can either be included inline or provided externally\footnote
     \textsc{clingo} must be compiled with Python and/or Lua support for inline syntax to be executed.
 }
 
-For example, the program
+For example, the program:
 \lstinputlisting[language=Prolog]{Figures/ASP/inline_function.lp}
 is equivalent to:
 \lstinputlisting[language=Prolog]{Figures/ASP/base_equivalent.lp}
 
-While the above example is very trivial, it demonstrates a technique in which very powerful computations or queries can be delegated to functions in traditional programming languages.
-External functions should not be used to achieve side-effects.
+While the above example is very trivial, it demonstrates a very powerful technique in which computations or queries can be delegated to functions in traditional programming languages.
+This being said, external functions should not be used to achieve side-effects.
 Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nondeterminstically according to internal heuristics.
 As such, a developer using \textsc{clingo} has no control over the values with which an external function is called.
 A developer can only define domain for variable values, by inserting or removing facts and production rules.
@@ -1450,6 +1450,7 @@ To evaluate the compliance of happening $h$ at state $s$ with an obligation poli
 \end{definition}
 
 \begin{definition}
+    \label{def:obligation_event_compliance}
     An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall obl(a) \in P(s) \ a \in A) \land (\forall obl(\neg a) \in P(s) \ a \not \in A)$
 \end{definition}
 
@@ -1494,7 +1495,9 @@ However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situat
 
 \subsubsection{Obligation example}
 
-To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} provide the following example.
+To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} present an example.
+We have substantially expanded the discussion of their example, regarding both the amount of formal definitions and the overall depth of detail.
+
 Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
 He might have requirements such as:
 
@@ -1505,7 +1508,7 @@ He might have requirements such as:
 \end{itemize}
 
 Before we encode these obligations, we need to first define the transition system for this scenario.
-Suppose the environment can be modeled by a transition system $T$ where:
+Suppose the environment can be modeled by a transition system $T$ where\footnotemark:
 
 \begin{equation}
     T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>
@@ -1522,6 +1525,10 @@ Suppose the environment can be modeled by a transition system $T$ where:
         accept\_unauthorized\_help(Student)\}
 \end{multline}
 and $Student$, $Class$, $AssignmentNum$, and $MeetingNum$ are variables that range over their respective values.
+
+\footnotetext{
+    The following definitions are only implicit in the work by \citet{gelfond_authorization_2008}.
+}
 
 Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
 \citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
@@ -1571,8 +1578,12 @@ Lastly, since cheating is never permissible:
     obl(\neg accept\_unauthorized\_help(S)).
 \end{equation}
 
-The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows:
+The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows\footnotemark:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/P.lp}
+
+\footnotetext{
+    We have added all of the following ASP code to supplement the discussion by \citet{gelfond_authorization_2008}.
+}
 
 To keep logic programs in this example from becoming unnecessarily long, the above source (as well as those that will follow it) will favor the use of ASP variables over the manual enumeration of primitive variable values.
 To bind variable values to an ASP variable, we will use the following convention:
@@ -1609,10 +1620,16 @@ However, in order to provide a complete discussion of their work, we will use th
 Suppose we want to check the compliance of the following occurance of actions $A$:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/A.lp}
 
-We can check for compliance using the following logic programs:
+We can check for compliance using the following logic programs\footnotemark:
 \lstinputlisting[language=Python]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/util.lp}
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/authorization_compliance.lp}
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/obligation_compliance.lp}
+
+\footnotetext{
+    In what follows, we implement a generic logic program that is capable of checking the compliance of any set of actions $A$ with respect to any arbitrary policy $P$.
+    This is for added convenience, since this logic program can simultaneously check the compliance of $A$ with the induced authorization policy $P_a$ as well as the induced obligation policy $P_o$.
+    This is a significant improvement from the original definitions presented in \cref{def:authorization_event_compliance_full_knowledge,def:obligation_event_compliance}, since the latter involves invoking \textsc{clingo} twice (once for checking compliance of $A$ with $P_a$ and again for $P_o$) and hardcodes $A$ into the logic program.
+}
 
 In the above snippet, the inline Python script is instrumental in differentiating between $obl(a)$ and $obl(\neg a)$.
 Given the ASP expression $obl(Action)$, the variable $Action$ can be bound to either $a$ or $\neg a$ (in the case $obl(a)$ is true or $obl(\neg a)$ is true, respectively).
@@ -1631,7 +1648,7 @@ However, the event $<s_0, A>$ is weakly compliant:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/weakly_compliant.lp}
 \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/weakly_compliant.clingo.txt}
 
-For completeness, the event $<s_0, A>$ is not non compliant:
+For completeness, the event $<s_0, A>$ is not non-compliant:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/non_compliant.lp}
 \lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/non_compliant.clingo.txt}
 
@@ -1681,7 +1698,11 @@ PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framewor
 \end{definition}
 
 This architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure}.
-An informal representation of the components collective control loop is presented in \cref{fig:pdc_agent_control_loop}.
+An informal representation of the components collective control loop is presented in \cref{fig:pdc_agent_control_loop}\footnotemark.
+
+\footnotetext{
+    We have added \cref{fig:pdc_agent_control_loop} based on what \citet{liao_extended_2006} discuss in prose.
+}
 
 \begin{figure}[p]
     \includegraphics[width=\textwidth]{Figures/PDC-agent/Structure_2}

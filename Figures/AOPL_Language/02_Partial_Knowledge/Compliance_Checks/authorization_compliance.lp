@@ -5,7 +5,7 @@ auth_compliant :-
     permitted(Action),
     @is_positive(Action) = true : occurs(Action).
 
-% Non compliant if there exists occurs(Action) where permitted(Action) is false
+% Non-compliant if there exists occurs(Action) where permitted(Action) is false
 -auth_compliant :-
     occurs(Action),
     -permitted(Action).

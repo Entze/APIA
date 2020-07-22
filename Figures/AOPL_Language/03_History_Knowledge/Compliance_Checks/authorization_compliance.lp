@@ -9,7 +9,7 @@ auth_compliant(I) :-
 auth_compliant :-
     auth_compliant(I) : step(I).
 
-% Non compliant if there exists occurs(Action) where permitted(Action) is false
+% Non-compliant if there exists occurs(Action) where permitted(Action) is false
 -auth_compliant(I) :-
     step(I),
     occurs(Action, I),

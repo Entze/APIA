@@ -22,7 +22,7 @@ obl_satisfied(obl(-Action, I)) :-
 obl_compliant :-
     obl_satisfied(obl(Happening, I)) : obl(Happening, I).
 
-% Non compliant if there exists obl(Happening) where obl_satisfied(obl(Happening)) is not true
+% Non-compliant if there exists obl(Happening) where obl_satisfied(obl(Happening)) is not true
 -obl_compliant :-
     obl(Happening, I),
     not obl_satisfied(obl(Happening, I)).
