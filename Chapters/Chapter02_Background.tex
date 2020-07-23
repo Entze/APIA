@@ -84,7 +84,7 @@ They can be divided into those that have \textit{simple} cognitive models and th
 The simple cognitive models share similarities with the agent classes presented above
 whereas the cognitive architectures are heavily influenced by the structure of the human brain.
 
-\section{Evaluation of agent architectures}
+\section{Evaluation of Agent Architectures}
 \label{sec:agent_evaluation}
 
 Given these five classes of agent architectures, one needs a way of objectively comparing them.
@@ -119,7 +119,7 @@ Elaboration tolerance measures the ease of which a knowledge base can be changed
 For example, a representation with a high elaboration tolerance might require very little changes to represent additional information whereas a representation with a low elaboration tolerance may need to be completely re-written to address a new scenario.
 The concept was first mentioned by \citet{mccarthy_mathematical_1988}, but later formalized by \citet{parmar_formalizing_2003}.
 
-\section{Logic-based intelligent agents}
+\section{Logic-based Intelligent Agents}
 \label{sec:logic_based_agents}
 
 In addition to those mentioned by \citet{balke_how_2014}, there has been research on various logic-based agent architectures.
@@ -197,7 +197,7 @@ The states $ s' $ such that $ <s, A, s'> \in R $ are the possible results of an 
     An action $a \in A$ is sometimes called an \textit{elementary action} where $A$ is called a \textit{compound action}~\citep{gelfond_authorization_2008}.
 \end{definition}
 
-\subsection{Action languages}
+\subsection{Action Languages}
 \label{subsec:action_languages}
 
 While transition systems are useful because of their strong mathematical foundation, specifying complex transition systems is very difficult in practice.
@@ -209,7 +209,7 @@ We will focus only on action description languages and will use the term \textit
 
 Many action languages exist, including $ \mathcal{A} $~\citep{gelfond_action_1998}, $ \mathcal{B} $~\citep{gelfond_action_1998}, $ \mathcal{C} $~\citep{gelfond_action_1998}, $ \mathcal{AC} $~\citep{turner_representing_1997}, $ \mathcal{AL} $~\citep{baral_reasoning_2000}, $ \mathcal{ALM} $~\citep{inclezan_modular_2016}.
 
-\subsubsection{Action language $ \mathcal{A} $}
+\subsubsection{Action Language $ \mathcal{A} $}
 \label{subsubsec:action_language_a}
 
 First, we will discuss action language $ \mathcal{A} $.
@@ -264,7 +264,7 @@ In this case, the action description language models the transition system shown
     \label{fig:action_language_a_example}
 \end{figure}
 
-\subsubsection{Action language $ \mathcal{B} $}
+\subsubsection{Action Language $ \mathcal{B} $}
 \label{subsubsec:action_language_b}
 
 Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
@@ -325,7 +325,7 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
     \end{itemize}
 \end{definition}
 
-\subsubsection{Action language $ \mathcal{AL} $}
+\subsubsection{Action Language $ \mathcal{AL} $}
 \label{subsubsec:action_language_al}
 
 $ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
@@ -369,7 +369,7 @@ Defined fluents, on the other hand, are defined in terms of other fluents and do
 Due to the constraints on their definition, they cannot be directly caused by an action.
 
 
-\subsection{The AAA architecture}
+\subsection{The AAA Architecture}
 \label{subsec:aaa_architecture}
 
 The first logic-based agent architecture that we will discuss is the \textit{Autonomous Agent Architecture} (AAA) architecture~\citep{balduccini_aaa_2008}.
@@ -435,7 +435,7 @@ However, a few assumptions differ from the AAA architecture:
     \item The world must be modeled in an \textit{intentional system description} of $\mathcal{AL}$.
 \end{itemize}
 
-\subsubsection{Intentional system description of $\mathcal{AL}$}
+\subsubsection{Intentional System Description of $\mathcal{AL}$}
 \label{subsubsec:intentional_action_language_al}
 
 An intentional system description of $ \mathcal{AL} $ is an extension of $ \mathcal{AL} $ proposed by \citet{blount_architecture_2013}.
@@ -484,7 +484,7 @@ The exogenous mental action $select(G)$ causes the agent to intend to achieve go
 Likewise, the exogenous mental action $abandon(G)$ causes the agent to cease its intent to achieve goal $G$~\citep{blount_towards_2014}.
 These actions are necessarily exogenous because, in general, a goal-driven agent must be told to achieve at least one goal beforehand.
 
-\subsubsection{Domain history}
+\subsubsection{Domain History}
 \label{subsubsec:domain_history}
 
 Previously, we mentioned that a differing aspect of the $\mathcal{AIA}$ architecture is that an agent can attempt an action but fail to do so.
@@ -524,7 +524,7 @@ Thus, an agent in the $\mathcal{AIA}$ architecture will have the following histo
 
 This history is consistent.
 
-\subsubsection{Control loop}
+\subsubsection{Control Loop}
 \label{subsubsec:control_loop}
 
 An agent in the $\mathcal{AIA}$ architecture performs the following loop:
@@ -557,7 +557,7 @@ A visual description of this example is shown in \cref{fig:aia_example}.
     \label{fig:aia_example}
 \end{figure}
 
-\subsubsection{Scenario 1: Planning to achieve goal~\citep{blount_towards_2014}}
+\subsubsection{Scenario 1: Planning to Achieve Goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_1}
 
 Initially, Bob knows that he is currently located in r1 and John is located in r3.
@@ -595,7 +595,7 @@ When interpreting its observations in the third iteration of the loop, it will u
 The agent in following steps will intend to execute $move(Bob, r2, r3)$, attempt to execute it and store $attempt(move(Bob, r2, r3))$ in history, and observe that Bob is in r3 and that it has met with John.
 Having accomplished its goal, the $active\_goal(meet(Bob, John))$ fluent is set to false and the agent performs the \textit{wait} action until it is given another goal.
 
-\subsubsection{Scenario 2: Serendipitous achievement of goal~\citep{blount_towards_2014}}
+\subsubsection{Scenario 2: Serendipitous Achievement of Goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_2}
 
 Let us rewind the previous scenario such that the agent Bob is currently attempting $move(Bob, r1, r2)$.
@@ -621,7 +621,7 @@ After Bob attempts to perform $start(2)$, it will observe that $start(2)$ happen
 Bob will intend to perform $move(Bob, r2,r3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
 Assuming that $d34$ is unlocked, the scenario will finish like in scenario 1.
 
-\subsubsection{Scenario 4: Abandoning goal~\citep{blount_towards_2014}}
+\subsubsection{Scenario 4: Abandoning Goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_4}
 
 Moving back to scenario 1 where Bob is currently attempting $move(Bob, r1, r2)$.
@@ -642,7 +642,7 @@ In this case, Bob must start an activity $<3, [move(Bob, r3, r4)],meet(Bob,John)
 However, before it can do so, it must first perform stop(1) before performing start(3).
 Hence, it takes three more iterations of the control loop to move to r4 ($stop(1)$, $start(3)$, $move(Bob, r3,r4)$) and one final iteration to end the activity ($stop(3)$).
 
-\section{Logic-based approaches to representing and reasoning over agent policies}
+\section{Logic-based Approaches to Representing and Reasoning over Agent Policies}
 \label{sec:policies}
 
 Though the agent architectures discussed thus far allow agents to be fully autonomous, real-world applications may require agents to behave in particular ways.
@@ -927,7 +927,7 @@ Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nond
 As such, a developer using \textsc{clingo} has no control over the values with which an external function is called.
 A developer can only define domain for variable values, by inserting or removing facts and production rules.
 
-\subsubsection{Checking compliance}
+\subsubsection{Checking Compliance}
 
 As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
 To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
@@ -1097,7 +1097,7 @@ $A = \{authorize(c_1, m_1)\}$ is also impossible.
 Considering $A=\emptyset$, $A$ is possible according to the action description.
 With respect to $P_m$, $A$ is weakly compliant since neither $permitted(wait)$ or $\neg permitted(wait)$ is entailed by $lp(P_m, s_0)$.
 
-\subsubsection{Checking compliance with complete knowledge of state}
+\subsubsection{Checking Compliance with Complete Knowledge of State}
 
 To formalize this approach even further, \citet{gelfond_authorization_2008} provide propositions that decide how compliant an event $<s,a>$ is with an authorization policy $P$.
 
@@ -1137,7 +1137,7 @@ The logic program $lp(P, s) \cup \{ \leftarrow permitted(assume\_command(c_1, m_
 \lstinputlisting{Figures/APL_Language/02_Full_Knowledge/strongly_compliant.clingo.txt}
 Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
-\subsubsection{Checking compliance with partial knowledge of state}
+\subsubsection{Checking Compliance with Partial Knowledge of State}
 
 It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
 \citet{gelfond_authorization_2008} show that checking policy compliance can also be possible when an agent only knows the value of a subset of fluents in $s$.
@@ -1232,7 +1232,7 @@ The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with op
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.clingo.txt}
 Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
 
-\subsubsection{Checking compliance with minimal knowledge of state}
+\subsubsection{Checking Compliance with Minimal Knowledge of State}
 
 \citet{gelfond_authorization_2008} note that the above two approaches will not work for agents in the AAA architecture (or for that matter, the $\mathcal{AIA}$ architecture).
 Nonetheless, they develop a method for checking policy compliance under the AAA architecture knowledge constraints.
@@ -1416,7 +1416,7 @@ Likewise, for $\neg obl(\neg a)$.
     \end{equation}
 \end{definition}
 
-\subsubsection{Checking compliance}
+\subsubsection{Checking Compliance}
 
 To evaluate the compliance of happening $h$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
 
@@ -1493,7 +1493,7 @@ However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situat
     This definition is not explicitly provided by \citet{gelfond_authorization_2008}.
 }
 
-\subsubsection{Obligation example}
+\subsubsection{Obligation Example}
 
 To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} present an example.
 We have substantially expanded the discussion of their example, regarding both the amount of formal definitions and the overall depth of detail.
@@ -1729,7 +1729,7 @@ While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture
 
 Similar to the $\mathcal{AIA}$ architecture, PDC-agent distinguishes between external actions and internal actions.
 Internal actions in the PDC-agent architecture can update beliefs (analogously to $\mathcal{TI}$) but they can also emit events to the Event Treating Engine.
-Internal actions available to agents in the PDC-agent architecture are: AddBelief, DeleteBelief, AddDes (which adds desires to the agent), ExTestObj (which executes “test objectives”), AddPRE (which adds policy reference events), and AddCooperationInfo (which gathers domain-specific information from cooperating agents).
+Internal actions available to agents in the PDC-agent architecture are: AddBelief, DeleteBelief, AddDes (which adds desires to the agent), ExTestObj (which executes ``test objectives''), AddPRE (which adds policy reference events), and AddCooperationInfo (which gathers domain-specific information from cooperating agents).
 
 In spite of these similarities, the PDC-agent architecture has another crucial distinction.
 the PDC-agent architecture does not reason over a transition system (or, by extension, an action description) and does not use ASP.

@@ -16,7 +16,7 @@ More specifically, the proposed work of this thesis proposal is to design an age
 The resultant agent architecture will be called $\mathcal{APIA}$.
 Similar to \citet{blount_towards_2014}, this will be done on the basis of prototypical examples.
 
-\subsection{Creating examples}
+\subsection{Creating Examples}
 
 Creating meaningful prototypical examples that exemplify the strengths and weaknesses of the union of $\mathcal{AIA}$ and $\mathcal{AOPL}$ is paramount to this work.
 In order for an example to have this property it must substantially incorporate both $\mathcal{AIA}$ and $\mathcal{AOPL}$.
@@ -79,7 +79,7 @@ Once formally stated in $\mathcal{AOPL}$, the policy will be translated to its l
 Once the proposed examples are executable in $\mathcal{APIA}$, the proposed work will then discuss the output of the logic program and confirm its validity.
 For this, the proposed work will formally demonstrate the relevant compliance/non-compliance of an action and the formally explain the behavior of the agent's control loop in the context of the example.
 
-\subsection{Updating prior work to use latest ASP tools}
+\subsection{Updating Prior Work to use Latest ASP Tools}
 
 Another aspect of this proposal is to update prior work to use a modern ASP solver so that the proposed thesis can compare the performance of prior work to the implementation of its own contribution.
 More specifically, this proposed work is to refactor Blount's implementation of the $\mathcal{AIA}$ agent architecture, which is written in the Java programming language and uses the \textsc{CR-Models2}~\citep{balduccini_cr-models_2007} solver, such that it uses the \textsc{clingo} solver.
@@ -103,12 +103,12 @@ The knowledge base will be considered complete when all domain-relevant properti
 All direct and indirect effects of actions (whether agent-caused or exogenous) must be encoded in the knowledge base.
 While creating a more general knowledge base that could adequately represent multiple domains would benefit a greater segment of the research community, such a task would be a major undertaking in and of itself and thereby lies outside of the scope of the proposed work.
 
-\subsection{Stopping Criteria for applying $\mathcal{APIA}$ examples}
+\subsection{Stopping Criteria for Applying $\mathcal{APIA}$ Examples}
 
 When applying the $\mathcal{APIA}$ examples, the thesis must show through formal methods how actions chosen by an agent are compliant (or non-compliant) with its $\mathcal{AOPL}$ policy.
 Furthermore, non-intuitive agent behavior should be formally explained according to the $\mathcal{AIA}$ control loop and $\mathcal{TI}$.
 
-\subsection{Stopping Criteria for updating $\mathcal{AIA}$}
+\subsection{Stopping Criteria for Updating $\mathcal{AIA}$}
 
 The refactoring of Blount's implementation of $\mathcal{AIA}$ will be considered complete when the dependency on \textsc{CR-Models2} is completely replaced with \textsc{clingo} and the updated implementation is verified by the against its original counterpart on the basis of a few examples provided by Blount.
 
