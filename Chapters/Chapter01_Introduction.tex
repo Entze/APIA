@@ -12,11 +12,48 @@ Computers have increasingly become a ubiquitous part of everyday life.
 As more intelligence is able to be embedded in them, we are starting to see the rise in autonomous systems.
 Automatic stock trading programs and self-driving cars are but a few examples.
 However, as we expect them to perform more complex tasks, the question arises of how to best construct agents in a computer program that are capable of reasoning over higher-level concepts.
+Furthermore, new government regulations can place requirements on how agents must act.
+Thus, designers must ensure the lawful behavior of their agents, which further complicates their design.
 
 This paper provides a background on different \textit{agent architectures} that have been proposed in prior literature.
 This work then narrows its focus to discuss a particular class of agent architectures that are heavily based in the formal theory of logic.
 It first introduces preliminary definitions on which they are based, then moves on to discuss them in significant detail with the aid of examples.
+Then, this paper contrasts them to alternative agent architectures.
+Lastly, this proposal moves to describe the proposed work for this thesis.
 
 \section{Motivation}
 
+Policy compliance has become an important aspect of AI in recent years due to the signing of the General Data Protection Regulation (GDPR) in Europe.
+The GDPR establishes standards for gathering user data as well as automated decision made upon it.
+Among other requirements, the GDPR stipulates that consent must be gathered before any data can be used and that all the actions of automated processes using on the data must be explainable to a third-party.
+Furthermore, the GDPR requires businesses to prove their compliance with its statues.
+
+As machine learning approaches fail to provide a human-understandable explanation for their output, an alternative approach is needed.
+Logic-based approaches are inherently better in this regard since they are logically deterministic by their construction.
+Likewise, logic-based approaches provide benefits in the area of assured compliance as actions can be proven to be compliant.
+
+However, prior work in the logic community has yet to integrate work on action compliance into a non-trivial agent architecture.
+Most work regarding policy compliance is limited to access control policies regarding allowing or denying access to an Internet system.
+Such an access control enforcer is only a very trivial agent that is only given two simple action to perform (to allow and to deny).
+Prior work has proposed various agent architectures that are more complex than these simple agents and that can consider executing multiple actions in changing environments.
+Because of their capability to perform more complex actions, the research community ought to consider applying more complex policies than access control policies to them.
+
+Thus, this thesis proposal suggests combining prior research on complex authorization and obligation policies into research on non-trivial agent architectures.
+The goal of this proposal is to create a derivative agent architecture that is capable of reasoning over and ensuring action compliance.
+The proposed work will then evaluate the architecture against prototypical examples that, while simplified in contrast to the real-world, are nonetheless non-trivial in complexity.
+
+Challenges to this approach may involve constructing examples that sufficiently test and exercise the agent architecture's capability to conform to policies while keeping the example as simple as possible.
+Another challenge, in tandem with the first, may be creating examples that accurately model a plausible real-world occurrence.
+
 \section{Contributions}
+
+The contributions of the proposed work for this thesis are summarized as follows:
+
+\begin{itemize}
+    \item Create examples on which a policy-aware agent architecture can be evaluated.
+    \item Create a new extension of an agent architecture that incorporates research on policy compliance.
+    \item Implement the new agent architecture using the latest logic programming tools.
+    \item Apply and evaluate the new agent architecture to the created examples.
+    \item Update the run-time dependencies of a prior agent architecture implementation to the latest logic programming tools.
+    \item Compare the run-time efficiency of the updated implementation of the prior agent architecture to the implementation of the new agent architecture.
+\end{itemize}
