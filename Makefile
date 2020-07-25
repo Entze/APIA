@@ -2,6 +2,8 @@ export NODE_OPTIONS := --unhandled-rejections=strict
 UID := $(shell id -u)
 GID := $(shell id -g)
 
+INKSCAPE_VERSION := $(shell inkscape --version | perl -ne 'if (/Inkscape (\d+)/) { print $$1 . "\n" }')
+
 GRAPHVIZ_FIGURES := $(shell find Figures/ -name '*.dot' -type f)
 PLANTUML_FIGURES := $(shell find Figures/ -name '*.plantuml' -type f)
 SVG_FIGURES := $(shell find Figures/ -name '*.svg' -type f)
@@ -67,7 +69,12 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine find -user root -exec chown $(UID):$(GID) '{}' \;
 
 %.pdf: %.svg
+ifeq ($(INKSCAPE_VERSION), 1)
 	inkscape --export-filename=$@ $<
+endif
+ifeq ($(INKSCAPE_VERSION), 0)
+	inkscape --without-gui --export-pdf=$@ $<
+endif
 
 %.clingo.out.txt: %.clingo.sh
 	-mkdir -p $(@D)
