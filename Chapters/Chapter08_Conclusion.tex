@@ -36,7 +36,7 @@ The agent's mental state is maintained by a set of logic rules called the Theory
 We then provided the $\mathcal{AIA}$ control loop and explained its execution through the aid of a few examples.
 
 We introduced languages $\mathcal{APL}$ and $\mathcal{AOPL}$ to represent and reason over action compliance given authorization and obligation policies.
-While $\mathcal{APL}$ and $\mathcal{AOPL}$ are not action languages, they share a similar syntax to that of action language AL and work in tandem with it.
+While $\mathcal{APL}$ and $\mathcal{AOPL}$ are not action languages, they share a similar syntax to that of action language $\mathcal{AL}$ and work in tandem with it.
 We demonstrated the implementation of $\mathcal{APL}$ and $\mathcal{AOPL}$ using \textsc{clingo} with a varying degree of knowledge, ranging from a full knowledge of fluents to an initial understanding of fluents coupled with an event history.
 
 We then contrasted the $\mathcal{AIA}$ agent architecture and $\mathcal{AOPL}$ to the PDC-agent architecture.
@@ -48,9 +48,9 @@ Since the $\mathcal{AIA}$ architecture is based on action languages, plans can b
 We propose to extend the $\mathcal{AIA}$ architecture so that it can reason over $\mathcal{AOPL}$ policies.
 This new agent architecture will be called the $\mathcal{APIA}$ architecture.
 In addition to its formal definition and implementation, we propose to construct examples on which $\mathcal{APIA}$ can be evaluated.
-The evaluation of $\mathcal{APIA}$ will also consist of the expressivity of its syntax, its elaboration tolerance, its difficulty of construction, and its run-time performance.
+The evaluation of $\mathcal{APIA}$ will also consist of the expressivity of its syntax, its elaboration tolerance, its difficulty of construction, and its runtime performance.
 Due to performance improvements in underlying ASP solvers, we propose to update Blount's implementation of the $\mathcal{AIA}$ architecture from CR-Models2 to \textsc{clingo} so that differences in performance are meaningful.
 
-The $\mathcal{APIA}$ agent architecture would be a modern logic-based architecture that is able to plan amid changing environments while maintaining policy compliance.
+The $\mathcal{APIA}$ agent architecture is a modern logic-based architecture that is able to plan amid changing environments while maintaining policy compliance.
 As a result, its behavior is both explainable and ensured to be compliant.
-Such properties the $\mathcal{APIA}$ a significant contribution to the logic programming community.
+With such properties, the $\mathcal{APIA}$ architecture is a significant contribution to the logic programming community.

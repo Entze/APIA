@@ -4,7 +4,7 @@
 % It should present the overall goals, and any architecture, and overarching elements.
 
 With prior work explained and discussed, we are now ready to introduce the subject of this thesis proposal.
-The structure of this chapter will be the following: first, we introduce the proposed work for the duration of the next year.
+The structure of this chapter is the following: first, we introduce the proposed work for the duration of the next year.
 Second, we detail stopping criteria that define the extent the proposed work's scope.
 Third, we outline a methodology and a set of metrics for which the merits of the output of the proposed work can be measured.
 Lastly, we suggest venues for further dissemination of the results of the proposed work as well as a timeline for when it can be expected to be complete.
@@ -31,7 +31,7 @@ Example 3 would be another good candidate since it involves a sudden expectation
 Example 3 can be modified to a scenario where a weakly compliant plan, after subsequent observations, is computed to be non-compliant.
 In this case, the work could discuss the similarities and differences in agent behavior to that of failing to achieve a goal.
 
-An alternative derivate of Example 3 might consider when, through the observation of additional information, an agent's policy obligates an agent to perform a certain action.
+An alternate derivative of Example 3 might consider when, through the observation of additional information, an agent's policy obligates an agent to perform a certain action.
 This example could be made more interesting by examining the case when this newly obligated action causes an expectation of failure to achieve a goal.
 Furthermore, if an agent cannot find another plan with the compulsory action that achieves the goal, this work could discuss whether an agent should resign itself to failure of achieving the goal or whether it should take a utilitarian approach and violate its policy when no other options exist.
 
@@ -43,12 +43,12 @@ Then, it will progressively introduce more complex examples that demonstrate the
 
 \subsection{Implementing $\mathcal{APIA}$}
 
-In this proposal, we plan to implement an agent in the $\mathcal{AIA}$ architecture that reasons over $\mathcal{AOPL}$ policies (we will call this an agent in the $\mathcal{APIA}$ architecture).
+In this proposal, we plan to implement an agent in the $\mathcal{AIA}$ architecture that reasons over $\mathcal{AOPL}$ policies (we call this an agent in the $\mathcal{APIA}$ architecture).
 In order to do this, we will need to first implement the Theory of Intentions proposed by \citet{blount_towards_2014} in \textsc{clingo}.
 This would require writing a series of logic program rules as detailed by \citet{blount_towards_2014}.
 
 Once $\mathcal{TI}$ is implemented, then we will need to implement the $\mathcal{AIA}$ control loop.
-\textsc{Clingo} supports an external Python API with which a program can control \textsc{clingo}'s operation, extract information out of answer sets, initiate subsequent solves, and more.
+Using \textsc{clingo}'s Python API, a program can control \textsc{clingo}'s operation, extract information out of answer sets, initiate subsequent solves, and more.
 This API is the de-facto manner with which programs interact with \textsc{clingo} and this proposal would implement the $\mathcal{AIA}$ control loop on the basis of this API.
 
 Then, we will add checks for compliance as discussed in \cref{subsec:aopl}.
@@ -81,8 +81,8 @@ For this, the proposed work will formally demonstrate the relevant compliance/no
 
 \subsection{Updating Prior Work to use Latest ASP Tools}
 
-Another aspect of this proposal is to update prior work to use a modern ASP solver so that the proposed thesis can compare the performance of prior work to the implementation of its own contribution.
-More specifically, this proposed work is to refactor Blount's implementation of the $\mathcal{AIA}$ agent architecture, which is written in the Java programming language and uses the \textsc{CR-Models2}~\citep{balduccini_cr-models_2007} solver, such that it uses the \textsc{clingo} solver.
+Another aspect of this proposal is to update prior work to use a modern ASP solver so that the proposed thesis can compare the performance of the implementation of its own contribution to prior work.
+More specifically, this proposed work is to refactor Blount's Java implementation of the $\mathcal{AIA}$ agent architecture using \textsc{CR-Models2}~\citep{balduccini_cr-models_2007} solver such that it uses the \textsc{clingo} solver.
 
 This refactor will not only update references to \textsc{CR-Models2} but also upgrade ASP syntax and investigate new solver features to maximize the performance of Blount's $\mathcal{AIA}$ implementation.
 
@@ -93,13 +93,13 @@ Updating Blount's implementation of $\mathcal{AIA}$ will also benefit the larger
 \subsection{Stopping Criteria for Defining Example Scenarios}
 
 The scope of this proposal concerns ten prototypical examples demonstrating the interaction of $\mathcal{AOPL}$ policies with $\mathcal{AIA}$ (5 for authorization policies with $\mathcal{AIA}$ and 5 for obligation policies with $\mathcal{AIA}$).
-A scenario that meaningfully demonstrates the semantics, run-time effects of agent behavior due to policy compliance will satisfy this requirement.
+A scenario that meaningfully demonstrates the semantics, runtime effects of agent behavior due to policy compliance will satisfy this requirement.
 
 \subsection{Stopping Criteria for Implementing $\mathcal{APIA}$}
 
 The independent implementation of the $\mathcal{APIA}$ architecture will be considered complete when all rules of $\mathcal{TI}$ are encoded, and the proper execution of the $\mathcal{AIA}$ control loop is verified according to an original example proposed by Blount.
 
-The knowledge base will be considered complete when all domain-relevant properties of each scenario is sufficiently represented in the knowledge base.
+The knowledge base will be considered complete when all domain-relevant properties of each scenario are sufficiently represented in the knowledge base.
 All direct and indirect effects of actions (whether agent-caused or exogenous) must be encoded in the knowledge base.
 While creating a more general knowledge base that could adequately represent multiple domains would benefit a greater segment of the research community, such a task would be a major undertaking in and of itself and thereby lies outside of the scope of the proposed work.
 
@@ -115,7 +115,7 @@ The refactoring of Blount's implementation of $\mathcal{AIA}$ will be considered
 \section{Evaluation Methodology and Metrics}
 
 It is worth noting that since this thesis proposal considers a contribution in the domain of Knowledge Representation \& Reasoning (KRR), it will be evaluated by the customs established in this field instead of with commonplace metrics used under the broader Computer Science umbrella.
-As such, the majority of the evaluation of this thesis proposal will be formal in nature and focused on syntax, conciseness, and expressivity over run-time performance.
+As such, the majority of the evaluation of this thesis proposal will be formal in nature and focused on syntax, conciseness, and expressivity over quantitative measures of runtime performance.
 
 \subsection{Conciseness and Expressivity}
 
@@ -136,13 +136,13 @@ The third metric on which the contribution will be measured is how hard bringing
 This is notable since, unlike other programming languages, there are not many tools that a developer in KRR can use to troubleshoot unexpected behavior or pin-point logical inconsistencies.
 Often logic programs may become wholly unsatisfiable or exclude externally valid solutions from the answer set.
 Most ASP solvers do not provide a stack trace or any clues as to which constraint is excluding the desired answer set.
-(An exception to this would be an ASP solver such as Z3, which includes UNSAT-responsible constraints in an `UNSAT-core').
-The tools available to KRR developers are source code highlighters and SeaLion, which enables refactoring of predicate names.
+(An exception to this would be an ASP solver such as Z3~\citep{de_moura_z3_2008}, which includes UNSAT-responsible constraints in an \textit{UNSAT-core}).
+The tools available to KRR developers are syntax highlighters and the SeaLion IDE~\citep{busoniu_sealion_2013}, which enables refactoring of predicate names.
 
-\subsection{Run-time Performance Benchmark}
+\subsection{runtime Performance Benchmark}
 
-The last metric for this contribution will be a traditional benchmark between the run-time performance of Blount's implementation of the $\mathcal{AIA}$ architecture and the performance of this work's implementation of the $\mathcal{AIA}$ architecture (without $\mathcal{AOPL}$).
-Then, this contribution will compare the runtime performance of our implementation of $\mathcal{AIA}$ to the implementation of $\mathcal{APIA}$.
+The last metric for this contribution will be a traditional benchmark between the runtime performance of our update to Blount's implementation of the $\mathcal{AIA}$ architecture and the performance of our implementation of $\mathcal{APIA}$.
+Though the proposed work could investigate the performance boost between Blount's original implementation with \textsc{CR-Models2} to the updated version with \textsc{clingo}, this is outside of the scope of this thesis.
 
 \section{Dissemination of Results}
 
@@ -161,9 +161,9 @@ It generally follows these deadlines:
 
 \begin{itemize}
     \item Paper registration (abstract, regular papers): May 8
-    \item Paper Submission(regular papers): May 15
-    \item Notification to authors(regular papers): June 19
-    \item Paper Submission(short papers): June 30
+    \item Paper Submission (regular papers): May 15
+    \item Notification to authors (regular papers): June 19
+    \item Paper Submission (short papers): June 30
     \item Revision deadline (TPLP papers): July 3
     \item Final notification (TPLP papers, short papers): July 17
     \item Camera-ready copy due: July 31

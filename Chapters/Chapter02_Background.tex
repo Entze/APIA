@@ -54,16 +54,16 @@ consist of three core components:
 
 Production rule systems are usually implemented in Prolog or Lisp~\citep{balke_how_2014}.
 
-The next class of agents are those ascribing to the \textit{BDI architecture}~\citep{balke_how_2014}.
+The next class of agents are those ascribing to the \textit{BDI Architecture}~\citep{balke_how_2014}.
 The belief-desire-intention (BDI) model combines a philosophical model of human practical reasoning
 with several successful applications~\citep{georgeff_belief-desire-intention_1999}.
 BDI agents are built on the idea of mental states,
 consisting of three items: beliefs, desires, and intentions~\citep{balke_how_2014}.
 \textit{Beliefs} refer to an agent's representation of the world.
 An agent believes something to be true if and only if the statement is found in its representation of the world.
-It is worth noting that an agent's beliefs can be inconsistent with its environment (i.e.~the agent can be mistaken).
+It is worth noting that an agent's beliefs can be inconsistent with its environment (i.e.~the agent can mistakenly believe a falsehood about its environment).
 
-An agent's \textit{desires} are all possible courses of action that it might want to accomplish in order to reach a goal~\citep{balke_how_2014}.
+A BDI agent's \textit{desires} are all possible courses of action that it might want to accomplish in order to reach a goal~\citep{balke_how_2014}.
 An agent is not necessarily committed to its desires.
 They just play a part in its decision process.
 \textit{Intentions}, on the other hand, are commitments to particular courses of action to reach a goal.
@@ -140,7 +140,7 @@ Discrete dynamic domains are environments that behave according to the following
 \end{itemize}
 
 Transition systems, then, are akin to directed graphs where the vertices are possible states of the world and edges are actions that, when performed, transition the world from one state to another.
-The formal definition is as follows:
+Their formal definition is as follows:
 
 \begin{definition}
     \label{def:action_signature}
@@ -269,7 +269,7 @@ In this case, the action description language models the transition system shown
 
 Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
 It does so with the addition of so-called \textit{static laws}~\citep{gelfond_action_1998}.
-The authors contrast static laws to \textit{dynamic laws}, which refer to action descriptions in $\mathcal{A}$.
+\citet{gelfond_action_1998} contrast static laws to \textit{dynamic laws}, which refer to action descriptions in $\mathcal{A}$.
 
 Like $\mathcal{A}$, $\mathcal{B}$ models a transition system with the signature $<\{t, f\},\boldsymbol{F},\boldsymbol{A}>$.
 An action description in $\mathcal{B}$ is a set of static and dynamic laws, which are as follows~\citep{gelfond_action_1998}:
@@ -329,7 +329,7 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
 \label{subsubsec:action_language_al}
 
 $ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
-It extends these languages with what the authors later refer to as \textit{defined fluents}.
+It extends these languages with what authors later refer to as \textit{defined fluents}.
 These are domain-relevant properties under the closed world assumption~\citep{blount_architecture_2013}.
 The closed world assumption states that which cannot be proven true must be false~\citep{reiter_closed_1981}.
 It contrasts from the open world assumption, which states only that which is proven is true~\citep{reiter_closed_1981}.
@@ -359,7 +359,7 @@ Later work by \citet{gelfond_knowledge_2014} proposes classifications for litera
 The term \textit{fluent} has a slightly different meaning in this context.
 \citet{gelfond_knowledge_2014} use the term \textit{domain property} to refer to the \textit{fluent names} introduced in our discussion of action signatures.
 By \textit{fluent}, \citet{gelfond_knowledge_2014} mean the domain properties that might actually change between states.
-The authors call domain properties that will not change between states \textit{statics}.
+They call domain properties that will not change between states \textit{statics}.
 It is worth noting that the distinction between these fluents and statics is only useful when considering the implementation of a system using action language $\mathcal{AL}$.
 Representing statics as a runtime constant can result in performance improvements.
 
@@ -388,8 +388,8 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
 
 \begin{enumerate}
     \item Observe the world, explain observations, and update knowledge base.
-    \item Select an appropriate goal G.
-    \item Find a sequence of sets of concurrent actions $A$ (called a \textit{plan}) that achieve G.
+    \item Select an appropriate goal $G$.
+    \item Find a sequence of compound actions (called a \textit{plan}) that achieve $G$.
     \item Execute first action in plan and update knowledge base.
     \item Repeat (i.e.~go to step 1).
 \end{enumerate}
@@ -398,7 +398,7 @@ This loop is known as the \textit{Observe-Think-Act} loop~\citep{balduccini_aaa_
 
 In step 1, the agent observes the world and updates its knowledge base.
 This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in \cref{subsubsec:asp}).
-The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions~\citep{balduccini_aaa_2008}.
+The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions (more will be mentioned in \cref{subsubsec:domain_history})~\citep{balduccini_aaa_2008}.
 
 There are two approaches to describing the effects of an agent's actions.
 The first is to use action languages to formally denote the action effects, then to translate them into ASP for executability.
@@ -457,7 +457,7 @@ Activities are the set of the following statics~\citep{blount_architecture_2013,
 \noindent
 where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
 In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
-In the latter case, $M'$ is a child activity of $M$.
+In the latter case, $M'$ is a \textit{child activity} of $M$.
 An activity cannot be a child (or descendant) of itself (i.e.~activities must be acyclic).
 It is also worth noting that activities permit the execution of actions concurrently.
 
@@ -474,7 +474,7 @@ The effects of mental actions are defined in a set of propositions called the Th
 
 The Theory of Intentions ($\mathcal{TI}$) is a framework of static and dynamic laws that maintain an agent's mental state.
 Elements of the agent's mental state include the currently selected goal $G$, stored in the $active\_goal\left(G\right)$ inertial fluent, the current planned activity, stored in the $status(M, k)$ inertial fluent~\citep{blount_towards_2014}.
-When either a goal is selected or an activity is planned, they are said to be intended.
+When either a goal is selected or an activity is planned, they are said to be \textit{intended}.
 
 $\mathcal{TI}$ updates the agent's mental states through mental actions.
 For example, the action $start(M)$ initiates the agent's intention to execute activity $M$ and $stop(M)$ terminates the agent's intention to execute $M$~\citep{blount_towards_2014}.
@@ -544,9 +544,9 @@ An agent in the $\mathcal{AIA}$ architecture performs the following loop:
 
 To demonstrate the execution of an agent in the $\mathcal{AIA}$ architecture, we will consider an example given by \citet{blount_architecture_2013}.
 Suppose that we have an agent named Bob in a workspace with a colleague named John.
-The workspace in which they are located has four consecutive rooms r1, r2, r3, r4 with a door connecting each adjacent room.
+The workspace in which they are located has four consecutive rooms $r_1$, $r_2$, $r_3$, $r_4$ with a door connecting each adjacent room.
 Both Bob and John are free to \textit{move} from their current room to an adjoined one.
-The only exception is that the door joining r3 and r4 has a lock and must be in an unlocked state in order for anything to pass through it.
+The only exception is that the door joining $r_3$ and $r_4$ has a lock and must be in an unlocked state in order for anything to pass through it.
 Both Bob and John can \textit{lock} and \textit{unlock} the door when next to it.
 A visual description of this example is shown in \cref{fig:aia_example}.
 
@@ -560,7 +560,7 @@ A visual description of this example is shown in \cref{fig:aia_example}.
 \subsubsection{Scenario 1: Planning to Achieve Goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_1}
 
-Initially, Bob knows that he is currently located in r1 and John is located in r3.
+Initially, Bob knows that he is currently located in $r_1$ and John is located in $r_3$.
 Suppose Bob is given an order to meet with John.
 This is represented as the occurrence of an exogenous mental action $select(meet(Bob, John))$, which eventually causes the $active\_goal(meet(Bob, John))$ fluent to be true in the agent's mental state.
 In the first iteration of the $\mathcal{AIA}$ control loop, the agent will:
@@ -576,31 +576,31 @@ In the first iteration of the $\mathcal{AIA}$ control loop, the agent will:
 Then, in the second iteration of the loop, the agent will interpret its observations.
 According to the $\mathcal{TI}$ laws, this will cause the $active\_goal(meet(Bob, John))$ fluent to be true.
 Now, when it will search for an activity which has been described to achieve this goal.
-Suppose it chooses the activity $<1, [move(Bob, r1,r2), move(Bob, r2, r3)],meet(Bob,John)>$.
+Suppose it chooses the activity $<1, [move(Bob, r_1,r_2), move(Bob, r_2, r_3)],meet(Bob,John)>$.
 This is represented by the following inertial fluent $status(1,0)$.
 The rest of the second iteration is as follows:
 
 \begin{enumerate}
     \setcounter{enumi}{1}
     \item Find intended action $a$.
-        This is the k + 1 action of the activity where $status(1, k)$.
-        In this case, $a$ is $move(Bob, r1, r2)$.
-    \item Execute $move(Bob, r1, r2)$.
-        Record $attempt(move(Bob, r1, r2, 1)$ in history.
-    \item Observe that Bob is in r2.
-        Record $hpd(move(Bob, r1, r2),1)$ in history.
+        This is the $k + 1$ action of the activity where $status(1, k)$.
+        In this case, $a$ is $move(Bob, r_1, r_2)$.
+    \item Execute $move(Bob, r_1, r_2)$.
+        Record $attempt(move(Bob, r_1, r_2, 1)$ in history.
+    \item Observe that Bob is in $r_2$.
+        Record $hpd(move(Bob, r_1, r_2),1)$ in history.
 \end{enumerate}
 
 When interpreting its observations in the third iteration of the loop, it will update $status(1,0)$ to $status(1,1)$.
-The agent in following steps will intend to execute $move(Bob, r2, r3)$, attempt to execute it and store $attempt(move(Bob, r2, r3))$ in history, and observe that Bob is in r3 and that it has met with John.
+The agent in following steps will intend to execute $move(Bob, r_2, r_3)$, attempt to execute it and store $attempt(move(Bob, r_2, r_3))$ in history, and observe that Bob is in $r_3$ and that it has met with John.
 Having accomplished its goal, the $active\_goal(meet(Bob, John))$ fluent is set to false and the agent performs the \textit{wait} action until it is given another goal.
 
 \subsubsection{Scenario 2: Serendipitous Achievement of Goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_2}
 
-Let us rewind the previous scenario such that the agent Bob is currently attempting $move(Bob, r1, r2)$.
-Suppose that, during the same time step, the following exogenous action occurs $move(John, r3, r2)$.
-When Bob observes and records the world, it will record $hpd(move(Bob, r1, r2), 1)$ and $hpd(move(John,r3,r2), 1)$.
+Let us rewind the previous scenario such that the agent Bob is currently attempting $move(Bob, r_1, r_2)$.
+Suppose that, during the same time step, the following exogenous action occurs $move(John, r_3, r_2)$.
+When Bob observes and records the world, it will record $hpd(move(Bob, r_1, r_2), 1)$ and $hpd(move(John,r_3,r_2), 1)$.
 In the next iteration of the control loop, Bob will interpret his observations and derive the $meet(Bob, John)$ fluent to be true.
 In this case, Bob's goal to achieve $meet(Bob, John)$ is serendipitously satisfied.
 Since Bob wants to maintain this state, it will intend to perform action $stop(1)$ to halt the execution of activity $1$.
@@ -610,21 +610,21 @@ Bob will observe and record $hpd(stop(1), 2)$, at which point Bob will choose to
 \subsubsection{Scenario 3: Replanning~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_3}
 
-Let us again rewind scenario 1 such that Bob is currently attempting $move(Bob, r1, r2)$.
-Suppose that, during the same time step, the following exogenous action occurs $move(John, r3, r4)$.
+Let us again rewind Scenario 1 such that Bob is currently attempting $move(Bob, r_1, r_2)$.
+Suppose that, during the same time step, the following exogenous action occurs $move(John, r_3, r_4)$.
 When Bob interprets this observation, it will recognize that activity $1$ is \textit{futile} (i.e.~it will not satisfy its goal) and so intend to stop activity $1$.
 Bob will attempt to perform $stop(1)$, observe that $stop(1)$ has occurred, re-interpret its observations, and search for a new action to perform.
 In this step, Bob will look for an activity that satisfies the goal $meet(Bob, John)$.
-Suppose it finds the following activity $<2, [move(Bob, r2,r3), move(Bob, r3,r4)],meet(Bob,John)>$.
+Suppose it finds the following activity $<2, [move(Bob, r_2,r_3), move(Bob, r_3,r_4)],meet(Bob,John)>$.
 Then Bob will intend to perform $start(2)$.
 After Bob attempts to perform $start(2)$, it will observe that $start(2)$ happened, interpret its observations, then search for an intended action.
-Bob will intend to perform $move(Bob, r2,r3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
-Assuming that $d34$ is unlocked, the scenario will finish like in scenario 1.
+Bob will intend to perform $move(Bob, r_2,r_3)$, attempt to perform it, observe that it happened, interpret its observations, and so on and so forth.
+Assuming that $d_34$ is unlocked, the scenario will finish like in Scenario 1.
 
 \subsubsection{Scenario 4: Abandoning Goal~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_4}
 
-Moving back to scenario 1 where Bob is currently attempting $move(Bob, r1, r2)$.
+Moving back to Scenario 1 where Bob is currently attempting $move(Bob, r_1, r_2)$.
 Suppose that, during the same time step, the following exogenous action occurs $abandon(meet(Bob, John))$.
 Then, when observing this action and interpreting it, the $\mathcal{TI}$ laws will cause $active\_goal(meet(Bob, John))$ fluent to be false.
 Subsequently, Bob will intend to stop the current activity (by performing $stop(1)$), attempt to perform $stop(1)$, observe, interpret, and intend to perform \textit{wait} in all future loops.
@@ -632,15 +632,15 @@ Subsequently, Bob will intend to stop the current activity (by performing $stop(
 \subsubsection{Scenario 5: Diagnosis~\citep{blount_towards_2014}}
 \label{subsubsec:aia_scenario_5}
 
-Finally, let us reset to the point scenario 1 where Bob is performing $move(Bob, r2, r3)$.
-When later observing the world, suppose Bob does not find John there in r3.
+Finally, let us reset to the moment in Scenario 1 where Bob is performing $move(Bob, r_2, r_3)$.
+When later observing the world, suppose Bob does not find John there in $r_3$.
 After recording this observation in the history, Bob then interprets its observations.
 Since activity 1 does not achieve the goal $meet(Bob, John)$, Bob begins diagnostic reasoning over the history to figure out how this could be possible.
-Looking back in history, there are three possibilities when John could have moved: when Bob performed $start(1)$, when Bob performed $move(Bob, r1, r2)$, and when Bob performed $move(Bob, r2, r3)$.
-Assuming John did not pass Bob while moving between rooms, John must have moved to r4.
-In this case, Bob must start an activity $<3, [move(Bob, r3, r4)],meet(Bob,John)>$ to move from r3 to r4.
+Looking back in history, there are three possibilities when John could have moved: when Bob performed $start(1)$, when Bob performed $move(Bob, r_1, r_2)$, and when Bob performed $move(Bob, r_2, r_3)$.
+Assuming John did not pass Bob while moving between rooms, John must have moved to $r_4$.
+In this case, Bob must start an activity $<3, [move(Bob, r_3, r_4)],meet(Bob,John)>$ to move from $r_3$ to $r_4$.
 However, before it can do so, it must first perform stop(1) before performing start(3).
-Hence, it takes three more iterations of the control loop to move to r4 ($stop(1)$, $start(3)$, $move(Bob, r3,r4)$) and one final iteration to end the activity ($stop(3)$).
+Hence, it takes three more iterations of the control loop to move to $r_4$ ($stop(1)$, $start(3)$, $move(Bob, r_3,r_4)$) and one final iteration to end the activity ($stop(3)$).
 
 \section{Logic-based Approaches to Representing and Reasoning over Agent Policies}
 \label{sec:policies}
@@ -682,9 +682,9 @@ These policies are transcribed using static laws in a similar form to action lan
     \noindent
     where $a \in \boldsymbol{A}$ is an action and $F$ is a, possibly empty, conjunction of fluents, actions, or their negations.
     Formally, $F$ is as follows for a state $s$:\footnotemark
-    \begin{equation}
-        F\subseteq\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\} \cup \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\} \cup \{permitted(a), \neg permitted(a)\}
-    \end{equation}
+    \begin{multline}
+        F\subseteq\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\} \cup \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\} \\ \cup \{permitted(a) | a \in \boldsymbol{A}\} \cup \{\neg permitted(a) | a \in \boldsymbol{A}\}
+    \end{multline}
 
     \footnotetext{
         \citet{gelfond_authorization_2008} use the syntax $f = y$ to denote $V(f, s)=y$ for the current state $s$.
@@ -787,10 +787,10 @@ In total, our policy $P$ be the set of the above two statement blocks (\cref{eq:
 \subsubsection{Answer Set Programming}
 \label{subsubsec:asp}
 
-To check the compliance of an action with a given policy, Gelfond and Lobo [12] first translate the policy into logic program using Answer Set Programming.
+To check the compliance of an action with a given policy, Gelfond and Lobo [12] first translate the policy into a logic program using Answer Set Programming.
 \textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards quickly searching NP problems~\citep{vladimir_lifschitz_what_2008}.
 It has its foundations in Knowledge Representation and Reasoning, Logic Programming, Databases, and Boolean Constraint Solving~\citep{gebser_potassco_2011}.
-Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of SAT~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
+Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of Satisfiability Testing (SAT)~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
 Its execution comes in two stages: grounding and solving~\citep{gebser_potassco_2011}.
 
 The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog} in older literature~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
@@ -811,7 +811,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
         \item Object constants
         \item $f(t_1, t_2, \dots, t_n)$, if $t_1, t_2, \dots, t_n$ are terms and $f$ is a function symbol with arity $n$
     \end{itemize}
-    For simplicity, we use infix notation for math expressions $1+2$ instead of $+(1, 2)$.
+    For simplicity, we use infix notation for arithmetic expressions (e.g. $1+2$ instead of $+(1, 2)$).
 \end{definition}
 
 % \begin{definition}
@@ -844,7 +844,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
 \end{definition}
 
 \begin{definition}
-    An answer set or model of a program $\Pi$ is a collection of the consequences of $\Pi$ under ASP semantics~\citep{balduccini_asp_2011}.
+    An \textit{answer set} or \textit{model} of a program $\Pi$ is a collection of the consequences of $\Pi$ under ASP semantics~\citep{balduccini_asp_2011}.
     More formally,
 
     \textbf{Case 1:} Program $\Pi$ consists only of rules without default negation~\citep{blount_architecture_2013}, e.g. those of the form:
@@ -902,12 +902,12 @@ In order to simplify the expression of alternatives for which multiple answer se
     \begin{equation}
         m\{l(A, B) : dom_a(A), dom_b(B)\}n
     \end{equation}
-    where $dom_a$ and $dom_b$ define the domain of variables $A$ and $B$, respectively.
+    where $dom_a$ and $dom_b$ are function symbols that define the domain of variables $A$ and $B$, respectively.
 \end{definition}
 
 With the \textsc{clingo} grounder/solver\footnotemark, arithmetic expressions can also be expanded to evaluate the value of external functions~\citep{gebser_potassco_2019}.
 \footnotetext{
-    \textsc{clingo}~\citep{gebser_potassco_2011} is available for download at this URL: \url{https://potassco.org/clingo/}
+    \textsc{clingo}~\citep{gebser_potassco_2011} is available for download at \url{https://potassco.org/clingo/}
 }
 \textsc{clingo} allows external functions to be written in Python, Lua, C, Rust, or Haskell, though the latter two have not yet reached a stable API~\citep{roland_kaminski_potasscoclingo_2020,sven_thiele_potasscoclingo-rs_2020,paul_ogris_tsahytclingo-haskell_2020}.
 External functions can either be included inline or provided externally\footnotemark.
@@ -924,7 +924,7 @@ is equivalent to:
 While the above example is very trivial, it demonstrates a very powerful technique in which computations or queries can be delegated to functions in traditional programming languages.
 This being said, external functions should not be used to achieve side-effects.
 Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nondeterminstically according to internal heuristics.
-As such, a developer using \textsc{clingo} has no control over the values with which an external function is called.
+As such, a developer using \textsc{clingo} has little control over the values with which an external function is called.
 A developer can only define domain for variable values, by inserting or removing facts and production rules.
 
 \subsubsection{Checking Compliance}
@@ -1074,7 +1074,7 @@ Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
-For completeness, one might be curious to consider actions such as:
+For completeness, one might be curious to consider an action such as:
 \begin{equation}
     A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}
 \end{equation}
@@ -1123,8 +1123,8 @@ To formalize this approach even further, \citet{gelfond_authorization_2008} prov
 
 \footnotetext{
     To improve the readability of this document, the definition of weak compliance has been adjusted from how \citet{gelfond_authorization_2008} define it.
-    \citet{gelfond_authorization_2008} define weakly compliance to be when the logic program $lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a).$ is consistent.
-    The provided definition a simple logic negation of this definition and, hence, is equivalent to it.
+    \citet{gelfond_authorization_2008} define weakly compliance to be when the logic program $lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a).\}$ is consistent.
+    The provided definition is a simple logical negation of this definition and, hence, is equivalent to it.
 }
 
 These propositions are just simple extensions of \cref{def:authorization_event_compliance}.
@@ -1140,7 +1140,7 @@ Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a)
 \subsubsection{Checking Compliance with Partial Knowledge of State}
 
 It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
-\citet{gelfond_authorization_2008} show that checking policy compliance can also be possible when an agent only knows the value of a subset of fluents in $s$.
+\citet{gelfond_authorization_2008} show that checking policy compliance is also possible when an agent only knows the value of a subset of fluents in $s$.
 Let $\boldsymbol{F_{lim}} \subseteq \boldsymbol{F}$ be the subset of fluents for which the agent knows $V(f, s)$ where $f \in \boldsymbol{F_{lim}}$.
 Let $V_{lim} = \{V(f, s) | f \in \boldsymbol{F_{lim}}\}$.
 
@@ -1195,7 +1195,7 @@ Let $D = \{lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n) | f
                 \label{eq:authorization_partial_knowledge_non_compliant}
                 lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}
             \end{equation}
-        \item If $P$ is categorical, then an event $<s_{possible}, a>$, where $s_{possible} \in \delta(V_{lim})$, is also non-compliant with $P$ if the program \cref{eq:authorization_partial_knowledge_weakly_compliant} is consistent~\citep{gelfond_authorization_2008}.
+        \item If $P$ is categorical, then an event $<s_{possible}, a>$, where $s_{possible} \in \delta(V_{lim})$, is also \textit{non-compliant} with $P$ if the program \cref{eq:authorization_partial_knowledge_weakly_compliant} is consistent~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1232,7 +1232,7 @@ The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with op
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.clingo.txt}
 Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
 
-\subsubsection{Checking Compliance with Minimal Knowledge of State}
+\subsubsection{Checking Compliance using a History of Past Actions}
 
 \citet{gelfond_authorization_2008} note that the above two approaches will not work for agents in the AAA architecture (or for that matter, the $\mathcal{AIA}$ architecture).
 Nonetheless, they develop a method for checking policy compliance under the AAA architecture knowledge constraints.
@@ -1335,10 +1335,10 @@ Let $Check_2(H_n)$ be the following subprogram:
 \end{definition}
 
 Continuing the previous example, the logic encoding of $P_m$ with the new $lp$ function is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Pm.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Pm.lp}
 
 $D_0$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/D0.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/D0.lp}
 
 Suppose our agent has the following history\footnotemark:
 \begin{gather}
@@ -1354,7 +1354,7 @@ Before executing $A_1$, our agent first wants to verify its compliance.
 }
 
 The logic encoding $lp(H_1)$ would be as follows\footnotemark:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Hn.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Hn.lp}
 
 \footnotetext{
     It is worth noting that the syntax \citet{gelfond_authorization_2008} provide for $lp(H_1)$ is very similar to that introduced in \citet{blount_towards_2014}.
@@ -1362,39 +1362,39 @@ The logic encoding $lp(H_1)$ would be as follows\footnotemark:
 }
 
 The logic encoding $lp(A_1)$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/A1.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/A1.lp}
 
 $Check_1$ and $Check_2$ are as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_1.lp}
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Check_2.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Check_1.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Check_2.lp}
 
 The output of logic program \cref{eq:authorization_history_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_1.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1.clingo.txt}
 
 The output of logic program \cref{eq:authorization_history_knowledge_weakly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_2.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2.clingo.txt}
 
 By this output, we might be led to say that action $A_1$ is weakly compliant given history $H_n$.
 However, \citet{gelfond_authorization_2008} implicitly assume that the inertia property of inertial fluents is already encoded in logic form.
 To do this, we must add the following \textit{inertia axiom} for the inertial fluents $authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)$:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_Minimal_Knowledge/Inertia_Axiom.lp}
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Inertia_Axiom.lp}
 
 With this inertia axiom, \cref{eq:authorization_history_knowledge_strongly_compliant} is inconsistent hence action $A_1$ is strongly compliant given history $H_n$.
 
-\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_1_with_Inertia_Axiom.clingo.txt}
-\lstinputlisting{Figures/APL_Language/04_Minimal_Knowledge/Check_2_with_Inertia_Axiom.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1_with_Inertia_Axiom.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2_with_Inertia_Axiom.clingo.txt}
 
 \subsection{Language $\mathcal{AOPL}$}
 \label{subsec:aopl}
 
-In addition to introducing language $\mathcal{APL}$, \citet{gelfond_authorization_2008} introduce language $\mathcal{AOPL}$ to consider ``obligation policies'' in addition to authorization policies.
+In addition to introducing language $\mathcal{APL}$, \citet{gelfond_authorization_2008} introduce language $\mathcal{AOPL}$ to consider \textit{obligation policies} in addition to authorization policies.
 Authorization policies describe what an agent can do whereas obligation policies describe what an agent must do.
 
 \subsubsection{Definition}
 
 Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its underlying assumptions, such as requiring the agent's environment be modeled by a transition system $T=<\boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ and that a policy $P$ is a subset of the trajectories of $T$ that are preferable to the agent's controller.
 
-$\mathcal{AOPL}$ adds a $obl(a)$ statement in contrast to $\mathcal{APL}$.
+$\mathcal{AOPL}$ adds a $obl(a)$ statement to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
 Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
@@ -1458,7 +1458,7 @@ This definition of compliance contrasts with that for authorization policies.
 Given a set of actions $A$, the definition for authorization policies can be thought of first enumerating action $a \in A$ then checking to see if $permitted(a)$ exists.
 The definition for obligation policies, by contrast, can be thought of first searching for $obl(a)$ statements, then checking to see if $a \in A$ exists (or $a \not \in A$ in the case of $obl(\neg a)$).
 
-Furthermore, the definition for obligation compliance does not make differentiate between strong compliance and weak compliance.
+Furthermore, the definition for obligation compliance does not differentiate between strong compliance and weak compliance.
 Were such a differentiation to exist, it would center around instances where neither $\neg obl(a)$ nor $obl(a)$ is true\footnotemark.
 For such a case, an obligation policy would not explicitly impose nor explicitly waive an agent from an obligation to perform action $a$.
 However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situation is simply called \textit{compliant}.
@@ -1472,9 +1472,9 @@ However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situat
 
     \begin{itemize}
         \item Let $P_a$ be a derivative policy of $P$ that only has the authorization statements of $P$.
-            $P_a$ is an authorization policy \textit{induced} by $P$~\citep{gelfond_authorization_2008}.
+            $P_a$ is an \textit{authorization policy induced by} $P$~\citep{gelfond_authorization_2008}.
         \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation statements of $P$.
-            $P_o$ is an obligation policy \textit{induced} by $P$~\citep{gelfond_authorization_2008}.
+            $P_o$ is an \textit{obligation policy induced by} $P$~\citep{gelfond_authorization_2008}.
     \end{itemize}
 \end{definition}
 
@@ -1553,7 +1553,7 @@ Its encoding might be as follows:
 \end{multline}
 
 \citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
-If he does, he may write:
+If he deems that they do, he may write:
 \begin{equation}
     \label{eq:aopl_example_line_4}
     prefer(d_2(S,C,N),d_1(S,C,N))
@@ -1621,15 +1621,15 @@ Suppose we want to check the compliance of the following occurance of actions $A
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/A.lp}
 
 We can check for compliance using the following logic programs\footnotemark:
-\lstinputlisting[language=Python]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/util.lp}
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/authorization_compliance.lp}
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/obligation_compliance.lp}
-
 \footnotetext{
     In what follows, we implement a generic logic program that is capable of checking the compliance of any set of actions $A$ with respect to any arbitrary policy $P$.
     This is for added convenience, since this logic program can simultaneously check the compliance of $A$ with the induced authorization policy $P_a$ as well as the induced obligation policy $P_o$.
     This is a significant improvement from the original definitions presented in \cref{def:authorization_event_compliance_full_knowledge,def:obligation_event_compliance}, since the latter involves invoking \textsc{clingo} twice (once for checking compliance of $A$ with $P_a$ and again for $P_o$) and hardcodes $A$ into the logic program.
 }
+
+\lstinputlisting[language=Python]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/util.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/authorization_compliance.lp}
+\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/obligation_compliance.lp}
 
 In the above snippet, the inline Python script is instrumental in differentiating between $obl(a)$ and $obl(\neg a)$.
 Given the ASP expression $obl(Action)$, the variable $Action$ can be bound to either $a$ or $\neg a$ (in the case $obl(a)$ is true or $obl(\neg a)$ is true, respectively).
@@ -1663,7 +1663,7 @@ Hence, the work by \citet{liao_extended_2006} is the most relevant for discussio
 
 \citet{liao_extended_2006} present an extension of the BDI architecture call PDC-agent, which is based off a policy and contract-aware methodology they call BGI-PDC logic\footnotemark.
 PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framework which allows for controlled and coordinated behavior among independent cooperative agents.
-\citet{liao_model_2005} use policies to control agent behavior and contracts to have agents coordinate actions between each other.
+\citet{liao_model_2005} use policies to control agent behavior and contracts as a mechanism to coordinate actions between agents.
 
 \footnotetext{
     \citet{liao_extended_2006} do not mention what these acronyms stand for.
@@ -1675,14 +1675,14 @@ PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framewor
 \end{definition}
 
 \begin{definition}
-    The \textit{Interpreter} module is defined as a 7-tuple of the following components: (Event Treating Engine, Belief Update, Contract Engine, Policy Engine, Goal Maintenance, Plan Engine, Plan Library)~\citep{liao_extended_2006}.
+    The \textit{Interpreter} module of the PDC-agent architecture is defined as a 7-tuple of the following components: (Event Treating Engine, Belief Update, Contract Engine, Policy Engine, Goal Maintenance, Plan Engine, Plan Library)~\citep{liao_extended_2006}.
     The role of each component is presented below:
 
     \begin{itemize}
         \item The \textit{Event Treating Engine} is an event hub that passes messages and performs simple message manipulations~\citep{liao_extended_2006}.
             While some components send events to other components directly, most events are forwarded through the Event Treating Engine.
         \item The \textit{Belief Update} component maintains the agent's belief database on the basis of events and belief-manipulating actions (such as AddBelief or DeleteBelief)~\citep{liao_extended_2006}.
-        \item The \textit{Contract Engine} listens for events describing the current state of the environment and emits events when relevant contract clauses are satisfied~\citep{liao_extended_2006}.
+        \item The \textit{Contract Engine} listens for events describing the current state of the environment and emits events to signal when relevant contract clauses dictate the agent perform particular actions~\citep{liao_extended_2006}.
         \item The \textit{Policy Engine} evaluates policies~\citep{liao_extended_2006}.
         \item The \textit{Goal Maintenance} component produces goals~\citep{liao_extended_2006}.
         \item The \textit{Plan Engine} finds plans to meet goals, according to plans in the \textit{Plan Library}~\citep{liao_extended_2006}.
@@ -1690,12 +1690,12 @@ PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framewor
 \end{definition}
 
 \begin{definition}
-    The \textit{State Module} of a PDC-agent consists of the \textit{Intention Set}, \textit{Goal Set}, and \textit{Beliefs}~\citep{liao_extended_2006}.
+    The \textit{State Module} of the PDC-agent architecture consists of the \textit{Intention Set}, \textit{Goal Set}, and \textit{Beliefs}~\citep{liao_extended_2006}.
     Beliefs constitute an agent's understanding of its environment, the agent's internal states, as well as a representation of contracts and policies~\citep{liao_extended_2006}.
 \end{definition}
 
 \begin{definition}
-    The \textit{Execution Module} of a PDC-agent consists of the \textit{Execution Engine}, \textit{External actions}, and \textit{Internal actions}~\citep{liao_extended_2006}.
+    The \textit{Execution Module} of the PDC-agent architecture consists of the \textit{Execution Engine}, \textit{External actions}, and \textit{Internal actions}~\citep{liao_extended_2006}.
 \end{definition}
 
 This architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure}.
@@ -1725,14 +1725,14 @@ However, the discussion of NPDC-agent is not relevant to this section.
 \end{landscape}
 
 A major distinction of the PDC-agent agent architecture is that the PDC-agent architecture supports coordination among multiple agents.
-While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture can allow multiple agents to operate in a shared environment, the AAA and $\mathcal{AIA}$ architectures do not provide any mechanism to coordinate actions between separate agents to work towards a common goal.
+While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture can allow multiple agents to operate in a shared environment, the AAA and $\mathcal{AIA}$ architectures do not provide any mechanism to coordinate actions between separate agents so that they can work together towards a common goal.
 
 Similar to the $\mathcal{AIA}$ architecture, PDC-agent distinguishes between external actions and internal actions.
 Internal actions in the PDC-agent architecture can update beliefs (analogously to $\mathcal{TI}$) but they can also emit events to the Event Treating Engine.
-Internal actions available to agents in the PDC-agent architecture are: AddBelief, DeleteBelief, AddDes (which adds desires to the agent), ExTestObj (which executes ``test objectives''), AddPRE (which adds policy reference events), and AddCooperationInfo (which gathers domain-specific information from cooperating agents).
+Internal actions available to agents in the PDC-agent architecture are: AddBelief, DeleteBelief, AddDes (which adds desires to the agent), ExTestObj (which executes ``test objectives''), AddPRE (which adds policy reference events), and AddCooperationInfo (which gathers domain-specific information from cooperating agents)~\citep{liao_extended_2006}.
 
 In spite of these similarities, the PDC-agent architecture has another crucial distinction.
-the PDC-agent architecture does not reason over a transition system (or, by extension, an action description) and does not use ASP.
+the PDC-agent architecture does not reason over a transition system (or, by extension, an action description) and does not use ASP~\citep{liao_extended_2006}.
 Instead, knowledge in PDC-agent is formally represented in terms of a Domain Conceptualization Language (DCL)~\citep{ji_gao_sasa5_2005} and a Concept Instance Pattern (CIP)\footnotemark.
 While DCL and CIP can represent plans (which are analogous to activities in the $\mathcal{AIA}$ architecture), there is no support for expressing the direct or indirect effects of an action.
 This is a disadvantage in comparison to the action-language-based architectures since plans have to be pre-computed and the goals that they accomplish must be annotated according to intuition of the agent's designer.

@@ -23,10 +23,10 @@ Lastly, this proposal moves to describe the proposed work for this thesis.
 
 \section{Motivation}
 
-Policy compliance has become an important aspect of AI in recent years due to the signing of the General Data Protection Regulation (GDPR) in Europe.
-The GDPR establishes standards for gathering user data as well as automated decision made upon it.
-Among other requirements, the GDPR stipulates that consent must be gathered before any data can be used and that all the actions of automated processes using the data must be explainable to a third-party~\citep{sandra_wachter_artificial_2018}.
-Furthermore, the GDPR requires businesses to prove their compliance with its statues.
+Policy compliance has become an important aspect of Artificial Intelligence in recent years due to the signing of the General Data Protection Regulation (GDPR) in Europe.
+The GDPR establishes standards for gathering user data as well as for making automated decisions upon it.
+Among other requirements, the GDPR stipulates that consent must be gathered before any data can be used and that all actions of automated processes using the data must be explainable to a third-party~\citep{sandra_wachter_artificial_2018}.
+Furthermore, the GDPR requires businesses to prove their compliance with its statues~\citep{sandra_wachter_artificial_2018}.
 
 As machine learning approaches fail to provide a human-understandable explanation for their output, an alternative approach is needed.
 Logic-based approaches are inherently better in this regard since they are logically deterministic by their construction.
@@ -36,7 +36,7 @@ However, prior work in the logic community has yet to integrate work on action c
 Most work regarding policy compliance is limited to access control policies regarding allowing or denying access to an Internet system.
 Such an access control enforcer is only a very trivial agent that is only given two simple actions to perform (to allow and to deny).
 Prior work has proposed various agent architectures that are more complex than these simple agents and that can consider executing multiple actions in changing environments.
-Because of their capability to perform more complex actions, the research community ought to consider applying more complex policies than access control policies to them.
+Because of their capability to perform more complex actions, the research community ought to consider applying to them more complex policies than access control policies.
 
 Thus, this thesis proposal suggests combining prior research on complex authorization and obligation policies into research on non-trivial agent architectures.
 The goal of this proposal is to create a derivative agent architecture that is capable of reasoning over and ensuring action compliance.
@@ -53,7 +53,7 @@ The contributions of the proposed work for this thesis are summarized as follows
     \item Create examples on which a policy-aware agent architecture can be evaluated.
     \item Create a new extension of an agent architecture that incorporates research on policy compliance.
     \item Implement the new agent architecture using the latest logic programming tools.
-    \item Apply and evaluate the new agent architecture to the created examples.
-    \item Update the run-time dependencies of a prior agent architecture implementation to the latest logic programming tools.
-    \item Compare the run-time efficiency of the updated implementation of the prior agent architecture to the implementation of the new agent architecture.
+    \item Apply and evaluate the new agent architecture against the created examples.
+    \item Update the runtime dependencies of a prior agent architecture implementation to the latest logic programming tools.
+    \item Compare the runtime efficiency of the updated implementation of the prior agent architecture to the implementation of the new agent architecture.
 \end{itemize}
