@@ -1354,12 +1354,12 @@ Before executing $A_1$, our agent first wants to verify its compliance.
 }
 
 The logic encoding $lp(H_1)$ would be as follows\footnotemark:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Hn.lp}
-
 \footnotetext{
     It is worth noting that the syntax \citet{gelfond_authorization_2008} provide for $lp(H_1)$ is very similar to that introduced in \citet{blount_towards_2014}.
     Whereas \citet{blount_towards_2014} would write $obs(FluentName, FluentValue, TimeStep)$ and $hpd(ActionName, TimeStep)$,\citet{gelfond_authorization_2008} write $val(FluentName, FluentValue, TimeStep)$ and $occurs(ActionName, TimeStep)$, respectively.
 }
+
+\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Hn.lp}
 
 The logic encoding $lp(A_1)$ is as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/A1.lp}
