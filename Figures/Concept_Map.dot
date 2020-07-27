@@ -1,5 +1,5 @@
 digraph concept_map {
-    subgraph action_language_agents {
+    subgraph cluster_action_language_agents {
         style = filled;
         color = lightgray;
 
@@ -10,7 +10,6 @@ digraph concept_map {
         "Action Language AL";
         "Autonomous Agent Architecture (AAA)";
         "Architecture for Intentional Agents (AIA)";
-        "Theory of Intentions";
 
         "Transition system" -> "Discrete Dynamic Domain";
         "Action Language A" -> "Transition system";
@@ -26,7 +25,7 @@ digraph concept_map {
         "Architecture for Intentional Agents (AIA)" -> "Action Language AL";
         "Architecture for Intentional Agents (AIA)" -> "Answer Set Programming (ASP)";
     }
-    subgraph bdi_agents {
+    subgraph cluster_bdi_agents {
         style = filled;
         color = lightgray;
 
@@ -55,7 +54,7 @@ digraph concept_map {
         "ANGLE" -> "Belief-Desire-Intention (BDI) architecture";
         "ANGLE" -> "Contract-based coordination";
     }
-    subgraph policies {
+    subgraph cluster_policies {
         style = filled;
         color = lightgray;
 
@@ -63,11 +62,13 @@ digraph concept_map {
         "Language AOPL";
 
         "Language APL" -> "Action Language AL";
+        "Language APL" -> "Answer Set Programming (ASP)";
 
         "Language AOPL" -> "Language APL";
         "Language AOPL" -> "Action Language AL";
+        "Language AOPL" -> "Answer Set Programming (ASP)";
     }
-    subgraph other {
+    subgraph cluster_other {
         style = filled;
         color = lightgray;
 
@@ -85,7 +86,7 @@ digraph concept_map {
 
         "A-Prolog language" -> "Prolog";
     }
-    subgraph other2 {
+    subgraph cluster_other2 {
         style = filled;
         color = lightgray;
 
