@@ -1,0 +1,83 @@
+digraph concept_map {
+    subgraph cluster_logic_programming {
+        label = "Logic programming";
+        style = solid;
+        color = lightgray;
+
+        subgraph cluster_asp_engines {
+            label = "ASP languages & engines";
+            style = filled;
+            color = lightgray;
+
+            clingo [label = "clingo"];
+            asp [label = "Answer Set Programming"];
+            // cr_prolog [label = "CR-Prolog language"];
+            cr_models [label = "CR-MODELS2"];
+            // asp_core_2 [label = "ASP-Core-2"];
+        }
+
+        subgraph cluster_agents {
+            label = "Action languages & architectures";
+            style = filled;
+            color = lightgray;
+
+            discrete_dynamic_domain [label = "Discrete Dynamic Domain"];
+            transition_system [label = "Transition system"];
+            action_language_a [label = "Action Language A"];
+            action_language_b [label = "Action Language B"];
+            action_language_al [label = "Action Language AL"];
+            aaa_architecture [label = "Autonomous Agent Architecture (AAA)"];
+            aia_architecture [label = "Architecture for Intentional Agents (AIA)"];
+        }
+
+        subgraph cluster_policies {
+            label = "ASP-based policy representation & reasoning";
+            style = filled;
+            color = lightgray;
+
+            language_apl [label = "Language APL"];
+            language_aopl [label = "Language AOPL"];
+        }
+    }
+
+    subgraph cluster_related_work {
+        label = "Related Work";
+        style = solid;
+        color = lightgray;
+
+        subgraph cluster_bdi_agents {
+            label = "BDI";
+            style = filled;
+            color = lightgray;
+
+            bdi [label = "Belief-Desire-Intention (BDI) architecture"];
+            pdc_agent [label = "PDC-agent architecture"];
+        }
+        prolog [label = "Prolog"];
+    }
+
+    transition_system -> discrete_dynamic_domain;
+    action_language_a -> transition_system;
+    action_language_b -> action_language_a;
+    action_language_al -> action_language_a;
+    action_language_al -> action_language_b;
+
+    aaa_architecture -> action_language_al;
+    aaa_architecture -> asp;
+    aia_architecture -> aaa_architecture;
+
+    language_apl -> action_language_al;
+    language_apl -> asp;
+
+    language_aopl -> language_apl;
+
+    bdi -> prolog;
+
+    pdc_agent -> bdi;
+
+    cr_models -> asp;
+
+    asp -> prolog;
+
+    clingo -> asp;
+}
