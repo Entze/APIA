@@ -2,7 +2,7 @@ export NODE_OPTIONS := --unhandled-rejections=strict
 UID := $(shell id -u)
 GID := $(shell id -g)
 
-INKSCAPE_VERSION := $(shell inkscape --version | perl -ne 'if (/Inkscape (\d+)/) { print $$1 . "\n" }')
+INKSCAPE_VERSION := $(shell inkscape --version 2> /dev/null | perl -ne 'if (/Inkscape (\d+)/) { print $$1 . "\n" }')
 
 GRAPHVIZ_FIGURES := $(shell find Figures/ -name '*.dot' -type f)
 PLANTUML_FIGURES := $(shell find Figures/ -name '*.plantuml' -type f)
