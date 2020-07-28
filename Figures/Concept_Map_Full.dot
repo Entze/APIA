@@ -10,20 +10,6 @@ digraph concept_map {
         "Action Language AL";
         "Autonomous Agent Architecture (AAA)";
         "Architecture for Intentional Agents (AIA)";
-
-        "Transition system" -> "Discrete Dynamic Domain";
-        "Action Language A" -> "Transition system";
-        "Action Language B" -> "Transition system";
-        "Action Language B" -> "Action Language A";
-        "Action Language AL" -> "Transition system";
-        "Action Language AL" -> "Action Language A";
-        "Action Language AL" -> "Action Language B";
-
-        "Autonomous Agent Architecture (AAA)" -> "Action Language AL";
-        "Autonomous Agent Architecture (AAA)" -> "Answer Set Programming (ASP)";
-        "Architecture for Intentional Agents (AIA)" -> "Autonomous Agent Architecture (AAA)";
-        "Architecture for Intentional Agents (AIA)" -> "Action Language AL";
-        "Architecture for Intentional Agents (AIA)" -> "Answer Set Programming (ASP)";
     }
     subgraph cluster_bdi_agents {
         style = filled;
@@ -39,20 +25,6 @@ digraph concept_map {
         "Soar";
         "ANGLE";
         "Contract-based coordination";
-
-        "Belief-Desire-Intention (BDI) architecture" -> "Prolog";
-        "PRS" -> "Belief-Desire-Intention (BDI) architecture";
-        "AgentSpeak(L)" -> "PRS";
-        "Jason" -> "AgentSpeak(L)";
-
-        "Emotional BDI (eBDI) architecture" -> "Belief-Desire-Intention (BDI) architecture";
-        "Beliefs-Desires-Obligations-Intentions (BOID) architecture" -> "Belief-Desire-Intention (BDI) architecture";
-        "BRIDGE" -> "Beliefs-Desires-Obligations-Intentions (BOID) architecture";
-
-        "Soar" -> "Belief-Desire-Intention (BDI) architecture";
-
-        "ANGLE" -> "Belief-Desire-Intention (BDI) architecture";
-        "ANGLE" -> "Contract-based coordination";
     }
     subgraph cluster_policies {
         style = filled;
@@ -60,13 +32,6 @@ digraph concept_map {
 
         "Language APL";
         "Language AOPL";
-
-        "Language APL" -> "Action Language AL";
-        "Language APL" -> "Answer Set Programming (ASP)";
-
-        "Language AOPL" -> "Language APL";
-        "Language AOPL" -> "Action Language AL";
-        "Language AOPL" -> "Answer Set Programming (ASP)";
     }
     subgraph cluster_other {
         style = filled;
@@ -78,13 +43,6 @@ digraph concept_map {
         "CR-MODELS engine";
         "CR-Prolog2 language";
         "Prolog";
-
-        "Answer Set Programming (ASP)" -> "A-Prolog language";
-        "CR-Prolog language" -> "A-Prolog language";
-        "CR-MODELS engine" -> "CR-Prolog language";
-        "CR-Prolog2 language" -> "CR-Prolog language";
-
-        "A-Prolog language" -> "Prolog";
     }
     subgraph cluster_other2 {
         style = filled;
@@ -94,4 +52,46 @@ digraph concept_map {
         "Disjunctive datalog";
         "Disjunctive logic programmming (DLP)";
     }
+
+    "Transition system" -> "Discrete Dynamic Domain";
+    "Action Language A" -> "Transition system";
+    "Action Language B" -> "Transition system";
+    "Action Language B" -> "Action Language A";
+    "Action Language AL" -> "Transition system";
+    "Action Language AL" -> "Action Language A";
+    "Action Language AL" -> "Action Language B";
+
+    "Autonomous Agent Architecture (AAA)" -> "Action Language AL";
+    "Autonomous Agent Architecture (AAA)" -> "Answer Set Programming (ASP)";
+    "Architecture for Intentional Agents (AIA)" -> "Autonomous Agent Architecture (AAA)";
+    "Architecture for Intentional Agents (AIA)" -> "Action Language AL";
+    "Architecture for Intentional Agents (AIA)" -> "Answer Set Programming (ASP)";
+
+    "Belief-Desire-Intention (BDI) architecture" -> "Prolog";
+    "PRS" -> "Belief-Desire-Intention (BDI) architecture";
+    "AgentSpeak(L)" -> "PRS";
+    "Jason" -> "AgentSpeak(L)";
+
+    "Emotional BDI (eBDI) architecture" -> "Belief-Desire-Intention (BDI) architecture";
+    "Beliefs-Desires-Obligations-Intentions (BOID) architecture" -> "Belief-Desire-Intention (BDI) architecture";
+    "BRIDGE" -> "Beliefs-Desires-Obligations-Intentions (BOID) architecture";
+
+    "Soar" -> "Belief-Desire-Intention (BDI) architecture";
+
+    "ANGLE" -> "Belief-Desire-Intention (BDI) architecture";
+    "ANGLE" -> "Contract-based coordination";
+
+    "Language APL" -> "Action Language AL";
+    "Language APL" -> "Answer Set Programming (ASP)";
+
+    "Language AOPL" -> "Language APL";
+    "Language AOPL" -> "Action Language AL";
+    "Language AOPL" -> "Answer Set Programming (ASP)";
+
+    "Answer Set Programming (ASP)" -> "A-Prolog language";
+    "CR-Prolog language" -> "A-Prolog language";
+    "CR-MODELS engine" -> "CR-Prolog language";
+    "CR-Prolog2 language" -> "CR-Prolog language";
+
+    "A-Prolog language" -> "Prolog";
 }
