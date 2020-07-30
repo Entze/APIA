@@ -455,8 +455,8 @@ Activities are the set of the following statics~\citep{blount_architecture_2013,
 \end{gather}
 
 \noindent
-where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} part of the plan, and G is the goal that $C_1,C_2,\dots,C_L$ achieves.
-In contrast to the AAA architecture, $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
+where $M$ is a unique identifier for the activity, $C_1, C_2, \dots, C_L$ are the \nth{1}, \nth{2}, \dots, L\textsuperscript{th} \textif{component} of the activity, and $G$ is the goal that $C_1,C_2,\dots,C_L$ achieves.
+In contrast to the AAA architecture, a component $C_k$ can either refer to an action or another activity $M'$ by its unique identifier.
 In the latter case, $M'$ is a \textit{child activity} of $M$.
 An activity cannot be a child (or descendant) of itself (i.e.~activities must be acyclic).
 It is also worth noting that activities permit the execution of actions concurrently.
