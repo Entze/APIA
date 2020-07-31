@@ -20,7 +20,7 @@ REMOTE_RESOURCES :=
 
 build: Thesis.pdf
 
-build-graphviz: $(patsubst %.dot,%.pdf,$(GRAPHVIZ_FIGURES))
+build-graphviz: $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%-$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES)))
 
 build-plantuml: $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES))
 
