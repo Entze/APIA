@@ -71,7 +71,7 @@ digraph concept_map {
 
     language_aopl -> language_apl;
 
-    bdi -> prolog;
+    // bdi -> prolog;
 
     pdc_agent -> bdi;
 
