@@ -12,14 +12,14 @@ holds(Fluent, TimeStep + 1) :-
     fluent(inertial, Fluent),
     step(TimeStep),
     holds(Fluent, TimeStep),
-    not -holds(Fluent, TimeStep),
+    not -holds(Fluent, TimeStep + 1),
     TimeStep < max_timestep.
 
 -holds(Fluent, TimeStep + 1) :-
     fluent(inertial, Fluent),
     step(TimeStep),
     -holds(Fluent, TimeStep),
-    not holds(Fluent, TimeStep),
+    not holds(Fluent, TimeStep + 1),
     TimeStep < max_timestep.
 
 %%%% Closed-world assumption for defined fluents %%%%
