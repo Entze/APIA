@@ -181,9 +181,9 @@ permitted(greet(Actor, Person), TimeStep) :-
     not holds(busy_working(Person), TimeStep),
     Actor != Person.
 
-% "Anyone is allowed to greet a coworker if the coworker is busy working but he/she has knocked on the door (to the room they are in)"
+% "Normally, anyone is allowed to greet a coworker if the coworker is busy working but he/she has knocked on the door (to the room they are in)"
 %
-% permitted(greet(Actor, Person))
+% normally permitted(greet(Actor, Person))
 %   if busy_working(Person), in_room(Person, Room),
 %      door_connects(Door, Room), knocked_on_door(Door)
 permitted(greet(Actor, Person), TimeStep) :-
@@ -194,4 +194,5 @@ permitted(greet(Actor, Person), TimeStep) :-
     holds(busy_working(Person), TimeStep),
     holds(in_room(Person, Room), TimeStep),
     door_connects(Door, Room),
-    holds(knocked_on_door(Door), TimeStep).
+    holds(knocked_on_door(Door), TimeStep),
+    not -permitted(greet(Actor, Person), TimeStep).
