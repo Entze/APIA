@@ -73,7 +73,6 @@ action(greet(Actor, Person)) :-
 % move_through(Actor, Door) causes in_room(Actor, ToRoom)
 %   if in_room(Actor, FromRoom), door_connects(Door, FromRoom),
 %      ToRoom != FromRoom
-% ???
 holds(in_room(Actor, ToRoom), TimeStep + 1) :-
     step(TimeStep),
     occurs(move_through(Actor, Door), TimeStep),
