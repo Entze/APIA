@@ -6,7 +6,7 @@
 #program action_description(max_timestep).
 
 step(TimeStep) :-
-    TimeStep = 1..max_timestep.
+    TimeStep = 0..max_timestep.
 
 holds(Fluent, TimeStep + 1) :-
     fluent(inertial, Fluent),
