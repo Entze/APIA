@@ -37,14 +37,3 @@ holds(Fluent, TimeStep + 1) :-
     action(Action),
     step(TimeStep),
     not occurs(Action, TimeStep).
-
-%%%% Misc %%%%
-#program action_description(max_timestep).
-
--holds(neg(Fluent), TimeStep) :-
-    fluent(_, Fluent),
-    holds(Fluent, TimeStep).
-
--holds(Fluent, TimeStep) :-
-    fluent(_, Fluent),
-    holds(neg(Fluent), TimeStep).

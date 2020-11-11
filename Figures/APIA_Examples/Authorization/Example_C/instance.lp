@@ -31,7 +31,7 @@ door_has_lock(Door) :-
 %%%% Starting fluent values %%%%
 #program base.
 
-holds(neg(door_locked(Door)), TimeStep) :-
+-holds(door_locked(Door), TimeStep) :-
     TimeStep = 0,
     Door = "d34".
 

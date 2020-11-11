@@ -117,7 +117,7 @@ holds(door_locked(Door), TimeStep + 1) :-
     not door_connects(Door, Room).
 
 % unlock_door(Actor, Door) causes -door_locked(Door)
-holds(neg(door_locked(Door)), TimeStep + 1) :-
+-holds(door_locked(Door), TimeStep + 1) :-
     step(TimeStep),
     TimeStep < max_timestep,
     occurs(unlock_door(Actor, Door), TimeStep).
