@@ -48,3 +48,7 @@ holds(Fluent, TimeStep + 1) :-
 -holds(Fluent, TimeStep) :-
     fluent(_, Fluent),
     holds(neg(Fluent), TimeStep).
+
+holds(Fluent, TimeStep) | holds(neg(Fluent), TimeStep) :-
+    step(TimeStep),
+    fluent(_, Fluent).
