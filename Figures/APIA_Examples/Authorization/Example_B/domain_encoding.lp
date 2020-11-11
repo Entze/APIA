@@ -23,6 +23,14 @@ fluent(inertial, in_room(Person, Room)) :-
     person(Person),
     room(Room).
 
+% busy_working(Person)
+fluent(inertial, busy_working(Person)) :-
+    person(Person).
+
+% knocked_on_door(Door)
+fluent(inertial, knocked_on_door(Door)) :-
+    door(Door).
+
 % greeted_by(Person, Actor)
 fluent(inertial, greeted_by(Person, Actor)) :-
     person(Person),
@@ -44,6 +52,11 @@ action(lock_door(Actor, Door)) :-
 
 % unlock_door(Actor, Door)
 action(unlock_door(Actor, Door)) :-
+    person(Actor),
+    door(Door).
+
+% knock_on_door(Actor, Door)
+action(knock_on_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
@@ -108,6 +121,20 @@ holds(neg(door_locked(Door)), TimeStep + 1) :-
     door(Door),
     not door_connects(Door, Room).
 
+% knock_on_door(Actor, Door) causes knocked_on_door(Door)
+holds(knocked_on_door(Door), TimeStep + 1) :-
+    step(TimeStep),
+    TimeStep < max_timestep,
+    occurs(knock_on_door(Actor, Person), TimeStep).
+
+% impossible knock_on_door(Actor, Door)
+%   if in_room(Actor, Room), not door_connects(Door, Room)
+-occurs(knock_on_door(Actor, Door), TimeStep) :-
+    step(TimeStep),
+    door(Door),
+    holds(in_room(Actor, Room), TimeStep),
+    not door_connects(Door, Room).
+
 % greet(Actor, Person) causes greeted_by(Person, Actor)
 holds(greeted_by(Person, Actor), TimeStep + 1) :-
     step(TimeStep),
@@ -135,11 +162,28 @@ permitted(move_through(Actor, Door), TimeStep) :-
     person(Actor),
     door(Door).
 
-% "Anyone is allowed to greet a coworker"
+% "Anyone is allowed to greet a coworker if the coworker is not busy working"
 %
 % permitted(greet(Actor, Person))
+%   if not busy_working(Person)
 permitted(greet(Actor, Person), TimeStep) :-
     step(TimeStep),
     person(Actor),
     person(Person),
+    not holds(busy_working(Person), TimeStep),
     Actor != Person.
+
+% "Anyone is allowed to greet a coworker if the coworker is busy working but he/she has knocked on the door (to the room they are in)"
+%
+% permitted(greet(Actor, Person))
+%   if busy_working(Person), in_room(Person, Room),
+%      door_connects(Door, Room), knocked_on_door(Door)
+permitted(greet(Actor, Person), TimeStep) :-
+    step(TimeStep),
+    person(Actor),
+    person(Person),
+    Actor != Person,
+    holds(busy_working(Person), TimeStep),
+    holds(in_room(Person, Room), TimeStep),
+    door_connects(Door, Room),
+    holds(knocked_on_door(Door), TimeStep).
