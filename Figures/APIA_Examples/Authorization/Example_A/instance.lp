@@ -31,18 +31,22 @@ door_has_lock(Door) :-
 %%%% Starting fluent values%%%%
 #program base.
 
-holds(neg(door_locked(Door)), 0) :-
+holds(neg(door_locked(Door)), TimeStep) :-
+    TimeStep = 0,
     Door = "d34".
 
-holds(in_room(Person, Room), 0) :-
+holds(in_room(Person, Room), TimeStep) :-
+    TimeStep = 0,
     Person = "Bob",
     Room = "r1".
 
-holds(in_room(Person, Room), 0) :-
+holds(in_room(Person, Room), TimeStep) :-
+    TimeStep = 0,
     Person = "Alice",
     Room = "r4".
 
-holds(greeted_by(Person, Actor), 0) :-
+holds(greeted_by(Person, Actor), TimeStep) :-
+    TimeStep = 0,
     person(Person),
     person(Actor),
     Person != Actor.
