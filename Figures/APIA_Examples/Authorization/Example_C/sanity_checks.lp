@@ -1,5 +1,4 @@
 %%%% Sanity checks %%%%
-#program base.
 
 :-
     invalid(_).

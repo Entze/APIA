@@ -12,7 +12,6 @@
 % door_has_lock(Door)
 
 %%%% Fluents %%%%
-#program base.
 
 % door_locked(Door)
 fluent(inertial, door_locked(Door)) :-
@@ -38,7 +37,6 @@ fluent(inertial, greeted_by(Person, Actor)) :-
     Person != Actor.
 
 %%%% Actions %%%%
-#program base.
 
 % move_through(Actor, Door)
 action(move_through(Actor, Room)) :-
@@ -71,7 +69,6 @@ action(greet(Actor, Person)) :-
     Actor != Person.
 
 %%%% Action descriptions %%%%
-#program aciton_description.
 
 % move_through(Actor, Door) causes in_room(Actor, ToRoom)
 %   if in_room(Actor, FromRoom), door_connects(Door, FromRoom),
@@ -157,7 +154,6 @@ holds(greeted_by(Person, Actor), TimeStep + 1) :-
     ActorRoom != PersonRoom.
 
 %%%% Authorization policy %%%%
-#program base.
 
 % "Anyone is allowed to move from any room to any room"
 %

@@ -1,5 +1,4 @@
 %%%% Domains %%%%
-#program base.
 
 room(Room) :-
     Room = ("r1"; "r2"; "r3"; "r4").
@@ -11,7 +10,6 @@ person(Person) :-
     Person = ("Bob"; "Alice").
 
 %%%% Statics %%%%
-#program base.
 
 door_connects(Door, Room) :-
     Door = "d12",
@@ -29,7 +27,6 @@ door_has_lock(Door) :-
     Door = "d34".
 
 %%%% Starting fluent values %%%%
-#program base.
 
 -holds(door_locked(Door), TimeStep) :-
     TimeStep = 0,
