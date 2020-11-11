@@ -130,14 +130,16 @@ holds(greeted_by(Person, Actor), TimeStep + 1) :-
 % "Anyone is allowed to move from any room to any room"
 %
 % permitted(move_through(Actor, Door))
-permitted(move_through(Actor, Door)) :-
+permitted(move_through(Actor, Door), TimeStep) :-
+    step(TimeStep),
     person(Actor),
     door(Door).
 
 % "Anyone is allowed to greet a coworker"
 %
 % permitted(greet(Actor, Person))
-permitted(greet(Actor, Person)) :-
+permitted(greet(Actor, Person), TimeStep) :-
+    step(TimeStep),
     person(Actor),
     person(Person),
     Actor != Person.
