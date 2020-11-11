@@ -45,6 +45,10 @@ holds(in_room(Person, Room), TimeStep) :-
     Person = "Alice",
     Room = "r4".
 
+-holds(busy_working(Person), TimeStep) :-
+    TimeStep = 0,
+    Person = ("Alice"; "Bob").
+
 holds(greeted_by(Person, Actor), TimeStep) :-
     TimeStep = 0,
     person(Person),

@@ -60,6 +60,10 @@ action(knock_on_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
+% begin_working(Actor)
+action(begin_working(Actor)) :-
+    person(Actor).
+
 % greet(Actor, Person)
 action(greet(Actor, Person)) :-
     person(Actor),
@@ -134,6 +138,10 @@ holds(knocked_on_door(Door), TimeStep + 1) :-
     door(Door),
     holds(in_room(Actor, Room), TimeStep),
     not door_connects(Door, Room).
+
+% begin_working(Actor) causes busy_working(Actor)
+holds(busy_working(Actor), TimeStep + 1) :-
+    occurs(begin_working(Actor), TimeStep).
 
 % greet(Actor, Person) causes greeted_by(Person, Actor)
 holds(greeted_by(Person, Actor), TimeStep + 1) :-
