@@ -28,7 +28,7 @@ door_connects(Door, Room) :-
 door_has_lock(Door) :-
     Door = "d34".
 
-%%%% Starting fluent values%%%%
+%%%% Starting fluent values %%%%
 #program base.
 
 holds(neg(door_locked(Door)), TimeStep) :-
