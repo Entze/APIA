@@ -13,7 +13,7 @@ class ASPSubprogramInstantiation(NamedTuple):
 def main(clingo_control: clingo.Control):
     clingo_control.ground((
         ASPSubprogramInstantiation(name='base', arguments=()),
-        ASPSubprogramInstantiation(name='action_description', arguments=(3,)),
+        ASPSubprogramInstantiation(name='action_description', arguments=()),
     ))
     clingo_control.solve()
 

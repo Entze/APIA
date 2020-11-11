@@ -71,7 +71,7 @@ action(greet(Actor, Person)) :-
     Actor != Person.
 
 %%%% Action descriptions %%%%
-#program action_description(max_timestep).
+#program action_description.
 
 % move_through(Actor, Door) causes in_room(Actor, ToRoom)
 %   if in_room(Actor, FromRoom), door_connects(Door, FromRoom),
@@ -79,7 +79,6 @@ action(greet(Actor, Person)) :-
 % ???
 holds(in_room(Actor, ToRoom), TimeStep + 1) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     occurs(move_through(Actor, Door), TimeStep),
     door_connects(Door, ToRoom),
     door_connects(Door, FromRoom),
@@ -96,7 +95,6 @@ holds(in_room(Actor, ToRoom), TimeStep + 1) :-
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(move_through(Actor, Door), TimeStep) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     holds(in_room(Actor, Room), TimeStep),
     door(Door),
     not door_connects(Door, Room).
@@ -104,14 +102,12 @@ holds(in_room(Actor, ToRoom), TimeStep + 1) :-
 % lock_door(Actor, Door) causes door_locked(Door)
 holds(door_locked(Door), TimeStep + 1) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     occurs(lock_door(Actor, Door), TimeStep).
 
 % impossible lock_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(lock_door(Actor, Door), TimeStep) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     holds(in_room(Actor, Room), TimeStep),
     door(Door),
     not door_connects(Door, Room).
@@ -119,14 +115,12 @@ holds(door_locked(Door), TimeStep + 1) :-
 % unlock_door(Actor, Door) causes -door_locked(Door)
 -holds(door_locked(Door), TimeStep + 1) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     occurs(unlock_door(Actor, Door), TimeStep).
 
 % impossible unlock_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(unlock_door(Actor, Door), TimeStep) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     holds(in_room(Actor, Room), TimeStep),
     door(Door),
     not door_connects(Door, Room).
@@ -134,7 +128,6 @@ holds(door_locked(Door), TimeStep + 1) :-
 % knock_on_door(Actor, Door) causes knocked_on_door(Door)
 holds(knocked_on_door(Door), TimeStep + 1) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     occurs(knock_on_door(Actor, Person), TimeStep).
 
 % impossible knock_on_door(Actor, Door)
@@ -152,7 +145,6 @@ holds(busy_working(Actor), TimeStep + 1) :-
 % greet(Actor, Person) causes greeted_by(Person, Actor)
 holds(greeted_by(Person, Actor), TimeStep + 1) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     occurs(greet(Actor, Person), TimeStep).
 
 % impossible greet(Actor, Person)
@@ -160,7 +152,6 @@ holds(greeted_by(Person, Actor), TimeStep + 1) :-
 %      ActorRoom != PersonRoom.
 -occurs(greet(Actor, Person), TimeStep) :-
     step(TimeStep),
-    TimeStep < max_timestep,
     holds(in_room(Actor, ActorRoom), TimeStep),
     holds(in_room(Person, PersonRoom), TimeStep),
     ActorRoom != PersonRoom.
