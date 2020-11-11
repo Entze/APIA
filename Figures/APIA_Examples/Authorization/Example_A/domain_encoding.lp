@@ -33,7 +33,7 @@ fluent(inertial, greeted_by(Person, Actor)) :-
 #program base.
 
 % move_through(Actor, Door)
-action(move(Actor, Room)) :-
+action(move_through(Actor, Room)) :-
     person(Actor),
     room(Room).
 
