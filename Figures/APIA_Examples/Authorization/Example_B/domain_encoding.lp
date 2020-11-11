@@ -86,6 +86,12 @@ holds(in_room(Actor, ToRoom), TimeStep + 1) :-
     ToRoom != FromRoom,
     holds(in_room(Actor, FromRoom), TimeStep).
 
+% -in_room(Actor, FromRoom) if in_room(Actor, ToRoom)
+-holds(in_room(Actor, FromRoom), TimeStep) :-
+    room(FromRoom),
+    holds(in_room(Actor, ToRoom), TimeStep),
+    FromRoom != ToRoom.
+
 % impossible move_through(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(move_through(Actor, Door), TimeStep) :-
