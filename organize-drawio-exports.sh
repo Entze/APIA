@@ -1,11 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-for EXPORT_DIR in $(find -name 'export' -type d); do
-    for FILE in $(ls "${EXPORT_DIR}"/*); do
+while IFS= read -r -d '' EXPORT_DIR; do
+    for FILE in "${EXPORT_DIR}"/*; do
+        [ -e "${FILE}" ] || break
         FILENAME=$(basename "${FILE}")
         FILENAME=$(echo "${FILENAME}" | sed -E 's/-Page-1\.(.*)$/.\1/')
         ORIGINAL_DIR=$(dirname "$(dirname "${FILE}")")
         mv -v "${FILE}" "${ORIGINAL_DIR}/${FILENAME}"
     done
     rmdir "${EXPORT_DIR}"
-done
+done < <(find . -name 'export' -type d)
