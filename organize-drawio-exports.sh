@@ -9,4 +9,4 @@ while IFS= read -r -d '' EXPORT_DIR; do
         mv -v "${FILE}" "${ORIGINAL_DIR}/${FILENAME}"
     done
     rmdir "${EXPORT_DIR}"
-done < <(find . -name 'export' -type d)
+done < <(find . -name 'export' -type d -print0)
