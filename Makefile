@@ -28,6 +28,8 @@ build-svg: $(patsubst %.svg,%.pdf,$(SVG_FIGURES))
 
 build-drawio: $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
 
+build-mermaid: $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES))
+
 build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
