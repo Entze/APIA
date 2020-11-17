@@ -65,8 +65,8 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
 %.pdf %.svg %.png: %.drawio
 	docker run -it -v "$(shell pwd)/$(@D):/pwd" -w /pwd rlespinasse/drawio-export --fileext $(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') --folder export
-	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine ./organize-drawio-exports.sh
-	docker run -it -v "$(shell pwd):/pwd" -w /pwd alpine find -user root -exec chown $(UID):$(GID) '{}' \;
+	docker run --rm -v "$(shell pwd):/pwd" alpine find /pwd -user root -exec chown $(UID):$(GID) '{}' \;
+	./organize-drawio-exports.sh
 
 %.pdf: %.svg
 ifeq ($(INKSCAPE_VERSION), 1)
