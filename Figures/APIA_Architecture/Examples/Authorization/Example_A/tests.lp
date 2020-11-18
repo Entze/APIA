@@ -20,6 +20,8 @@ def main(clingo_control: clingo.Control):
 
 #end.
 
+%%%% Expected sequence %%%%
+
 #program test_1.
 
 occurs(move_through(Actor, Door), TimeStep) :-
@@ -55,6 +57,28 @@ occurs(move_through(Actor, Door), TimeStep) :-
     TimeStep = 3,
     Actor = "Bob",
     Door = "d34".
+
+#program test_4.
+
+occurs(move_through(Actor, Door), TimeStep) :-
+    TimeStep = 1,
+    Actor = "Bob",
+    Door = "d12".
+
+occurs(move_through(Actor, Door), TimeStep) :-
+    TimeStep = 2,
+    Actor = "Bob",
+    Door = "d23".
+
+occurs(move_through(Actor, Door), TimeStep) :-
+    TimeStep = 3,
+    Actor = "Bob",
+    Door = "d34".
+
+occurs(greet(Actor, Person), TimeStep) :-
+    TimeStep = 4,
+    Actor = "Bob",
+    Person = "Alice".
 
 #show holds/2.
 #show -holds/2.
