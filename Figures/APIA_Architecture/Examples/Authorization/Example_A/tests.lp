@@ -84,3 +84,7 @@ occurs(greet(Actor, Person), TimeStep) :-
 #show -holds/2.
 #show occurs/2.
 #show -occurs/2.
+#show auth_compliant/0.
+#show -auth_compliant/0.
+#show auth_compliant/1.
+#show -auth_compliant/1.
