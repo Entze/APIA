@@ -5,8 +5,8 @@ obl_satisfied(obl(Action, TimeStep)) :-
     occurs(Action, TimeStep).
 
 % We satisfy a particular obl(-Action, TimeStep) when occurs(Action, TimeStep) is not true
-obl_satisfied(obl(-Action, TimeStep)) :-
-    obl(-Action, TimeStep),
+obl_satisfied(obl(neg(Action), TimeStep)) :-
+    obl(neg(Action), TimeStep),
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
     not occurs(Action, TimeStep).
 
