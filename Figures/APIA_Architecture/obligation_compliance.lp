@@ -1,15 +1,13 @@
-#include "util.lp".
-
 % We satisfy a particular obl(Action, TimeStep) when occurs(Action, TimeStep) is true
 obl_satisfied(obl(Action, TimeStep)) :-
     obl(Action, TimeStep),
-    @is_positive(Action) = true,
+    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
     occurs(Action, TimeStep).
 
 % We satisfy a particular obl(-Action, TimeStep) when occurs(Action, TimeStep) is not true
 obl_satisfied(obl(-Action, TimeStep)) :-
     obl(-Action, TimeStep),
-    @is_positive(Action) = true,
+    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
     not occurs(Action, TimeStep).
 
 % Closed-world assumption:
