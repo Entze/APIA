@@ -1,9 +1,7 @@
 % Strongly compliant if for all occurs(Action), permitted(Action) is true
 auth_compliant(TimeStep) :-
     auth_compliant(TimeStep - 1),
-    permitted(Action, TimeStep),
-    % Note: action(Action) ensures is_positive(Action) = true.
-    action(Action) : occurs(Action, TimeStep), step(TimeStep).
+    permitted(Action, TimeStep) : occurs(Action, TimeStep), step(TimeStep).
 
 auth_compliant :-
     auth_compliant(TimeStep) : step(TimeStep).
