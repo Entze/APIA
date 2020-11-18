@@ -11,7 +11,7 @@ holds(Fluent, TimeStep + 1) :-
     fluent(inertial, Fluent),
     step(TimeStep),
     holds(Fluent, TimeStep),
-    not -holds(Fluent, TimeStep + 1),
+    not -holds(Fluent, TimeStep + 1).
 
 -holds(Fluent, TimeStep + 1) :-
     fluent(inertial, Fluent),
