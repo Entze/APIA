@@ -1,3 +1,7 @@
+% Since no actions occur in timestep 0, we define it as strongly compliant (as a base case)
+auth_compliant(TimeStep) :-
+    TimeStep = 0.
+
 % Strongly compliant if for all occurs(Action), permitted(Action) is true
 auth_compliant(TimeStep) :-
     auth_compliant(TimeStep - 1),
