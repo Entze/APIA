@@ -35,7 +35,7 @@ build-mermaid: $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES))
 build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
-	latexmk -pdf
+	latexmk -pdf $<
 
 %-dot.pdf %-dot.svg %-dot.png: %.dot
 	dot -T$(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') -o $@ $^
