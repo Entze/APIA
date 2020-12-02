@@ -20,6 +20,15 @@ def main(clingo_control: clingo.Control):
 
 #end.
 
+%%%% Convenience predicates %%%%
+#program base.
+
+auth_compliance(strong) :-
+    not -auth_compliance(strong).
+
+auth_compliance(weak) :-
+    not -auth_compliance(weak).
+
 %%%% Expected sequence %%%%
 
 #program test_1.
@@ -84,7 +93,7 @@ occurs(greet(Actor, Person), TimeStep) :-
 #show -holds/2.
 #show occurs/2.
 #show -occurs/2.
-#show auth_compliant/0.
-#show -auth_compliant/0.
-#show auth_compliant/1.
-#show -auth_compliant/1.
+#show permitted/2.
+#show -permitted/2.
+#show auth_compliance/1.
+#show -auth_compliance/1.
