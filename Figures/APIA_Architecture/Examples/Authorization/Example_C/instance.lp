@@ -42,7 +42,7 @@ holds(in_room(Person, Room), TimeStep) :-
     Person = "Alice",
     Room = "r4".
 
-holds(greeted_by(Person, Actor), TimeStep) :-
+-holds(greeted_by(Person, Actor), TimeStep) :-
     TimeStep = 0,
     person(Person),
     person(Actor),
