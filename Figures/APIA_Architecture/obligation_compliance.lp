@@ -1,26 +1,23 @@
-% We satisfy a particular obl(Action, TimeStep) when occurs(Action, TimeStep) is true
-obl_satisfied(obl(Action, TimeStep)) :-
+% Iff [for all obl(Action, TimeStep), occurs(Action, TimeStep) is true]
+% and [for all obl(-Action, TimeStep), occurs(Action, TimeStep) is false],
+%      then we are compliant
+%
+% Inverse:
+% Iff [there exists obl(Action, TimeStep), occurs(Action, TimeStep) is not true]
+%  or [there exists obl(Action, TimeStep), occurs(Action, TimeStep) is not false],
+%      then we are not compliant
+%
+% Break apart:
+% If [there exists obl(Action, TimeStep), occurs(Action, TimeStep) is not true],
+%     then we are not compliant.
+% If [there exists obl(Action, TimeStep), occurs(Action, TimeStep) is not false],
+%     then we are not compliant.
+-obl_compliant :-
     obl(Action, TimeStep),
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
-    occurs(Action, TimeStep).
+    not occurs(Aciton, TimeStep).
 
-% We satisfy a particular obl(-Action, TimeStep) when occurs(Action, TimeStep) is not true
-obl_satisfied(obl(neg(Action), TimeStep)) :-
+-obl_compliant :-
     obl(neg(Action), TimeStep),
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
-    not occurs(Action, TimeStep).
-
-% Closed-world assumption:
-%   If we cannot derive obl(Happening) to be satisfied, then it is not satisfied
--obl_satisfied(obl(Happening, TimeStep)) :-
-    obl(Happening, TimeStep),
-    not obl_satisfied(obl(Happening, TimeStep)).
-
-% Compliant if for all obl(Happening), obl_satisfied(obl(Happening)) is true
-obl_compliant :-
-    obl_satisfied(obl(Happening, TimeStep)) : obl(Happening, TimeStep).
-
-% Non-compliant if there exists obl(Happening) where obl_satisfied(obl(Happening)) is not true
--obl_compliant :-
-    obl(Happening, TimeStep),
-    not obl_satisfied(obl(Happening, TimeStep)).
+    not -occurs(Aciton, TimeStep).

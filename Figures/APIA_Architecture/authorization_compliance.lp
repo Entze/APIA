@@ -1,26 +1,17 @@
-% Since no actions occur in timestep 0, we define it as strongly compliant (as a base case)
-auth_compliant(TimeStep) :-
-    TimeStep = 0.
+% Iff [for all occurs(Action, TimeStep), permitted(Action, TimeStep) is true],
+%   then we are strongly compliant
+%
+% Inverse: Iff [there exists occurs(Action, TimeStep), permitted(Action, TimeStep) is not true],
+%   then we are not strongly compliant
+-auth_compliance(strong) :-
+    occurs(Action, TimeStep),
+    not permitted(Action, TimeStep).
 
-% Strongly compliant if for all occurs(Action), permitted(Action) is true
-auth_compliant(TimeStep) :-
-    auth_compliant(TimeStep - 1),
-    permitted(Action, TimeStep) : occurs(Action, TimeStep), step(TimeStep).
-
-auth_compliant :-
-    auth_compliant(TimeStep) : step(TimeStep).
-
-% Non-compliant if there exists occurs(Action) where permitted(Action) is false
--auth_compliant(TimeStep) :-
-    step(TimeStep),
+% Iff [for all occurs(Action, TimeStep), permitted(Action, TimeStep) is not false],
+%   then we are weakly compliant
+%
+% Inverse: Iff [there exists occurs(Action, TimeStep), permitted(Action, TimeStep) is false],
+%   then we are not weakly compliant
+-auth_compliance(weak) :-
     occurs(Action, TimeStep),
     -permitted(Action, TimeStep).
-
--auth_compliant(TimeStep) :-
-    -auth_compliant(TimeStep - 1),
-    TimeStep > 0.
-
--auth_compliant :-
-    -auth_compliant(_).
-
-% Weakly compliant if auth_compliant is unknown

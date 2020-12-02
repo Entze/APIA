@@ -4,6 +4,10 @@
 % Strongly compliant if:
 %   * strongly compliant with authorization policy
 %   * compliant with obligation policy
+%
+% Closed-world assumption:
+%   auth_compliance(strong) === not -auth_compliance(strong)
+%   obl_compliant === not -obl_compliant
 :-
-    auth_compliant,
-    obl_compliant.
+    not -auth_compliance(strong),
+    not -obl_compliant.
