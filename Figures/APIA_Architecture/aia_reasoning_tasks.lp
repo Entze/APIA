@@ -1,4 +1,5 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
+% and Blount. 2013. "An architecture for intentional agents"
 
 %%%% Step 1 %%%%
 #program aia_step_1.
