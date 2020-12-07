@@ -46,7 +46,7 @@ number_unobs(N, I) :-
     interpretation(X, I),
     N != X.
 
-category_1(I) :-
+category_1_history(I) :-
     current_step(I),
     interpretation(N, I),
     not active_goal_or_activity(I).
@@ -64,9 +64,9 @@ active_goal_or_activity(I) :-
 intended_action(wait, I) :-
     current_step(I),
     interpretation(N, I),
-    category_1(I).
+    category_1_history(I).
 
-category_2(M, I) :-
+category_2_history(M, I) :-
     current_step(I),
     interpretation(N, I),
     -h(minor(M), I),
@@ -77,16 +77,16 @@ category_2(M, I) :-
 intended_action(stop(M), I) :-
     current_step(I),
     interpretation(N, I),
-    category_2(M, I).
+    category_2_history(M, I).
 
-category_3(M, I) :-
+category_3_history(M, I) :-
     current_step(I),
     interpretation(N, I),
     -h(minor(M) I),
 
 occurs(A, I1) :-
     current_step(I),
-    category_3(M, I),
+    category_3_history(M, I),
     interpretation(N, I),
     I <= I1,
     -h(minor(M), I1),
@@ -111,26 +111,26 @@ projected_success(M, I) :-
 intended_action(A, I) :-
     current_step(I),
     interpretation(N, I),
-    category_3(M, I),
+    category_3_history(M, I),
     h(next_action(M, A), I),
     projected_success(M, I).
 
 f(M, I) : futile(M, I) -+-
     current_step(I),
     interpretation(N, I),
-    category_3(M, I),
+    category_3_history(M, I),
     -projected_success(M, I).
 
 :-
     current_step(I),
     interpretation(N, I),
-    category_3(M, I),
+    category_3_history(M, I),
     -projected_success(M, I).
 
 intended_action(stop(M), I) :-
     current_step(I),
     interpretation(N, I),
-    category_3(M, I),
+    category_3_history(M, I),
     futile(M, I).
 
-% TODO: Include category_4
+% TODO: Include category_4_history
