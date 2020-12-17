@@ -107,8 +107,8 @@ holds(descendant(ChildActivity, Activity), I) :-
     step(I),
     holds(child(ChildActivity, Activity), I).
 
-% descendant(ChildActivity, Activity) if descendant(ChildActivity, Activity), descendant(M2, ChildActivity)
-holds(descendant(ChildActivity, Activity), I) :-
+% descendant(M2, Activity) if descendant(ChildActivity, Activity), descendant(M2, ChildActivity)
+holds(descendant(M2, Activity), I) :-
     step(I),
     holds(descendant(ChildActivity, Activity), I),
     holds(descendant(M2, ChildActivity), I).
