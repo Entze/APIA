@@ -21,10 +21,16 @@ occurs(A, I) :-
     I < I1,
     -hpd(A, I).
 
-d(A, I2, I1) : occurs(A, I2) -+-
+{ apply_cr_rule(d(A, I2)) } :-
     current_step(I1),
     physical_exogeneous_action(A),
     I2 < I1.
+
+occurs(A, I2) :-
+    apply_cr_rule(d(A, I2)).
+
+:~
+    apply_cr_rule(_). [1]
 
 unobs(A, I) :-
     current_step(I1),
@@ -118,11 +124,17 @@ intended_action(A, I) :-
     h(next_action(M, A), I),
     projected_success(M, I).
 
-f(M, I) : futile(M, I) -+-
+{ apply_cr_rule(f(M, I)) } :-
     current_step(I),
     interpretation(N, I),
     category_3_history(M, I),
     -projected_success(M, I).
+
+futile(M, I) :-
+    apply_cr_rule(f(M, I)).
+
+:~
+    apply_cr_rule(_). [1]
 
 :-
     current_step(I),
