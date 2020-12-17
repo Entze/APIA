@@ -13,7 +13,7 @@ fluent(defined, minor(Activity)).
 fluent(defined, minor(Goal)).
 fluent(defined, in_progress(Activity)).
 fluent(defined, in_progress(Goal)).
-fluent(defined, next_act(Activity, A))
+fluent(defined, next_act(Activity, Action))
 fluent(inertial, next_name(Activity)).
 
 mental_agent_action(Action) :-
@@ -79,15 +79,15 @@ holds(stop(Activity), I) :-
     A1 != A2.
 
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
-% impossible wait, A if physical_agent_action(A).
--occurs(wait, I) | -occurs(A, I) :-
+% impossible wait, Action if physical_agent_action(Action).
+-occurs(wait, I) | -occurs(Action, I) :-
     step(I),
-    physical_agent_action(A).
+    physical_agent_action(Action).
 
-% impossible wait, A if mental_agent_action(A).
--occurs(wait, I) | -occurs(A, I) :-
+% impossible wait, Action if mental_agent_action(Action).
+-occurs(wait, I) | -occurs(Action, I) :-
     step(I),
-    mental_agent_action(A).
+    mental_agent_action(Action).
 
 % child(ChildActivity) if component(Activity, Activity + 1, ChildActivity), status(Activity, K)
 holds(child(ChildActivity), I) :-
@@ -229,12 +229,12 @@ holds(in_progress(Goal), I) :-
     holds(goal(Activity, Goal), I),
     holds(active_goal(Goal), I).
 
-% next_act(Activity, A) if physical_agent_action(A), status(Activity, K), component(Activity, K + 1, A), in_progress(Activity)
-holds(next_act(Activity, A), I) :-
+% next_act(Activity, Action) if physical_agent_action(Action), status(Activity, K), component(Activity, K + 1, Action), in_progress(Activity)
+holds(next_act(Activity, Action), I) :-
     step(I),
-    physical_agent_action(A),
+    physical_agent_action(Action),
     holds(status(Activity, K), I),
-    holds(component(Activity, K + 1, A), I),
+    holds(component(Activity, K + 1, Action), I),
     holds(in_progress(Activity), I).
 
 % next_act(Activity, start(ChildActivity)) if status(Activity, K), component(Activity, K + 1, ChildActivity), in_progress(Activity), -active(ChildActivity)
@@ -245,15 +245,15 @@ holds(next_act(Activity, start(ChildActivity)), I) :-
     holds(in_progress(Activity), I),
     -holds(active(ChildActivity), I).
 
-% next_act(Activity, A) if agent_action(A), status(Activity, K), component(Activity, K + 1, ChildActivity), in_progress(Activity), in_progress(ChildActivity), next_act(ChildActivity, A)
-holds(next_act(Activity, A), I) :-
+% next_act(Activity, Action) if agent_action(Action), status(Activity, K), component(Activity, K + 1, ChildActivity), in_progress(Activity), in_progress(ChildActivity), next_act(ChildActivity, Action)
+holds(next_act(Activity, Action), I) :-
     step(I),
-    agent_action(A),
+    agent_action(Action),
     holds(status(Activity, K), I),
     holds(component(Activity, K + 1, ChildActivity), I),
     holds(in_progress(Activity), I),
     holds(in_progress(ChildActivity), I),
-    holds(next_act(ChildActivity, A), I).
+    holds(next_act(ChildActivity, Action), I).
 
 % next_act(Activity, stop(ChildActivity)) if status(Activity, K), component(Activity, K + 1, ChildActivity), in_progress(Activity), active(ChildActivity), goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
 holds(next_act(Activity, stop(ChildActivity)), I) :-
@@ -265,14 +265,14 @@ holds(next_act(Activity, stop(ChildActivity)), I) :-
     holds(goal(ChildActivity, ChildGoal), I),
     -holds(active_goal(ChildGoal), I).
 
-% A causes status(Activity, K + 1) if next_act(Activity, A), status(Activity, K), component(Activity, K + 1, A), physical_agent_action(A)
+% Action causes status(Activity, K + 1) if next_act(Activity, Action), status(Activity, K), component(Activity, K + 1, Action), physical_agent_action(Action)
 holds(status(Activity, K + 1), I + 1) :-
     step(I),
-    occurs(A, I),
-    holds(next_act(Activity, A), I),
+    occurs(Action, I),
+    holds(next_act(Activity, Action), I),
     holds(status(Activity, K), I),
-    holds(component(Activity, K + 1, A), I),
-    physical_agent_action(A).
+    holds(component(Activity, K + 1, Action), I),
+    physical_agent_action(Action).
 
 % stop(ChildActivity) causes status(Activity, K + 1) if status(Activity, K), component(Activity, K + 1, ChildActivity), next_act(Activity, stop(ChildActivity))
 holds(status(Activity, K + 1), I + 1) :-
