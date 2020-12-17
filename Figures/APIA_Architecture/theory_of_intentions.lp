@@ -33,11 +33,11 @@ special_exogenous_action(Action) :-
 
 action(wait).
 
-% -status(Activity, K1) if status(Activity, K2), K1 != K2
--holds(status(Activity, K1), I) :-
+% -status(Activity, OldActivityIndex) if status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
+-holds(status(Activity, OldActivityIndex), I) :-
     step(I),
-    holds(status(Activity, K2), I),
-    K1 != K2.
+    holds(status(Activity, ActivityIndex), I),
+    OldActivityIndex != ActivityIndex.
 
 % active(Activity) if -status(Activity, -1)
 holds(active(Activity), I) :-
