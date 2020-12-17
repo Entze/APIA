@@ -202,7 +202,7 @@ holds(active_goal(MinorGoal), I) :-
     -holds(active_goal(Goal), I).
 
 % "A minor goal MinorGoal of ChildActivity is no longer active when ChildActivity has been executed."
-% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), -MinorGoal, goal(ChildActivity, MinorGoal), status(ChildActivity, K1), length(ChildActivity, K1)
+% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), -MinorGoal, goal(ChildActivity, MinorGoal), status(ChildActivity, ChildActivityIndex), length(ChildActivity, ChildActivityIndex)
 -holds(active_goal(MinorGoal), I) :-
     step(I),
     holds(minor(MinorGoal), I),
@@ -210,8 +210,8 @@ holds(active_goal(MinorGoal), I) :-
     holds(active_goal(Goal), I),
     -holds(MinorGoal, I),
     holds(goal(ChildActivity, MinorGoal), I),
-    holds(status(ChildActivity, K1), I),
-    holds(length(ChildActivity, K1), I).
+    holds(status(ChildActivity, ChildActivityIndex), I),
+    holds(length(ChildActivity, ChildActivityIndex), I).
 
 %%%% Misc. %%%%
 
