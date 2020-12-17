@@ -89,10 +89,10 @@ holds(stop(M), I) :-
     step(I),
     mental_agent_action(A).
 
-% child(M1) if comp(M, M + 1, M1), status(M, K)
+% child(M1) if component(M, M + 1, M1), status(M, K)
 holds(child(M1), I) :-
     step(I),
-    holds(comp(M, M + 1, M1), I),
+    holds(component(M, M + 1, M1), I),
     holds(status(M, K), I).
 
 % child_goal(G1, G) if child(M1, M), goal(M, G), goal(M1, G1)
@@ -229,57 +229,57 @@ holds(in_progress(G), I) :-
     holds(goal(M, G), I),
     holds(active_goal(G), I).
 
-% next_act(M, A) if physical_agent_action(A), status(M, K), comp(M, K + 1, A), in_progress(M)
+% next_act(M, A) if physical_agent_action(A), status(M, K), component(M, K + 1, A), in_progress(M)
 holds(next_act(M, A), I) :-
     step(I),
     physical_agent_action(A),
     holds(status(M, K), I),
-    holds(comp(M, K + 1, A), I),
+    holds(component(M, K + 1, A), I),
     holds(in_progress(M), I).
 
-% next_act(M, start(M1)) if status(M, K), comp(M, K + 1, M1), in_progress(M), -active(M1)
+% next_act(M, start(M1)) if status(M, K), component(M, K + 1, M1), in_progress(M), -active(M1)
 holds(next_act(M, start(M1)), I) :-
     step(I),
     holds(status(M, K), I),
-    holds(comp(M, K + 1, M1), I),
+    holds(component(M, K + 1, M1), I),
     holds(in_progress(M), I),
     -holds(active(M1), I).
 
-% next_act(M, A) if agent_action(A), status(M, K), comp(M, K + 1, M1), in_progress(M), in_progress(M1), next_act(M1, A)
+% next_act(M, A) if agent_action(A), status(M, K), component(M, K + 1, M1), in_progress(M), in_progress(M1), next_act(M1, A)
 holds(next_act(M, A), I) :-
     step(I),
     agent_action(A),
     holds(status(M, K), I),
-    holds(comp(M, K + 1, M1), I),
+    holds(component(M, K + 1, M1), I),
     holds(in_progress(M), I),
     holds(in_progress(M1), I),
     holds(next_act(M1, A), I).
 
-% next_act(M, stop(M1)) if status(M, K), comp(M, K + 1, M1), in_progress(M), active(M1), goal(M1, G1), -active_goal(G1)
+% next_act(M, stop(M1)) if status(M, K), component(M, K + 1, M1), in_progress(M), active(M1), goal(M1, G1), -active_goal(G1)
 holds(next_act(M, stop(M1)), I) :-
     step(I),
     holds(status(M, K), I),
-    holds(comp(M, K + 1, M1), I),
+    holds(component(M, K + 1, M1), I),
     holds(in_progress(M), I),
     holds(active(M1), I),
     holds(goal(M1, G1), I),
     -holds(active_goal(G1), I).
 
-% A causes status(M, K + 1) if next_act(M, A), status(M, K), comp(M, K + 1, A), physical_agent_action(A)
+% A causes status(M, K + 1) if next_act(M, A), status(M, K), component(M, K + 1, A), physical_agent_action(A)
 holds(status(M, K + 1), I + 1) :-
     step(I),
     occurs(A, I),
     holds(next_act(M, A), I),
     holds(status(M, K), I),
-    holds(comp(M, K + 1, A), I),
+    holds(component(M, K + 1, A), I),
     physical_agent_action(A).
 
-% stop(M1) causes status(M, K + 1) if status(M, K), comp(M, K + 1, M1), next_act(M, stop(M1))
+% stop(M1) causes status(M, K + 1) if status(M, K), component(M, K + 1, M1), next_act(M, stop(M1))
 holds(status(M, K + 1), I + 1) :-
     step(I),
     occurs(stop(M1), I),
     holds(status(M, K), I),
-    holds(comp(M, K + 1, M1), I),
+    holds(component(M, K + 1, M1), I),
     holds(next_act(M, stop(M1)), I).
 
 % stop(M) causes status(M1, -1) if descendant(M1, M)
