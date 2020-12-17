@@ -65,18 +65,18 @@ holds(stop(Activity), I) :-
     -holds(active(Activity), I).
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
-% impossible A1, A2 if physical_agent_action(A1), mental_agent_action(A2)
--occurs(A1, I) | -occurs(A2, I) :-
+% impossible Action1, A2 if physical_agent_action(Action1), mental_agent_action(A2)
+-occurs(Action1, I) | -occurs(A2, I) :-
     step(I),
-    physical_agent_action(A1),
+    physical_agent_action(Action1),
     mental_agent_action(A2).
 
-% impossible A1, A2 if mental_agent_action(A1), mental_agent_action(A2), A1 != A2.
--occurs(A1, I) | -occurs(A2, I) :-
+% impossible Action1, A2 if mental_agent_action(Action1), mental_agent_action(A2), Action1 != A2.
+-occurs(Action1, I) | -occurs(A2, I) :-
     step(I),
-    mental_agent_action(A1),
+    mental_agent_action(Action1),
     mental_agent_action(A2),
-    A1 != A2.
+    Action1 != A2.
 
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
 % impossible wait, Action if physical_agent_action(Action).
@@ -147,22 +147,22 @@ holds(active_goal(Goal), I + 1) :-
     -holds(minor(Goal), I).
 
 % "We assume that no physical exogenous action may occur concurrently with a speical exogenous action"
-% impossible A1, A2 if special_exogenous_action(A1), physical_exogenous_action(A2)
--occurs(A1, I) | -occurs(A2, I) :-
+% impossible Action1, A2 if special_exogenous_action(Action1), physical_exogenous_action(A2)
+-occurs(Action1, I) | -occurs(A2, I) :-
     step(I),
-    special_exogenous_action(A1),
+    special_exogenous_action(Action1),
     physical_exogenous_action(A2).
 
-% impossible A1, A2 if special_exogenous_action(A1), physical_agent_action(A2)
--occurs(A1, I) | -occurs(A2, I) :-
+% impossible Action1, A2 if special_exogenous_action(Action1), physical_agent_action(A2)
+-occurs(Action1, I) | -occurs(A2, I) :-
     step(I),
-    special_exogenous_action(A1),
+    special_exogenous_action(Action1),
     physical_agent_action(A2).
 
-% impossible A1, A2 if special_exogenous_action(A1), mental_agent_action(A2)
--occurs(A1, I) | -occurs(A2, I) :-
+% impossible Action1, A2 if special_exogenous_action(Action1), mental_agent_action(A2)
+-occurs(Action1, I) | -occurs(A2, I) :-
     step(I),
-    special_exogenous_action(A1),
+    special_exogenous_action(Action1),
     mental_agent_action(A2).
 
 % -active_goal(Goal) if -minor(Goal), goal(Goal)
