@@ -7,7 +7,7 @@ fluent(inertial, active_goal(Goal)).
 fluent(inertial, status(Activity, K)).
 fluent(defined, active(Activity)).
 fluent(defined, child(ChildActivity, Activity)).
-fluent(defined, child_goal(G1, Goal)).
+fluent(defined, child_goal(ChildGoal, Goal)).
 fluent(defined, descendant(ChildActivity, Activity)).
 fluent(defined, minor(Activity)).
 fluent(defined, minor(Goal)).
@@ -95,12 +95,12 @@ holds(child(ChildActivity), I) :-
     holds(component(Activity, Activity + 1, ChildActivity), I),
     holds(status(Activity, K), I).
 
-% child_goal(G1, Goal) if child(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, G1)
-holds(child_goal(G1, Goal), I) :-
+% child_goal(ChildGoal, Goal) if child(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
+holds(child_goal(ChildGoal, Goal), I) :-
     step(I),
     holds(child(ChildActivity, Activity), I),
     holds(goal(Activity, Goal), I),
-    holds(goal(ChildActivity, G1), I).
+    holds(goal(ChildActivity, ChildGoal), I).
 
 % descendant(ChildActivity, Activity) if child(ChildActivity, Activity)
 holds(descendant(ChildActivity, Activity), I) :-
@@ -118,10 +118,10 @@ holds(minor(ChildActivity), I) :-
     step(I),
     holds(child(ChildActivity, Activity), I).
 
-% minor(G1) if child_goal(G1, Goal)
-holds(minor(G1), I) :-
+% minor(ChildGoal) if child_goal(ChildGoal, Goal)
+holds(minor(ChildGoal), I) :-
     step(I),
-    holds(child_goal(G1, Goal), I).
+    holds(child_goal(ChildGoal, Goal), I).
 
 % select(Goal) causes active_goal(Goal)
 holds(active_goal(Goal), I + 1) :-
@@ -173,43 +173,43 @@ holds(active_goal(Goal), I + 1) :-
 
 %%%% Sub goal %%%%
 
-% "An unachieved minor goal G1 of an activity ChildActivity becomes active when ChildActivity is the next component of an ongoing activity Activity"
-% active_goal(G1) if minor(G1), child_goal(G1, Goal), active_goal(Goal), goal(ChildActivity, G1), -G1, status(ChildActivity, -1)
-holds(active_goal(G1), I) :-
+% "An unachieved minor goal MinorGoal of an activity ChildActivity becomes active when ChildActivity is the next component of an ongoing activity Activity"
+% active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), goal(ChildActivity, MinorGoal), -MinorGoal, status(ChildActivity, -1)
+holds(active_goal(MinorGoal), I) :-
     step(I),
-    holds(minor(G1), I),
-    holds(child_goal(G1, Goal), I),
+    holds(minor(MinorGoal), I),
+    holds(child_goal(MinorGoal, Goal), I),
     holds(active_goal(Goal), I),
-    holds(goal(ChildActivity, G1), I),
-    -holds(G1, I),
+    holds(goal(ChildActivity, MinorGoal), I),
+    -holds(MinorGoal, I),
     holds(status(ChildActivity, -1), I).
 
-% "A minor goal G1 is no longer active when it is achieved."
-% -active_goal(G1) if minor(G1), child_goal(G1, Goal), active_goal(Goal), G1.
--holds(active_goal(G1), I) :-
+% "A minor goal MinorGoal is no longer active when it is achieved."
+% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), MinorGoal.
+-holds(active_goal(MinorGoal), I) :-
     step(I),
-    holds(minor(G1), I),
-    holds(child_goal(G1, Goal), I),
+    holds(minor(MinorGoal), I),
+    holds(child_goal(MinorGoal, Goal), I),
     holds(active_goal(Goal), I),
-    holds(G1, I).
+    holds(MinorGoal, I).
 
-% "A minor goal G1 is no longer active when its parent [goal] is no longer active"
-% -active_goal(G1) if minor(G1), child_goal(G1, Goal), -active_goal(Goal)
--holds(active_goal(G1), I) :-
+% "A minor goal MinorGoal is no longer active when its parent [goal] is no longer active"
+% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
+-holds(active_goal(MinorGoal), I) :-
     step(I),
-    holds(minor(G1), I),
-    holds(child_goal(G1, Goal), I),
+    holds(minor(MinorGoal), I),
+    holds(child_goal(MinorGoal, Goal), I),
     -holds(active_goal(Goal), I).
 
-% "A minor goal G1 of ChildActivity is no longer active when ChildActivity has been executed."
-% -active_goal(G1) if minor(G1), child_goal(G1, Goal), active_goal(Goal), -G1, goal(ChildActivity, G1), status(ChildActivity, K1), length(ChildActivity, K1)
--holds(active_goal(G1), I) :-
+% "A minor goal MinorGoal of ChildActivity is no longer active when ChildActivity has been executed."
+% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), -MinorGoal, goal(ChildActivity, MinorGoal), status(ChildActivity, K1), length(ChildActivity, K1)
+-holds(active_goal(MinorGoal), I) :-
     step(I),
-    holds(minor(G1), I),
-    holds(child_goal(G1, Goal), I),
+    holds(minor(MinorGoal), I),
+    holds(child_goal(MinorGoal, Goal), I),
     holds(active_goal(Goal), I),
-    -holds(G1, I),
-    holds(goal(ChildActivity, G1), I),
+    -holds(MinorGoal, I),
+    holds(goal(ChildActivity, MinorGoal), I),
     holds(status(ChildActivity, K1), I),
     holds(length(ChildActivity, K1), I).
 
@@ -255,15 +255,15 @@ holds(next_act(Activity, A), I) :-
     holds(in_progress(ChildActivity), I),
     holds(next_act(ChildActivity, A), I).
 
-% next_act(Activity, stop(ChildActivity)) if status(Activity, K), component(Activity, K + 1, ChildActivity), in_progress(Activity), active(ChildActivity), goal(ChildActivity, G1), -active_goal(G1)
+% next_act(Activity, stop(ChildActivity)) if status(Activity, K), component(Activity, K + 1, ChildActivity), in_progress(Activity), active(ChildActivity), goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
 holds(next_act(Activity, stop(ChildActivity)), I) :-
     step(I),
     holds(status(Activity, K), I),
     holds(component(Activity, K + 1, ChildActivity), I),
     holds(in_progress(Activity), I),
     holds(active(ChildActivity), I),
-    holds(goal(ChildActivity, G1), I),
-    -holds(active_goal(G1), I).
+    holds(goal(ChildActivity, ChildGoal), I),
+    -holds(active_goal(ChildGoal), I).
 
 % A causes status(Activity, K + 1) if next_act(Activity, A), status(Activity, K), component(Activity, K + 1, A), physical_agent_action(A)
 holds(status(Activity, K + 1), I + 1) :-
