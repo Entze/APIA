@@ -59,7 +59,7 @@ action(wait).
 
 % descendant(M1, M) if child(M1, M)
 
-% descendant(M1, M) if descendant(M1, M),  descendant(M2, M1)
+% descendant(M1, M) if descendant(M1, M), descendant(M2, M1)
 
 % minor(M1) if child(M1, M)
 
@@ -76,9 +76,9 @@ action(wait).
 % impossible abandon(G) if minor(G)
 
 % "We assume that no physical exogenous action may occur concurrently with a speical exogenous action"
-% impossible A1, A1 if special_exogenous_action(A1), physical_exogenous_action(A2)
-% impossible A1, A1 if special_exogenous_action(A1), physical_agent_action(A2)
-% impossible A1, A1 if special_exogenous_action(A1), mental_agent_action(A2)
+% impossible A1, A2 if special_exogenous_action(A1), physical_exogenous_action(A2)
+% impossible A1, A2 if special_exogenous_action(A1), physical_agent_action(A2)
+% impossible A1, A2 if special_exogenous_action(A1), mental_agent_action(A2)
 
 % -active_goal(G) if -minor(G), goal(G)
 
