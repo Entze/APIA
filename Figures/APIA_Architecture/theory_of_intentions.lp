@@ -30,13 +30,15 @@ special_exogenous_action(Action) :-
 
 action(wait).
 
-% -status(Activity, OldActivityIndex) if status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
+% -status(Activity, OldActivityIndex) if
+%   status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
 -holds(status(Activity, OldActivityIndex), Timestep) :-
     step(Timestep),
     holds(status(Activity, ActivityIndex), Timestep),
     OldActivityIndex != ActivityIndex.
 
-% active(Activity) if -status(Activity, -1)
+% active(Activity) if
+%   -status(Activity, -1)
 holds(active(Activity), Timestep) :-
     step(Timestep),
     holds(status(Activity, -1), Timestep).
@@ -51,24 +53,29 @@ holds(stop(Activity), Timestep) :-
     step(Timestep),
     holds(status(Activity, -1), Timestep).
 
-% impossible start(Activity) if active(Activity)
+% impossible start(Activity) if
+%   active(Activity)
 -occurs(start(Activity), Timestep) :-
     step(Timestep),
     holds(active(Activity), Timestep).
 
-% impossible stop(Activity) if -active(Activity)
+% impossible stop(Activity) if
+%   -active(Activity)
 -occurs(stop(Activity), Timestep) :-
     step(Timestep),
     -holds(active(Activity), Timestep).
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
-% impossible Action1, Action2 if physical_agent_action(Action1), mental_agent_action(Action2)
+% impossible Action1, Action2 if
+%   physical_agent_action(Action1), mental_agent_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     physical_agent_action(Action1),
     mental_agent_action(Action2).
 
-% impossible Action1, Action2 if mental_agent_action(Action1), mental_agent_action(Action2), Action1 != Action2.
+% impossible Action1, Action2 if
+%   mental_agent_action(Action1), mental_agent_action(Action2),
+%   Action1 != Action2.
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     mental_agent_action(Action1),
@@ -76,46 +83,54 @@ holds(stop(Activity), Timestep) :-
     Action1 != Action2.
 
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
-% impossible wait, Action if physical_agent_action(Action).
+% impossible wait, Action if
+%   physical_agent_action(Action).
 -occurs(wait, Timestep) | -occurs(Action, Timestep) :-
     step(Timestep),
     physical_agent_action(Action).
 
-% impossible wait, Action if mental_agent_action(Action).
+% impossible wait, Action if
+%   mental_agent_action(Action).
 -occurs(wait, Timestep) | -occurs(Action, Timestep) :-
     step(Timestep),
     mental_agent_action(Action).
 
-% child(ChildActivity) if component(Activity, Activity + 1, ChildActivity), status(Activity, ActivityIndex)
+% child(ChildActivity) if
+%   component(Activity, Activity + 1, ChildActivity), status(Activity, ActivityIndex)
 holds(child(ChildActivity), Timestep) :-
     step(Timestep),
     holds(component(Activity, Activity + 1, ChildActivity), Timestep),
     holds(status(Activity, ActivityIndex), Timestep).
 
-% child_goal(ChildGoal, Goal) if child(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
+% child_goal(ChildGoal, Goal) if
+%   child(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
 holds(child_goal(ChildGoal, Goal), Timestep) :-
     step(Timestep),
     holds(child(ChildActivity, Activity), Timestep),
     holds(goal(Activity, Goal), Timestep),
     holds(goal(ChildActivity, ChildGoal), Timestep).
 
-% descendant(ChildActivity, Activity) if child(ChildActivity, Activity)
+% descendant(ChildActivity, Activity) if
+%   child(ChildActivity, Activity)
 holds(descendant(ChildActivity, Activity), Timestep) :-
     step(Timestep),
     holds(child(ChildActivity, Activity), Timestep).
 
-% descendant(GrandChildActivity, Activity) if descendant(ChildActivity, Activity), descendant(GrandChildActivity, ChildActivity)
+% descendant(GrandChildActivity, Activity) if
+%   descendant(ChildActivity, Activity), descendant(GrandChildActivity, ChildActivity)
 holds(descendant(GrandChildActivity, Activity), Timestep) :-
     step(Timestep),
     holds(descendant(ChildActivity, Activity), Timestep),
     holds(descendant(GrandChildActivity, ChildActivity), Timestep).
 
-% minor(ChildActivity) if child(ChildActivity, Activity)
+% minor(ChildActivity) if
+%   child(ChildActivity, Activity)
 holds(minor(ChildActivity), Timestep) :-
     step(Timestep),
     holds(child(ChildActivity, Activity), Timestep).
 
-% minor(ChildGoal) if child_goal(ChildGoal, Goal)
+% minor(ChildGoal) if
+%   child_goal(ChildGoal, Goal)
 holds(minor(ChildGoal), Timestep) :-
     step(Timestep),
     holds(child_goal(ChildGoal, Goal), Timestep).
@@ -125,7 +140,8 @@ holds(active_goal(Goal), Timestep + 1) :-
     step(Timestep),
     occurs(select(Goal), Timestep).
 
-% impossible select(Goal) if active_goal(Goal)
+% impossible select(Goal) if
+%   active_goal(Goal)
 -occurs(select(Goal), Timestep) :-
     step(Timestep),
     holds(active_goal(Goal), Timestep).
@@ -135,34 +151,40 @@ holds(active_goal(Goal), Timestep + 1) :-
     step(Timestep),
     occurs(abandon(Goal), Timestep).
 
-% impossible abandon(Goal) if -active_goal(Goal)
+% impossible abandon(Goal) if
+%   -active_goal(Goal)
 -occurs(abandon(Goal), Timestep) :-
     -holds(active_goal(Goal), Timestep).
 
-% impossible abandon(Goal) if minor(Goal)
+% impossible abandon(Goal) if
+%   minor(Goal)
 -occurs(abandon(Goal), Timestep) :-
     -holds(minor(Goal), Timestep).
 
 % "We assume that no physical exogenous action may occur concurrently with a speical exogenous action"
-% impossible Action1, Action2 if special_exogenous_action(Action1), physical_exogenous_action(Action2)
+% impossible Action1, Action2 if
+%   special_exogenous_action(Action1), physical_exogenous_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     special_exogenous_action(Action1),
     physical_exogenous_action(Action2).
 
-% impossible Action1, Action2 if special_exogenous_action(Action1), physical_agent_action(Action2)
+% impossible Action1, Action2 if
+%   special_exogenous_action(Action1), physical_agent_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     special_exogenous_action(Action1),
     physical_agent_action(Action2).
 
-% impossible Action1, Action2 if special_exogenous_action(Action1), mental_agent_action(Action2)
+% impossible Action1, Action2 if
+%   special_exogenous_action(Action1), mental_agent_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     special_exogenous_action(Action1),
     mental_agent_action(Action2).
 
-% -active_goal(Goal) if -minor(Goal), goal(Goal)
+% -active_goal(Goal) if
+%   -minor(Goal), goal(Goal)
 -holds(active_goal(Goal), Timestep) :-
     step(Timestep),
     -holds(minor(Goal), Timestep),
@@ -171,7 +193,10 @@ holds(active_goal(Goal), Timestep + 1) :-
 %%%% Sub goal %%%%
 
 % "An unachieved minor goal MinorGoal of an activity ChildActivity becomes active when ChildActivity is the next component of an ongoing activity Activity"
-% active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), goal(ChildActivity, MinorGoal), -MinorGoal, status(ChildActivity, -1)
+% active_goal(MinorGoal) if
+%   minor(MinorGoal), child_goal(MinorGoal, Goal),
+%   active_goal(Goal), goal(ChildActivity, MinorGoal),
+%   -MinorGoal, status(ChildActivity, -1)
 holds(active_goal(MinorGoal), Timestep) :-
     step(Timestep),
     holds(minor(MinorGoal), Timestep),
@@ -182,7 +207,9 @@ holds(active_goal(MinorGoal), Timestep) :-
     holds(status(ChildActivity, -1), Timestep).
 
 % "A minor goal MinorGoal is no longer active when it is achieved."
-% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), MinorGoal.
+% -active_goal(MinorGoal) if
+%   minor(MinorGoal), child_goal(MinorGoal, Goal),
+%   active_goal(Goal), MinorGoal.
 -holds(active_goal(MinorGoal), Timestep) :-
     step(Timestep),
     holds(minor(MinorGoal), Timestep),
@@ -191,7 +218,8 @@ holds(active_goal(MinorGoal), Timestep) :-
     holds(MinorGoal, Timestep).
 
 % "A minor goal MinorGoal is no longer active when its parent [goal] is no longer active"
-% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
+% -active_goal(MinorGoal) if
+%   minor(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
 -holds(active_goal(MinorGoal), Timestep) :-
     step(Timestep),
     holds(minor(MinorGoal), Timestep),
@@ -199,7 +227,11 @@ holds(active_goal(MinorGoal), Timestep) :-
     -holds(active_goal(Goal), Timestep).
 
 % "A minor goal MinorGoal of ChildActivity is no longer active when ChildActivity has been executed."
-% -active_goal(MinorGoal) if minor(MinorGoal), child_goal(MinorGoal, Goal), active_goal(Goal), -MinorGoal, goal(ChildActivity, MinorGoal), status(ChildActivity, ChildActivityIndex), length(ChildActivity, ChildActivityIndex)
+% -active_goal(MinorGoal) if
+%   minor(MinorGoal), child_goal(MinorGoal, Goal),
+%   active_goal(Goal), -MinorGoal,
+%   goal(ChildActivity, MinorGoal), status(ChildActivity, ChildActivityIndex),
+%   length(ChildActivity, ChildActivityIndex)
 -holds(active_goal(MinorGoal), Timestep) :-
     step(Timestep),
     holds(minor(MinorGoal), Timestep),
@@ -212,21 +244,25 @@ holds(active_goal(MinorGoal), Timestep) :-
 
 %%%% Misc. %%%%
 
-% in_progress(Activity) if active(Activity), goal(Activity, Goal), active_goal(Goal)
+% in_progress(Activity) if
+%   active(Activity), goal(Activity, Goal), active_goal(Goal)
 holds(in_progress(Activity), Timestep) :-
     step(Timestep),
     holds(active(Activity), Timestep),
     holds(goal(Activity, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 
-% in_progress(Goal) if active(Activity), goal(Activity, Goal), active_goal(Goal)
+% in_progress(Goal) if
+%   active(Activity), goal(Activity, Goal), active_goal(Goal)
 holds(in_progress(Goal), Timestep) :-
     step(Timestep),
     holds(active(Activity), Timestep),
     holds(goal(Activity, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 
-% next_act(Activity, Action) if physical_agent_action(Action), status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, Action), in_progress(Activity)
+% next_act(Activity, Action) if
+%   physical_agent_action(Action), status(Activity, ActivityIndex),
+%   component(Activity, ActivityIndex + 1, Action), in_progress(Activity)
 holds(next_act(Activity, Action), Timestep) :-
     step(Timestep),
     physical_agent_action(Action),
@@ -234,7 +270,9 @@ holds(next_act(Activity, Action), Timestep) :-
     holds(component(Activity, ActivityIndex + 1, Action), Timestep),
     holds(in_progress(Activity), Timestep).
 
-% next_act(Activity, start(ChildActivity)) if status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity), in_progress(Activity), -active(ChildActivity)
+% next_act(Activity, start(ChildActivity)) if
+%   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
+%   in_progress(Activity), -active(ChildActivity)
 holds(next_act(Activity, start(ChildActivity)), Timestep) :-
     step(Timestep),
     holds(status(Activity, ActivityIndex), Timestep),
@@ -242,7 +280,10 @@ holds(next_act(Activity, start(ChildActivity)), Timestep) :-
     holds(in_progress(Activity), Timestep),
     -holds(active(ChildActivity), Timestep).
 
-% next_act(Activity, Action) if agent_action(Action), status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity), in_progress(Activity), in_progress(ChildActivity), next_act(ChildActivity, Action)
+% next_act(Activity, Action) if
+%   agent_action(Action), status(Activity, ActivityIndex),
+%   component(Activity, ActivityIndex + 1, ChildActivity),
+%   in_progress(Activity), in_progress(ChildActivity), next_act(ChildActivity, Action)
 holds(next_act(Activity, Action), Timestep) :-
     step(Timestep),
     agent_action(Action),
@@ -252,7 +293,10 @@ holds(next_act(Activity, Action), Timestep) :-
     holds(in_progress(ChildActivity), Timestep),
     holds(next_act(ChildActivity, Action), Timestep).
 
-% next_act(Activity, stop(ChildActivity)) if status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity), in_progress(Activity), active(ChildActivity), goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
+% next_act(Activity, stop(ChildActivity)) if
+%   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
+%   in_progress(Activity), active(ChildActivity),
+%   goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
 holds(next_act(Activity, stop(ChildActivity)), Timestep) :-
     step(Timestep),
     holds(status(Activity, ActivityIndex), Timestep),
@@ -262,7 +306,9 @@ holds(next_act(Activity, stop(ChildActivity)), Timestep) :-
     holds(goal(ChildActivity, ChildGoal), Timestep),
     -holds(active_goal(ChildGoal), Timestep).
 
-% Action causes status(Activity, ActivityIndex + 1) if next_act(Activity, Action), status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, Action), physical_agent_action(Action)
+% Action causes status(Activity, ActivityIndex + 1) if
+%   next_act(Activity, Action), status(Activity, ActivityIndex),
+%   component(Activity, ActivityIndex + 1, Action), physical_agent_action(Action)
 holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
     step(Timestep),
     occurs(Action, Timestep),
@@ -271,7 +317,9 @@ holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
     holds(component(Activity, ActivityIndex + 1, Action), Timestep),
     physical_agent_action(Action).
 
-% stop(ChildActivity) causes status(Activity, ActivityIndex + 1) if status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity), next_act(Activity, stop(ChildActivity))
+% stop(ChildActivity) causes status(Activity, ActivityIndex + 1) if
+%   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
+%   next_act(Activity, stop(ChildActivity))
 holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
     step(Timestep),
     occurs(stop(ChildActivity), Timestep),
@@ -279,20 +327,23 @@ holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
     holds(component(Activity, ActivityIndex + 1, ChildActivity), Timestep),
     holds(next_act(Activity, stop(ChildActivity)), Timestep).
 
-% stop(Activity) causes status(ChildActivity, -1) if descendant(ChildActivity, Activity)
+% stop(Activity) causes status(ChildActivity, -1) if
+%   descendant(ChildActivity, Activity)
 holds(status(ChildActivity, -1), Timestep + 1) :-
     step(Timestep),
     occurs(stop(Activity), Timestep),
     holds(descendant(ChildActivity, Activity), Timestep).
 
-% -next_name(Activity) if next_name(ChildActivity), Activity != ChildActivity
+% -next_name(Activity) if
+%   next_name(ChildActivity), Activity != ChildActivity
 -holds(next_name(Activity), Timestep) :-
     step(Timestep),
     next_name(ChildActivity),
     % TODO: Bind Activity
     Activity != ChildActivity.
 
-% start(Activity) causes next_name(Activity + 1) if next_name(Activity), -minor(Activity)
+% start(Activity) causes next_name(Activity + 1) if
+%   next_name(Activity), -minor(Activity)
 holds(next_name(Activity + 1), Timestep + 1) :-
     step(Timestep),
     occurs(start(Activity), Timestep),
