@@ -24,7 +24,7 @@ fluent(inertial, next_name(Activity)).
 mental_agent_action(Action) :-
     Action = (start(Activity); stop(Activity)).
 
-physical_agent_action(Action)
+physical_agent_action(Action).
 
 special_exogenous_action(Action) :-
     % Exogenous
