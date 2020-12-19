@@ -1,5 +1,11 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
 
+%%%% Domains %%%%
+
+%%%% Statics %%%%
+
+%%%% Fluents %%%%
+
 fluent(inertial, active_goal(Goal)).
 fluent(inertial, status(Activity, ActivityIndex)).
 fluent(defined, active(Activity)).
@@ -12,6 +18,8 @@ fluent(defined, in_progress(Activity)).
 fluent(defined, in_progress(Goal)).
 fluent(defined, next_act(Activity, Action))
 fluent(inertial, next_name(Activity)).
+
+%%%% Actions %%%%
 
 mental_agent_action(Action) :-
     Action = (start(Activity); stop(Activity)).
@@ -29,6 +37,8 @@ special_exogenous_action(Action) :-
 %    mental_action(Action).
 
 action(wait).
+
+%%%% Action descriptions %%%%
 
 % -status(Activity, OldActivityIndex) if
 %   status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
@@ -190,7 +200,7 @@ holds(active_goal(Goal), Timestep + 1) :-
     -holds(minor(Goal), Timestep),
     holds(goal(Goal), Timestep).
 
-%%%% Sub goal %%%%
+%--- Sub goal ---%
 
 % "An unachieved minor goal MinorGoal of an activity ChildActivity becomes active when ChildActivity is the next component of an ongoing activity Activity"
 % active_goal(MinorGoal) if
@@ -242,7 +252,7 @@ holds(active_goal(MinorGoal), Timestep) :-
     holds(status(ChildActivity, ChildActivityIndex), Timestep),
     holds(length(ChildActivity, ChildActivityIndex), Timestep).
 
-%%%% Misc. %%%%
+%--- Misc. ---%
 
 % in_progress(Activity) if
 %   active(Activity), goal(Activity, Goal), active_goal(Goal)
