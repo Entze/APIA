@@ -52,7 +52,7 @@ number_unobs(N, I) :-
     interpretation(X, I),
     N != X.
 
-% "there are no activities or goals that are active in cmn"
+% "there are no activities or goals that are active in cm_n"
 category_1_history(I) :-
     current_step(I),
     interpretation(N, I),
@@ -73,7 +73,7 @@ intended_action(wait, I) :-
     interpretation(N, I),
     category_1_history(I).
 
-% "there is an activity m such that m is top-level and active in cmn but its goal g is no longer active in cmn"
+% "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
 category_2_history(M, I) :-
     current_step(I),
     interpretation(N, I),
@@ -87,7 +87,7 @@ intended_action(stop(M), I) :-
     interpretation(N, I),
     category_2_history(M, I).
 
-% "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cmn"
+% "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
 category_3_history(M, I) :-
     current_step(I),
     interpretation(N, I),
@@ -148,6 +148,6 @@ intended_action(stop(M), I) :-
     category_3_history(M, I),
     futile(M, I).
 
-% "there is a goal g that is active in cmn but no activity with goal g is active in cmn"
+% "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 
 % TODO: Include category_4_history
