@@ -149,5 +149,71 @@ intended_action(stop(M), I) :-
     futile(M, I).
 
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
+existing_candidate(M, I) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    h(next_name(M1), I),
+    M < M1,
+    goal(M, G).
 
-% TODO: Include category_4_history
+new_candidate(M, I) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    h(next_name(M), I).
+
+candidate(M, I) :-
+    new_candidate(M, I).
+
+candidate(M, I) :-
+    existing_candidate(M, I).
+
+occurs(start(M), I) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    candidate(M, I),
+    goal(M, G),
+    not impossible(start(M), I).
+
+impossible(start(M), I) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    goal(M1, G),
+    occurs(start(M1), I),
+    M != M1.
+
+:-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    occurs(start(M), I),
+    -projected_success(M, I),
+    not futile(G, I).
+
+{ apply_cr_rule(futile_goal(G, I)) } :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    occurs(start(M), I),
+    -projected_success(M, I).
+
+futile(G, I) :-
+    apply_cr_rule(futile_goal(G, I)).
+
+:~
+    apply_cr_rule(futile_goal(G, I)). [1@1, futile_goal(G, I)]
+
+intended_action(wait, I) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    futile(G, I).
+
+%some_action_occurred(I1) :-
+%    current_step(I),
+%    interpretation(N, I),
+%    I <= I1,
+%    occurs(E, I1).
