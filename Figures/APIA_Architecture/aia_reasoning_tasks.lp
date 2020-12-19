@@ -30,7 +30,7 @@ occurs(A, I2) :-
     apply_cr_rule(d(A, I2)).
 
 :~
-    apply_cr_rule(_). [1]
+    apply_cr_rule(d(A, I2)). [1@1, d(A, I2)]
 
 unobs(A, I) :-
     current_step(I1),
@@ -134,7 +134,7 @@ futile(M, I) :-
     apply_cr_rule(f(M, I)).
 
 :~
-    apply_cr_rule(_). [1]
+    apply_cr_rule(f(M, I)). [1@1, f(M, I)]
 
 :-
     current_step(I),
