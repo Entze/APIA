@@ -67,11 +67,19 @@ mental_exogenous_action(Action) :-
     goal(Goal),
     Action = (select(Goal); abandon(Goal)).
 
-%action(Action) :-
-%    physical_action(Action).
-%
-%action(Action) :-
-%    mental_action(Action).
+% physical_exogenous_action(Action)
+
+action(Action) :-
+    mental_agent_action(Action).
+
+action(Action) :-
+    physical_agent_action(Action).
+
+action(Action) :-
+    mental_exogenous_action(Action).
+
+action(Action) :-
+    physical_exogenous_action(Action).
 
 action(wait).
 
