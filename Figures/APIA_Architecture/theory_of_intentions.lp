@@ -241,7 +241,7 @@ holds(active_goal(MinorGoal), Timestep) :-
 %   minor(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), -MinorGoal,
 %   goal(ChildActivity, MinorGoal), status(ChildActivity, ChildActivityIndex),
-%   length(ChildActivity, ChildActivityIndex)
+%   length(ChildActivity, ChildActivityLength)
 -holds(active_goal(MinorGoal), Timestep) :-
     step(Timestep),
     holds(minor(MinorGoal), Timestep),
@@ -250,7 +250,8 @@ holds(active_goal(MinorGoal), Timestep) :-
     -holds(MinorGoal, Timestep),
     holds(goal(ChildActivity, MinorGoal), Timestep),
     holds(status(ChildActivity, ChildActivityIndex), Timestep),
-    holds(length(ChildActivity, ChildActivityIndex), Timestep).
+    holds(length(ChildActivity, ChildActivityLength), Timestep),
+    ChildActivityIndex = ChildActivityLength.
 
 %--- Misc. ---%
 
