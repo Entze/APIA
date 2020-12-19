@@ -2,32 +2,69 @@
 
 %%%% Domains %%%%
 
+% goal(Goal)
+% activity(Activity)
+
 %%%% Statics %%%%
+
+% length(Activity, ActivityLength)
 
 %%%% Fluents %%%%
 
-fluent(inertial, active_goal(Goal)).
-fluent(inertial, status(Activity, ActivityIndex)).
-fluent(defined, active(Activity)).
-fluent(defined, child(ChildActivity, Activity)).
-fluent(defined, child_goal(ChildGoal, Goal)).
-fluent(defined, descendant(ChildActivity, Activity)).
-fluent(defined, minor(Activity)).
-fluent(defined, minor(Goal)).
-fluent(defined, in_progress(Activity)).
-fluent(defined, in_progress(Goal)).
-fluent(defined, next_act(Activity, Action))
-fluent(inertial, next_name(Activity)).
+fluent(inertial, active_goal(Goal)) :-
+    goal(Goal).
+
+fluent(inertial, status(Activity, ActivityIndex)) :-
+    length(Activity, ActivityLength),
+    ActivityIndex = -1..ActivityLength.
+
+fluent(defined, active(Activity)) :-
+    activity(Activity).
+
+fluent(defined, child(ChildActivity, Activity)) :-
+    activity(Activity),
+    activity(ChildActivity),
+    ChildActivity != Activity.
+
+fluent(defined, child_goal(ChildGoal, Goal)) :-
+    goal(Goal),
+    goal(ChildGoal),
+    ChildGoal != Goal.
+
+fluent(defined, descendant(ChildActivity, Activity)) :-
+    activity(Activity),
+    activity(ChildActivity),
+    ChildActivity != Activity.
+
+fluent(defined, minor(Activity)) :-
+    activity(Activity).
+
+fluent(defined, minor(Goal)) :-
+    goal(Goal).
+
+fluent(defined, in_progress(Activity)) :-
+    activity(Activity).
+
+fluent(defined, in_progress(Goal)) :-
+    goal(Goal).
+
+fluent(defined, next_act(Activity, Action)) :-
+    activity(Activity),
+    action(Action).
+
+fluent(inertial, next_name(Activity)) :-
+    activity(Activity).
 
 %%%% Actions %%%%
 
 mental_agent_action(Action) :-
+    activity(Activity),
     Action = (start(Activity); stop(Activity)).
 
 physical_agent_action(Action).
 
 special_exogenous_action(Action) :-
-    % Exogenous
+    goal(Goal),
     Action = (select(Goal); abandon(Goal)).
 
 %action(Action) :-
@@ -45,6 +82,8 @@ action(wait).
 -holds(status(Activity, OldActivityIndex), Timestep) :-
     step(Timestep),
     holds(status(Activity, ActivityIndex), Timestep),
+    length(Activity, ActivityLength),
+    OldActivityIndex = -1..ActivityLength,
     OldActivityIndex != ActivityIndex.
 
 % active(Activity) if
@@ -350,7 +389,7 @@ holds(status(ChildActivity, -1), Timestep + 1) :-
 -holds(next_name(Activity), Timestep) :-
     step(Timestep),
     next_name(ChildActivity),
-    % TODO: Bind Activity
+    activity(Activity),
     Activity != ChildActivity.
 
 % start(Activity) causes next_name(Activity + 1) if
