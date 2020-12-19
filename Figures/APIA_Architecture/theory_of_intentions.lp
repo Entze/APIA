@@ -1,8 +1,5 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
 
-% G = goal
-% M = activity
-
 fluent(inertial, active_goal(Goal)).
 fluent(inertial, status(Activity, ActivityIndex)).
 fluent(defined, active(Activity)).
