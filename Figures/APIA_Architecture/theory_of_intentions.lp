@@ -61,7 +61,7 @@ mental_agent_action(Action) :-
     activity(Activity),
     Action = (start(Activity); stop(Activity)).
 
-physical_agent_action(Action).
+% physical_agent_action(Action).
 
 mental_exogenous_action(Action) :-
     goal(Goal),
