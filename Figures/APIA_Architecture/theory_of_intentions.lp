@@ -63,7 +63,7 @@ mental_agent_action(Action) :-
 
 physical_agent_action(Action).
 
-special_exogenous_action(Action) :-
+mental_exogenous_action(Action) :-
     goal(Goal),
     Action = (select(Goal); abandon(Goal)).
 
@@ -212,24 +212,24 @@ holds(active_goal(Goal), Timestep + 1) :-
 
 % "We assume that no physical exogenous action may occur concurrently with a speical exogenous action"
 % impossible Action1, Action2 if
-%   special_exogenous_action(Action1), physical_exogenous_action(Action2)
+%   mental_exogenous_action(Action1), physical_exogenous_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
-    special_exogenous_action(Action1),
+    mental_exogenous_action(Action1),
     physical_exogenous_action(Action2).
 
 % impossible Action1, Action2 if
-%   special_exogenous_action(Action1), physical_agent_action(Action2)
+%   mental_exogenous_action(Action1), physical_agent_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
-    special_exogenous_action(Action1),
+    mental_exogenous_action(Action1),
     physical_agent_action(Action2).
 
 % impossible Action1, Action2 if
-%   special_exogenous_action(Action1), mental_agent_action(Action2)
+%   mental_exogenous_action(Action1), mental_agent_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
-    special_exogenous_action(Action1),
+    mental_exogenous_action(Action1),
     mental_agent_action(Action2).
 
 % -active_goal(Goal) if
