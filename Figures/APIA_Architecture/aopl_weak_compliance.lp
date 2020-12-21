@@ -1,5 +1,5 @@
-#include "authorization_compliance.lp".
-#include "obligation_compliance.lp".
+#include "AOPL_Util/authorization_compliance.lp".
+#include "AOPL_Util/obligation_compliance.lp".
 
 % Weakly compliant if:
 %   * weakly compliant with authorization policy (i.e. not non-compliant)
