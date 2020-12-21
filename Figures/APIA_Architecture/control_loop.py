@@ -77,6 +77,58 @@ def _index_symbols(symbols: Iterable[FunctionSymbol]) -> dict[SymbolSignature, s
         symbol_table[SymbolSignature(name=symbol.name, arity=len(symbol.arguments))].add(symbol)
     return symbol_table
 
+def _step_1():
+    clingo_control.ground((
+        ASPSubprogramInstantiation(name='base', arguments=()),  # Theory of Intentions
+    ), grounding_context)
+    clingo_control.ground((
+        ASPSubprogramInstantiation(name='aia_step_1', arguments=()),
+    ), grounding_context)
+
+    for model in clingo_control.solve(yield_=True, async_=True):
+        model_cost = tuple(model.cost)
+        logger.debug(f'Got model {model.number!r} with cost {model_cost!r}. Optimal: {model.optimality_proven!r}')
+        if not model.optimality_proven:
+            continue
+        symbols = map(_parse_symbol, model.symbols(shown=True))
+        symbol_table = _index_symbols(symbols)
+        symbol, *_ = symbol_table[SymbolSignature(name='number_unobserved', arity=2)]
+
+
+def _step_2():
+    clingo_control.ground((
+        ASPSubprogramInstantiation(name='aia_step_2', arguments=()),
+    ), grounding_context)
+
+    assumptions = map(lambda elem: (_symbolify_value(elem[0]), elem[1]), (
+        (FunctionSymbol(name='interpretation', arguments=(x, n), positivity=True), True),
+    ))
+    for model in clingo_control.solve(yield_=True, async_=True, assumptions=assumptions):
+        model_cost = tuple(model.cost)
+        logger.debug(f'Got model {model.number!r} with cost {model_cost!r}. Optimal: {model.optimality_proven!r}')
+        if not model.optimality_proven:
+            continue
+        symbols = map(_parse_symbol, model.symbols(shown=True))
+        symbol_table = _index_symbols(symbols)
+        symbols = symbol_table[SymbolSignature(name='intended_action', arity=2)]
+
+
+def _step_3():
+    ...
+
+    # Perform action in environment
+
+    # If action == start(M), add description of M to AL description
+    # Else, record attempt(e, n)
+
+
+def _step_4():
+    ...
+
+    # Observe world
+
+    # Record observations
+
 
 def _main():
     import argparse
@@ -92,6 +144,24 @@ def _main():
     paths = ()
     for path in paths:
         clingo_control.load(path)
+
+    max_timestep = 10
+
+    for timestep in range(max_timestep):
+        ...
+        grounding_context = None
+
+        # Step 1: Interpret Observations
+        _step_1()
+
+        # Step 2: Find intended action
+        _step_2()
+
+        # Step 3: Attempt intended action
+        _step_3()
+
+        # Step 4: Observe world
+        _step_4()
 
     # Ground subprograms
     grounding_context = None
