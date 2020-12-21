@@ -21,16 +21,16 @@ occurs(Action, Timestep) :-
     Timestep < CurrentTimestep,
     -happened(Action, Timestep).
 
-{ apply_cr_rule(d(Action, I2)) } :-
+{ apply_cr_rule(d(Action, Timestep)) } :-
     current_step(CurrentTimestep),
     physical_exogeneous_action(Action),
-    I2 < CurrentTimestep.
+    Timestep < CurrentTimestep.
 
-occurs(Action, I2) :-
-    apply_cr_rule(d(Action, I2)).
+occurs(Action, Timestep) :-
+    apply_cr_rule(d(Action, Timestep)).
 
 :~
-    apply_cr_rule(d(Action, I2)). [1@1, d(Action, I2)]
+    apply_cr_rule(d(Action, Timestep)). [1@1, d(Action, Timestep)]
 
 unobserved(Action, Timestep) :-
     current_step(CurrentTimestep),
