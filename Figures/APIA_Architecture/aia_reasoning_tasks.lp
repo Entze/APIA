@@ -4,40 +4,40 @@
 %%%% Step 1 %%%%
 #program aia_step_1.
 
-occurs(A, I) :-
+occurs(Action, I) :-
     current_step(I1),
     I < I1,
-    attempt(A, I),
-    not impossible(A, I).
+    attempt(Action, I),
+    not impossible(Action, I).
 
 :-
     current_step(I1),
     I < I1,
-    occurs(A, I),
-    not attempt(A, I).
+    occurs(Action, I),
+    not attempt(Action, I).
 
--occurs(A, I) :-
+-occurs(Action, I) :-
     current_step(I1),
     I < I1,
-    -happened(A, I).
+    -happened(Action, I).
 
-{ apply_cr_rule(d(A, I2)) } :-
+{ apply_cr_rule(d(Action, I2)) } :-
     current_step(I1),
-    physical_exogeneous_action(A),
+    physical_exogeneous_action(Action),
     I2 < I1.
 
-occurs(A, I2) :-
-    apply_cr_rule(d(A, I2)).
+occurs(Action, I2) :-
+    apply_cr_rule(d(Action, I2)).
 
 :~
-    apply_cr_rule(d(A, I2)). [1@1, d(A, I2)]
+    apply_cr_rule(d(Action, I2)). [1@1, d(Action, I2)]
 
-unobserved(A, I) :-
+unobserved(Action, I) :-
     current_step(I1),
     I < I1,
-    physical_exogeneous_action(A),
-    occurs(A, I),
-    not happened(A, I).
+    physical_exogeneous_action(Action),
+    occurs(Action, I),
+    not happened(Action, I).
 
 number_unobserved(N, I) :-
     current_step(I),
@@ -99,15 +99,15 @@ category_3_history(M, I) :-
     interpretation(N, I),
     -holds(minor(M) I),
 
-occurs(A, I1) :-
+occurs(Action, I1) :-
     current_step(I),
     category_3_history(M, I),
     interpretation(N, I),
     I <= I1,
     -holds(minor(M), I1),
     holds(in_progress(M), I1),
-    holds(next_action(M, A), I1),
-    not impossible(A, I1).
+    holds(next_action(M, Action), I1),
+    not impossible(Action, I1).
 
 projected_success(M, I) :-
     current_step(I),
@@ -123,11 +123,11 @@ projected_success(M, I) :-
     interpretation(N, I),
     not projected_success(M, I).
 
-intended_action(A, I) :-
+intended_action(Action, I) :-
     current_step(I),
     interpretation(N, I),
     category_3_history(M, I),
-    holds(next_action(M, A), I),
+    holds(next_action(M, Action), I),
     projected_success(M, I).
 
 { apply_cr_rule(f(M, I)) } :-
