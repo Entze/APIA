@@ -49,8 +49,8 @@ number_unobserved(UnobservedActions, Timestep) :-
 :-
     current_step(Timestep),
     number_unobserved(UnobservedActions, Timestep),
-    interpretation(X, Timestep),
-    UnobservedActions != X.
+    interpretation(ActionsNeeded, Timestep),
+    UnobservedActions != ActionsNeeded.
 
 %--- Category 1 ---%
 % "there are no activities or goals that are active in cm_n"
