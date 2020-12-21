@@ -319,12 +319,12 @@ intended_action(start(Activity), Timestep) :-
     occurs(start(Activity), Timestep),
     projected_success(Activity, Timestep).
 
-% prefer(plan_new(Action, I1), futile_goal(Goal, Timestep)).
+% prefer(plan_new(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
-    not apply_cr_rule(plan_new(Action, I1)),
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_new(Action, I1), futile_goal(Goal, Timestep)]
+    not apply_cr_rule(plan_new(Action, Timestep)),
+    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
 
-% prefer(plan_existing(Action, I1), futile_goal(Goal, Timestep)).
+% prefer(plan_existing(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
-    not apply_cr_rule(plan_existing(Action, I1)),
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_existing(Action, I1), futile_goal(Goal, Timestep)]
+    not apply_cr_rule(plan_existing(Action, Timestep)),
+    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
