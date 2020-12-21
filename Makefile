@@ -96,7 +96,7 @@ clean-latex:
 clean-other:
 	find Figures/ -name '*.clingo.txt' -exec rm '{}' \;
 	find Figures/ -name '*.clingo.out.txt' -exec rm '{}' \;
-	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*-$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
+	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*.$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
 	find Figures/ -name '*.pdf' -exec rm '{}' \;
 	find Figures/ -name '*.svg' -exec rm '{}' \;
 	find Figures/ -name '*.png' -exec rm '{}' \;
