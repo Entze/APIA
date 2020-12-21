@@ -254,7 +254,7 @@ component(Activity, PreviousTimestep - 1, Action) :-
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
-    occurs(start(Activity)),
+    occurs(start(Activity), Timestep),
     occurs(Action, PreviousTimestep).
 
 :-
