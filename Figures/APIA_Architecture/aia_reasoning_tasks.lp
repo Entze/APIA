@@ -262,9 +262,9 @@ component(Activity, I1 - 1, Action) :-
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
-    component(Activity, ActivityIndex, PAA1),
-    component(Activity, ActivityIndex, PAA2),
-    PAA1 != PAA2.
+    component(Activity, ActivityIndex, ActivityComponent1),
+    component(Activity, ActivityIndex, ActivityComponent2),
+    ActivityComponent1 != ActivityComponent2.
 
 has_component(Activity, ActivityIndex) :-
     current_step(Timestep),
