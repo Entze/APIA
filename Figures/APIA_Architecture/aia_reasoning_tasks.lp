@@ -220,8 +220,111 @@ intended_action(wait, I) :-
     category_4_history(G, I),
     futile(G, I).
 
-%some_action_occurred(I1) :-
-%    current_step(I),
-%    interpretation(N, I),
-%    I <= I1,
-%    occurs(E, I1).
+some_action_occurred(I1) :-
+    current_step(I),
+    interpretation(N, I),
+    I <= I1,
+    occurs(E, I1).
+
+%--- Creating new candidates ---%
+
+goal(M, G) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    new_candidate(M, I).
+
+{ apply_cr_rule(plan_new(PAA, I1)) } :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    new_candidate(M, I),
+    occurs(start(M), I),
+    I < I1,
+    some_action_occurred(I1 - 1).
+
+occurs(PAA, I1) :-
+    apply_cr_rule(plan_new(PAA, I1)).
+
+:~
+    apply_cr_rule(plan_new(PAA, I1)). [1@1, plan_new(PAA, I1)]
+
+component(M, I1 - 1, PAA) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    new_candidate(M, I),
+    occurs(start(M)),
+    occurs(PAA, I1).
+
+:-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    new_candidate(M, I),
+    component(M, K, PAA1),
+    component(M, K, PAA2),
+    PAA1 != PAA2.
+
+has_comp(M, K) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    new_candidate(M, I),
+    occurs(start(M), I),
+    component(M, K, C).
+
+length(M, K) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    new_candidate(M, I),
+    occurs(start(M), I),
+    has_comp(M, K),
+    not has_comp(M, K + 1).
+
+%--- Creating existing candidates ---%
+
+{ apply_cr_rule(plan_existing(PAA, I1)) } :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    existing_candidate(M, I),
+    occurs(start(M), I),
+    I < I1,
+    h(next_action(M, PAA), I1),
+    some_action_occurred(I1 - 1).
+
+occurs(PAA, I1) :-
+    apply_cr_rule(plan_existing(PAA, I1)).
+
+:~
+    apply_cr_rule(plan_existing(PAA, I1)). [1@1, plan_existing(PAA, I1)]
+
+occurs(MAA, I1) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    existing_candidate(M, I),
+    occurs(start(M), I),
+    I < I1,
+    h(in_progress(M), I1),
+    h(next_action(M, MAA), I1).
+
+intended_action(start(M), I) :-
+    current_step(I),
+    interpretation(N, I),
+    category_4_history(G, I),
+    candidate(M, I),
+    occurs(start(M), I),
+    projected_success(M, I).
+
+% prefer(plan_new(PAA, I1), futile_goal(G, I)).
+:~
+    not apply_cr_rule(plan_new(PAA, I1)),
+    apply_cr_rule(futile_goal(G, I)). [1@2, plan_new(PAA, I1), futile_goal(G, I)]
+
+% prefer(plan_existing(PAA, I1), futile_goal(G, I)).
+:~
+    not apply_cr_rule(plan_existing(PAA, I1)),
+    apply_cr_rule(futile_goal(G, I)). [1@2, plan_existing(PAA, I1), futile_goal(G, I)]
