@@ -266,7 +266,7 @@ component(Activity, I1 - 1, PAA) :-
     component(Activity, ActivityIndex, PAA2),
     PAA1 != PAA2.
 
-has_comp(Activity, ActivityIndex) :-
+has_component(Activity, ActivityIndex) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
@@ -280,8 +280,8 @@ length(Activity, ActivityLength) :-
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
-    has_comp(Activity, ActivityLength),
-    not has_comp(Activity, ActivityLength + 1).
+    has_component(Activity, ActivityLength),
+    not has_component(Activity, ActivityLength + 1).
 
 %--- Creating existing candidates ---%
 
