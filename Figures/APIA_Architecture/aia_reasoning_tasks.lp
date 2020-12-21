@@ -39,7 +39,7 @@ unobs(A, I) :-
     occurs(A, I),
     not hpd(A, I).
 
-number_unobs(N, I) :-
+number_unobserved(N, I) :-
     current_step(I),
     N = #count{ unobs(EX, IX) }.
 
@@ -48,7 +48,7 @@ number_unobs(N, I) :-
 
 :-
     current_step(I),
-    number_unobs(N, I),
+    number_unobserved(N, I),
     interpretation(X, I),
     N != X.
 
