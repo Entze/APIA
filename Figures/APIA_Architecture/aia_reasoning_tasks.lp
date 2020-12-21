@@ -97,7 +97,7 @@ intended_action(stop(Activity), Timestep) :-
 category_3_history(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    -holds(minor(Activity) Timestep),
+    -holds(minor(Activity), Timestep),
 
 occurs(Action, FutureTimestep) :-
     current_step(Timestep),
