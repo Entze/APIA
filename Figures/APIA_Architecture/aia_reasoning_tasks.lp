@@ -68,7 +68,7 @@ active_goal_or_activity(Timestep) :-
 active_goal_or_activity(Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    holds(active(M), Timestep).
+    holds(active(Activity), Timestep).
 
 intended_action(wait, Timestep) :-
     current_step(Timestep),
@@ -78,135 +78,135 @@ intended_action(wait, Timestep) :-
 %--- Category 2 ---%
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
 
-category_2_history(M, Timestep) :-
+category_2_history(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    -holds(minor(M), Timestep),
-    holds(active(M), Timestep),
-    goal(M, G),
+    -holds(minor(Activity), Timestep),
+    holds(active(Activity), Timestep),
+    goal(Activity, G),
     -active_goal(G).
 
-intended_action(stop(M), Timestep) :-
+intended_action(stop(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    category_2_history(M, Timestep).
+    category_2_history(Activity, Timestep).
 
 %--- Category 3 ---%
 % "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
 
-category_3_history(M, Timestep) :-
+category_3_history(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    -holds(minor(M) Timestep),
+    -holds(minor(Activity) Timestep),
 
 occurs(Action, I1) :-
     current_step(Timestep),
-    category_3_history(M, Timestep),
+    category_3_history(Activity, Timestep),
     interpretation(N, Timestep),
     Timestep <= I1,
-    -holds(minor(M), I1),
-    holds(in_progress(M), I1),
-    holds(next_action(M, Action), I1),
+    -holds(minor(Activity), I1),
+    holds(in_progress(Activity), I1),
+    holds(next_action(Activity, Action), I1),
     not impossible(Action, I1).
 
-projected_success(M, Timestep) :-
+projected_success(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    -holds(minor(M), Timestep),
+    -holds(minor(Activity), Timestep),
     Timestep < I1,
-    holds(active(M), I1),
-    goal(M, G),
+    holds(active(Activity), I1),
+    goal(Activity, G),
     holds(G, I1).
 
--projected_success(M, Timestep) :-
+-projected_success(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    not projected_success(M, Timestep).
+    not projected_success(Activity, Timestep).
 
 intended_action(Action, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    category_3_history(M, Timestep),
-    holds(next_action(M, Action), Timestep),
-    projected_success(M, Timestep).
+    category_3_history(Activity, Timestep),
+    holds(next_action(Activity, Action), Timestep),
+    projected_success(Activity, Timestep).
 
-{ apply_cr_rule(f(M, Timestep)) } :-
+{ apply_cr_rule(f(Activity, Timestep)) } :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    category_3_history(M, Timestep),
-    -projected_success(M, Timestep).
+    category_3_history(Activity, Timestep),
+    -projected_success(Activity, Timestep).
 
-futile(M, Timestep) :-
-    apply_cr_rule(f(M, Timestep)).
+futile(Activity, Timestep) :-
+    apply_cr_rule(f(Activity, Timestep)).
 
 :~
-    apply_cr_rule(f(M, Timestep)). [1@1, f(M, Timestep)]
+    apply_cr_rule(f(Activity, Timestep)). [1@1, f(Activity, Timestep)]
 
 :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    category_3_history(M, Timestep),
-    -projected_success(M, Timestep).
+    category_3_history(Activity, Timestep),
+    -projected_success(Activity, Timestep).
 
-intended_action(stop(M), Timestep) :-
+intended_action(stop(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
-    category_3_history(M, Timestep),
-    futile(M, Timestep).
+    category_3_history(Activity, Timestep),
+    futile(Activity, Timestep).
 
 %--- Category 4 ---%
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 
-existing_candidate(M, Timestep) :-
+existing_candidate(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
     holds(next_name(M1), Timestep),
-    M < M1,
-    goal(M, G).
+    Activity < M1,
+    goal(Activity, G).
 
-new_candidate(M, Timestep) :-
+new_candidate(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    holds(next_name(M), Timestep).
+    holds(next_name(Activity), Timestep).
 
-candidate(M, Timestep) :-
-    new_candidate(M, Timestep).
+candidate(Activity, Timestep) :-
+    new_candidate(Activity, Timestep).
 
-candidate(M, Timestep) :-
-    existing_candidate(M, Timestep).
+candidate(Activity, Timestep) :-
+    existing_candidate(Activity, Timestep).
 
-occurs(start(M), Timestep) :-
+occurs(start(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    candidate(M, Timestep),
-    goal(M, G),
-    not impossible(start(M), Timestep).
+    candidate(Activity, Timestep),
+    goal(Activity, G),
+    not impossible(start(Activity), Timestep).
 
-impossible(start(M), Timestep) :-
+impossible(start(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
     goal(M1, G),
     occurs(start(M1), Timestep),
-    M != M1.
+    Activity != M1.
 
 :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    occurs(start(M), Timestep),
-    -projected_success(M, Timestep),
+    occurs(start(Activity), Timestep),
+    -projected_success(Activity, Timestep),
     not futile(G, Timestep).
 
 { apply_cr_rule(futile_goal(G, Timestep)) } :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    occurs(start(M), Timestep),
-    -projected_success(M, Timestep).
+    occurs(start(Activity), Timestep),
+    -projected_success(Activity, Timestep).
 
 futile(G, Timestep) :-
     apply_cr_rule(futile_goal(G, Timestep)).
@@ -228,18 +228,18 @@ some_action_occurred(I1) :-
 
 %--- Creating new candidates ---%
 
-goal(M, G) :-
+goal(Activity, G) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    new_candidate(M, Timestep).
+    new_candidate(Activity, Timestep).
 
 { apply_cr_rule(plan_new(PAA, I1)) } :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    new_candidate(M, Timestep),
-    occurs(start(M), Timestep),
+    new_candidate(Activity, Timestep),
+    occurs(start(Activity), Timestep),
     Timestep < I1,
     some_action_occurred(I1 - 1).
 
@@ -249,39 +249,39 @@ occurs(PAA, I1) :-
 :~
     apply_cr_rule(plan_new(PAA, I1)). [1@1, plan_new(PAA, I1)]
 
-component(M, I1 - 1, PAA) :-
+component(Activity, I1 - 1, PAA) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    new_candidate(M, Timestep),
-    occurs(start(M)),
+    new_candidate(Activity, Timestep),
+    occurs(start(Activity)),
     occurs(PAA, I1).
 
 :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    new_candidate(M, Timestep),
-    component(M, K, PAA1),
-    component(M, K, PAA2),
+    new_candidate(Activity, Timestep),
+    component(Activity, K, PAA1),
+    component(Activity, K, PAA2),
     PAA1 != PAA2.
 
-has_comp(M, K) :-
+has_comp(Activity, K) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    new_candidate(M, Timestep),
-    occurs(start(M), Timestep),
-    component(M, K, C).
+    new_candidate(Activity, Timestep),
+    occurs(start(Activity), Timestep),
+    component(Activity, K, C).
 
-length(M, K) :-
+length(Activity, K) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    new_candidate(M, Timestep),
-    occurs(start(M), Timestep),
-    has_comp(M, K),
-    not has_comp(M, K + 1).
+    new_candidate(Activity, Timestep),
+    occurs(start(Activity), Timestep),
+    has_comp(Activity, K),
+    not has_comp(Activity, K + 1).
 
 %--- Creating existing candidates ---%
 
@@ -289,10 +289,10 @@ length(M, K) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    existing_candidate(M, Timestep),
-    occurs(start(M), Timestep),
+    existing_candidate(Activity, Timestep),
+    occurs(start(Activity), Timestep),
     Timestep < I1,
-    holds(next_action(M, PAA), I1),
+    holds(next_action(Activity, PAA), I1),
     some_action_occurred(I1 - 1).
 
 occurs(PAA, I1) :-
@@ -305,19 +305,19 @@ occurs(MAA, I1) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    existing_candidate(M, Timestep),
-    occurs(start(M), Timestep),
+    existing_candidate(Activity, Timestep),
+    occurs(start(Activity), Timestep),
     Timestep < I1,
-    holds(in_progress(M), I1),
-    holds(next_action(M, MAA), I1).
+    holds(in_progress(Activity), I1),
+    holds(next_action(Activity, MAA), I1).
 
-intended_action(start(M), Timestep) :-
+intended_action(start(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(N, Timestep),
     category_4_history(G, Timestep),
-    candidate(M, Timestep),
-    occurs(start(M), Timestep),
-    projected_success(M, Timestep).
+    candidate(Activity, Timestep),
+    occurs(start(Activity), Timestep),
+    projected_success(Activity, Timestep).
 
 % prefer(plan_new(PAA, I1), futile_goal(G, Timestep)).
 :~
