@@ -41,7 +41,7 @@ unobserved(Action, Timestep) :-
 
 number_unobserved(UnobservedActions, Timestep) :-
     current_step(Timestep),
-    UnobservedActions = #count{ unobserved(Action, Timestep) }.
+    UnobservedActions = #count{ Action : unobserved(Action, Timestep) }.
 
 %%%% Step 2 %%%%
 #program aia_step_2.
