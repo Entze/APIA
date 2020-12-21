@@ -272,7 +272,7 @@ has_component(Activity, ActivityIndex) :-
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
-    component(Activity, ActivityIndex, C).
+    component(Activity, ActivityIndex, ActivityComponent).
 
 length(Activity, ActivityLength) :-
     current_step(Timestep),
