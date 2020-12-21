@@ -63,12 +63,12 @@ category_1_history(I) :-
 active_goal_or_activity(I) :-
     current_step(I),
     interpretation(N, I),
-    h(active_goal(G), I).
+    holds(active_goal(G), I).
 
 active_goal_or_activity(I) :-
     current_step(I),
     interpretation(N, I),
-    h(active(M), I).
+    holds(active(M), I).
 
 intended_action(wait, I) :-
     current_step(I),
@@ -81,8 +81,8 @@ intended_action(wait, I) :-
 category_2_history(M, I) :-
     current_step(I),
     interpretation(N, I),
-    -h(minor(M), I),
-    h(active(M), I),
+    -holds(minor(M), I),
+    holds(active(M), I),
     goal(M, G),
     -active_goal(G).
 
@@ -97,26 +97,26 @@ intended_action(stop(M), I) :-
 category_3_history(M, I) :-
     current_step(I),
     interpretation(N, I),
-    -h(minor(M) I),
+    -holds(minor(M) I),
 
 occurs(A, I1) :-
     current_step(I),
     category_3_history(M, I),
     interpretation(N, I),
     I <= I1,
-    -h(minor(M), I1),
-    h(in_progress(M), I1),
-    h(next_action(M, A), I1),
+    -holds(minor(M), I1),
+    holds(in_progress(M), I1),
+    holds(next_action(M, A), I1),
     not impossible(A, I1).
 
 projected_success(M, I) :-
     current_step(I),
     interpretation(N, I),
-    -h(minor(M), I),
+    -holds(minor(M), I),
     I < I1,
-    h(active(M), I1),
+    holds(active(M), I1),
     goal(M, G),
-    h(G, I1).
+    holds(G, I1).
 
 -projected_success(M, I) :-
     current_step(I),
@@ -127,7 +127,7 @@ intended_action(A, I) :-
     current_step(I),
     interpretation(N, I),
     category_3_history(M, I),
-    h(next_action(M, A), I),
+    holds(next_action(M, A), I),
     projected_success(M, I).
 
 { apply_cr_rule(f(M, I)) } :-
@@ -161,7 +161,7 @@ existing_candidate(M, I) :-
     current_step(I),
     interpretation(N, I),
     category_4_history(G, I),
-    h(next_name(M1), I),
+    holds(next_name(M1), I),
     M < M1,
     goal(M, G).
 
@@ -169,7 +169,7 @@ new_candidate(M, I) :-
     current_step(I),
     interpretation(N, I),
     category_4_history(G, I),
-    h(next_name(M), I).
+    holds(next_name(M), I).
 
 candidate(M, I) :-
     new_candidate(M, I).
@@ -292,7 +292,7 @@ length(M, K) :-
     existing_candidate(M, I),
     occurs(start(M), I),
     I < I1,
-    h(next_action(M, PAA), I1),
+    holds(next_action(M, PAA), I1),
     some_action_occurred(I1 - 1).
 
 occurs(PAA, I1) :-
@@ -308,8 +308,8 @@ occurs(MAA, I1) :-
     existing_candidate(M, I),
     occurs(start(M), I),
     I < I1,
-    h(in_progress(M), I1),
-    h(next_action(M, MAA), I1).
+    holds(in_progress(M), I1),
+    holds(next_action(M, MAA), I1).
 
 intended_action(start(M), I) :-
     current_step(I),
