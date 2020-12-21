@@ -130,17 +130,17 @@ intended_action(Action, Timestep) :-
     holds(next_action(Activity, Action), Timestep),
     projected_success(Activity, Timestep).
 
-{ apply_cr_rule(f(Activity, Timestep)) } :-
+{ apply_cr_rule(futile(Activity, Timestep)) } :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_3_history(Activity, Timestep),
     -projected_success(Activity, Timestep).
 
 futile(Activity, Timestep) :-
-    apply_cr_rule(f(Activity, Timestep)).
+    apply_cr_rule(futile(Activity, Timestep)).
 
 :~
-    apply_cr_rule(f(Activity, Timestep)). [1@1, f(Activity, Timestep)]
+    apply_cr_rule(futile(Activity, Timestep)). [1@1, futile(Activity, Timestep)]
 
 :-
     current_step(Timestep),
