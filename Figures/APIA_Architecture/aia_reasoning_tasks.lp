@@ -161,8 +161,8 @@ existing_candidate(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
-    holds(next_name(M1), Timestep),
-    Activity < M1,
+    holds(next_name(NextActivity), Timestep),
+    Activity < NextActivity,
     goal(Activity, Goal).
 
 new_candidate(Activity, Timestep) :-
@@ -185,13 +185,13 @@ occurs(start(Activity), Timestep) :-
     goal(Activity, Goal),
     not impossible(start(Activity), Timestep).
 
-impossible(start(Activity), Timestep) :-
+impossible(start(OtherActivity), Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
-    goal(M1, Goal),
-    occurs(start(M1), Timestep),
-    Activity != M1.
+    goal(Activity, Goal),
+    occurs(start(Activity), Timestep),
+    OtherActivity != Activity.
 
 :-
     current_step(Timestep),
