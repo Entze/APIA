@@ -5,26 +5,26 @@
 #program aia_step_1.
 
 occurs(Action, Timestep) :-
-    current_step(I1),
-    Timestep < I1,
+    current_step(CurrentTimestep),
+    Timestep < CurrentTimestep,
     attempt(Action, Timestep),
     not impossible(Action, Timestep).
 
 :-
-    current_step(I1),
-    Timestep < I1,
+    current_step(CurrentTimestep),
+    Timestep < CurrentTimestep,
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
 -occurs(Action, Timestep) :-
-    current_step(I1),
-    Timestep < I1,
+    current_step(CurrentTimestep),
+    Timestep < CurrentTimestep,
     -happened(Action, Timestep).
 
 { apply_cr_rule(d(Action, I2)) } :-
-    current_step(I1),
+    current_step(CurrentTimestep),
     physical_exogeneous_action(Action),
-    I2 < I1.
+    I2 < CurrentTimestep.
 
 occurs(Action, I2) :-
     apply_cr_rule(d(Action, I2)).
@@ -33,8 +33,8 @@ occurs(Action, I2) :-
     apply_cr_rule(d(Action, I2)). [1@1, d(Action, I2)]
 
 unobserved(Action, Timestep) :-
-    current_step(I1),
-    Timestep < I1,
+    current_step(CurrentTimestep),
+    Timestep < CurrentTimestep,
     physical_exogeneous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).
