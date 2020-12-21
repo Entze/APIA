@@ -224,7 +224,7 @@ some_action_occurred(I1) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     Timestep <= I1,
-    occurs(E, I1).
+    occurs(Action, I1).
 
 %--- Creating new candidates ---%
 
