@@ -19,7 +19,7 @@ occurs(A, I) :-
 -occurs(A, I) :-
     current_step(I1),
     I < I1,
-    -hpd(A, I).
+    -happened(A, I).
 
 { apply_cr_rule(d(A, I2)) } :-
     current_step(I1),
@@ -37,7 +37,7 @@ unobs(A, I) :-
     I < I1,
     physical_exogeneous_action(A),
     occurs(A, I),
-    not hpd(A, I).
+    not happened(A, I).
 
 number_unobserved(N, I) :-
     current_step(I),
