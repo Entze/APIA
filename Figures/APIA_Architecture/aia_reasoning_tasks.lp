@@ -98,6 +98,7 @@ category_3_history(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     -holds(minor(Activity), Timestep),
+    holds(in_progress(Activity), Timestep).
 
 occurs(Action, FutureTimestep) :-
     current_step(Timestep),
