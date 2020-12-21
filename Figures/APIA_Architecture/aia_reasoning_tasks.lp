@@ -63,7 +63,7 @@ category_1_history(Timestep) :-
 active_goal_or_activity(Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    holds(active_goal(G), Timestep).
+    holds(active_goal(Goal), Timestep).
 
 active_goal_or_activity(Timestep) :-
     current_step(Timestep),
@@ -83,8 +83,8 @@ category_2_history(Activity, Timestep) :-
     interpretation(UnobservedActions, Timestep),
     -holds(minor(Activity), Timestep),
     holds(active(Activity), Timestep),
-    goal(Activity, G),
-    -active_goal(G).
+    goal(Activity, Goal),
+    -active_goal(Goal).
 
 intended_action(stop(Activity), Timestep) :-
     current_step(Timestep),
@@ -115,8 +115,8 @@ projected_success(Activity, Timestep) :-
     -holds(minor(Activity), Timestep),
     Timestep < I1,
     holds(active(Activity), I1),
-    goal(Activity, G),
-    holds(G, I1).
+    goal(Activity, Goal),
+    holds(Goal, I1).
 
 -projected_success(Activity, Timestep) :-
     current_step(Timestep),
@@ -160,15 +160,15 @@ intended_action(stop(Activity), Timestep) :-
 existing_candidate(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     holds(next_name(M1), Timestep),
     Activity < M1,
-    goal(Activity, G).
+    goal(Activity, Goal).
 
 new_candidate(Activity, Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     holds(next_name(Activity), Timestep).
 
 candidate(Activity, Timestep) :-
@@ -180,45 +180,45 @@ candidate(Activity, Timestep) :-
 occurs(start(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     candidate(Activity, Timestep),
-    goal(Activity, G),
+    goal(Activity, Goal),
     not impossible(start(Activity), Timestep).
 
 impossible(start(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
-    goal(M1, G),
+    category_4_history(Goal, Timestep),
+    goal(M1, Goal),
     occurs(start(M1), Timestep),
     Activity != M1.
 
 :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     occurs(start(Activity), Timestep),
     -projected_success(Activity, Timestep),
-    not futile(G, Timestep).
+    not futile(Goal, Timestep).
 
-{ apply_cr_rule(futile_goal(G, Timestep)) } :-
+{ apply_cr_rule(futile_goal(Goal, Timestep)) } :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     occurs(start(Activity), Timestep),
     -projected_success(Activity, Timestep).
 
-futile(G, Timestep) :-
-    apply_cr_rule(futile_goal(G, Timestep)).
+futile(Goal, Timestep) :-
+    apply_cr_rule(futile_goal(Goal, Timestep)).
 
 :~
-    apply_cr_rule(futile_goal(G, Timestep)). [1@1, futile_goal(G, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)). [1@1, futile_goal(Goal, Timestep)]
 
 intended_action(wait, Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
-    futile(G, Timestep).
+    category_4_history(Goal, Timestep),
+    futile(Goal, Timestep).
 
 some_action_occurred(I1) :-
     current_step(Timestep),
@@ -228,16 +228,16 @@ some_action_occurred(I1) :-
 
 %--- Creating new candidates ---%
 
-goal(Activity, G) :-
+goal(Activity, Goal) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep).
 
 { apply_cr_rule(plan_new(PAA, I1)) } :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
     Timestep < I1,
@@ -252,7 +252,7 @@ occurs(PAA, I1) :-
 component(Activity, I1 - 1, PAA) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity)),
     occurs(PAA, I1).
@@ -260,7 +260,7 @@ component(Activity, I1 - 1, PAA) :-
 :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     component(Activity, K, PAA1),
     component(Activity, K, PAA2),
@@ -269,7 +269,7 @@ component(Activity, I1 - 1, PAA) :-
 has_comp(Activity, K) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
     component(Activity, K, C).
@@ -277,7 +277,7 @@ has_comp(Activity, K) :-
 length(Activity, K) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
     has_comp(Activity, K),
@@ -288,7 +288,7 @@ length(Activity, K) :-
 { apply_cr_rule(plan_existing(PAA, I1)) } :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     existing_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
     Timestep < I1,
@@ -304,7 +304,7 @@ occurs(PAA, I1) :-
 occurs(MAA, I1) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     existing_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
     Timestep < I1,
@@ -314,17 +314,17 @@ occurs(MAA, I1) :-
 intended_action(start(Activity), Timestep) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
-    category_4_history(G, Timestep),
+    category_4_history(Goal, Timestep),
     candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
     projected_success(Activity, Timestep).
 
-% prefer(plan_new(PAA, I1), futile_goal(G, Timestep)).
+% prefer(plan_new(PAA, I1), futile_goal(Goal, Timestep)).
 :~
     not apply_cr_rule(plan_new(PAA, I1)),
-    apply_cr_rule(futile_goal(G, Timestep)). [1@2, plan_new(PAA, I1), futile_goal(G, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_new(PAA, I1), futile_goal(Goal, Timestep)]
 
-% prefer(plan_existing(PAA, I1), futile_goal(G, Timestep)).
+% prefer(plan_existing(PAA, I1), futile_goal(Goal, Timestep)).
 :~
     not apply_cr_rule(plan_existing(PAA, I1)),
-    apply_cr_rule(futile_goal(G, Timestep)). [1@2, plan_existing(PAA, I1), futile_goal(G, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_existing(PAA, I1), futile_goal(Goal, Timestep)]
