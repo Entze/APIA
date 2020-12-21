@@ -32,7 +32,7 @@ occurs(A, I2) :-
 :~
     apply_cr_rule(d(A, I2)). [1@1, d(A, I2)]
 
-unobs(A, I) :-
+unobserved(A, I) :-
     current_step(I1),
     I < I1,
     physical_exogeneous_action(A),
@@ -41,7 +41,7 @@ unobs(A, I) :-
 
 number_unobserved(N, I) :-
     current_step(I),
-    N = #count{ unobs(EX, IX) }.
+    N = #count{ unobserved(EX, IX) }.
 
 %%%% Step 2 %%%%
 #program aia_step_2.
