@@ -301,7 +301,7 @@ occurs(Action, I1) :-
 :~
     apply_cr_rule(plan_existing(Action, I1)). [1@1, plan_existing(Action, I1)]
 
-occurs(MAA, I1) :-
+occurs(NextAction, I1) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
@@ -309,7 +309,7 @@ occurs(MAA, I1) :-
     occurs(start(Activity), Timestep),
     Timestep < I1,
     holds(in_progress(Activity), I1),
-    holds(next_action(Activity, MAA), I1).
+    holds(next_action(Activity, NextAction), I1).
 
 intended_action(start(Activity), Timestep) :-
     current_step(Timestep),
