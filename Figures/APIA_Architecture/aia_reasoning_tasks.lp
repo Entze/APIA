@@ -262,26 +262,26 @@ component(Activity, I1 - 1, PAA) :-
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
-    component(Activity, K, PAA1),
-    component(Activity, K, PAA2),
+    component(Activity, ActivityIndex, PAA1),
+    component(Activity, ActivityIndex, PAA2),
     PAA1 != PAA2.
 
-has_comp(Activity, K) :-
+has_comp(Activity, ActivityIndex) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
-    component(Activity, K, C).
+    component(Activity, ActivityIndex, C).
 
-length(Activity, K) :-
+length(Activity, ActivityLength) :-
     current_step(Timestep),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
     occurs(start(Activity), Timestep),
-    has_comp(Activity, K),
-    not has_comp(Activity, K + 1).
+    has_comp(Activity, ActivityLength),
+    not has_comp(Activity, ActivityLength + 1).
 
 %--- Creating existing candidates ---%
 
