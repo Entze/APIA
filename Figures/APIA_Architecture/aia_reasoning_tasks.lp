@@ -248,7 +248,7 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_new(Action, FutureTimestep)).
 
 :~
-    apply_cr_rule(plan_new(Action, FutureTimestep)). [1@1, plan_new(PAActionA, FutureTimestep)]
+    apply_cr_rule(plan_new(Action, FutureTimestep)). [1@1, plan_new(Action, FutureTimestep)]
 
 component(Activity, PreviousTimestep - 1, Action) :-
     current_step(Timestep),
