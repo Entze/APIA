@@ -77,6 +77,7 @@ def _index_symbols(symbols: Iterable[FunctionSymbol]) -> dict[SymbolSignature, s
         symbol_table[SymbolSignature(name=symbol.name, arity=len(symbol.arguments))].add(symbol)
     return symbol_table
 
+
 def _step_1():
     clingo_control.ground((
         ASPSubprogramInstantiation(name='base', arguments=()),  # Theory of Intentions
