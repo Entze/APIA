@@ -7,7 +7,9 @@
 
 %%%% Statics %%%%
 
+% component(Activity, ComponentIndex, Component)
 % length(Activity, ActivityLength)
+% goal(Activity, ActivityGoal)
 
 %%%% Fluents %%%%
 
