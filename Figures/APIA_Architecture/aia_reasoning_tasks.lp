@@ -2,30 +2,30 @@
 % and Blount. 2013. "An architecture for intentional agents"
 
 %%%% Step 1 %%%%
-#program aia_step_1.
+#program aia_step_1(current_timestep).
 
 occurs(Action, Timestep) :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    current_step(current_timestep),
+    Timestep < current_timestep,
     attempt(Action, Timestep),
     not impossible(Action, Timestep).
 
 :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    current_step(current_timestep),
+    Timestep < current_timestep,
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
 -occurs(Action, Timestep) :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    current_step(current_timestep),
+    Timestep < current_timestep,
     -happened(Action, Timestep).
 
 { apply_cr_rule(d(Action, Timestep)) } :-
-    current_step(CurrentTimestep),
+    current_step(current_timestep),
     step(Timestep),
     physical_exogeneous_action(Action),
-    Timestep < CurrentTimestep.
+    Timestep < current_timestep.
 
 occurs(Action, Timestep) :-
     apply_cr_rule(d(Action, Timestep)).
@@ -34,15 +34,15 @@ occurs(Action, Timestep) :-
     apply_cr_rule(d(Action, Timestep)). [1@1, d(Action, Timestep)]
 
 unobserved(Action, Timestep) :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    current_step(current_timestep),
+    Timestep < current_timestep,
     physical_exogeneous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).
 
-number_unobserved(UnobservedActions, Timestep) :-
-    current_step(Timestep),
-    UnobservedActions = #count{ Action : unobserved(Action, Timestep) }.
+number_unobserved(UnobservedActions, current_timestep) :-
+    current_step(current_timestep),
+    UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
 
 %%%% Step 2 %%%%
 #program aia_step_2.
