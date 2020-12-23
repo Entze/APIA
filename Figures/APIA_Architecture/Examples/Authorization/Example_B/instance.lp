@@ -51,5 +51,3 @@ holds(in_room(Person, Room), Timestep) :-
     person(Person),
     person(Actor),
     Person != Actor.
-
-% Also check for unsatisfiable answer sets
