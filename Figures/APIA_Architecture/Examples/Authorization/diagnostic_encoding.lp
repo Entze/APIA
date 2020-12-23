@@ -6,21 +6,21 @@
 
 %%%% Awareness Axiom %%%%
 
-holds(Fluent, TimeStep) | -holds(Fluent, TimeStep) :-
+holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
     fluent(inertial, Fluent),
-    TimeStep = 0.
+    Timestep = 0.
 
 %%%% History-to-hypothesis Axiom %%%%
 
-occurs(Action, TimeStep) :-
-    happened(Action, TimeStep).
+occurs(Action, Timestep) :-
+    happened(Action, Timestep).
 
 %%%% Reality Check Axioms %%%%
 
 :-
-    observed(Fluent, TimeStep),
-    -holds(Fluent, TimeStep).
+    observed(Fluent, Timestep),
+    -holds(Fluent, Timestep).
 
 :-
-    -observed(Fluent, TimeStep),
-    holds(Fluent, TimeStep).
+    -observed(Fluent, Timestep),
+    holds(Fluent, Timestep).

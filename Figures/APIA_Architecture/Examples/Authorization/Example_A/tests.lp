@@ -33,59 +33,59 @@ auth_compliance(weak) :-
 
 #program test_1.
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 1,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 1,
     Actor = "Bob",
     Door = "d12".
 
 #program test_2.
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 1,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 1,
     Actor = "Bob",
     Door = "d12".
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 2,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 2,
     Actor = "Bob",
     Door = "d23".
 
 #program test_3.
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 1,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 1,
     Actor = "Bob",
     Door = "d12".
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 2,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 2,
     Actor = "Bob",
     Door = "d23".
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 3,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 3,
     Actor = "Bob",
     Door = "d34".
 
 #program test_4.
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 1,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 1,
     Actor = "Bob",
     Door = "d12".
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 2,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 2,
     Actor = "Bob",
     Door = "d23".
 
-occurs(move_through(Actor, Door), TimeStep) :-
-    TimeStep = 3,
+occurs(move_through(Actor, Door), Timestep) :-
+    Timestep = 3,
     Actor = "Bob",
     Door = "d34".
 
-occurs(greet(Actor, Person), TimeStep) :-
-    TimeStep = 4,
+occurs(greet(Actor, Person), Timestep) :-
+    Timestep = 4,
     Actor = "Bob",
     Person = "Alice".
 

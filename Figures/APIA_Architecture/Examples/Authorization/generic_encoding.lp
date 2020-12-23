@@ -4,31 +4,31 @@
 
 %%%% Inertial axiom %%%%
 
-step(TimeStep) :-
-    TimeStep = 0..max_timestep.
+step(Timestep) :-
+    Timestep = 0..max_timestep.
 
-holds(Fluent, TimeStep + 1) :-
+holds(Fluent, Timestep + 1) :-
     fluent(inertial, Fluent),
-    step(TimeStep),
-    holds(Fluent, TimeStep),
-    not -holds(Fluent, TimeStep + 1).
+    step(Timestep),
+    holds(Fluent, Timestep),
+    not -holds(Fluent, Timestep + 1).
 
--holds(Fluent, TimeStep + 1) :-
+-holds(Fluent, Timestep + 1) :-
     fluent(inertial, Fluent),
-    step(TimeStep),
-    -holds(Fluent, TimeStep),
-    not holds(Fluent, TimeStep + 1).
+    step(Timestep),
+    -holds(Fluent, Timestep),
+    not holds(Fluent, Timestep + 1).
 
 %%%% Closed-world assumption for defined fluents %%%%
 
--holds(Fluent, TimeStep) :-
+-holds(Fluent, Timestep) :-
     fluent(defined, Fluent),
-    step(TimeStep),
-    not holds(Fluent, TimeStep).
+    step(Timestep),
+    not holds(Fluent, Timestep).
 
 %%%% Closed-world assumption for actions %%%%
 
--occurs(Action, TimeStep) :-
+-occurs(Action, Timestep) :-
     action(Action),
-    step(TimeStep),
-    not occurs(Action, TimeStep).
+    step(Timestep),
+    not occurs(Action, Timestep).

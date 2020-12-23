@@ -28,26 +28,26 @@ door_has_lock(Door) :-
 
 %%%% Starting fluent values %%%%
 
--holds(door_locked(Door), TimeStep) :-
-    TimeStep = 0,
+-holds(door_locked(Door), Timestep) :-
+    Timestep = 0,
     Door = "d34".
 
-holds(in_room(Person, Room), TimeStep) :-
-    TimeStep = 0,
+holds(in_room(Person, Room), Timestep) :-
+    Timestep = 0,
     Person = "Bob",
     Room = "r1".
 
-holds(in_room(Person, Room), TimeStep) :-
-    TimeStep = 0,
+holds(in_room(Person, Room), Timestep) :-
+    Timestep = 0,
     Person = "Alice",
     Room = "r4".
 
--holds(busy_working(Person), TimeStep) :-
-    TimeStep = 0,
+-holds(busy_working(Person), Timestep) :-
+    Timestep = 0,
     Person = ("Alice"; "Bob").
 
--holds(greeted_by(Person, Actor), TimeStep) :-
-    TimeStep = 0,
+-holds(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 0,
     person(Person),
     person(Actor),
     Person != Actor.
