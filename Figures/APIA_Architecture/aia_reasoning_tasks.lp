@@ -23,6 +23,7 @@ occurs(Action, Timestep) :-
 
 { apply_cr_rule(d(Action, Timestep)) } :-
     current_step(CurrentTimestep),
+    step(Timestep),
     physical_exogeneous_action(Action),
     Timestep < CurrentTimestep.
 
@@ -121,6 +122,7 @@ projected_success(Activity, Timestep) :-
 
 -projected_success(Activity, Timestep) :-
     current_step(Timestep),
+    activity(Activity),
     interpretation(UnobservedActions, Timestep),
     not projected_success(Activity, Timestep).
 
@@ -192,6 +194,7 @@ impossible(start(OtherActivity), Timestep) :-
     category_4_history(Goal, Timestep),
     goal(Activity, Goal),
     occurs(start(Activity), Timestep),
+    activity(OtherActivity),
     OtherActivity != Activity.
 
 :-
@@ -237,6 +240,7 @@ goal(Activity, Goal) :-
 
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
     current_step(Timestep),
+    action(Action),
     interpretation(UnobservedActions, Timestep),
     category_4_history(Goal, Timestep),
     new_candidate(Activity, Timestep),
@@ -322,10 +326,12 @@ intended_action(start(Activity), Timestep) :-
 
 % prefer(plan_new(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
+    action(Action),
     not apply_cr_rule(plan_new(Action, Timestep)),
     apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
 
 % prefer(plan_existing(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
+    action(Action),
     not apply_cr_rule(plan_existing(Action, Timestep)),
     apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
