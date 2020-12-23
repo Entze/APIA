@@ -103,14 +103,14 @@ holds(active(Activity), Timestep) :-
     holds(status(Activity, -1), Timestep).
 
 % start(Activity) causes status(Activity, 0)
-holds(start(Activity), Timestep) :-
+holds(status(Activity, 0), Timestep + 1) :-
     step(Timestep),
-    holds(status(Activity, 0), Timestep).
+    occurs(start(Activity), Timestep).
 
 % stop(Activity) causes status(Activity, -1)
-holds(stop(Activity), Timestep) :-
+holds(status(Activity, -1), Timestep + 1) :-
     step(Timestep),
-    holds(status(Activity, -1), Timestep).
+    occurs(stop(Activity), Timestep).
 
 % impossible start(Activity) if
 %   active(Activity)
