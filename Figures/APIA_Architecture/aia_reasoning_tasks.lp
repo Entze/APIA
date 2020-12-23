@@ -2,30 +2,26 @@
 % and Blount. 2013. "An architecture for intentional agents"
 
 %%%% Step 1 %%%%
-#program aia_step_1.
+#program aia_step_1(current_timestep).
 
 occurs(Action, Timestep) :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    Timestep < current_timestep,
     attempt(Action, Timestep),
     not impossible(Action, Timestep).
 
 :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    Timestep < current_timestep,
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
 -occurs(Action, Timestep) :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    Timestep < current_timestep,
     -happened(Action, Timestep).
 
 { apply_cr_rule(d(Action, Timestep)) } :-
-    current_step(CurrentTimestep),
     step(Timestep),
     physical_exogeneous_action(Action),
-    Timestep < CurrentTimestep.
+    Timestep < current_timestep.
 
 occurs(Action, Timestep) :-
     apply_cr_rule(d(Action, Timestep)).
@@ -34,218 +30,191 @@ occurs(Action, Timestep) :-
     apply_cr_rule(d(Action, Timestep)). [1@1, d(Action, Timestep)]
 
 unobserved(Action, Timestep) :-
-    current_step(CurrentTimestep),
-    Timestep < CurrentTimestep,
+    Timestep < current_timestep,
     physical_exogeneous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).
 
-number_unobserved(UnobservedActions, Timestep) :-
-    current_step(Timestep),
-    UnobservedActions = #count{ Action : unobserved(Action, Timestep) }.
+number_unobserved(UnobservedActions, current_timestep) :-
+    UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
 
 %%%% Step 2 %%%%
-#program aia_step_2.
+#program aia_step_2(current_timestep).
 
 :-
-    current_step(Timestep),
-    number_unobserved(UnobservedActions, Timestep),
-    interpretation(ActionsNeeded, Timestep),
+    number_unobserved(UnobservedActions, current_timestep),
+    interpretation(ActionsNeeded, current_timestep),
     UnobservedActions != ActionsNeeded.
 
 %--- Category 1 ---%
 % "there are no activities or goals that are active in cm_n"
 
-category_1_history(Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    not active_goal_or_activity(Timestep).
+category_1_history(current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    not active_goal_or_activity(current_timestep).
 
-active_goal_or_activity(Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    holds(active_goal(Goal), Timestep).
+active_goal_or_activity(current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    holds(active_goal(Goal), current_timestep).
 
-active_goal_or_activity(Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    holds(active(Activity), Timestep).
+active_goal_or_activity(current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    holds(active(Activity), current_timestep).
 
-intended_action(wait, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_1_history(Timestep).
+intended_action(wait, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_1_history(current_timestep).
 
 %--- Category 2 ---%
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
 
-category_2_history(Activity, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    -holds(minor(Activity), Timestep),
-    holds(active(Activity), Timestep),
+category_2_history(Activity, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    -holds(minor(Activity), current_timestep),
+    holds(active(Activity), current_timestep),
     goal(Activity, Goal),
     -active_goal(Goal).
 
-intended_action(stop(Activity), Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_2_history(Activity, Timestep).
+intended_action(stop(Activity), current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_2_history(Activity, current_timestep).
 
 %--- Category 3 ---%
 % "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
 
-category_3_history(Activity, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    -holds(minor(Activity), Timestep),
-    holds(in_progress(Activity), Timestep).
+category_3_history(Activity, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    -holds(minor(Activity), current_timestep),
+    holds(in_progress(Activity), current_timestep).
 
 occurs(Action, FutureTimestep) :-
-    current_step(Timestep),
-    category_3_history(Activity, Timestep),
-    interpretation(UnobservedActions, Timestep),
-    Timestep <= FutureTimestep,
+    category_3_history(Activity, current_timestep),
+    interpretation(UnobservedActions, current_timestep),
+    current_timestep <= FutureTimestep,
     -holds(minor(Activity), FutureTimestep),
     holds(in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
     not impossible(Action, FutureTimestep).
 
-projected_success(Activity, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    -holds(minor(Activity), Timestep),
-    Timestep < FutureTimestep,
+projected_success(Activity, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    -holds(minor(Activity), current_timestep),
+    current_timestep < FutureTimestep,
     holds(active(Activity), FutureTimestep),
     goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
--projected_success(Activity, Timestep) :-
-    current_step(Timestep),
+-projected_success(Activity, current_timestep) :-
     activity(Activity),
-    interpretation(UnobservedActions, Timestep),
-    not projected_success(Activity, Timestep).
+    interpretation(UnobservedActions, current_timestep),
+    not projected_success(Activity, current_timestep).
 
-intended_action(Action, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_3_history(Activity, Timestep),
-    holds(next_action(Activity, Action), Timestep),
-    projected_success(Activity, Timestep).
+intended_action(Action, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_3_history(Activity, current_timestep),
+    holds(next_action(Activity, Action), current_timestep),
+    projected_success(Activity, current_timestep).
 
-{ apply_cr_rule(futile(Activity, Timestep)) } :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_3_history(Activity, Timestep),
-    -projected_success(Activity, Timestep).
+{ apply_cr_rule(futile(Activity, current_timestep)) } :-
+    interpretation(UnobservedActions, current_timestep),
+    category_3_history(Activity, current_timestep),
+    -projected_success(Activity, current_timestep).
 
-futile(Activity, Timestep) :-
-    apply_cr_rule(futile(Activity, Timestep)).
+futile(Activity, current_timestep) :-
+    apply_cr_rule(futile(Activity, current_timestep)).
 
 :~
-    apply_cr_rule(futile(Activity, Timestep)). [1@1, futile(Activity, Timestep)]
+    apply_cr_rule(futile(Activity, current_timestep)). [1@1, futile(Activity, current_timestep)]
 
 :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_3_history(Activity, Timestep),
-    -projected_success(Activity, Timestep).
+    interpretation(UnobservedActions, current_timestep),
+    category_3_history(Activity, current_timestep),
+    -projected_success(Activity, current_timestep).
 
-intended_action(stop(Activity), Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_3_history(Activity, Timestep),
-    futile(Activity, Timestep).
+intended_action(stop(Activity), current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_3_history(Activity, current_timestep),
+    futile(Activity, current_timestep).
 
 %--- Category 4 ---%
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 
-existing_candidate(Activity, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    holds(next_name(NextActivity), Timestep),
+existing_candidate(Activity, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    holds(next_name(NextActivity), current_timestep),
     Activity < NextActivity,
     goal(Activity, Goal).
 
-new_candidate(Activity, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    holds(next_name(Activity), Timestep).
+new_candidate(Activity, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    holds(next_name(Activity), current_timestep).
 
-candidate(Activity, Timestep) :-
-    new_candidate(Activity, Timestep).
+candidate(Activity, current_timestep) :-
+    new_candidate(Activity, current_timestep).
 
-candidate(Activity, Timestep) :-
-    existing_candidate(Activity, Timestep).
+candidate(Activity, current_timestep) :-
+    existing_candidate(Activity, current_timestep).
 
-occurs(start(Activity), Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    candidate(Activity, Timestep),
+occurs(start(Activity), current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    candidate(Activity, current_timestep),
     goal(Activity, Goal),
-    not impossible(start(Activity), Timestep).
+    not impossible(start(Activity), current_timestep).
 
-impossible(start(OtherActivity), Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
+impossible(start(OtherActivity), current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
     goal(Activity, Goal),
-    occurs(start(Activity), Timestep),
+    occurs(start(Activity), current_timestep),
     activity(OtherActivity),
     OtherActivity != Activity.
 
 :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    occurs(start(Activity), Timestep),
-    -projected_success(Activity, Timestep),
-    not futile(Goal, Timestep).
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    occurs(start(Activity), current_timestep),
+    -projected_success(Activity, current_timestep),
+    not futile(Goal, current_timestep).
 
-{ apply_cr_rule(futile_goal(Goal, Timestep)) } :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    occurs(start(Activity), Timestep),
-    -projected_success(Activity, Timestep).
+{ apply_cr_rule(futile_goal(Goal, current_timestep)) } :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    occurs(start(Activity), current_timestep),
+    -projected_success(Activity, current_timestep).
 
-futile(Goal, Timestep) :-
-    apply_cr_rule(futile_goal(Goal, Timestep)).
+futile(Goal, current_timestep) :-
+    apply_cr_rule(futile_goal(Goal, current_timestep)).
 
 :~
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@1, futile_goal(Goal, Timestep)]
+    apply_cr_rule(futile_goal(Goal, current_timestep)). [1@1, futile_goal(Goal, current_timestep)]
 
-intended_action(wait, Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    futile(Goal, Timestep).
+intended_action(wait, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    futile(Goal, current_timestep).
 
 some_action_occurred(FutureTimestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    Timestep <= FutureTimestep,
+    interpretation(UnobservedActions, current_timestep),
+    current_timestep <= FutureTimestep,
     occurs(Action, FutureTimestep).
 
 %--- Creating new candidates ---%
 
 goal(Activity, Goal) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    new_candidate(Activity, Timestep).
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep).
 
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
-    current_step(Timestep),
     action(Action),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    new_candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
-    Timestep < FutureTimestep,
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
     some_action_occurred(FutureTimestep - 1).
 
 occurs(Action, FutureTimestep) :-
@@ -255,48 +224,43 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_new(Action, FutureTimestep)). [1@1, plan_new(Action, FutureTimestep)]
 
 component(Activity, PreviousTimestep - 1, Action) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    new_candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
     occurs(Action, PreviousTimestep).
 
 :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    new_candidate(Activity, Timestep),
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
     component(Activity, ActivityIndex, ActivityComponent1),
     component(Activity, ActivityIndex, ActivityComponent2),
     ActivityComponent1 != ActivityComponent2.
 
 has_component(Activity, ActivityIndex) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    new_candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
     component(Activity, ActivityIndex, ActivityComponent).
 
 length(Activity, ActivityLength) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    new_candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
     has_component(Activity, ActivityLength),
     not has_component(Activity, ActivityLength + 1).
 
 %--- Creating existing candidates ---%
 
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    existing_candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
-    Timestep < FutureTimestep,
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    existing_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1).
 
@@ -307,22 +271,20 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_existing(Action, FutureTimestep)). [1@1, plan_existing(Action, FutureTimestep)]
 
 occurs(NextAction, FutureTimestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    existing_candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
-    Timestep < FutureTimestep,
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    existing_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
     holds(in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, NextAction), FutureTimestep).
 
-intended_action(start(Activity), Timestep) :-
-    current_step(Timestep),
-    interpretation(UnobservedActions, Timestep),
-    category_4_history(Goal, Timestep),
-    candidate(Activity, Timestep),
-    occurs(start(Activity), Timestep),
-    projected_success(Activity, Timestep).
+intended_action(start(Activity), current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    category_4_history(Goal, current_timestep),
+    candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    projected_success(Activity, current_timestep).
 
 % prefer(plan_new(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
