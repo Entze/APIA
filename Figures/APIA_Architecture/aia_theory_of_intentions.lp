@@ -7,6 +7,9 @@
 
 %%%% Statics %%%%
 
+% TODO: Are these supposed to be statics or fluents?
+% TODO: Check holds(MinorGoal, Timestep)
+
 % component(Activity, ComponentIndex, Component)
 % length(Activity, ActivityLength)
 % goal(Activity, ActivityGoal)
