@@ -1,6 +1,7 @@
 #script(python)
 
 from typing import *
+from itertools import chain
 
 import clingo
 
@@ -11,10 +12,24 @@ class ASPSubprogramInstantiation(NamedTuple):
 
 
 def main(clingo_control: clingo.Control):
-    test_number = clingo_control.get_const('test').number
-    clingo_control.ground((
-        ASPSubprogramInstantiation(name='base', arguments=()),
-        ASPSubprogramInstantiation(name=f'test_{test_number}', arguments=()),
+    max_test_number = clingo_control.get_const('test').number
+    current_timestep = (max_test_number - 1) // 4
+    clingo_control.ground(chain(
+        (
+            ASPSubprogramInstantiation(name='base', arguments=()),
+        ),
+        (
+            ASPSubprogramInstantiation(name=f'test_{test_number}', arguments=())
+            for test_number in range(1, max_test_number + 1)
+        ),
+        (
+            ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
+            for timestep in range(current_timestep + 1)
+        ),
+        (
+            ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
+            for timestep in range(current_timestep + 1)
+        ),
     ))
     clingo_control.solve()
 
@@ -29,65 +44,277 @@ auth_compliance(strong) :-
 auth_compliance(weak) :-
     not -auth_compliance(weak).
 
-%%%% Expected sequence %%%%
+%%%% Activities %%%%
+#program base.
 
-#program test_1.
+goal(Goal) :-
+    Goal = greeted_by("Bob", "Alice").
 
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 1,
+activity(Activity) :-
+    Activity = 1.
+
+goal(Activity, ActivityGoal) :-
+    Activity = 1,
+    ActivityGoal = greeted_by("Bob", "Alice").
+
+length(Activity, ActivityLength) :-
+    Activity = 1,
+    ActivityLength = #max{ ComponentIndex : component(Activity, ComponentIndex, _) }.
+
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 1,
+    Component = move_through(Actor, Door),
     Actor = "Bob",
     Door = "d12".
 
-#program test_2.
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 1,
-    Actor = "Bob",
-    Door = "d12".
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 2,
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
     Actor = "Bob",
     Door = "d23".
 
-#program test_3.
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 1,
-    Actor = "Bob",
-    Door = "d12".
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 2,
-    Actor = "Bob",
-    Door = "d23".
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 3,
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 3,
+    Component = move_through(Actor, Door),
     Actor = "Bob",
     Door = "d34".
 
-#program test_4.
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 1,
-    Actor = "Bob",
-    Door = "d12".
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 2,
-    Actor = "Bob",
-    Door = "d23".
-
-occurs(move_through(Actor, Door), Timestep) :-
-    Timestep = 3,
-    Actor = "Bob",
-    Door = "d34".
-
-occurs(greet(Actor, Person), Timestep) :-
-    Timestep = 4,
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 4,
+    Component = greet(Actor, Person),
     Actor = "Bob",
     Person = "Alice".
+
+%%%% Expected sequence %%%%
+
+%--- Iteration 1: Step 1 (Interpret observations) ---%
+#program test_1.
+
+% There should be none
+
+%--- Iteration 1: Step 2 (Find intended action) ---%
+#program test_2.
+
+% Intended action should be wait
+%:-
+%    not intended_action(wait, Timestep),
+%    Timestep = 0.
+
+%--- Iteration 1: Step 3 (Attempt the intended action) ---%
+#program test_3.
+
+attempt(wait, Timestep) :-
+    Timestep = 0.
+
+%--- Iteration 1: Step 4 (Increment timestep & observe the world) ---%
+#program test_4.
+
+happened(wait, Timestep) :-
+    Timestep = 1.
+
+happened(select(greeted_by(Person, Actor)), Timestep) :-
+    Timestep = 1,
+    Actor = "Bob",
+    Person = "Alice".
+
+
+
+%--- Iteration 2: Step 1 (Interpret observations) ---%
+#program test_5.
+
+% active_goal(greeted_by("Bob", "Alice")) should be true
+
+%--- Iteration 2: Step 2 (Find intended action) ---%
+#program test_6.
+
+% Intended action should be start(1)
+
+%--- Iteration 2: Step 3 (Attempt the intended action) ---%
+#program test_7.
+
+attempt(start(Activity), Timestep) :-
+    Timestep = 1,
+    Activity = 1.
+
+%--- Iteration 2: Step 4 (Increment timestep & observe the world) ---%
+#program test_8.
+
+%happened(start(Activity), Timestep) :-
+%    Timestep = 2,
+%    Activity = 1.
+
+
+
+%--- Iteration 3: Step 1 (Interpret observations) ---%
+#program test_9.
+
+%--- Iteration 3: Step 2 (Find intended action) ---%
+#program test_10.
+
+% Intended action should be move_through("Bob", "d12")
+%:-
+%    not intended_action(move_through(Actor, Door)),
+%    Actor = "Bob",
+%    Door = "d12".
+
+%--- Iteration 3: Step 3 (Attempt the intended action) ---%
+#program test_11.
+
+attempt(move_through(Actor, Door), Timestep) :-
+    Timestep = 2,
+    Actor = "Bob",
+    Door = "d12".
+
+%--- Iteration 3: Step 4 (Increment timestep & observe the world) ---%
+#program test_12.
+
+%happened(move_through(Actor, Door), Timestep) :-
+%    Timestep = 2,
+%    Actor = "Bob",
+%    Door = "d12".
+
+observed(in_room(Person, Room), Timestep) :-
+    Timestep = 3,
+    Person = "Bob",
+    Room = "r2".
+
+
+
+%--- Iteration 4: Step 1 (Interpret observations) ---%
+#program test_13.
+
+%--- Iteration 4: Step 2 (Find intended action) ---%
+#program test_14.
+
+% Intended action should be move_through("Bob", "d23")
+%:-
+%    not intended_action(move_through(Actor, Door)),
+%    Actor = "Bob",
+%    Door = "d23".
+
+%--- Iteration 4: Step 3 (Attempt the intended action) ---%
+#program test_15.
+
+attempt(move_through(Actor, Door), Timestep) :-
+    Timestep = 3,
+    Actor = "Bob",
+    Door = "d23".
+
+%--- Iteration 4: Step 4 (Increment timestep & observe the world) ---%
+#program test_16.
+
+%happened(move_through(Actor, Door), Timestep) :-
+%    Timestep = 3,
+%    Actor = "Bob",
+%    Door = "d23".
+
+observed(in_room(Person, Room), Timestep) :-
+    Timestep = 4,
+    Person = "Bob",
+    Room = "r3".
+
+
+
+%--- Iteration 5: Step 1 (Interpret observations) ---%
+#program test_17.
+
+%--- Iteration 5: Step 2 (Find intended action) ---%
+#program test_18.
+
+% Intended action should be move_through("Bob", "d34")
+%:-
+%    not intended_action(move_through(Actor, Door)),
+%    Actor = "Bob",
+%    Door = "d23".
+
+%--- Iteration 5: Step 3 (Attempt the intended action) ---%
+#program test_19.
+
+attempt(move_through(Actor, Door), Timestep) :-
+    Timestep = 4,
+    Actor = "Bob",
+    Door = "d34".
+
+%--- Iteration 5: Step 4 (Increment timestep & observe the world) ---%
+#program test_20.
+
+%happened(move_through(Actor, Door), Timestep) :-
+%    Timestep = 4,
+%    Actor = "Bob",
+%    Door = "d34".
+
+observed(in_room(Person, Room), Timestep) :-
+    Timestep = 5,
+    Person = "Bob",
+    Room = "r4".
+
+
+
+%--- Iteration 6: Step 1 (Interpret observations) ---%
+#program test_21.
+
+%--- Iteration 6: Step 2 (Find intended action) ---%
+#program test_22.
+
+% Intended action should be greet("Bob", "Alice")
+%:-
+%    not intended_action(greet(Actor, Person)),
+%    Actor = "Bob",
+%    Person = "Alice".
+
+%--- Iteration 6: Step 3 (Attempt the intended action) ---%
+#program test_23.
+
+attempt(greet(Actor, Person), Timestep) :-
+    Timestep = 5,
+    Actor = "Bob",
+    Person = "Alice".
+
+%--- Iteration 6: Step 4 (Increment timestep & observe the world) ---%
+#program test_24.
+
+%happened(greet(Actor, Person), Timestep) :-
+%    Timestep = 5,
+%    Actor = "Bob",
+%    Person = "Alice".
+
+observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 6,
+    Actor = "Bob",
+    Person = "Alice".
+
+
+
+%--- Iteration 7: Step 1 (Interpret observations) ---%
+#program test_25.
+
+%--- Iteration 7: Step 2 (Find intended action) ---%
+#program test_26.
+
+% Intended action should be stop(1)
+%:-
+%    not intended_action(stop(Activity)),
+%    Activity = 1.
+
+%--- Iteration 7: Step 3 (Attempt the intended action) ---%
+#program test_27.
+
+attempt(stop(Activity), Timestep) :-
+    Timestep = 6,
+    Activity = 1.
+
+%--- Iteration 7: Step 4 (Increment timestep & observe the world) ---%
+#program test_28.
+
+%happened(stop(Activity), Timestep) :-
+%    Timestep = 6,
+%    Activity = 1.
+
+%%%% #show statements %%%%
 
 #show holds/2.
 #show -holds/2.
