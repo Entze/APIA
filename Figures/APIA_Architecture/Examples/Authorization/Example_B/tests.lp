@@ -174,10 +174,10 @@ occurs(greet(Actor, Person), Timestep) :-
 #show ("attempt", Timestep, Action) : attempt(Action, Timestep).
 #show ("attempt", Timestep, -Action) : -attempt(Action, Timestep).
 
-#show ("permitted", Action) : permitted(Action).
-#show ("permitted", -Action) : -permitted(Action).
+#show ("permitted", Timestep, Action) : permitted(Action, Timestep).
+#show ("permitted", Timestep, -Action) : -permitted(Action, Timestep).
 
-#show ("obl", Happening) : obl(Happening).
-#show ("-obl", Happening) : -obl(-Happening).
+#show ("obl", Timestep, Happening) : obl(Happening, Timestep).
+#show ("-obl", Timestep, Happening) : -obl(Happening, Timestep).
 
 #show ("prefer", Preferred, Other) : prefer(Preferred, Other).
