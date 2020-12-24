@@ -148,7 +148,7 @@ holds(door_locked(Door), Timestep + 1) :-
 % knock_on_door(Actor, Door) causes knocked_on_door(Door)
 holds(knocked_on_door(Door), Timestep + 1) :-
     step(Timestep),
-    occurs(knock_on_door(Actor, Person), Timestep).
+    occurs(knock_on_door(Actor, Door), Timestep).
 
 % impossible knock_on_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
