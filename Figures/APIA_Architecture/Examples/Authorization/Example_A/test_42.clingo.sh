@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./test.sh 6
+./test.sh 42
