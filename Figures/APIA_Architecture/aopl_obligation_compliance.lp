@@ -15,9 +15,9 @@
 -obl_compliant :-
     obl(Action, Timestep),
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
-    not occurs(Aciton, Timestep).
+    not occurs(Action, Timestep).
 
 -obl_compliant :-
     obl(neg(Action), Timestep),
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
-    not -occurs(Aciton, Timestep).
+    not -occurs(Action, Timestep).
