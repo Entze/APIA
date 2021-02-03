@@ -111,6 +111,7 @@ attempt(wait, Timestep) :-
     Timestep = 0.
 
 %--- Iteration 1: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_4.
 
 happened(wait, Timestep) :-
@@ -141,6 +142,7 @@ attempt(start(Activity), Timestep) :-
     Activity = 1.
 
 %--- Iteration 2: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_8.
 
 %happened(start(Activity), Timestep) :-
@@ -170,6 +172,7 @@ attempt(move_through(Actor, Door), Timestep) :-
     Door = "d12".
 
 %--- Iteration 3: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_12.
 
 %happened(move_through(Actor, Door), Timestep) :-
@@ -205,6 +208,7 @@ attempt(move_through(Actor, Door), Timestep) :-
     Door = "d23".
 
 %--- Iteration 4: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_16.
 
 %happened(move_through(Actor, Door), Timestep) :-
@@ -240,6 +244,7 @@ attempt(move_through(Actor, Door), Timestep) :-
     Door = "d34".
 
 %--- Iteration 5: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_20.
 
 %happened(move_through(Actor, Door), Timestep) :-
@@ -275,6 +280,7 @@ attempt(greet(Actor, Person), Timestep) :-
     Person = "Alice".
 
 %--- Iteration 6: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_24.
 
 %happened(greet(Actor, Person), Timestep) :-
@@ -308,6 +314,7 @@ attempt(stop(Activity), Timestep) :-
     Activity = 1.
 
 %--- Iteration 7: Step 4 (Increment timestep & observe the world) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_28.
 
 %happened(stop(Activity), Timestep) :-
