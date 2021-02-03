@@ -139,6 +139,12 @@ intended_action(stop(Activity), current_timestep) :-
 %--- Category 4 ---%
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 
+category_4_history(Goal, current_timestep) :-
+    interpretation(UnobservedActions, current_timestep),
+    -holds(minor(Goal), current_timestep),
+    holds(active_goal(Goal), current_timestep),
+    -holds(in_progress(Goal), current_timestep).
+
 existing_candidate(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
