@@ -14,6 +14,7 @@ class ASPSubprogramInstantiation(NamedTuple):
 def main(clingo_control: clingo.Control):
     max_test_number = clingo_control.get_const('test').number
     current_timestep = (max_test_number - 1) // 4
+    stage_number = ((max_test_number - 1) % 4) + 1
     clingo_control.ground(chain(
         (
             ASPSubprogramInstantiation(name='base', arguments=()),
@@ -24,12 +25,18 @@ def main(clingo_control: clingo.Control):
         ),
         (
             ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
-            for timestep in range(current_timestep + 1)
+            for timestep in range(current_timestep)
         ),
         (
-            ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
-            for timestep in range(current_timestep + 1)
+            ASPSubprogramInstantiation(name='aia_step_1', arguments=(current_timestep,)),
+        ) if stage_number >= 1 else (),
+        (
+            ASPSubprogramInstantiation(name='aia_step_2', arguments=(timestep,))
+            for timestep in range(current_timestep)
         ),
+        (
+            ASPSubprogramInstantiation(name='aia_step_2', arguments=(current_timestep,)),
+        ) if stage_number >= 2 else (),
     ))
     clingo_control.solve()
 
