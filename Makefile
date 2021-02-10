@@ -34,6 +34,13 @@ build-mermaid: $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES))
 
 build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
+.env:
+	echo -n > $@
+	echo "UID=$(UID)" >> $@
+	echo "GID=$(GID)" >> $@
+	echo -n "TZ=" >> $@
+	timedatectl | grep 'Time zone' | sed -E 's/ *Time zone: (.*) \(.*\)/\1/' >> $@
+
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
 	latexmk -pdf $<
 
