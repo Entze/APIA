@@ -34,6 +34,13 @@ build-mermaid: $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES))
 
 build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 
+.env:
+	echo -n > $@
+	echo "UID=$(UID)" >> $@
+	echo "GID=$(GID)" >> $@
+	echo -n "TZ=" >> $@
+	timedatectl | grep 'Time zone' | sed -E 's/ *Time zone: (.*) \(.*\)/\1/' >> $@
+
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
 	latexmk -pdf $<
 
@@ -68,7 +75,7 @@ build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
 	yarn run mmdc -i $< -o $@
 
 %.pdf %.svg %.png: %.drawio
-	docker run --rm -v "$(shell pwd)/$<:/pwd/$<" -v "$(shell pwd)/$(@D)/export:/pwd/$(@D)/export" -w /pwd rlespinasse/drawio-export --fileext $(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') --folder export
+	docker run --rm -v "$(shell pwd)/$<:/pwd/$<" -v "$(shell pwd)/$(@D)/export:/pwd/$(@D)/export" -w /pwd rlespinasse/drawio-export:3.4.0 --fileext $(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') --folder export
 	docker run --rm -v "$(shell pwd):/pwd" alpine find /pwd -user root -exec chown $(UID):$(GID) '{}' \;
 	./organize-drawio-exports.sh
 
