@@ -10,8 +10,8 @@ NEW_TEST_NUMBER=$2
 PREVIOUS_TEST_FILE=$(mktemp "test_${PREVIOUS_TEST_NUMBER}.XXXXXXXXXX")
 NEW_TEST_FILE=$(mktemp "test_${NEW_TEST_NUMBER}.XXXXXXXXXX")
 
-./test.sh "${PREVIOUS_TEST_NUMBER}" > "${PREVIOUS_TEST_FILE}"
-./test.sh "${NEW_TEST_NUMBER}" > "${NEW_TEST_FILE}"
+./test.sh "${PREVIOUS_TEST_NUMBER}" | sed 's/^/  /' > "${PREVIOUS_TEST_FILE}"
+./test.sh "${NEW_TEST_NUMBER}" | sed 's/^/  /' > "${NEW_TEST_FILE}"
 git --no-pager diff --no-index "${PREVIOUS_TEST_FILE}" "${NEW_TEST_FILE}"
 
 rm "${PREVIOUS_TEST_FILE}" "${NEW_TEST_FILE}"
