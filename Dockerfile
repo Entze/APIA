@@ -1,8 +1,9 @@
-FROM jupyter/base-notebook
+FROM jupyter/minimal-notebook
 USER root
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        make \
         gringo \
         clasp \
     && apt-get clean \
