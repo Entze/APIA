@@ -122,7 +122,8 @@ attempt(start(Activity), Timestep) :-
 
 % Intended action should be move_through("Bob", "d12")
 %:-
-%    not intended_action(move_through(Actor, Door)),
+%    not intended_action(move_through(Actor, Door), Timestep),
+%    Timestep = 2,
 %    Actor = "Bob",
 %    Door = "d12".
 
