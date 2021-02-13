@@ -56,6 +56,14 @@ auth_compliance(weak) :-
 
 %%%% Expected sequence %%%%
 
+%--- Iteration 1: Step 0 (Initial observation of the world) ---%
+#program test_1.
+
+happened(select(greeted_by(Person, Actor)), Timestep) :-
+    Timestep = 0,
+    Person = "Alice",
+    Actor = "Bob".
+
 %--- Iteration 1: Step 1 (Interpret observations) ---%
 #program test_1.
 
