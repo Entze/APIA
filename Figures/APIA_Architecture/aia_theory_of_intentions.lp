@@ -103,7 +103,7 @@ action(wait).
 %   -status(Activity, -1)
 holds(active(Activity), Timestep) :-
     step(Timestep),
-    holds(status(Activity, -1), Timestep).
+    -holds(status(Activity, -1), Timestep).
 
 % start(Activity) causes status(Activity, 0)
 holds(status(Activity, 0), Timestep + 1) :-
