@@ -87,13 +87,13 @@ attempt(wait, Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_4.
 
-happened(wait, Timestep) :-
-    Timestep = 1.
-
-happened(select(greeted_by(Person, Actor)), Timestep) :-
-    Timestep = 1,
-    Actor = "Bob",
-    Person = "Alice".
+% happened(wait, Timestep) :-
+%     Timestep = 1.
+%
+% happened(select(greeted_by(Person, Actor)), Timestep) :-
+%     Timestep = 1,
+%     Actor = "Bob",
+%     Person = "Alice".
 
 
 
