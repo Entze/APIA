@@ -145,7 +145,7 @@ activity(Activity) :-
 
 goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = greeted_by("Bob", "Alice").
+    ActivityGoal = greeted_by("Alice", "Bob").
 
 length(Activity, ActivityLength) :-
     Activity = 1,
