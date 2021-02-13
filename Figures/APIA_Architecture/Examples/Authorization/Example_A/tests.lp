@@ -15,6 +15,8 @@ def main(clingo_control: clingo.Control):
     max_test_number = clingo_control.get_const('test').number
     current_timestep = (max_test_number - 1) // 4
     stage_number = ((max_test_number - 1) % 4) + 1
+    clingo_control.add('base', (), '\n'.join(f'step({timestep}).'
+                                             for timestep in range(current_timestep + 1)))
     clingo_control.ground(chain(
         (
             ASPSubprogramInstantiation(name='base', arguments=()),
@@ -54,6 +56,14 @@ auth_compliance(weak) :-
 
 %%%% Expected sequence %%%%
 
+%--- Iteration 1: Step 0 (Initial observation of the world) ---%
+#program test_1.
+
+happened(select(greeted_by(Person, Actor)), Timestep) :-
+    Timestep = 0,
+    Person = "Alice",
+    Actor = "Bob".
+
 %--- Iteration 1: Step 1 (Interpret observations) ---%
 #program test_1.
 
@@ -77,20 +87,20 @@ attempt(wait, Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_4.
 
-happened(wait, Timestep) :-
-    Timestep = 1.
-
-happened(select(greeted_by(Person, Actor)), Timestep) :-
-    Timestep = 1,
-    Actor = "Bob",
-    Person = "Alice".
+% happened(wait, Timestep) :-
+%     Timestep = 1.
+%
+% happened(select(greeted_by(Person, Actor)), Timestep) :-
+%     Timestep = 1,
+%     Actor = "Bob",
+%     Person = "Alice".
 
 
 
 %--- Iteration 2: Step 1 (Interpret observations) ---%
 #program test_5.
 
-% active_goal(greeted_by("Bob", "Alice")) should be true
+% active_goal(greeted_by("Alice", "Bob")) should be true
 
 %--- Iteration 2: Step 2 (Find intended action) ---%
 #program test_6.

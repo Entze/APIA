@@ -138,14 +138,18 @@ holds(greeted_by(Person, Actor), Timestep + 1) :-
 %%%% Activities %%%%
 
 goal(Goal) :-
-    Goal = greeted_by("Bob", "Alice").
+    Goal = greeted_by(Person, Actor),
+    Person = "Alice",
+    Actor = "Bob".
 
 activity(Activity) :-
     Activity = 1.
 
 goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = greeted_by("Bob", "Alice").
+    ActivityGoal = greeted_by(Person, Actor).
+    Person = "Alice",
+    Actor = "Bob".
 
 length(Activity, ActivityLength) :-
     Activity = 1,

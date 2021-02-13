@@ -38,8 +38,18 @@ unobserved(Action, Timestep) :-
 number_unobserved(UnobservedActions, current_timestep) :-
     UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
 
+% Misc
+
+occurs(Action, Timestep) :-
+    Timestep <= current_timestep,
+    happened(Action, Timestep).
+
 %%%% Step 2 %%%%
 #program aia_step_2(current_timestep).
+
+interpretation(ActionsNeeded, current_timestep) :-
+    number_unobserved(UnobservedActions, current_timestep),
+    ActionsNeeded = UnobservedActions.
 
 :-
     number_unobserved(UnobservedActions, current_timestep),
@@ -50,6 +60,7 @@ number_unobserved(UnobservedActions, current_timestep) :-
 % "there are no activities or goals that are active in cm_n"
 
 category_1_history(current_timestep) :-
+    current_timestep > 1,  % TODO: Consider removing this line (our addition)
     interpretation(UnobservedActions, current_timestep),
     not active_goal_or_activity(current_timestep).
 
