@@ -60,6 +60,7 @@ interpretation(ActionsNeeded, current_timestep) :-
 % "there are no activities or goals that are active in cm_n"
 
 category_1_history(current_timestep) :-
+    current_timestep > 1,  % TODO: Consider removing this line (our addition)
     interpretation(UnobservedActions, current_timestep),
     not active_goal_or_activity(current_timestep).
 
