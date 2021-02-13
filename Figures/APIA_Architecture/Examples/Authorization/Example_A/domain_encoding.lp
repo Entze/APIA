@@ -138,7 +138,7 @@ holds(greeted_by(Person, Actor), Timestep + 1) :-
 %%%% Activities %%%%
 
 goal(Goal) :-
-    Goal = greeted_by("Bob", "Alice").
+    Goal = greeted_by("Alice", "Bob").
 
 activity(Activity) :-
     Activity = 1.

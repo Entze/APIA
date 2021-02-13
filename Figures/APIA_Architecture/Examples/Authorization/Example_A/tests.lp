@@ -92,7 +92,7 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 %--- Iteration 2: Step 1 (Interpret observations) ---%
 #program test_5.
 
-% active_goal(greeted_by("Bob", "Alice")) should be true
+% active_goal(greeted_by("Alice", "Bob")) should be true
 
 %--- Iteration 2: Step 2 (Find intended action) ---%
 #program test_6.
