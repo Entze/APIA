@@ -1,5 +1,7 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
 
+#const activity_index__non_active = -1.
+
 %%%% Domains %%%%
 
 % goal(Goal)
@@ -100,7 +102,7 @@ action(wait).
 %   -status(Activity, -1)
 holds(active(Activity), Timestep) :-
     step(Timestep),
-    -holds(status(Activity, -1), Timestep).
+    -holds(status(Activity, activity_index__non_active), Timestep).
 
 % start(Activity) causes status(Activity, 0)
 holds(status(Activity, 0), Timestep + 1) :-
@@ -108,7 +110,7 @@ holds(status(Activity, 0), Timestep + 1) :-
     occurs(start(Activity), Timestep).
 
 % stop(Activity) causes status(Activity, -1)
-holds(status(Activity, -1), Timestep + 1) :-
+holds(status(Activity, activity_index__non_active), Timestep + 1) :-
     step(Timestep),
     occurs(stop(Activity), Timestep).
 
@@ -263,7 +265,7 @@ holds(active_goal(MinorGoal), Timestep) :-
     holds(active_goal(Goal), Timestep),
     holds(goal(ChildActivity, MinorGoal), Timestep),
     -holds(MinorGoal, Timestep),
-    holds(status(ChildActivity, -1), Timestep).
+    holds(status(ChildActivity, activity_index__non_active), Timestep).
 
 % "A minor goal MinorGoal is no longer active when it is achieved."
 % -active_goal(MinorGoal) if
@@ -389,7 +391,7 @@ holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
 
 % stop(Activity) causes status(ChildActivity, -1) if
 %   descendant(ChildActivity, Activity)
-holds(status(ChildActivity, -1), Timestep + 1) :-
+holds(status(ChildActivity, activity_index__non_active), Timestep + 1) :-
     step(Timestep),
     occurs(stop(Activity), Timestep),
     holds(descendant(ChildActivity, Activity), Timestep).
