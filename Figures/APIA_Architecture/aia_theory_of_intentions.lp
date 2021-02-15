@@ -1,6 +1,7 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
 
 #const activity_index__non_active = -1.
+#const activity_index__new = 0.
 
 %%%% Domains %%%%
 
@@ -105,7 +106,7 @@ holds(active(Activity), Timestep) :-
     -holds(status(Activity, activity_index__non_active), Timestep).
 
 % start(Activity) causes status(Activity, 0)
-holds(status(Activity, 0), Timestep + 1) :-
+holds(status(Activity, activity_index__new), Timestep + 1) :-
     step(Timestep),
     occurs(start(Activity), Timestep).
 
