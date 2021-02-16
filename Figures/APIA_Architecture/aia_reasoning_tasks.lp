@@ -11,6 +11,7 @@ occurs(Action, Timestep) :-
 
 :-
     Timestep < current_timestep,
+    agent_action(Action),
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
