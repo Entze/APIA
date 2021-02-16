@@ -169,7 +169,8 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Intended action should be move_through("Bob", "d23")
 %:-
-%    not intended_action(move_through(Actor, Door)),
+%    not intended_action(move_through(Actor, Door), Timestep),
+%    Timestep = 3,
 %    Actor = "Bob",
 %    Door = "d23".
 
@@ -205,7 +206,8 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Intended action should be move_through("Bob", "d34")
 %:-
-%    not intended_action(move_through(Actor, Door)),
+%    not intended_action(move_through(Actor, Door), Timestep),
+%    Timestep = 4,
 %    Actor = "Bob",
 %    Door = "d23".
 
@@ -241,7 +243,8 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Intended action should be greet("Bob", "Alice")
 %:-
-%    not intended_action(greet(Actor, Person)),
+%    not intended_action(greet(Actor, Person), Timestep),
+%    Timestep = 5,
 %    Actor = "Bob",
 %    Person = "Alice".
 
@@ -277,7 +280,8 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 % Intended action should be stop(1)
 %:-
-%    not intended_action(stop(Activity)),
+%    not intended_action(stop(Activity), Timestep),
+%    Timestep = 6,
 %    Activity = 1.
 
 %--- Iteration 7: Step 3 (Attempt the intended action) ---%
