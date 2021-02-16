@@ -147,7 +147,7 @@ activity(Activity) :-
 
 goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = greeted_by(Person, Actor).
+    ActivityGoal = greeted_by(Person, Actor),
     Person = "Alice",
     Actor = "Bob".
 
