@@ -74,17 +74,23 @@ mental_exogenous_action(Action) :-
 
 % physical_exogenous_action(Action)
 
-action(Action) :-
+agent_action(Action) :-
     mental_agent_action(Action).
 
-action(Action) :-
+agent_action(Action) :-
     physical_agent_action(Action).
 
-action(Action) :-
+exogenous_action(Action) :-
     mental_exogenous_action(Action).
 
-action(Action) :-
+exogenous_action(Action) :-
     physical_exogenous_action(Action).
+
+action(Action) :-
+    agent_action(Action).
+
+action(Action) :-
+    exogenous_action(Action).
 
 action(wait).
 
