@@ -56,14 +56,6 @@ auth_compliance(weak) :-
 
 %%%% Expected sequence %%%%
 
-%--- Iteration 1: Step 0 (Initial observation of the world) ---%
-#program test_1.
-
-happened(select(greeted_by(Person, Actor)), Timestep) :-
-    Timestep = 0,
-    Person = "Alice",
-    Actor = "Bob".
-
 %--- Iteration 1: Step 1 (Interpret observations) ---%
 #program test_1.
 
@@ -83,15 +75,20 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 attempt(wait, Timestep) :-
     Timestep = 0.
 
-%--- Iteration 1: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 1: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_4.
 
+happened(select(greeted_by(Person, Actor)), Timestep) :-
+    Timestep = 0,
+    Person = "Alice",
+    Actor = "Bob".
+
 % happened(wait, Timestep) :-
-%     Timestep = 1.
+%     Timestep = 0.
 %
 % happened(select(greeted_by(Person, Actor)), Timestep) :-
-%     Timestep = 1,
+%     Timestep = 0,
 %     Actor = "Bob",
 %     Person = "Alice".
 
@@ -114,12 +111,12 @@ attempt(start(Activity), Timestep) :-
     Timestep = 1,
     Activity = 1.
 
-%--- Iteration 2: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 2: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_8.
 
 %happened(start(Activity), Timestep) :-
-%    Timestep = 2,
+%    Timestep = 1,
 %    Activity = 1.
 
 
@@ -145,7 +142,7 @@ attempt(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d12".
 
-%--- Iteration 3: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 3: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_12.
 
@@ -169,7 +166,8 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Intended action should be move_through("Bob", "d23")
 %:-
-%    not intended_action(move_through(Actor, Door)),
+%    not intended_action(move_through(Actor, Door), Timestep),
+%    Timestep = 3,
 %    Actor = "Bob",
 %    Door = "d23".
 
@@ -181,7 +179,7 @@ attempt(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d23".
 
-%--- Iteration 4: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 4: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_16.
 
@@ -205,7 +203,8 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Intended action should be move_through("Bob", "d34")
 %:-
-%    not intended_action(move_through(Actor, Door)),
+%    not intended_action(move_through(Actor, Door), Timestep),
+%    Timestep = 4,
 %    Actor = "Bob",
 %    Door = "d23".
 
@@ -217,7 +216,7 @@ attempt(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d34".
 
-%--- Iteration 5: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 5: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_20.
 
@@ -241,7 +240,8 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Intended action should be greet("Bob", "Alice")
 %:-
-%    not intended_action(greet(Actor, Person)),
+%    not intended_action(greet(Actor, Person), Timestep),
+%    Timestep = 5,
 %    Actor = "Bob",
 %    Person = "Alice".
 
@@ -253,7 +253,7 @@ attempt(greet(Actor, Person), Timestep) :-
     Actor = "Bob",
     Person = "Alice".
 
-%--- Iteration 6: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 6: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_24.
 
@@ -277,7 +277,8 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 % Intended action should be stop(1)
 %:-
-%    not intended_action(stop(Activity)),
+%    not intended_action(stop(Activity), Timestep),
+%    Timestep = 6,
 %    Activity = 1.
 
 %--- Iteration 7: Step 3 (Attempt the intended action) ---%
@@ -287,7 +288,7 @@ attempt(stop(Activity), Timestep) :-
     Timestep = 6,
     Activity = 1.
 
-%--- Iteration 7: Step 4 (Increment timestep & observe the world) ---%
+%--- Iteration 7: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_28.
 
