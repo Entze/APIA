@@ -19,16 +19,16 @@ occurs(Action, Timestep) :-
     Timestep < current_timestep,
     -happened(Action, Timestep).
 
-{ apply_cr_rule(d(Action, Timestep)) } :-
+{ apply_cr_rule(diagnosis(Action, Timestep)) } :-
     step(Timestep),
     physical_exogenous_action(Action),
     Timestep < current_timestep.
 
 occurs(Action, Timestep) :-
-    apply_cr_rule(d(Action, Timestep)).
+    apply_cr_rule(diagnosis(Action, Timestep)).
 
 :~
-    apply_cr_rule(d(Action, Timestep)). [1@1, d(Action, Timestep)]
+    apply_cr_rule(diagnosis(Action, Timestep)). [1@1, diagnosis(Action, Timestep)]
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
