@@ -31,39 +31,56 @@ fluent(inertial, greeted_by(Person, Actor)) :-
 %%%% Actions %%%%
 
 % move_through(Actor, Door)
-physical_agent_action(move_through(Actor, Door)) :-
+physical_action(move_through(Actor, Room)) :-
     person(Actor),
-    door(Door).
+    room(Room).
 
-physical_exogenous_action(move_through(Actor, Door)) :-
+agent_action(move_through(Actor, Room)) :-
     person(Actor),
-    door(Door).
+    room(Room).
+
+exogenous_action(move_through(Actor, Room)) :-
+    person(Actor),
+    room(Room).
 
 % lock_door(Actor, Door)
-physical_agent_action(lock_door(Actor, Door)) :-
+physical_action(lock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
-physical_exogenous_action(lock_door(Actor, Door)) :-
+agent_action(lock_door(Actor, Door)) :-
+    person(Actor),
+    door(Door).
+
+exogenous_action(lock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
 % unlock_door(Actor, Door)
-physical_agent_action(unlock_door(Actor, Door)) :-
+physical_action(unlock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
-physical_exogenous_action(unlock_door(Actor, Door)) :-
+agent_action(unlock_door(Actor, Door)) :-
+    person(Actor),
+    door(Door).
+
+exogenous_action(unlock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
 % greet(Actor, Person)
-physical_agent_action(greet(Actor, Person)) :-
+physical_action(greet(Actor, Person)) :-
     person(Actor),
     person(Person),
     Actor != Person.
 
-physical_exogenous_action(greet(Actor, Person)) :-
+agent_action(greet(Actor, Person)) :-
+    person(Actor),
+    person(Person),
+    Actor != Person.
+
+exogenous_action(greet(Actor, Person)) :-
     person(Actor),
     person(Person),
     Actor != Person.

@@ -21,7 +21,8 @@ occurs(Action, Timestep) :-
 
 { apply_cr_rule(diagnosis(Action, Timestep)) } :-
     step(Timestep),
-    physical_exogenous_action(Action),
+    physical_action(Action),
+    exogenous_action(Action),
     Timestep < current_timestep.
 
 occurs(Action, Timestep) :-
@@ -32,7 +33,8 @@ occurs(Action, Timestep) :-
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
-    physical_exogenous_action(Action),
+    physical_action(Action),
+    exogenous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).
 
