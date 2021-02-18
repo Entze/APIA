@@ -229,7 +229,7 @@ holds(active_goal(Goal), Timestep + 1) :-
 -occurs(abandon(Goal), Timestep) :-
     holds(minor(Goal), Timestep).
 
-% "We assume that no physical exogenous action may occur concurrently with a speical exogenous action"
+% "We assume that no physical exogenous action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
 %   mental_exogenous_action(Action1), physical_exogenous_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
