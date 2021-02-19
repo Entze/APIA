@@ -43,6 +43,7 @@ number_unobserved(UnobservedActions, current_timestep) :-
 % See p. 63 of dissertation
 #program aia_step_2(current_timestep).
 
+% TODO: Consider removing this addition
 interpretation(ActionsNeeded, current_timestep) :-
     number_unobserved(UnobservedActions, current_timestep),
     ActionsNeeded = UnobservedActions.
