@@ -109,6 +109,7 @@ occurs(Action, FutureTimestep) :-
     -holds(minor(Activity), FutureTimestep),
     holds(in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
+    agent_action(Action),
     not impossible(Action, FutureTimestep).
 
 projected_success(Activity, current_timestep) :-
@@ -128,6 +129,7 @@ intended_action(Action, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_3_history(Activity, current_timestep),
     holds(next_action(Activity, Action), current_timestep),
+    agent_action(Action),
     projected_success(Activity, current_timestep).
 
 { apply_cr_rule(futile_activity(Activity, current_timestep)) } :-
@@ -232,7 +234,8 @@ goal(Activity, Goal) :-
     new_candidate(Activity, current_timestep).
 
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
-    action(Action),
+    physical_action(Action),
+    agent_action(Action),
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
@@ -252,7 +255,9 @@ component(Activity, PreviousTimestep - 1, Action) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    occurs(Action, PreviousTimestep).
+    occurs(Action, PreviousTimestep),
+    physical_action(Action),
+    agent_action(Action).
 
 :-
     interpretation(UnobservedActions, current_timestep),
@@ -280,6 +285,8 @@ length(Activity, ActivityLength) :-
 %--- Creating existing candidates ---%
 
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
+    physical_action(Action),
+    agent_action(Action),
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
@@ -302,7 +309,9 @@ occurs(NextAction, FutureTimestep) :-
     occurs(start(Activity), current_timestep),
     current_timestep < FutureTimestep,
     holds(in_progress(Activity), FutureTimestep),
-    holds(next_action(Activity, NextAction), FutureTimestep).
+    holds(next_action(Activity, NextAction), FutureTimestep),
+    mental_action(Action),
+    agent_action(Action).
 
 intended_action(start(Activity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),

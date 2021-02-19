@@ -413,7 +413,8 @@ holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
     holds(next_action(Activity, Action), Timestep),
     holds(status(Activity, ActivityIndex), Timestep),
     holds(component(Activity, ActivityIndex + 1, Action), Timestep),
-    physical_action(Action), agent_action(Action).
+    physical_action(Action),
+    agent_action(Action).
 
 % stop(ChildActivity) causes status(Activity, ActivityIndex + 1) if
 %   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
