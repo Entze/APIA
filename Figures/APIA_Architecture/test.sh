@@ -12,6 +12,7 @@ shift
 FILES=( "$@" )
 
 GLOBAL_FILES=(
+    aaa_axioms.lp
     aia_reasoning_tasks.lp
     aia_theory_of_intentions.lp
     aia_axioms.lp

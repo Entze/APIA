@@ -4,12 +4,6 @@
 % happened(Action, Timestep)
 % observed(Fluent, Timestep)
 
-%%%% Awareness Axiom %%%%
-
-holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
-    fluent(inertial, Fluent),
-    Timestep = 0.
-
 %%%% Occurrence-Awareness Axiom %%%%
 
 occurs(Action, Timestep) :-
