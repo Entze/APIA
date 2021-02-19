@@ -15,6 +15,10 @@ occurs(Action, Timestep) :-
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
+occurs(Action, Timestep) :-
+    Timestep <= current_timestep,
+    happened(Action, Timestep).
+
 -occurs(Action, Timestep) :-
     Timestep < current_timestep,
     -happened(Action, Timestep).
@@ -41,12 +45,6 @@ unobserved(Action, Timestep) :-
 
 number_unobserved(UnobservedActions, current_timestep) :-
     UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
-
-% Misc
-
-occurs(Action, Timestep) :-
-    Timestep <= current_timestep,
-    happened(Action, Timestep).
 
 %%%% Step 2 %%%%
 #program aia_step_2(current_timestep).
