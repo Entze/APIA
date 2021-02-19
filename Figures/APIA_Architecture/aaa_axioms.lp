@@ -16,11 +16,14 @@ occurs(Action, Timestep) :-
     happened(Action, Timestep).
 
 %%%% Reality Check Axioms %%%%
+#program aaa_reality_check(current_timestep).
 
 :-
     observed(Fluent, Timestep),
+    Timestep <= current_timestep,
     -holds(Fluent, Timestep).
 
 :-
     -observed(Fluent, Timestep),
+    Timestep <= current_timestep,
     holds(Fluent, Timestep).

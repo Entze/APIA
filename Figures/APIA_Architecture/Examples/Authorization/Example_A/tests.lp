@@ -26,6 +26,13 @@ def main(clingo_control: clingo.Control):
             for test_number in range(1, max_test_number + 1)
         ),
         (
+            ASPSubprogramInstantiation(name='aaa_reality_check', arguments=(timestep,))
+            for timestep in range(current_timestep)
+        ),
+        (
+            ASPSubprogramInstantiation(name='aaa_reality_check', arguments=(current_timestep,)),
+        ) if stage_number >= 1 else (),
+        (
             ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
             for timestep in range(current_timestep)
         ),
