@@ -258,6 +258,7 @@ holds(active_goal(Goal), Timestep + 1) :-
     physical_action(Action2),
     exogenous_action(Action2).
 
+% "We assume that no physical agent action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
 %   mental_action(Action1), exogenous_action(Action1),
 %   physical_action(Action2), agent_action(Action2)
@@ -268,6 +269,7 @@ holds(active_goal(Goal), Timestep + 1) :-
     physical_action(Action2),
     agent_action(Action2).
 
+% "We assume that no mental agent action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
 %   mental_action(Action1), exogenous_action(Action1),
 %   mental_action(Action2), agent_action(Action2)
