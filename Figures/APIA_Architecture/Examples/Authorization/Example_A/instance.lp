@@ -29,6 +29,9 @@ door_has_lock(Door) :-
 %%%% Initial observations (before AIA control loop) %%%%
 % See p. 50 of dissertation
 
+% TODO: holds(...) :- observed(...) seems to be missing
+% TODO: -holds(...) :- -observed(...) seems to be missing
+
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,
     Door = "d34".
