@@ -15,14 +15,6 @@ occurs(Action, Timestep) :-
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
-occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    happened(Action, Timestep).
-
--occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    -happened(Action, Timestep).
-
 { apply_cr_rule(diagnosis(Action, Timestep, current_timestep)) } :-
     step(Timestep),
     physical_action(Action),

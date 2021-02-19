@@ -5,11 +5,18 @@
 % observed(Fluent, Timestep)
 
 %%%% Occurrence-Awareness Axiom %%%%
+#program aia_axioms(current_timestep).
 
 occurs(Action, Timestep) :-
+    Timestep < current_timestep,
     happened(Action, Timestep).
 
+-occurs(Action, Timestep) :-
+    Timestep < current_timestep,
+    -happened(Action, Timestep).
+
 %%%% Initialization Axiom %%%%
+#program base.
 
 holds(Fluent, Timestep) :-
     observed(Fluent, Timestep),
