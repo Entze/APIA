@@ -39,6 +39,8 @@ number_unobserved(UnobservedActions, current_timestep) :-
     UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
 
 %%%% Step 2 %%%%
+%
+% See p. 63 of dissertation
 #program aia_step_2(current_timestep).
 
 interpretation(ActionsNeeded, current_timestep) :-
@@ -54,6 +56,8 @@ interpretation(ActionsNeeded, current_timestep) :-
 % "Let cm_n be the current mental state of history \tau_n"
 % "there are no activities or goals that are active in cm_n"
 % (p. 45) of dissertation
+%
+% See p. 65 of dissertation
 
 category_1_history(current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -75,6 +79,8 @@ intended_action(wait, current_timestep) :-
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
 % (p. 45) of dissertation
+%
+% See p. 65 of dissertation
 
 category_2_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -153,6 +159,8 @@ intended_action(stop(Activity), current_timestep) :-
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 % (p. 45) of dissertation
+%
+% See p. 68 of dissertation
 
 category_4_history(Goal, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),

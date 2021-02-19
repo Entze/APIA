@@ -1,3 +1,5 @@
+% See p. 74 of dissertation for AIA control loop
+
 #script(python)
 
 from typing import *
