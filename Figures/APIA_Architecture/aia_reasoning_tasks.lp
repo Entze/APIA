@@ -16,7 +16,7 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 occurs(Action, Timestep) :-
-    Timestep <= current_timestep,
+    Timestep < current_timestep,
     happened(Action, Timestep).
 
 -occurs(Action, Timestep) :-
