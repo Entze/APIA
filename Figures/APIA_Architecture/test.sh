@@ -13,9 +13,9 @@ FILES=( "$@" )
 
 GLOBAL_FILES=(
     aaa_axioms.lp
-    aia_reasoning_tasks.lp
     aia_theory_of_intentions.lp
     aia_history_rules.lp
+    aia_intended_action_rules.lp
     aopl_authorization_compliance.lp
     aopl_obligation_compliance.lp
     general_axioms.lp
