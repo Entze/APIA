@@ -60,6 +60,7 @@ observed(status(Activity, ActivityIndex), Timestep) :-
     fluent(inertial, status(Activity, ActivityIndex)),
     ActivityIndex = -1.
 
+% TODO: Look at (p. 41) of dissertation
 -observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     fluent(inertial, next_name(Activity)).
