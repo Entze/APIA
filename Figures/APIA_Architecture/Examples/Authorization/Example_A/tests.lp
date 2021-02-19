@@ -17,7 +17,7 @@ def main(clingo_control: clingo.Control):
     stage_number = ((max_test_number - 1) % 4) + 1
     clingo_control.add('base', (), '\n'.join(f'step({timestep}).'
                                              for timestep in range(current_timestep + 1)))
-    clingo_control.ground(chain(
+    subprograms_to_ground = tuple(chain(
         (
             ASPSubprogramInstantiation(name='base', arguments=()),
         ),
@@ -40,6 +40,8 @@ def main(clingo_control: clingo.Control):
             ASPSubprogramInstantiation(name='aia_step_2', arguments=(current_timestep,)),
         ) if stage_number >= 2 else (),
     ))
+    print(f'Grounding: {subprograms_to_ground!r}')
+    clingo_control.ground(subprograms_to_ground)
     clingo_control.solve()
 
 #end.
