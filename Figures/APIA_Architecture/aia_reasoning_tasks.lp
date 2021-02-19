@@ -29,7 +29,8 @@ occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep)).
 
 :~
-    apply_cr_rule(diagnosis(Action, Timestep)). [1@1, diagnosis(Action, Timestep)]
+    apply_cr_rule(diagnosis(Action, Timestep)).
+    [1@1, diagnosis(Action, Timestep)]
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
@@ -138,7 +139,8 @@ futile(Activity, current_timestep) :-
     apply_cr_rule(futile_activity(Activity, current_timestep)).
 
 :~
-    apply_cr_rule(futile_activity(Activity, current_timestep)). [1@1, futile(Activity, current_timestep)]
+    apply_cr_rule(futile_activity(Activity, current_timestep)).
+    [1@1, futile(Activity, current_timestep)]
 
 :-
     interpretation(UnobservedActions, current_timestep),
@@ -209,7 +211,8 @@ futile(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
 :~
-    apply_cr_rule(futile_goal(Goal, current_timestep)). [1@1, futile_goal(Goal, current_timestep)]
+    apply_cr_rule(futile_goal(Goal, current_timestep)).
+    [1@1, futile_goal(Goal, current_timestep)]
 
 intended_action(wait, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -241,7 +244,8 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_new(Action, FutureTimestep)).
 
 :~
-    apply_cr_rule(plan_new(Action, FutureTimestep)). [1@1, plan_new(Action, FutureTimestep)]
+    apply_cr_rule(plan_new(Action, FutureTimestep)).
+    [1@1, plan_new(Action, FutureTimestep)]
 
 component(Activity, PreviousTimestep - 1, Action) :-
     interpretation(UnobservedActions, current_timestep),
@@ -288,7 +292,8 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_existing(Action, FutureTimestep)).
 
 :~
-    apply_cr_rule(plan_existing(Action, FutureTimestep)). [1@1, plan_existing(Action, FutureTimestep)]
+    apply_cr_rule(plan_existing(Action, FutureTimestep)).
+    [1@1, plan_existing(Action, FutureTimestep)]
 
 occurs(NextAction, FutureTimestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -310,10 +315,12 @@ intended_action(start(Activity), current_timestep) :-
 :~
     action(Action),
     not apply_cr_rule(plan_new(Action, Timestep)),
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)).
+    [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
 
 % prefer(plan_existing(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
     action(Action),
     not apply_cr_rule(plan_existing(Action, Timestep)),
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)).
+    [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
