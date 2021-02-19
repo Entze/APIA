@@ -51,15 +51,15 @@ observed(in_room(Person, Room), Timestep) :-
 
 % Theory of Intentions
 
--holds(active_goal(Goal), Timestep) :-
+-observed(active_goal(Goal), Timestep) :-
     Timestep = 0,
     fluent(inertial, active_goal(Goal)).
 
-holds(status(Activity, ActivityIndex), Timestep) :-
+observed(status(Activity, ActivityIndex), Timestep) :-
     Timestep = 0,
     fluent(inertial, status(Activity, ActivityIndex)),
     ActivityIndex = -1.
 
--holds(next_name(Activity), Timestep) :-
+-observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     fluent(inertial, next_name(Activity)).
