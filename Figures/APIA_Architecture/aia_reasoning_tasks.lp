@@ -64,7 +64,6 @@ interpretation(ActionsNeeded, current_timestep) :-
 % (p. 45) of dissertation
 
 category_1_history(current_timestep) :-
-    current_timestep > 1,  % TODO: Consider removing this line (our addition)
     interpretation(UnobservedActions, current_timestep),
     not active_goal_or_activity(current_timestep).
 
