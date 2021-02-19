@@ -65,6 +65,9 @@ auth_compliance(weak) :-
 
 %%%% Expected sequence %%%%
 
+%--- (Initial observations) ---%
+% See instance.lp
+
 %--- Iteration 1: Step 1 (Interpret observations) ---%
 #program test_1.
 
