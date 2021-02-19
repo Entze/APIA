@@ -145,40 +145,21 @@ holds(status(Activity, activity_index__non_active), Timestep + 1) :-
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
 % impossible Action1, Action2 if
-%   physical_action(Action1), agent_action(Action1),
-%   mental_action(Action2), agent_action(Action2)
--occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
-    step(Timestep),
-    physical_action(Action1),
-    agent_action(Action1),
-    mental_action(Action2),
-    agent_action(Action2).
-
-% impossible Action1, Action2 if
 %   mental_action(Action1), agent_action(Action1),
-%   mental_action(Action2), agent_action(Action2),
+%   agent_action(Action2),
 %   Action1 != Action2.
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     mental_action(Action1),
     agent_action(Action1),
-    mental_action(Action2),
     agent_action(Action2),
     Action1 != Action2.
 
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
 % impossible wait, Action if
-%   physical_action(Action), agent_action(Action).
+%   agent_action(Action).
 -occurs(wait, Timestep) | -occurs(Action, Timestep) :-
     step(Timestep),
-    physical_action(Action),
-    agent_action(Action).
-
-% impossible wait, Action if
-%   mental_action(Action), agent_action(Action).
--occurs(wait, Timestep) | -occurs(Action, Timestep) :-
-    step(Timestep),
-    mental_action(Action),
     agent_action(Action).
 
 % child(ChildActivity) if
@@ -247,27 +228,15 @@ holds(active_goal(Goal), Timestep + 1) :-
 -occurs(abandon(Goal), Timestep) :-
     holds(minor(Goal), Timestep).
 
-% "We assume that no physical exogenous action may occur concurrently with a special exogenous action"
+% "We assume that no physical action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
 %   mental_action(Action1), exogenous_action(Action1),
-%   physical_action(Action2), exogenous_action(Action2)
+%   physical_action(Action2)
 -occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
     step(Timestep),
     mental_action(Action1),
     exogenous_action(Action1),
-    physical_action(Action2),
-    exogenous_action(Action2).
-
-% "We assume that no physical agent action may occur concurrently with a special exogenous action"
-% impossible Action1, Action2 if
-%   mental_action(Action1), exogenous_action(Action1),
-%   physical_action(Action2), agent_action(Action2)
--occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
-    step(Timestep),
-    mental_action(Action1),
-    exogenous_action(Action1),
-    physical_action(Action2),
-    agent_action(Action2).
+    physical_action(Action2).
 
 % "We assume that no mental agent action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
