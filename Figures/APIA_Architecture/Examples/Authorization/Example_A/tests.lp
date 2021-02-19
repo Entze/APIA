@@ -81,14 +81,17 @@ attempt(wait, Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_4.
 
+% "The agent always observes the results of his attempts to perform actions"
+% (p. 36, p. 51) of dissertation
+%   There is no happened(...) :- attempt(...) rule.
+happened(wait, Timestep) :-
+    Timestep = 0.
+
 happened(select(greeted_by(Person, Actor)), Timestep) :-
     Timestep = 0,
     Person = "Alice",
     Actor = "Bob".
 
-% happened(wait, Timestep) :-
-%     Timestep = 0.
-%
 
 
 %--- Iteration 2: Step 1 (Interpret observations) ---%
@@ -112,9 +115,9 @@ attempt(start(Activity), Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_8.
 
-%happened(start(Activity), Timestep) :-
-%    Timestep = 1,
-%    Activity = 1.
+happened(start(Activity), Timestep) :-
+    Timestep = 1,
+    Activity = 1.
 
 
 
@@ -143,10 +146,10 @@ attempt(move_through(Actor, Door), Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_12.
 
-%happened(move_through(Actor, Door), Timestep) :-
-%    Timestep = 2,
-%    Actor = "Bob",
-%    Door = "d12".
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 2,
+    Actor = "Bob",
+    Door = "d12".
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 3,
@@ -180,10 +183,10 @@ attempt(move_through(Actor, Door), Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_16.
 
-%happened(move_through(Actor, Door), Timestep) :-
-%    Timestep = 3,
-%    Actor = "Bob",
-%    Door = "d23".
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 3,
+    Actor = "Bob",
+    Door = "d23".
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 4,
@@ -217,10 +220,10 @@ attempt(move_through(Actor, Door), Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_20.
 
-%happened(move_through(Actor, Door), Timestep) :-
-%    Timestep = 4,
-%    Actor = "Bob",
-%    Door = "d34".
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 4,
+    Actor = "Bob",
+    Door = "d34".
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
@@ -254,10 +257,10 @@ attempt(greet(Actor, Person), Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_24.
 
-%happened(greet(Actor, Person), Timestep) :-
-%    Timestep = 5,
-%    Actor = "Bob",
-%    Person = "Alice".
+happened(greet(Actor, Person), Timestep) :-
+    Timestep = 5,
+    Actor = "Bob",
+    Person = "Alice".
 
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 6,
@@ -289,9 +292,9 @@ attempt(stop(Activity), Timestep) :-
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_28.
 
-%happened(stop(Activity), Timestep) :-
-%    Timestep = 6,
-%    Activity = 1.
+happened(stop(Activity), Timestep) :-
+    Timestep = 6,
+    Activity = 1.
 
 %%%% #show statements %%%%
 
