@@ -12,12 +12,12 @@ shift
 FILES=( "$@" )
 
 GLOBAL_FILES=(
-    aaa_axioms.lp
     aia_reasoning_tasks.lp
     aia_theory_of_intentions.lp
+    aia_axioms.lp
     aopl_authorization_compliance.lp
     aopl_obligation_compliance.lp
-    misc_dynamic_domain.lp
+    general_axioms.lp
 )
 
 for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
