@@ -349,12 +349,11 @@ holds(next_action(Activity, start(ChildActivity)), Timestep) :-
     -holds(active(ChildActivity), Timestep).
 
 % next_action(Activity, Action) if
-%   physical_action(Action), agent_action(Action), status(Activity, ActivityIndex),
+%   agent_action(Action), status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), in_progress(ChildActivity), next_action(ChildActivity, Action)
 holds(next_action(Activity, Action), Timestep) :-
     step(Timestep),
-    physical_action(Action),
     agent_action(Action),
     holds(status(Activity, ActivityIndex), Timestep),
     holds(component(Activity, ActivityIndex + 1, ChildActivity), Timestep),
