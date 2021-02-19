@@ -2,7 +2,7 @@
 % fluent(defined, Fluent)
 % aciton(Action)
 
-%%%% Inertial axiom %%%%
+%%%% Inertia axiom %%%%
 
 step(Timestep) :-
     Timestep = 0..max_timestep.
