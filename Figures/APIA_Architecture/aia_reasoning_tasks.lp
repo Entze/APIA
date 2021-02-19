@@ -21,7 +21,7 @@ occurs(Action, Timestep) :-
     exogenous_action(Action),
     Timestep < current_timestep.
 
-occurs(Action, Timestep, current_timestep) :-
+occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
 
 :~
