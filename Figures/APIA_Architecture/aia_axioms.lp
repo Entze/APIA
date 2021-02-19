@@ -20,7 +20,7 @@ holds(Fluent, Timestep) :-
     Timestep = 0.
 
 %%%% Reality Check Axioms %%%%
-#program aaa_reality_check(current_timestep).
+#program aia_axioms(current_timestep).
 
 :-
     observed(Fluent, Timestep),
