@@ -19,20 +19,23 @@ occurs(Action, Timestep) :-
     Timestep < current_timestep,
     -happened(Action, Timestep).
 
-{ apply_cr_rule(d(Action, Timestep)) } :-
+{ apply_cr_rule(diagnosis(Action, Timestep, current_timestep)) } :-
     step(Timestep),
-    physical_exogenous_action(Action),
+    physical_action(Action),
+    exogenous_action(Action),
     Timestep < current_timestep.
 
-occurs(Action, Timestep) :-
-    apply_cr_rule(d(Action, Timestep)).
+occurs(Action, Timestep, current_timestep) :-
+    apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
 
 :~
-    apply_cr_rule(d(Action, Timestep)). [1@1, d(Action, Timestep)]
+    apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
+    [1@1, diagnosis(Action, Timestep, current_timestep)]
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
-    physical_exogenous_action(Action),
+    physical_action(Action),  % TODO: In paper, but not AIA
+    exogenous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).
 
@@ -106,6 +109,7 @@ occurs(Action, FutureTimestep) :-
     -holds(minor(Activity), FutureTimestep),
     holds(in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
+    agent_action(Action),
     not impossible(Action, FutureTimestep).
 
 projected_success(Activity, current_timestep) :-
@@ -125,18 +129,20 @@ intended_action(Action, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_3_history(Activity, current_timestep),
     holds(next_action(Activity, Action), current_timestep),
+    agent_action(Action),
     projected_success(Activity, current_timestep).
 
-{ apply_cr_rule(futile(Activity, current_timestep)) } :-
+{ apply_cr_rule(futile_activity(Activity, current_timestep)) } :-
     interpretation(UnobservedActions, current_timestep),
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep).
 
 futile(Activity, current_timestep) :-
-    apply_cr_rule(futile(Activity, current_timestep)).
+    apply_cr_rule(futile_activity(Activity, current_timestep)).
 
 :~
-    apply_cr_rule(futile(Activity, current_timestep)). [1@1, futile(Activity, current_timestep)]
+    apply_cr_rule(futile_activity(Activity, current_timestep)).
+    [1@1, futile(Activity, current_timestep)]
 
 :-
     interpretation(UnobservedActions, current_timestep),
@@ -207,7 +213,8 @@ futile(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
 :~
-    apply_cr_rule(futile_goal(Goal, current_timestep)). [1@1, futile_goal(Goal, current_timestep)]
+    apply_cr_rule(futile_goal(Goal, current_timestep)).
+    [1@1, futile_goal(Goal, current_timestep)]
 
 intended_action(wait, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -227,7 +234,8 @@ goal(Activity, Goal) :-
     new_candidate(Activity, current_timestep).
 
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
-    action(Action),
+    physical_action(Action),
+    agent_action(Action),
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
@@ -239,14 +247,17 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_new(Action, FutureTimestep)).
 
 :~
-    apply_cr_rule(plan_new(Action, FutureTimestep)). [1@1, plan_new(Action, FutureTimestep)]
+    apply_cr_rule(plan_new(Action, FutureTimestep)).
+    [1@1, plan_new(Action, FutureTimestep)]
 
 component(Activity, PreviousTimestep - 1, Action) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    occurs(Action, PreviousTimestep).
+    occurs(Action, PreviousTimestep),
+    physical_action(Action),
+    agent_action(Action).
 
 :-
     interpretation(UnobservedActions, current_timestep),
@@ -274,6 +285,8 @@ length(Activity, ActivityLength) :-
 %--- Creating existing candidates ---%
 
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
+    physical_action(Action),
+    agent_action(Action),
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
@@ -286,7 +299,8 @@ occurs(Action, FutureTimestep) :-
     apply_cr_rule(plan_existing(Action, FutureTimestep)).
 
 :~
-    apply_cr_rule(plan_existing(Action, FutureTimestep)). [1@1, plan_existing(Action, FutureTimestep)]
+    apply_cr_rule(plan_existing(Action, FutureTimestep)).
+    [1@1, plan_existing(Action, FutureTimestep)]
 
 occurs(NextAction, FutureTimestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -295,7 +309,9 @@ occurs(NextAction, FutureTimestep) :-
     occurs(start(Activity), current_timestep),
     current_timestep < FutureTimestep,
     holds(in_progress(Activity), FutureTimestep),
-    holds(next_action(Activity, NextAction), FutureTimestep).
+    holds(next_action(Activity, NextAction), FutureTimestep),
+    mental_action(Action),
+    agent_action(Action).
 
 intended_action(start(Activity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -308,10 +324,12 @@ intended_action(start(Activity), current_timestep) :-
 :~
     action(Action),
     not apply_cr_rule(plan_new(Action, Timestep)),
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)).
+    [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
 
 % prefer(plan_existing(Action, Timestep), futile_goal(Goal, Timestep)).
 :~
     action(Action),
     not apply_cr_rule(plan_existing(Action, Timestep)),
-    apply_cr_rule(futile_goal(Goal, Timestep)). [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
+    apply_cr_rule(futile_goal(Goal, Timestep)).
+    [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
