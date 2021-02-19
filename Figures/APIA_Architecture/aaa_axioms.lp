@@ -15,6 +15,16 @@ holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
 occurs(Action, Timestep) :-
     happened(Action, Timestep).
 
+%%%% Initialization Axiom %%%%
+
+holds(Fluent, Timestep) :-
+    observed(Fluent, Timestep),
+    Timestep = 0.
+
+-holds(Fluent, Timestep) :-
+    -observed(Fluent, Timestep),
+    Timestep = 0.
+
 %%%% Reality Check Axioms %%%%
 #program aaa_reality_check(current_timestep).
 
