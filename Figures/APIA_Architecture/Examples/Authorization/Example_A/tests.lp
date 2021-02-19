@@ -89,11 +89,6 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 % happened(wait, Timestep) :-
 %     Timestep = 0.
 %
-% happened(select(greeted_by(Person, Actor)), Timestep) :-
-%     Timestep = 0,
-%     Actor = "Bob",
-%     Person = "Alice".
-
 
 
 %--- Iteration 2: Step 1 (Interpret observations) ---%
