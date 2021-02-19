@@ -99,6 +99,13 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
     Person = "Alice",
     Actor = "Bob".
 
+% "The agent always observes the truth value of his goal"
+% (p. 36) of dissertation
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 1,
+    Person = "Alice",
+    Actor = "Bob".
+
 
 
 %--- Iteration 2: Step 1 (Interpret observations) ---%
@@ -125,6 +132,11 @@ attempt(start(Activity), Timestep) :-
 happened(start(Activity), Timestep) :-
     Timestep = 1,
     Activity = 1.
+
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 2,
+    Person = "Alice",
+    Actor = "Bob".
 
 
 
@@ -163,6 +175,11 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Room = "r2".
 
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 3,
+    Person = "Alice",
+    Actor = "Bob".
+
 
 
 %--- Iteration 4: Step 1 (Interpret observations) ---%
@@ -200,6 +217,11 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Room = "r3".
 
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 4,
+    Person = "Alice",
+    Actor = "Bob".
+
 
 
 %--- Iteration 5: Step 1 (Interpret observations) ---%
@@ -236,6 +258,11 @@ observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
     Person = "Bob",
     Room = "r4".
+
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 5,
+    Person = "Alice",
+    Actor = "Bob".
 
 
 
@@ -302,6 +329,11 @@ attempt(stop(Activity), Timestep) :-
 happened(stop(Activity), Timestep) :-
     Timestep = 6,
     Activity = 1.
+
+observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 7,
+    Person = "Alice",
+    Actor = "Bob".
 
 %%%% #show statements %%%%
 
