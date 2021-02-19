@@ -10,7 +10,7 @@ holds(Fluent, Timestep) | -holds(Fluent, Timestep) :-
     fluent(inertial, Fluent),
     Timestep = 0.
 
-%%%% History-to-hypothesis Axiom %%%%
+%%%% Occurrence-Awareness Axiom %%%%
 
 occurs(Action, Timestep) :-
     happened(Action, Timestep).
