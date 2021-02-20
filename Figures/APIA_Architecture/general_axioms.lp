@@ -3,32 +3,33 @@
 % aciton(Action)
 
 %%%% Inertia axiom %%%%
+#program axioms(timestep).
 
-step(Timestep) :-
-    Timestep = 0..max_timestep.
+step(timestep) :-
+    timestep = 0..max_timestep.
 
-holds(Fluent, Timestep + 1) :-
+holds(Fluent, timestep + 1) :-
     fluent(inertial, Fluent),
-    step(Timestep),
-    holds(Fluent, Timestep),
-    not -holds(Fluent, Timestep + 1).
+    step(timestep),
+    holds(Fluent, timestep),
+    not -holds(Fluent, timestep + 1).
 
--holds(Fluent, Timestep + 1) :-
+-holds(Fluent, timestep + 1) :-
     fluent(inertial, Fluent),
-    step(Timestep),
-    -holds(Fluent, Timestep),
-    not holds(Fluent, Timestep + 1).
+    step(timestep),
+    -holds(Fluent, timestep),
+    not holds(Fluent, timestep + 1).
 
 %%%% Closed-world assumption for defined fluents %%%%
 
--holds(Fluent, Timestep) :-
+-holds(Fluent, timestep) :-
     fluent(defined, Fluent),
-    step(Timestep),
-    not holds(Fluent, Timestep).
+    step(timestep),
+    not holds(Fluent, timestep).
 
 %%%% Closed-world assumption for actions %%%%
 
--occurs(Action, Timestep) :-
+-occurs(Action, timestep) :-
     action(Action),
-    step(Timestep),
-    not occurs(Action, Timestep).
+    step(timestep),
+    not occurs(Action, timestep).

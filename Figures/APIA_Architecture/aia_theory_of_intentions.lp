@@ -108,51 +108,52 @@ action(Action) :-
 action(wait).
 
 %%%% Action descriptions %%%%
+#program action_description(timestep).
 
 % -status(Activity, OldActivityIndex) if
 %   status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
--holds(status(Activity, OldActivityIndex), Timestep) :-
-    step(Timestep),
-    holds(status(Activity, ActivityIndex), Timestep),
+-holds(status(Activity, OldActivityIndex), timestep) :-
+    step(timestep),
+    holds(status(Activity, ActivityIndex), timestep),
     length(Activity, ActivityLength),
     OldActivityIndex = -1..ActivityLength,
     OldActivityIndex != ActivityIndex.
 
 % active(Activity) if
 %   -status(Activity, -1)
-holds(active(Activity), Timestep) :-
-    step(Timestep),
-    -holds(status(Activity, activity_index__non_active), Timestep).
+holds(active(Activity), timestep) :-
+    step(timestep),
+    -holds(status(Activity, activity_index__non_active), timestep).
 
 % start(Activity) causes status(Activity, 0)
-holds(status(Activity, activity_index__new), Timestep + 1) :-
-    step(Timestep),
-    occurs(start(Activity), Timestep).
+holds(status(Activity, activity_index__new), timestep + 1) :-
+    step(timestep),
+    occurs(start(Activity), timestep).
 
 % stop(Activity) causes status(Activity, -1)
-holds(status(Activity, activity_index__non_active), Timestep + 1) :-
-    step(Timestep),
-    occurs(stop(Activity), Timestep).
+holds(status(Activity, activity_index__non_active), timestep + 1) :-
+    step(timestep),
+    occurs(stop(Activity), timestep).
 
 % impossible start(Activity) if
 %   active(Activity)
--occurs(start(Activity), Timestep) :-
-    step(Timestep),
-    holds(active(Activity), Timestep).
+-occurs(start(Activity), timestep) :-
+    step(timestep),
+    holds(active(Activity), timestep).
 
 % impossible stop(Activity) if
 %   -active(Activity)
--occurs(stop(Activity), Timestep) :-
-    step(Timestep),
-    -holds(active(Activity), Timestep).
+-occurs(stop(Activity), timestep) :-
+    step(timestep),
+    -holds(active(Activity), timestep).
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
 % impossible Action1, Action2 if
 %   mental_action(Action1), agent_action(Action1),
 %   agent_action(Action2),
 %   Action1 != Action2.
--occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
-    step(Timestep),
+-occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+    step(timestep),
     mental_action(Action1),
     agent_action(Action1),
     agent_action(Action2),
@@ -161,82 +162,82 @@ holds(status(Activity, activity_index__non_active), Timestep + 1) :-
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
 % impossible wait, Action if
 %   agent_action(Action).
--occurs(wait, Timestep) | -occurs(Action, Timestep) :-
-    step(Timestep),
+-occurs(wait, timestep) | -occurs(Action, timestep) :-
+    step(timestep),
     agent_action(Action).
 
 % child(ChildActivity) if
 %   component(Activity, Activity + 1, ChildActivity), status(Activity, ActivityIndex)
-holds(child(ChildActivity), Timestep) :-
-    step(Timestep),
-    holds(component(Activity, Activity + 1, ChildActivity), Timestep),
-    holds(status(Activity, ActivityIndex), Timestep).
+holds(child(ChildActivity), timestep) :-
+    step(timestep),
+    holds(component(Activity, Activity + 1, ChildActivity), timestep),
+    holds(status(Activity, ActivityIndex), timestep).
 
 % child_goal(ChildGoal, Goal) if
 %   child(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
-holds(child_goal(ChildGoal, Goal), Timestep) :-
-    step(Timestep),
-    holds(child(ChildActivity, Activity), Timestep),
-    holds(goal(Activity, Goal), Timestep),
-    holds(goal(ChildActivity, ChildGoal), Timestep).
+holds(child_goal(ChildGoal, Goal), timestep) :-
+    step(timestep),
+    holds(child(ChildActivity, Activity), timestep),
+    holds(goal(Activity, Goal), timestep),
+    holds(goal(ChildActivity, ChildGoal), timestep).
 
 % descendant(ChildActivity, Activity) if
 %   child(ChildActivity, Activity)
-holds(descendant(ChildActivity, Activity), Timestep) :-
-    step(Timestep),
-    holds(child(ChildActivity, Activity), Timestep).
+holds(descendant(ChildActivity, Activity), timestep) :-
+    step(timestep),
+    holds(child(ChildActivity, Activity), timestep).
 
 % descendant(GrandChildActivity, Activity) if
 %   descendant(ChildActivity, Activity), descendant(GrandChildActivity, ChildActivity)
-holds(descendant(GrandChildActivity, Activity), Timestep) :-
-    step(Timestep),
-    holds(descendant(ChildActivity, Activity), Timestep),
-    holds(descendant(GrandChildActivity, ChildActivity), Timestep).
+holds(descendant(GrandChildActivity, Activity), timestep) :-
+    step(timestep),
+    holds(descendant(ChildActivity, Activity), timestep),
+    holds(descendant(GrandChildActivity, ChildActivity), timestep).
 
 % minor(ChildActivity) if
 %   child(ChildActivity, Activity)
-holds(minor(ChildActivity), Timestep) :-
-    step(Timestep),
-    holds(child(ChildActivity, Activity), Timestep).
+holds(minor(ChildActivity), timestep) :-
+    step(timestep),
+    holds(child(ChildActivity, Activity), timestep).
 
 % minor(ChildGoal) if
 %   child_goal(ChildGoal, Goal)
-holds(minor(ChildGoal), Timestep) :-
-    step(Timestep),
-    holds(child_goal(ChildGoal, Goal), Timestep).
+holds(minor(ChildGoal), timestep) :-
+    step(timestep),
+    holds(child_goal(ChildGoal, Goal), timestep).
 
 % select(Goal) causes active_goal(Goal)
-holds(active_goal(Goal), Timestep + 1) :-
-    step(Timestep),
-    occurs(select(Goal), Timestep).
+holds(active_goal(Goal), timestep + 1) :-
+    step(timestep),
+    occurs(select(Goal), timestep).
 
 % impossible select(Goal) if
 %   active_goal(Goal)
--occurs(select(Goal), Timestep) :-
-    step(Timestep),
-    holds(active_goal(Goal), Timestep).
+-occurs(select(Goal), timestep) :-
+    step(timestep),
+    holds(active_goal(Goal), timestep).
 
 % abandon(Goal) causes -active_goal(Goal)
--holds(active_goal(Goal), Timestep + 1) :-
-    step(Timestep),
-    occurs(abandon(Goal), Timestep).
+-holds(active_goal(Goal), timestep + 1) :-
+    step(timestep),
+    occurs(abandon(Goal), timestep).
 
 % impossible abandon(Goal) if
 %   -active_goal(Goal)
--occurs(abandon(Goal), Timestep) :-
-    -holds(active_goal(Goal), Timestep).
+-occurs(abandon(Goal), timestep) :-
+    -holds(active_goal(Goal), timestep).
 
 % impossible abandon(Goal) if
 %   minor(Goal)
--occurs(abandon(Goal), Timestep) :-
-    holds(minor(Goal), Timestep).
+-occurs(abandon(Goal), timestep) :-
+    holds(minor(Goal), timestep).
 
 % "We assume that no physical action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
 %   mental_action(Action1), special_exogenous_action(Action1),
 %   physical_action(Action2)
--occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
-    step(Timestep),
+-occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+    step(timestep),
     mental_action(Action1),
     special_exogenous_action(Action1),
     physical_action(Action2).
@@ -245,8 +246,8 @@ holds(active_goal(Goal), Timestep + 1) :-
 % impossible Action1, Action2 if
 %   mental_action(Action1), special_exogenous_action(Action1),
 %   mental_action(Action2), agent_action(Action2)
--occurs(Action1, Timestep) | -occurs(Action2, Timestep) :-
-    step(Timestep),
+-occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+    step(timestep),
     mental_action(Action1),
     special_exogenous_action(Action1),
     mental_action(Action2),
@@ -254,10 +255,10 @@ holds(active_goal(Goal), Timestep + 1) :-
 
 % -active_goal(Goal) if
 %   -minor(Goal), goal(Goal)
--holds(active_goal(Goal), Timestep) :-
-    step(Timestep),
-    -holds(minor(Goal), Timestep),
-    holds(goal(Goal), Timestep).
+-holds(active_goal(Goal), timestep) :-
+    step(timestep),
+    -holds(minor(Goal), timestep),
+    holds(goal(Goal), timestep).
 
 %--- Sub goal ---%
 
@@ -266,34 +267,34 @@ holds(active_goal(Goal), Timestep + 1) :-
 %   minor(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), goal(ChildActivity, MinorGoal),
 %   -MinorGoal, status(ChildActivity, -1)
-holds(active_goal(MinorGoal), Timestep) :-
-    step(Timestep),
-    holds(minor(MinorGoal), Timestep),
-    holds(child_goal(MinorGoal, Goal), Timestep),
-    holds(active_goal(Goal), Timestep),
-    holds(goal(ChildActivity, MinorGoal), Timestep),
-    -holds(MinorGoal, Timestep),
-    holds(status(ChildActivity, activity_index__non_active), Timestep).
+holds(active_goal(MinorGoal), timestep) :-
+    step(timestep),
+    holds(minor(MinorGoal), timestep),
+    holds(child_goal(MinorGoal, Goal), timestep),
+    holds(active_goal(Goal), timestep),
+    holds(goal(ChildActivity, MinorGoal), timestep),
+    -holds(MinorGoal, timestep),
+    holds(status(ChildActivity, activity_index__non_active), timestep).
 
 % "A minor goal MinorGoal is no longer active when it is achieved."
 % -active_goal(MinorGoal) if
 %   minor(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), MinorGoal.
--holds(active_goal(MinorGoal), Timestep) :-
-    step(Timestep),
-    holds(minor(MinorGoal), Timestep),
-    holds(child_goal(MinorGoal, Goal), Timestep),
-    holds(active_goal(Goal), Timestep),
-    holds(MinorGoal, Timestep).
+-holds(active_goal(MinorGoal), timestep) :-
+    step(timestep),
+    holds(minor(MinorGoal), timestep),
+    holds(child_goal(MinorGoal, Goal), timestep),
+    holds(active_goal(Goal), timestep),
+    holds(MinorGoal, timestep).
 
 % "A minor goal MinorGoal is no longer active when its parent [goal] is no longer active"
 % -active_goal(MinorGoal) if
 %   minor(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
--holds(active_goal(MinorGoal), Timestep) :-
-    step(Timestep),
-    holds(minor(MinorGoal), Timestep),
-    holds(child_goal(MinorGoal, Goal), Timestep),
-    -holds(active_goal(Goal), Timestep).
+-holds(active_goal(MinorGoal), timestep) :-
+    step(timestep),
+    holds(minor(MinorGoal), timestep),
+    holds(child_goal(MinorGoal, Goal), timestep),
+    -holds(active_goal(Goal), timestep).
 
 % "A minor goal MinorGoal of ChildActivity is no longer active when ChildActivity has been executed."
 % -active_goal(MinorGoal) if
@@ -301,123 +302,123 @@ holds(active_goal(MinorGoal), Timestep) :-
 %   active_goal(Goal), -MinorGoal,
 %   goal(ChildActivity, MinorGoal), status(ChildActivity, ChildActivityIndex),
 %   length(ChildActivity, ChildActivityLength)
--holds(active_goal(MinorGoal), Timestep) :-
-    step(Timestep),
-    holds(minor(MinorGoal), Timestep),
-    holds(child_goal(MinorGoal, Goal), Timestep),
-    holds(active_goal(Goal), Timestep),
-    -holds(MinorGoal, Timestep),
-    holds(goal(ChildActivity, MinorGoal), Timestep),
-    holds(status(ChildActivity, ChildActivityIndex), Timestep),
-    holds(length(ChildActivity, ChildActivityLength), Timestep),
+-holds(active_goal(MinorGoal), timestep) :-
+    step(timestep),
+    holds(minor(MinorGoal), timestep),
+    holds(child_goal(MinorGoal, Goal), timestep),
+    holds(active_goal(Goal), timestep),
+    -holds(MinorGoal, timestep),
+    holds(goal(ChildActivity, MinorGoal), timestep),
+    holds(status(ChildActivity, ChildActivityIndex), timestep),
+    holds(length(ChildActivity, ChildActivityLength), timestep),
     ChildActivityIndex = ChildActivityLength.
 
 %--- Misc. ---%
 
 % in_progress(Activity) if
 %   active(Activity), goal(Activity, Goal), active_goal(Goal)
-holds(in_progress(Activity), Timestep) :-
-    step(Timestep),
-    holds(active(Activity), Timestep),
-    holds(goal(Activity, Goal), Timestep),
-    holds(active_goal(Goal), Timestep).
+holds(in_progress(Activity), timestep) :-
+    step(timestep),
+    holds(active(Activity), timestep),
+    holds(goal(Activity, Goal), timestep),
+    holds(active_goal(Goal), timestep).
 
 % in_progress(Goal) if
 %   active(Activity), goal(Activity, Goal), active_goal(Goal)
-holds(in_progress(Goal), Timestep) :-
-    step(Timestep),
-    holds(active(Activity), Timestep),
-    holds(goal(Activity, Goal), Timestep),
-    holds(active_goal(Goal), Timestep).
+holds(in_progress(Goal), timestep) :-
+    step(timestep),
+    holds(active(Activity), timestep),
+    holds(goal(Activity, Goal), timestep),
+    holds(active_goal(Goal), timestep).
 
 % next_action(Activity, Action) if
 %   physical_action(Action), agent_action(Action), status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, Action), in_progress(Activity)
-holds(next_action(Activity, Action), Timestep) :-
-    step(Timestep),
+holds(next_action(Activity, Action), timestep) :-
+    step(timestep),
     physical_action(Action),
     agent_action(Action),
-    holds(status(Activity, ActivityIndex), Timestep),
-    holds(component(Activity, ActivityIndex + 1, Action), Timestep),
-    holds(in_progress(Activity), Timestep).
+    holds(status(Activity, ActivityIndex), timestep),
+    holds(component(Activity, ActivityIndex + 1, Action), timestep),
+    holds(in_progress(Activity), timestep).
 
 % next_action(Activity, start(ChildActivity)) if
 %   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), -active(ChildActivity)
-holds(next_action(Activity, start(ChildActivity)), Timestep) :-
-    step(Timestep),
-    holds(status(Activity, ActivityIndex), Timestep),
-    holds(component(Activity, ActivityIndex + 1, ChildActivity), Timestep),
-    holds(in_progress(Activity), Timestep),
-    -holds(active(ChildActivity), Timestep).
+holds(next_action(Activity, start(ChildActivity)), timestep) :-
+    step(timestep),
+    holds(status(Activity, ActivityIndex), timestep),
+    holds(component(Activity, ActivityIndex + 1, ChildActivity), timestep),
+    holds(in_progress(Activity), timestep),
+    -holds(active(ChildActivity), timestep).
 
 % next_action(Activity, Action) if
 %   agent_action(Action), status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), in_progress(ChildActivity), next_action(ChildActivity, Action)
-holds(next_action(Activity, Action), Timestep) :-
-    step(Timestep),
+holds(next_action(Activity, Action), timestep) :-
+    step(timestep),
     agent_action(Action),
-    holds(status(Activity, ActivityIndex), Timestep),
-    holds(component(Activity, ActivityIndex + 1, ChildActivity), Timestep),
-    holds(in_progress(Activity), Timestep),
-    holds(in_progress(ChildActivity), Timestep),
-    holds(next_action(ChildActivity, Action), Timestep).
+    holds(status(Activity, ActivityIndex), timestep),
+    holds(component(Activity, ActivityIndex + 1, ChildActivity), timestep),
+    holds(in_progress(Activity), timestep),
+    holds(in_progress(ChildActivity), timestep),
+    holds(next_action(ChildActivity, Action), timestep).
 
 % next_action(Activity, stop(ChildActivity)) if
 %   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), active(ChildActivity),
 %   goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
-holds(next_action(Activity, stop(ChildActivity)), Timestep) :-
-    step(Timestep),
-    holds(status(Activity, ActivityIndex), Timestep),
-    holds(component(Activity, ActivityIndex + 1, ChildActivity), Timestep),
-    holds(in_progress(Activity), Timestep),
-    holds(active(ChildActivity), Timestep),
-    holds(goal(ChildActivity, ChildGoal), Timestep),
-    -holds(active_goal(ChildGoal), Timestep).
+holds(next_action(Activity, stop(ChildActivity)), timestep) :-
+    step(timestep),
+    holds(status(Activity, ActivityIndex), timestep),
+    holds(component(Activity, ActivityIndex + 1, ChildActivity), timestep),
+    holds(in_progress(Activity), timestep),
+    holds(active(ChildActivity), timestep),
+    holds(goal(ChildActivity, ChildGoal), timestep),
+    -holds(active_goal(ChildGoal), timestep).
 
 % Action causes status(Activity, ActivityIndex + 1) if
 %   next_action(Activity, Action), status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, Action), physical_action(Action), agent_action(Action)
-holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
-    step(Timestep),
-    occurs(Action, Timestep),
-    holds(next_action(Activity, Action), Timestep),
-    holds(status(Activity, ActivityIndex), Timestep),
-    holds(component(Activity, ActivityIndex + 1, Action), Timestep),
+holds(status(Activity, ActivityIndex + 1), timestep + 1) :-
+    step(timestep),
+    occurs(Action, timestep),
+    holds(next_action(Activity, Action), timestep),
+    holds(status(Activity, ActivityIndex), timestep),
+    holds(component(Activity, ActivityIndex + 1, Action), timestep),
     physical_action(Action),
     agent_action(Action).
 
 % stop(ChildActivity) causes status(Activity, ActivityIndex + 1) if
 %   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
 %   next_action(Activity, stop(ChildActivity))
-holds(status(Activity, ActivityIndex + 1), Timestep + 1) :-
-    step(Timestep),
-    occurs(stop(ChildActivity), Timestep),
-    holds(status(Activity, ActivityIndex), Timestep),
-    holds(component(Activity, ActivityIndex + 1, ChildActivity), Timestep),
-    holds(next_action(Activity, stop(ChildActivity)), Timestep).
+holds(status(Activity, ActivityIndex + 1), timestep + 1) :-
+    step(timestep),
+    occurs(stop(ChildActivity), timestep),
+    holds(status(Activity, ActivityIndex), timestep),
+    holds(component(Activity, ActivityIndex + 1, ChildActivity), timestep),
+    holds(next_action(Activity, stop(ChildActivity)), timestep).
 
 % stop(Activity) causes status(ChildActivity, -1) if
 %   descendant(ChildActivity, Activity)
-holds(status(ChildActivity, activity_index__non_active), Timestep + 1) :-
-    step(Timestep),
-    occurs(stop(Activity), Timestep),
-    holds(descendant(ChildActivity, Activity), Timestep).
+holds(status(ChildActivity, activity_index__non_active), timestep + 1) :-
+    step(timestep),
+    occurs(stop(Activity), timestep),
+    holds(descendant(ChildActivity, Activity), timestep).
 
 % -next_name(Activity) if
 %   next_name(ChildActivity), Activity != ChildActivity
--holds(next_name(Activity), Timestep) :-
-    step(Timestep),
+-holds(next_name(Activity), timestep) :-
+    step(timestep),
     next_name(ChildActivity),
     activity(Activity),
     Activity != ChildActivity.
 
 % start(Activity) causes next_name(Activity + 1) if
 %   next_name(Activity), -minor(Activity)
-holds(next_name(Activity + 1), Timestep + 1) :-
-    step(Timestep),
-    occurs(start(Activity), Timestep),
-    holds(next_name(Activity), Timestep),
-    -holds(minor(Activity), Timestep).
+holds(next_name(Activity + 1), timestep + 1) :-
+    step(timestep),
+    occurs(start(Activity), timestep),
+    holds(next_name(Activity), timestep),
+    -holds(minor(Activity), timestep).

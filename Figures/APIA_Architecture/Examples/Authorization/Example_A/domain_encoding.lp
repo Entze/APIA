@@ -1,6 +1,6 @@
 %%%% Domains %%%%
 
-% step(Timestep)
+% step(timestep)
 
 % room(Room)
 % door(Door)
@@ -86,70 +86,71 @@ exogenous_action(greet(Actor, Person)) :-
     Actor != Person.
 
 %%%% Action descriptions %%%%
+#program action_description(timestep).
 
 % move_through(Actor, Door) causes in_room(Actor, ToRoom)
 %   if in_room(Actor, FromRoom), door_connects(Door, FromRoom),
 %      ToRoom != FromRoom
-holds(in_room(Actor, ToRoom), Timestep + 1) :-
-    step(Timestep),
-    occurs(move_through(Actor, Door), Timestep),
+holds(in_room(Actor, ToRoom), timestep + 1) :-
+    step(timestep),
+    occurs(move_through(Actor, Door), timestep),
     door_connects(Door, ToRoom),
     door_connects(Door, FromRoom),
     ToRoom != FromRoom,
-    holds(in_room(Actor, FromRoom), Timestep).
+    holds(in_room(Actor, FromRoom), timestep).
 
 % -in_room(Actor, FromRoom) if in_room(Actor, ToRoom)
--holds(in_room(Actor, FromRoom), Timestep) :-
+-holds(in_room(Actor, FromRoom), timestep) :-
     room(FromRoom),
-    holds(in_room(Actor, ToRoom), Timestep),
+    holds(in_room(Actor, ToRoom), timestep),
     FromRoom != ToRoom.
 
 % impossible move_through(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
--occurs(move_through(Actor, Door), Timestep) :-
-    step(Timestep),
-    holds(in_room(Actor, Room), Timestep),
+-occurs(move_through(Actor, Door), timestep) :-
+    step(timestep),
+    holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
 % lock_door(Actor, Door) causes door_locked(Door)
-holds(door_locked(Door), Timestep + 1) :-
-    step(Timestep),
-    occurs(lock_door(Actor, Door), Timestep).
+holds(door_locked(Door), timestep + 1) :-
+    step(timestep),
+    occurs(lock_door(Actor, Door), timestep).
 
 % impossible lock_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
--occurs(lock_door(Actor, Door), Timestep) :-
-    step(Timestep),
-    holds(in_room(Actor, Room), Timestep),
+-occurs(lock_door(Actor, Door), timestep) :-
+    step(timestep),
+    holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
 % unlock_door(Actor, Door) causes -door_locked(Door)
--holds(door_locked(Door), Timestep + 1) :-
-    step(Timestep),
-    occurs(unlock_door(Actor, Door), Timestep).
+-holds(door_locked(Door), timestep + 1) :-
+    step(timestep),
+    occurs(unlock_door(Actor, Door), timestep).
 
 % impossible unlock_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
--occurs(unlock_door(Actor, Door), Timestep) :-
-    step(Timestep),
-    holds(in_room(Actor, Room), Timestep),
+-occurs(unlock_door(Actor, Door), timestep) :-
+    step(timestep),
+    holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
 % greet(Actor, Person) causes greeted_by(Person, Actor)
-holds(greeted_by(Person, Actor), Timestep + 1) :-
-    step(Timestep),
-    occurs(greet(Actor, Person), Timestep).
+holds(greeted_by(Person, Actor), timestep + 1) :-
+    step(timestep),
+    occurs(greet(Actor, Person), timestep).
 
 % impossible greet(Actor, Person)
 %   if in_room(Actor, ActorRoom), in_room(Person, PersonRoom),
 %      ActorRoom != PersonRoom.
--occurs(greet(Actor, Person), Timestep) :-
-    step(Timestep),
-    holds(in_room(Actor, ActorRoom), Timestep),
-    holds(in_room(Person, PersonRoom), Timestep),
+-occurs(greet(Actor, Person), timestep) :-
+    step(timestep),
+    holds(in_room(Actor, ActorRoom), timestep),
+    holds(in_room(Person, PersonRoom), timestep),
     ActorRoom != PersonRoom.
 
 %%%% Authorization policy %%%%
@@ -157,16 +158,16 @@ holds(greeted_by(Person, Actor), Timestep + 1) :-
 % "Anyone is allowed to move from any room to any room"
 %
 % permitted(move_through(Actor, Door))
-permitted(move_through(Actor, Door), Timestep) :-
-    step(Timestep),
+permitted(move_through(Actor, Door), timestep) :-
+    step(timestep),
     person(Actor),
     door(Door).
 
 % "Anyone is allowed to greet a coworker"
 %
 % permitted(greet(Actor, Person))
-permitted(greet(Actor, Person), Timestep) :-
-    step(Timestep),
+permitted(greet(Actor, Person), timestep) :-
+    step(timestep),
     person(Actor),
     person(Person),
     Actor != Person.
