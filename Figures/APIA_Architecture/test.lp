@@ -21,39 +21,41 @@ class AIALoopStep(IntEnum):
     OBSERVE_WORLD = 4
 
 
+def generate_aia_subprograms_to_ground(current_timestep: int, step_number: AIALoopStep):
+    # base
+    yield ASPSubprogramInstantiation(name='base', arguments=())
+
+    # aia_axioms(timestep)
+    yield from (ASPSubprogramInstantiation(name='aia_axioms', arguments=(timestep,))
+                for timestep in range(current_timestep))
+    if step_number >= 1:
+        yield ASPSubprogramInstantiation(name='aia_axioms', arguments=(current_timestep,))
+
+    # aia_step_1(timestep)
+    yield from (ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
+                for timestep in range(current_timestep))
+    if step_number >= 1:
+        yield ASPSubprogramInstantiation(name='aia_step_1', arguments=(current_timestep,))
+
+    # aia_step_2(timestep)
+    yield from (ASPSubprogramInstantiation(name='aia_step_2', arguments=(timestep,))
+                for timestep in range(current_timestep))
+    if step_number >= 2:
+        yield ASPSubprogramInstantiation(name='aia_step_2', arguments=(current_timestep,))
+
+
 def main(clingo_control: clingo.Control):
     max_test_number = clingo_control.get_const('test').number
     current_timestep = (max_test_number - 1) // 4
     aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
+
+    aia_subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, aia_step_number)
+
+    # test_X
     subprograms_to_ground = tuple(chain(
-        (
-            ASPSubprogramInstantiation(name='base', arguments=()),
-        ),
-        (
-            ASPSubprogramInstantiation(name=f'test_{test_number}', arguments=())
-            for test_number in range(1, max_test_number + 1)
-        ),
-        (
-            ASPSubprogramInstantiation(name='aia_axioms', arguments=(timestep,))
-            for timestep in range(current_timestep)
-        ),
-        (
-            ASPSubprogramInstantiation(name='aia_axioms', arguments=(current_timestep,)),
-        ) if aia_step_number >= 1 else (),
-        (
-            ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
-            for timestep in range(current_timestep)
-        ),
-        (
-            ASPSubprogramInstantiation(name='aia_step_1', arguments=(current_timestep,)),
-        ) if aia_step_number >= 1 else (),
-        (
-            ASPSubprogramInstantiation(name='aia_step_2', arguments=(timestep,))
-            for timestep in range(current_timestep)
-        ),
-        (
-            ASPSubprogramInstantiation(name='aia_step_2', arguments=(current_timestep,)),
-        ) if aia_step_number >= 2 else (),
+        aia_subprograms_to_ground,
+        (ASPSubprogramInstantiation(name=f'test_{test_number}', arguments=())
+         for test_number in range(1, max_test_number + 1)),
     ))
     print(f'Grounding: {subprograms_to_ground!r}')
     clingo_control.ground(subprograms_to_ground)
