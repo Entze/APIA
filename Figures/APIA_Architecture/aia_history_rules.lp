@@ -34,6 +34,7 @@ different_component(M, M1) :-
     activity(M),
     activity(M1),
     comp(C),
+    comp(C1),
     component(M, K, C),
     component(M1, K, C1),
     C != C1.
