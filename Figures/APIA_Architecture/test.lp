@@ -25,23 +25,25 @@ def generate_aia_subprograms_to_ground(current_timestep: int, step_number: AIALo
     # base
     yield ASPSubprogramInstantiation(name='base', arguments=())
 
-    # aia_axioms(timestep)
-    yield from (ASPSubprogramInstantiation(name='aia_axioms', arguments=(timestep,))
+    # axioms(timestep)
+    yield from (ASPSubprogramInstantiation(name='axioms', arguments=(timestep,))
+                for timestep in range(current_timestep + 1))
+
+    # action_description(timestep)
+    yield from (ASPSubprogramInstantiation(name='action_description', arguments=(timestep,))
+                for timestep in range(current_timestep + 1))
+
+    # aia_history_rules(timestep)
+    yield from (ASPSubprogramInstantiation(name='aia_history_rules', arguments=(timestep,))
                 for timestep in range(current_timestep))
     if step_number >= 1:
-        yield ASPSubprogramInstantiation(name='aia_axioms', arguments=(current_timestep,))
+        yield ASPSubprogramInstantiation(name='aia_history_rules', arguments=(current_timestep,))
 
-    # aia_step_1(timestep)
-    yield from (ASPSubprogramInstantiation(name='aia_step_1', arguments=(timestep,))
-                for timestep in range(current_timestep))
-    if step_number >= 1:
-        yield ASPSubprogramInstantiation(name='aia_step_1', arguments=(current_timestep,))
-
-    # aia_step_2(timestep)
-    yield from (ASPSubprogramInstantiation(name='aia_step_2', arguments=(timestep,))
+    # aia_intended_action_rules(timestep)
+    yield from (ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(timestep,))
                 for timestep in range(current_timestep))
     if step_number >= 2:
-        yield ASPSubprogramInstantiation(name='aia_step_2', arguments=(current_timestep,))
+        yield ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(current_timestep,))
 
 
 def main(clingo_control: clingo.Control):
