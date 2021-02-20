@@ -2,8 +2,8 @@
 
 #script(python)
 
-from typing import *
 from itertools import chain
+from typing import *
 
 import clingo
 
