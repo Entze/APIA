@@ -78,3 +78,58 @@ holds(baz(B), timestep) :-
     foo(A),
     holds(bar(B), timestep),
     holds(baz(C), timestep).
+
+%%%% Activities %%%%
+
+% goal(Goal) :-
+%     Goal = %* ... *%,
+%
+% activity(Activity) :-
+%     Activity = 1.
+%
+% goal(Activity, ActivityGoal) :-
+%     Activity = 1,
+%     ActivityGoal = %* ... *%.
+%
+% length(Activity, ActivityLength) :-
+%     Activity = 1,
+%     ActivityLength = #max{ ComponentIndex : component(Activity, ComponentIndex, _) }.
+%
+% component(Activity, ComponentIndex, Component) :-
+%     Activity = 1,
+%     ComponentIndex = 1,
+%     Component = %* ... *%.
+%
+% component(Activity, ComponentIndex, Component) :-
+%     Activity = 1,
+%     ComponentIndex = 2,
+%     Component = %* ... *%.
+%
+% ...
+
+%%%% Initial observations (before AIA control loop) %%%%
+% See p. 50 of dissertation
+
+-observed(bar(B), Timestep) :-
+    Timestep = 0,
+    b(B).
+
+observed(baz(C), Timestep) :-
+    Timestep = 0,
+    c(C).
+
+%--- Theory of Intentions ---%
+
+-observed(active_goal(Goal), Timestep) :-
+    Timestep = 0,
+    fluent(inertial, active_goal(Goal)).
+
+observed(status(Activity, ActivityIndex), Timestep) :-
+    Timestep = 0,
+    fluent(inertial, status(Activity, ActivityIndex)),
+    ActivityIndex = -1.
+
+% TODO: Look at (p. 41) of dissertation
+-observed(next_name(Activity), Timestep) :-
+    Timestep = 0,
+    fluent(inertial, next_name(Activity)).
