@@ -31,6 +31,8 @@ different_component(M, M1) :-
     M != M1.
 
 %%%% Initialization Axiom %%%%
+%
+% See p. 58 of dissertation
 #program base.
 
 holds(Fluent, Timestep) :-
@@ -42,6 +44,8 @@ holds(Fluent, Timestep) :-
     Timestep = 0.
 
 %%%% Reality Check Axioms %%%%
+%
+% See p. 58 of dissertation
 #program aia_history_rules(current_timestep).
 
 :-
@@ -55,6 +59,8 @@ holds(Fluent, Timestep) :-
     holds(Fluent, Timestep).
 
 %%%% Occurrence-Awareness Axiom %%%%
+%
+% See p. 58 of dissertation
 #program aia_history_rules(current_timestep).
 
 occurs(Action, Timestep) :-
@@ -66,6 +72,8 @@ occurs(Action, Timestep) :-
     -happened(Action, Timestep).
 
 %%%% Misc %%%%
+%
+% See p. 59 of dissertation
 
 occurs(Action, Timestep) :-
     Timestep < current_timestep,
@@ -79,6 +87,8 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 %%%% Pre-model rules %%%%
+%
+% See p. 59 of dissertation
 
 impossible(select(G), I) :-
     I < current_timestep,
@@ -94,6 +104,8 @@ impossible(select(G), I) :-
     holds(active_goal(G), I).
 
 %%%%
+%
+% See p. 60 of dissertation
 
 holds(status(M, -1), Timestep) :-
     Timestep = 0.
@@ -105,7 +117,7 @@ holds(next_name(ir), Timestep) :-
     Timestep = 0.
 
 %%%% Applicability constraints %%%%
-
+%
 % "the agent always observes the results of
 %   - his attempts to perform actions,
 %   - occurrences of actions performed by his controller,
@@ -152,6 +164,8 @@ observed_goal(G, I) :-
     not observed_goal(G, I).
 
 %%%% Model rules %%%%
+%
+% See p. 61 of dissertation
 
 { apply_cr_rule(diagnosis(Action, Timestep, current_timestep)) } :-
     Timestep = 0..current_timestep,
@@ -167,6 +181,8 @@ occurs(Action, Timestep) :-
     [1@1, diagnosis(Action, Timestep, current_timestep)]
 
 %%%%
+%
+% See p. 62 of dissertation
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,

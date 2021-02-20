@@ -196,6 +196,8 @@ some_action_occurred(FutureTimestep) :-
     occurs(Action, FutureTimestep).
 
 %--- Creating new candidates ---%
+%
+% See p. 71 of dissertation
 
 goal(Activity, Goal) :-
     interpretation(UnobservedActions, current_timestep),
@@ -252,6 +254,8 @@ length(Activity, ActivityLength) :-
     not has_component(Activity, ActivityLength + 1).
 
 %--- Creating existing candidates ---%
+%
+% See p. 73 of dissertation
 
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
     physical_action(Action),
