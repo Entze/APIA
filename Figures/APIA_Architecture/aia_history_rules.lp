@@ -106,6 +106,7 @@ occurs(Action, Timestep) :-
 impossible(select(G), I) :-
     I < current_timestep,
     goal(G),
+    goal(G1),
     occurs(select(G1), I),
     G != G1.
 
@@ -174,6 +175,7 @@ need_to_observe_goal(G1, I) :-
     I <= current_timestep,
     activity(M1),
     goal(G),
+    goal(G1),
     goal(M1, G1),
     holds(immediate_child_goal(G1, G), I),
     holds(active_goal(G), I).
