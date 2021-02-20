@@ -8,25 +8,41 @@
 
 #program aia_history_rules(current_timestep).
 
-comp(PAA).
-comp(M).
+comp(PAA) :-
+    physical_action(PAA),
+    agent_action(PAA).
+
+comp(M) :-
+    activity(M).
 
 equal(M, M1) :-
+    activity(M),
+    activity(M1),
+    goal(G),
     goal(M, G),
     goal(M1, G),
     equal_plan(M, M1).
 
 equal_plan(M, M1) :-
+    activity(M),
+    activity(M1),
     length(M, L),
     length(M1, L),
     not different_component(M, M1).
 
 different_component(M, M1) :-
+    activity(M),
+    activity(M1),
+    comp(C),
+    comp(C1),
+    index(K),
     component(M, K, C),
     component(M1, K, C1),
     C != C1.
 
 :-
+    activity(M),
+    activity(M1),
     equal(M, M1),
     M != M1.
 
@@ -91,16 +107,24 @@ occurs(Action, Timestep) :-
 % See p. 59 of dissertation
 
 impossible(select(G), I) :-
+    step(I),
     I < current_timestep,
+    goal(G),
+    goal(G1),
     occurs(select(G1), I),
     G != G1.
 
 impossible(select(G), I) :-
+    step(I),
     I < current_timestep,
+    goal(G),
+    activity(M),
     holds(active(M), I).
 
 impossible(select(G), I) :-
+    step(I),
     I < current_timestep,
+    goal(G),
     holds(active_goal(G), I).
 
 %%%%
@@ -108,9 +132,11 @@ impossible(select(G), I) :-
 % See p. 60 of dissertation
 
 holds(status(M, -1), Timestep) :-
+    activity(M),
     Timestep = 0.
 
 -holds(active_goal(G), Timestep) :-
+    goal(G),
     Timestep = 0.
 
 holds(next_name(ir), Timestep) :-
@@ -125,41 +151,71 @@ holds(next_name(ir), Timestep) :-
 % (p. 60) of dissertation
 
 observed_result(AA, I) :-
+    step(I),
     I <= current_timestep,
-    happened(AA, B, I).
+    agent_action(AA),
+    happened(AA, I).
+
+observed_result(AA, I) :-
+    step(I),
+    I <= current_timestep,
+    agent_action(AA),
+    -happened(AA, I).
 
 :-
+    step(I),
     I <= current_timestep,
     attempt(AA, I),
+    agent_action(AA),
     not observed_result(AA, I).
 
 :-
+    step(I),
     I < current_timestep,
+    goal(G),
     occurs(select(G), I),
     not happened(select(G), I).
 
 :-
+    step(I),
     I < current_timestep,
+    goal(G),
     occurs(abandon(G), I),
     not happened(abandon(G), I).
 
 need_to_observe_goal(G, I) :-
+    step(I),
     I <= current_timestep,
+    goal(G),
     % -holds(minor(G), I - 1),  % From AIA implementation
     holds(active_goal(G), I - 1).
 
 need_to_observe_goal(G1, I) :-
+    step(I),
     I <= current_timestep,
+    activity(M1),
+    goal(G),
+    goal(G1),
     goal(M1, G1),
     holds(immediate_child_goal(G1, G), I),
     holds(active_goal(G), I).
 
 observed_goal(G, I) :-
+    step(I),
     I <= current_timestep,
-    observed(G, B, I).
+    goal(G),
+    observed(G, I).
+
+observed_goal(G, I) :-
+    step(I),
+    I <= current_timestep,
+    goal(G),
+    -observed(G, I).
 
 :-
+    step(I),
     I <= current_timestep,
+    goal(G),
     need_to_observe_goal(G, I),
     not observed_goal(G, I).
 
