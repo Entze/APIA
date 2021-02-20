@@ -32,8 +32,15 @@ PIPES_DIR=$(mktemp -d)
 
 clingo --opt-mode=optN --const max_timestep=4 --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
     | tee \
-        >(grep 'Grounding:' | sed -E 's/, (ASPSubprogramInstantiation)/,\n            \1/g' > "${PIPES_DIR}/subprograms") \
-        >(grep 'Answer:' -A1 | tail -n 2 | sed -n '2p' | tr ' ' '\n' | sort > "${PIPES_DIR}/predicates") \
+        >(grep 'Grounding:' \
+            | sed -E 's/, (ASPSubprogramInstantiation)/,\n            \1/g' \
+            > "${PIPES_DIR}/subprograms") \
+        >(grep 'Answer:' -A1 \
+            | tail -n 2 \
+            | sed -n '2p' \
+            | tr ' ' '\n' \
+            | sort \
+            > "${PIPES_DIR}/predicates") \
     > /dev/null
 
 cat "${PIPES_DIR}/subprograms" "${PIPES_DIR}/predicates"
