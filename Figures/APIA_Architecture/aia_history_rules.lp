@@ -34,11 +34,11 @@ different_component(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
     comp(ActivityComponent),
-    comp(C1),
+    comp(OtherActivityComponent),
     index(ActivityIndex),
     component(Activity, ActivityIndex, ActivityComponent),
-    component(OtherActivity, ActivityIndex, C1),
-    ActivityComponent != C1.
+    component(OtherActivity, ActivityIndex, OtherActivityComponent),
+    ActivityComponent != OtherActivityComponent.
 
 :-
     activity(Activity),
