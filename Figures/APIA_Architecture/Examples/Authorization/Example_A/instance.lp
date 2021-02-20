@@ -97,7 +97,7 @@ observed(in_room(Person, Room), Timestep) :-
     person(Actor),
     Person != Actor.
 
-% Theory of Intentions
+%--- Theory of Intentions ---%
 
 -observed(active_goal(Goal), Timestep) :-
     Timestep = 0,
