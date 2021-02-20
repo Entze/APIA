@@ -18,6 +18,7 @@ comp(M) :-
 equal(M, M1) :-
     activity(M),
     activity(M1),
+    goal(G),
     goal(M, G),
     goal(M1, G),
     equal_plan(M, M1).
@@ -104,16 +105,19 @@ occurs(Action, Timestep) :-
 
 impossible(select(G), I) :-
     I < current_timestep,
+    goal(G),
     occurs(select(G1), I),
     G != G1.
 
 impossible(select(G), I) :-
     I < current_timestep,
+    goal(G),
     activity(M),
     holds(active(M), I).
 
 impossible(select(G), I) :-
     I < current_timestep,
+    goal(G),
     holds(active_goal(G), I).
 
 %%%%
@@ -125,6 +129,7 @@ holds(status(M, -1), Timestep) :-
     Timestep = 0.
 
 -holds(active_goal(G), Timestep) :-
+    goal(G),
     Timestep = 0.
 
 holds(next_name(ir), Timestep) :-
@@ -149,32 +154,38 @@ observed_result(AA, I) :-
 
 :-
     I < current_timestep,
+    goal(G),
     occurs(select(G), I),
     not happened(select(G), I).
 
 :-
     I < current_timestep,
+    goal(G),
     occurs(abandon(G), I),
     not happened(abandon(G), I).
 
 need_to_observe_goal(G, I) :-
     I <= current_timestep,
+    goal(G),
     % -holds(minor(G), I - 1),  % From AIA implementation
     holds(active_goal(G), I - 1).
 
 need_to_observe_goal(G1, I) :-
     I <= current_timestep,
     activity(M1),
+    goal(G),
     goal(M1, G1),
     holds(immediate_child_goal(G1, G), I),
     holds(active_goal(G), I).
 
 observed_goal(G, I) :-
     I <= current_timestep,
+    goal(G),
     observed(G, B, I).
 
 :-
     I <= current_timestep,
+    goal(G),
     need_to_observe_goal(G, I),
     not observed_goal(G, I).
 
