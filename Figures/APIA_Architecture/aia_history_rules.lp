@@ -153,7 +153,12 @@ holds(next_name(ir), Timestep) :-
 observed_result(AA, I) :-
     step(I),
     I <= current_timestep,
-    happened(AA, B, I).
+    happened(AA, I).
+
+observed_result(AA, I) :-
+    step(I),
+    I <= current_timestep,
+    -happened(AA, I).
 
 :-
     step(I),
@@ -196,7 +201,13 @@ observed_goal(G, I) :-
     step(I),
     I <= current_timestep,
     goal(G),
-    observed(G, B, I).
+    observed(G, I).
+
+observed_goal(G, I) :-
+    step(I),
+    I <= current_timestep,
+    goal(G),
+    -observed(G, I).
 
 :-
     step(I),
