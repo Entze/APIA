@@ -33,12 +33,12 @@ equal_plan(Activity, M1) :-
 different_component(Activity, M1) :-
     activity(Activity),
     activity(M1),
-    comp(C),
+    comp(ActivityComponent),
     comp(C1),
     index(K),
-    component(Activity, K, C),
+    component(Activity, K, ActivityComponent),
     component(M1, K, C1),
-    C != C1.
+    ActivityComponent != C1.
 
 :-
     activity(Activity),
