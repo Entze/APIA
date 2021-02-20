@@ -110,9 +110,9 @@ impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
     goal(Goal),
-    goal(G1),
-    occurs(select(G1), Timestep),
-    Goal != G1.
+    goal(OtherGoal),
+    occurs(select(OtherGoal), Timestep),
+    Goal != OtherGoal.
 
 impossible(select(Goal), Timestep) :-
     step(Timestep),
