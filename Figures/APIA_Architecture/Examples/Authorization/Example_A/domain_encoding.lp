@@ -1,7 +1,5 @@
 %%%% Domains %%%%
 
-% step(timestep)
-
 % room(Room)
 % door(Door)
 % person(Person)
@@ -92,7 +90,6 @@ exogenous_action(greet(Actor, Person)) :-
 %   if in_room(Actor, FromRoom), door_connects(Door, FromRoom),
 %      ToRoom != FromRoom
 holds(in_room(Actor, ToRoom), timestep + 1) :-
-    step(timestep),
     occurs(move_through(Actor, Door), timestep),
     door_connects(Door, ToRoom),
     door_connects(Door, FromRoom),
@@ -108,47 +105,40 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
 % impossible move_through(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(move_through(Actor, Door), timestep) :-
-    step(timestep),
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
 % lock_door(Actor, Door) causes door_locked(Door)
 holds(door_locked(Door), timestep + 1) :-
-    step(timestep),
     occurs(lock_door(Actor, Door), timestep).
 
 % impossible lock_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(lock_door(Actor, Door), timestep) :-
-    step(timestep),
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
 % unlock_door(Actor, Door) causes -door_locked(Door)
 -holds(door_locked(Door), timestep + 1) :-
-    step(timestep),
     occurs(unlock_door(Actor, Door), timestep).
 
 % impossible unlock_door(Actor, Door)
 %   if in_room(Actor, Room), not door_connects(Door, Room)
 -occurs(unlock_door(Actor, Door), timestep) :-
-    step(timestep),
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
 % greet(Actor, Person) causes greeted_by(Person, Actor)
 holds(greeted_by(Person, Actor), timestep + 1) :-
-    step(timestep),
     occurs(greet(Actor, Person), timestep).
 
 % impossible greet(Actor, Person)
 %   if in_room(Actor, ActorRoom), in_room(Person, PersonRoom),
 %      ActorRoom != PersonRoom.
 -occurs(greet(Actor, Person), timestep) :-
-    step(timestep),
     holds(in_room(Actor, ActorRoom), timestep),
     holds(in_room(Person, PersonRoom), timestep),
     ActorRoom != PersonRoom.
@@ -159,7 +149,6 @@ holds(greeted_by(Person, Actor), timestep + 1) :-
 %
 % permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
-    step(timestep),
     person(Actor),
     door(Door).
 
@@ -167,7 +156,6 @@ permitted(move_through(Actor, Door), timestep) :-
 %
 % permitted(greet(Actor, Person))
 permitted(greet(Actor, Person), timestep) :-
-    step(timestep),
     person(Actor),
     person(Person),
     Actor != Person.
