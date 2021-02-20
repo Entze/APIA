@@ -12,39 +12,39 @@ comp(PAA) :-
     physical_action(PAA),
     agent_action(PAA).
 
-comp(M) :-
-    activity(M).
+comp(Activity) :-
+    activity(Activity).
 
-equal(M, M1) :-
-    activity(M),
+equal(Activity, M1) :-
+    activity(Activity),
     activity(M1),
     goal(G),
-    goal(M, G),
+    goal(Activity, G),
     goal(M1, G),
-    equal_plan(M, M1).
+    equal_plan(Activity, M1).
 
-equal_plan(M, M1) :-
-    activity(M),
+equal_plan(Activity, M1) :-
+    activity(Activity),
     activity(M1),
-    length(M, L),
+    length(Activity, L),
     length(M1, L),
-    not different_component(M, M1).
+    not different_component(Activity, M1).
 
-different_component(M, M1) :-
-    activity(M),
+different_component(Activity, M1) :-
+    activity(Activity),
     activity(M1),
     comp(C),
     comp(C1),
     index(K),
-    component(M, K, C),
+    component(Activity, K, C),
     component(M1, K, C1),
     C != C1.
 
 :-
-    activity(M),
+    activity(Activity),
     activity(M1),
-    equal(M, M1),
-    M != M1.
+    equal(Activity, M1),
+    Activity != M1.
 
 %%%% Initialization Axiom %%%%
 %
@@ -118,8 +118,8 @@ impossible(select(G), I) :-
     step(I),
     I < current_timestep,
     goal(G),
-    activity(M),
-    holds(active(M), I).
+    activity(Activity),
+    holds(active(Activity), I).
 
 impossible(select(G), I) :-
     step(I),
@@ -131,8 +131,8 @@ impossible(select(G), I) :-
 %
 % See p. 60 of dissertation
 
-holds(status(M, -1), Timestep) :-
-    activity(M),
+holds(status(Activity, -1), Timestep) :-
+    activity(Activity),
     Timestep = 0.
 
 -holds(active_goal(G), Timestep) :-
