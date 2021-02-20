@@ -1,54 +1,12 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
 % and Blount. 2013. "An architecture for intentional agents"
-
-%%%% Step 1 %%%%
-#program aia_step_1(current_timestep).
-
-occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    attempt(Action, Timestep),
-    not impossible(Action, Timestep).
-
-:-
-    Timestep < current_timestep,
-    agent_action(Action),
-    occurs(Action, Timestep),
-    not attempt(Action, Timestep).
-
-occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    happened(Action, Timestep).
-
--occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    -happened(Action, Timestep).
-
-{ apply_cr_rule(diagnosis(Action, Timestep, current_timestep)) } :-
-    step(Timestep),
-    physical_action(Action),
-    exogenous_action(Action),
-    Timestep < current_timestep.
-
-occurs(Action, Timestep, current_timestep) :-
-    apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
-
-:~
-    apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
-    [1@1, diagnosis(Action, Timestep, current_timestep)]
-
-unobserved(Action, Timestep) :-
-    Timestep < current_timestep,
-    physical_action(Action),  % TODO: In paper, but not AIA
-    exogenous_action(Action),
-    occurs(Action, Timestep),
-    not happened(Action, Timestep).
-
-number_unobserved(UnobservedActions, current_timestep) :-
-    UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
+%
+% See p. 63 of dissertation
 
 %%%% Step 2 %%%%
-#program aia_step_2(current_timestep).
+#program aia_intended_action_rules(current_timestep).
 
+% TODO: Consider removing this addition
 interpretation(ActionsNeeded, current_timestep) :-
     number_unobserved(UnobservedActions, current_timestep),
     ActionsNeeded = UnobservedActions.
@@ -62,9 +20,10 @@ interpretation(ActionsNeeded, current_timestep) :-
 % "Let cm_n be the current mental state of history \tau_n"
 % "there are no activities or goals that are active in cm_n"
 % (p. 45) of dissertation
+%
+% See p. 65 of dissertation
 
 category_1_history(current_timestep) :-
-    current_timestep > 1,  % TODO: Consider removing this line (our addition)
     interpretation(UnobservedActions, current_timestep),
     not active_goal_or_activity(current_timestep).
 
@@ -84,6 +43,8 @@ intended_action(wait, current_timestep) :-
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
 % (p. 45) of dissertation
+%
+% See p. 65 of dissertation
 
 category_2_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -162,6 +123,8 @@ intended_action(stop(Activity), current_timestep) :-
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 % (p. 45) of dissertation
+%
+% See p. 68 of dissertation
 
 category_4_history(Goal, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -233,6 +196,8 @@ some_action_occurred(FutureTimestep) :-
     occurs(Action, FutureTimestep).
 
 %--- Creating new candidates ---%
+%
+% See p. 71 of dissertation
 
 goal(Activity, Goal) :-
     interpretation(UnobservedActions, current_timestep),
@@ -289,6 +254,8 @@ length(Activity, ActivityLength) :-
     not has_component(Activity, ActivityLength + 1).
 
 %--- Creating existing candidates ---%
+%
+% See p. 73 of dissertation
 
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
     physical_action(Action),
