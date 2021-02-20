@@ -6,7 +6,7 @@
 % happened(Action, Timestep)
 % observed(Fluent, Timestep)
 
-#program aia_step_1(current_timestep).
+#program aia_history_rules(current_timestep).
 
 comp(PAA).
 comp(M).

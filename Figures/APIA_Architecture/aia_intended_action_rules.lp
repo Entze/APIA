@@ -4,7 +4,7 @@
 % See p. 63 of dissertation
 
 %%%% Step 2 %%%%
-#program aia_step_2(current_timestep).
+#program aia_intended_action_rules(current_timestep).
 
 % TODO: Consider removing this addition
 interpretation(ActionsNeeded, current_timestep) :-
