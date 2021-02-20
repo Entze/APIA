@@ -131,9 +131,10 @@ impossible(select(Goal), Timestep) :-
 %
 % See p. 60 of dissertation
 
-holds(status(Activity, -1), Timestep) :-
+holds(status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
-    Timestep = 0.
+    Timestep = 0,
+    ActivityIndex = -1.
 
 -holds(active_goal(Goal), Timestep) :-
     goal(Goal),
