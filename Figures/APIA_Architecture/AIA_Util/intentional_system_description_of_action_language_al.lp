@@ -58,23 +58,23 @@ exogenous_action(do_baz(C)) :-
     c(C).
 
 %%%% Action descriptions %%%%
-#program action_description(current_timestep).
+#program action_description(timestep).
 
 % do_bar(B) causes bar(B)
 %   [if ...]
-holds(bar(B), current_timestep + 1) :-
-    occurs(do_bar(B), current_timestep).
+holds(bar(B), timestep + 1) :-
+    occurs(do_bar(B), timestep).
     % [...]
 
 % baz(B)
 %   if bar(B), [...]
-holds(baz(B), current_timestep) :-
-    holds(bar(B), current_timestep).
+holds(baz(B), timestep) :-
+    holds(bar(B), timestep).
     % [...]
 
 % impossible do_foo(A), do_bar(B), do_baz(C)
 %   if foo(A), bar(B), baz(C), A = B, B = C
--occurs(do_foo(A), current_timestep) | -occurs(do_bar(B), current_timestep) | -occurs(do_baz(C), current_timestep) :-
+-occurs(do_foo(A), timestep) | -occurs(do_bar(B), timestep) | -occurs(do_baz(C), timestep) :-
     foo(A),
-    holds(bar(B), current_timestep),
-    holds(baz(C), current_timestep).
+    holds(bar(B), timestep),
+    holds(baz(C), timestep).
