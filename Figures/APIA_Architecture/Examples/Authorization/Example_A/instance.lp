@@ -26,6 +26,54 @@ door_connects(Door, Room) :-
 door_has_lock(Door) :-
     Door = "d34".
 
+%%%% Activities %%%%
+
+goal(Goal) :-
+    Goal = greeted_by(Person, Actor),
+    Person = "Alice",
+    Actor = "Bob".
+
+activity(Activity) :-
+    Activity = 1.
+
+goal(Activity, ActivityGoal) :-
+    Activity = 1,
+    ActivityGoal = greeted_by(Person, Actor),
+    Person = "Alice",
+    Actor = "Bob".
+
+length(Activity, ActivityLength) :-
+    Activity = 1,
+    ActivityLength = #max{ ComponentIndex : component(Activity, ComponentIndex, _) }.
+
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 1,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d12".
+
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d23".
+
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 3,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d34".
+
+component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 4,
+    Component = greet(Actor, Person),
+    Actor = "Bob",
+    Person = "Alice".
+
 %%%% Initial observations (before AIA control loop) %%%%
 % See p. 50 of dissertation
 
