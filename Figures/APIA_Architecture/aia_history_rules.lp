@@ -1,19 +1,34 @@
+% See p. 57 of dissertation
+
 % fluent(inertial, Fluent)
 % fluent(defined, Fluent)
 % aciton(Action)
 % happened(Action, Timestep)
 % observed(Fluent, Timestep)
 
-%%%% Occurrence-Awareness Axiom %%%%
-#program aia_axioms(current_timestep).
+#program aia_step_1(current_timestep).
 
-occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    happened(Action, Timestep).
+comp(PAA).
+comp(M).
 
--occurs(Action, Timestep) :-
-    Timestep < current_timestep,
-    -happened(Action, Timestep).
+equal(M, M1) :-
+    goal(M, G),
+    goal(M1, G),
+    equal_plan(M, M1).
+
+equal_plan(M, M1) :-
+    length(M, L),
+    length(M1, L),
+    not different_component(M, M1).
+
+different_component(M, M1) :-
+    component(M, K, C),
+    component(M1, K, C1),
+    C != C1.
+
+:-
+    equal(M, M1),
+    M != M1.
 
 %%%% Initialization Axiom %%%%
 #program base.
@@ -27,7 +42,7 @@ holds(Fluent, Timestep) :-
     Timestep = 0.
 
 %%%% Reality Check Axioms %%%%
-#program aia_axioms(current_timestep).
+#program aia_history_rules(current_timestep).
 
 :-
     observed(Fluent, Timestep),
@@ -38,6 +53,17 @@ holds(Fluent, Timestep) :-
     -observed(Fluent, Timestep),
     Timestep <= current_timestep,
     holds(Fluent, Timestep).
+
+%%%% Occurrence-Awareness Axiom %%%%
+#program aia_history_rules(current_timestep).
+
+occurs(Action, Timestep) :-
+    Timestep < current_timestep,
+    happened(Action, Timestep).
+
+-occurs(Action, Timestep) :-
+    Timestep < current_timestep,
+    -happened(Action, Timestep).
 
 %%%% Misc %%%%
 
@@ -51,6 +77,79 @@ occurs(Action, Timestep) :-
     agent_action(Action),
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
+
+%%%% Pre-model rules %%%%
+
+impossible(select(G), I) :-
+    I < current_timestep,
+    occurs(select(G1), I),
+    G != G1.
+
+impossible(select(G), I) :-
+    I < current_timestep,
+    holds(active(M), I).
+
+impossible(select(G), I) :-
+    I < current_timestep,
+    holds(active_goal(G), I).
+
+%%%%
+
+holds(status(M, -1), Timestep) :-
+    Timestep = 0.
+
+-holds(active_goal(G), Timestep) :-
+    Timestep = 0.
+
+holds(next_name(ir), Timestep) :-
+    Timestep = 0.
+
+%%%% Applicability constraints %%%%
+
+% "the agent always observes the results of
+%   - his attempts to perform actions,
+%   - occurrences of actions performed by his controller,
+%   - the truth value of his goal."
+% (p. 60) of dissertation
+
+observed_result(AA, I) :-
+    I <= current_timestep,
+    happened(AA, B, I).
+
+:-
+    I <= current_timestep,
+    attempt(AA, I),
+    not observed_result(AA, I).
+
+:-
+    I < current_timestep,
+    occurs(select(G), I),
+    not happened(select(G), I).
+
+:-
+    I < current_timestep,
+    occurs(abandon(G), I),
+    not happened(abandon(G), I).
+
+need_to_observe_goal(G, I) :-
+    I <= current_timestep,
+    % -holds(minor(G), I - 1),  % From AIA implementation
+    holds(active_goal(G), I - 1).
+
+need_to_observe_goal(G1, I) :-
+    I <= current_timestep,
+    goal(M1, G1),
+    holds(immediate_child_goal(G1, G), I),
+    holds(active_goal(G), I).
+
+observed_goal(G, I) :-
+    I <= current_timestep,
+    observed(G, B, I).
+
+:-
+    I <= current_timestep,
+    need_to_observe_goal(G, I),
+    not observed_goal(G, I).
 
 %%%% Model rules %%%%
 
