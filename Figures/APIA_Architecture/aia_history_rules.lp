@@ -153,17 +153,20 @@ holds(next_name(ir), Timestep) :-
 observed_result(AA, I) :-
     step(I),
     I <= current_timestep,
+    agent_action(AA),
     happened(AA, I).
 
 observed_result(AA, I) :-
     step(I),
     I <= current_timestep,
+    agent_action(AA),
     -happened(AA, I).
 
 :-
     step(I),
     I <= current_timestep,
     attempt(AA, I),
+    agent_action(AA),
     not observed_result(AA, I).
 
 :-
