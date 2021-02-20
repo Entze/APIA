@@ -106,6 +106,7 @@ occurs(Action, Timestep) :-
 % See p. 59 of dissertation
 
 impossible(select(G), I) :-
+    step(I),
     I < current_timestep,
     goal(G),
     goal(G1),
@@ -113,12 +114,14 @@ impossible(select(G), I) :-
     G != G1.
 
 impossible(select(G), I) :-
+    step(I),
     I < current_timestep,
     goal(G),
     activity(M),
     holds(active(M), I).
 
 impossible(select(G), I) :-
+    step(I),
     I < current_timestep,
     goal(G),
     holds(active_goal(G), I).
@@ -147,33 +150,39 @@ holds(next_name(ir), Timestep) :-
 % (p. 60) of dissertation
 
 observed_result(AA, I) :-
+    step(I),
     I <= current_timestep,
     happened(AA, B, I).
 
 :-
+    step(I),
     I <= current_timestep,
     attempt(AA, I),
     not observed_result(AA, I).
 
 :-
+    step(I),
     I < current_timestep,
     goal(G),
     occurs(select(G), I),
     not happened(select(G), I).
 
 :-
+    step(I),
     I < current_timestep,
     goal(G),
     occurs(abandon(G), I),
     not happened(abandon(G), I).
 
 need_to_observe_goal(G, I) :-
+    step(I),
     I <= current_timestep,
     goal(G),
     % -holds(minor(G), I - 1),  % From AIA implementation
     holds(active_goal(G), I - 1).
 
 need_to_observe_goal(G1, I) :-
+    step(I),
     I <= current_timestep,
     activity(M1),
     goal(G),
@@ -183,11 +192,13 @@ need_to_observe_goal(G1, I) :-
     holds(active_goal(G), I).
 
 observed_goal(G, I) :-
+    step(I),
     I <= current_timestep,
     goal(G),
     observed(G, B, I).
 
 :-
+    step(I),
     I <= current_timestep,
     goal(G),
     need_to_observe_goal(G, I),
