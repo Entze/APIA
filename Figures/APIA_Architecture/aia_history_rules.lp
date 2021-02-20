@@ -150,24 +150,24 @@ holds(next_name(ir), Timestep) :-
 %   - the truth value of his goal."
 % (p. 60) of dissertation
 
-observed_result(AA, Timestep) :-
+observed_result(Action, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
-    agent_action(AA),
-    happened(AA, Timestep).
+    agent_action(Action),
+    happened(Action, Timestep).
 
-observed_result(AA, Timestep) :-
+observed_result(Action, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
-    agent_action(AA),
-    -happened(AA, Timestep).
+    agent_action(Action),
+    -happened(Action, Timestep).
 
 :-
     step(Timestep),
     Timestep <= current_timestep,
-    attempt(AA, Timestep),
-    agent_action(AA),
-    not observed_result(AA, Timestep).
+    attempt(Action, Timestep),
+    agent_action(Action),
+    not observed_result(Action, Timestep).
 
 :-
     step(Timestep),
