@@ -8,7 +8,10 @@
 
 #program aia_history_rules(current_timestep).
 
-comp(PAA).
+comp(PAA) :-
+    physical_action(PAA),
+    agent_action(PAA).
+
 comp(M).
 
 equal(M, M1) :-
