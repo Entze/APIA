@@ -12,24 +12,29 @@ comp(PAA) :-
     physical_action(PAA),
     agent_action(PAA).
 
-comp(M).
+comp(M) :-
+    activity(M).
 
 equal(M, M1) :-
+    activity(M),
     goal(M, G),
     goal(M1, G),
     equal_plan(M, M1).
 
 equal_plan(M, M1) :-
+    activity(M),
     length(M, L),
     length(M1, L),
     not different_component(M, M1).
 
 different_component(M, M1) :-
+    activity(M),
     component(M, K, C),
     component(M1, K, C1),
     C != C1.
 
 :-
+    activity(M),
     equal(M, M1),
     M != M1.
 
@@ -100,6 +105,7 @@ impossible(select(G), I) :-
 
 impossible(select(G), I) :-
     I < current_timestep,
+    activity(M),
     holds(active(M), I).
 
 impossible(select(G), I) :-
@@ -111,6 +117,7 @@ impossible(select(G), I) :-
 % See p. 60 of dissertation
 
 holds(status(M, -1), Timestep) :-
+    activity(M),
     Timestep = 0.
 
 -holds(active_goal(G), Timestep) :-
