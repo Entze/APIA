@@ -106,26 +106,26 @@ occurs(Action, Timestep) :-
 %
 % See p. 59 of dissertation
 
-impossible(select(Goal), I) :-
-    step(I),
-    I < current_timestep,
+impossible(select(Goal), Timestep) :-
+    step(Timestep),
+    Timestep < current_timestep,
     goal(Goal),
     goal(G1),
-    occurs(select(G1), I),
+    occurs(select(G1), Timestep),
     Goal != G1.
 
-impossible(select(Goal), I) :-
-    step(I),
-    I < current_timestep,
+impossible(select(Goal), Timestep) :-
+    step(Timestep),
+    Timestep < current_timestep,
     goal(Goal),
     activity(Activity),
-    holds(active(Activity), I).
+    holds(active(Activity), Timestep).
 
-impossible(select(Goal), I) :-
-    step(I),
-    I < current_timestep,
+impossible(select(Goal), Timestep) :-
+    step(Timestep),
+    Timestep < current_timestep,
     goal(Goal),
-    holds(active_goal(Goal), I).
+    holds(active_goal(Goal), Timestep).
 
 %%%%
 %
@@ -150,74 +150,74 @@ holds(next_name(ir), Timestep) :-
 %   - the truth value of his goal."
 % (p. 60) of dissertation
 
-observed_result(AA, I) :-
-    step(I),
-    I <= current_timestep,
+observed_result(AA, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
     agent_action(AA),
-    happened(AA, I).
+    happened(AA, Timestep).
 
-observed_result(AA, I) :-
-    step(I),
-    I <= current_timestep,
+observed_result(AA, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
     agent_action(AA),
-    -happened(AA, I).
+    -happened(AA, Timestep).
 
 :-
-    step(I),
-    I <= current_timestep,
-    attempt(AA, I),
+    step(Timestep),
+    Timestep <= current_timestep,
+    attempt(AA, Timestep),
     agent_action(AA),
-    not observed_result(AA, I).
+    not observed_result(AA, Timestep).
 
 :-
-    step(I),
-    I < current_timestep,
+    step(Timestep),
+    Timestep < current_timestep,
     goal(Goal),
-    occurs(select(Goal), I),
-    not happened(select(Goal), I).
+    occurs(select(Goal), Timestep),
+    not happened(select(Goal), Timestep).
 
 :-
-    step(I),
-    I < current_timestep,
+    step(Timestep),
+    Timestep < current_timestep,
     goal(Goal),
-    occurs(abandon(Goal), I),
-    not happened(abandon(Goal), I).
+    occurs(abandon(Goal), Timestep),
+    not happened(abandon(Goal), Timestep).
 
-need_to_observe_goal(Goal, I) :-
-    step(I),
-    I <= current_timestep,
+need_to_observe_goal(Goal, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
     goal(Goal),
-    % -holds(minor(Goal), I - 1),  % From AIA implementation
-    holds(active_goal(Goal), I - 1).
+    % -holds(minor(Goal), Timestep - 1),  % From AIA implementation
+    holds(active_goal(Goal), Timestep - 1).
 
-need_to_observe_goal(G1, I) :-
-    step(I),
-    I <= current_timestep,
+need_to_observe_goal(G1, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
     activity(M1),
     goal(Goal),
     goal(G1),
     goal(M1, G1),
-    holds(immediate_child_goal(G1, Goal), I),
-    holds(active_goal(Goal), I).
+    holds(immediate_child_goal(G1, Goal), Timestep),
+    holds(active_goal(Goal), Timestep).
 
-observed_goal(Goal, I) :-
-    step(I),
-    I <= current_timestep,
+observed_goal(Goal, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
     goal(Goal),
-    observed(Goal, I).
+    observed(Goal, Timestep).
 
-observed_goal(Goal, I) :-
-    step(I),
-    I <= current_timestep,
+observed_goal(Goal, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
     goal(Goal),
-    -observed(Goal, I).
+    -observed(Goal, Timestep).
 
 :-
-    step(I),
-    I <= current_timestep,
+    step(Timestep),
+    Timestep <= current_timestep,
     goal(Goal),
-    need_to_observe_goal(Goal, I),
-    not observed_goal(Goal, I).
+    need_to_observe_goal(Goal, Timestep),
+    not observed_goal(Goal, Timestep).
 
 %%%% Model rules %%%%
 %
