@@ -154,7 +154,7 @@ observed_goal(G, I) :-
 %%%% Model rules %%%%
 
 { apply_cr_rule(diagnosis(Action, Timestep, current_timestep)) } :-
-    step(Timestep),
+    Timestep = 0..current_timestep,
     physical_action(Action),
     exogenous_action(Action),
     Timestep < current_timestep.
