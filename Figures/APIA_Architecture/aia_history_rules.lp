@@ -15,36 +15,36 @@ comp(Action) :-
 comp(Activity) :-
     activity(Activity).
 
-equal(Activity, M1) :-
+equal(Activity, OtherActivity) :-
     activity(Activity),
-    activity(M1),
+    activity(OtherActivity),
     goal(Goal),
     goal(Activity, Goal),
-    goal(M1, Goal),
-    equal_plan(Activity, M1).
+    goal(OtherActivity, Goal),
+    equal_plan(Activity, OtherActivity).
 
-equal_plan(Activity, M1) :-
+equal_plan(Activity, OtherActivity) :-
     activity(Activity),
-    activity(M1),
+    activity(OtherActivity),
     length(Activity, ActivityLength),
-    length(M1, ActivityLength),
-    not different_component(Activity, M1).
+    length(OtherActivity, ActivityLength),
+    not different_component(Activity, OtherActivity).
 
-different_component(Activity, M1) :-
+different_component(Activity, OtherActivity) :-
     activity(Activity),
-    activity(M1),
+    activity(OtherActivity),
     comp(ActivityComponent),
     comp(C1),
     index(ActivityIndex),
     component(Activity, ActivityIndex, ActivityComponent),
-    component(M1, ActivityIndex, C1),
+    component(OtherActivity, ActivityIndex, C1),
     ActivityComponent != C1.
 
 :-
     activity(Activity),
-    activity(M1),
-    equal(Activity, M1),
-    Activity != M1.
+    activity(OtherActivity),
+    equal(Activity, OtherActivity),
+    Activity != OtherActivity.
 
 %%%% Initialization Axiom %%%%
 %
