@@ -25,8 +25,6 @@ def main(clingo_control: clingo.Control):
     max_test_number = clingo_control.get_const('test').number
     current_timestep = (max_test_number - 1) // 4
     aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
-    clingo_control.add('base', (), '\n'.join(f'step({timestep}).'
-                                             for timestep in range(current_timestep + 1)))
     subprograms_to_ground = tuple(chain(
         (
             ASPSubprogramInstantiation(name='base', arguments=()),
