@@ -17,24 +17,28 @@ comp(M) :-
 
 equal(M, M1) :-
     activity(M),
+    activity(M1),
     goal(M, G),
     goal(M1, G),
     equal_plan(M, M1).
 
 equal_plan(M, M1) :-
     activity(M),
+    activity(M1),
     length(M, L),
     length(M1, L),
     not different_component(M, M1).
 
 different_component(M, M1) :-
     activity(M),
+    activity(M1),
     component(M, K, C),
     component(M1, K, C1),
     C != C1.
 
 :-
     activity(M),
+    activity(M1),
     equal(M, M1),
     M != M1.
 
@@ -160,6 +164,7 @@ need_to_observe_goal(G, I) :-
 
 need_to_observe_goal(G1, I) :-
     I <= current_timestep,
+    activity(M1),
     goal(M1, G1),
     holds(immediate_child_goal(G1, G), I),
     holds(active_goal(G), I).
