@@ -8,9 +8,9 @@
 
 #program aia_history_rules(current_timestep).
 
-comp(PAA) :-
-    physical_action(PAA),
-    agent_action(PAA).
+comp(Action) :-
+    physical_action(Action),
+    agent_action(Action).
 
 comp(Activity) :-
     activity(Activity).
