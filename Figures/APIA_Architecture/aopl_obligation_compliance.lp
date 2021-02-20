@@ -1,3 +1,5 @@
+#program base.
+
 % Iff [for all obl(Action, Timestep), occurs(Action, Timestep) is true]
 % and [for all obl(-Action, Timestep), occurs(Action, Timestep) is false],
 %      then we are compliant

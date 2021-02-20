@@ -16,12 +16,14 @@ holds(Fluent, timestep + 1) :-
     not holds(Fluent, timestep + 1).
 
 %%%% Closed-world assumption for defined fluents %%%%
+#program axioms(timestep).
 
 -holds(Fluent, timestep) :-
     fluent(defined, Fluent),
     not holds(Fluent, timestep).
 
 %%%% Closed-world assumption for actions %%%%
+#program axioms(timestep).
 
 -occurs(Action, timestep) :-
     action(Action),

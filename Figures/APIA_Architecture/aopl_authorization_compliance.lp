@@ -1,3 +1,5 @@
+#program base.
+
 % Iff [for all occurs(Action, Timestep), permitted(Action, Timestep) is true],
 %   then we are strongly compliant
 %

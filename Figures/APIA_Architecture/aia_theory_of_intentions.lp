@@ -1,4 +1,5 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
+#program base.
 
 #const activity_index__non_active = -1.
 #const activity_index__new = 0.
