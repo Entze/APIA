@@ -19,6 +19,7 @@ GLOBAL_FILES=(
     aopl_authorization_compliance.lp
     aopl_obligation_compliance.lp
     general_axioms.lp
+    test.lp
 )
 
 for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
