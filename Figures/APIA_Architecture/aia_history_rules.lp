@@ -8,11 +8,11 @@
 
 #program aia_history_rules(current_timestep).
 
-comp(Action) :-
+component(Action) :-
     physical_action(Action),
     agent_action(Action).
 
-comp(Activity) :-
+component(Activity) :-
     activity(Activity).
 
 equal(Activity, OtherActivity) :-
@@ -33,8 +33,8 @@ equal_plan(Activity, OtherActivity) :-
 different_component(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
-    comp(ActivityComponent),
-    comp(OtherActivityComponent),
+    component(ActivityComponent),
+    component(OtherActivityComponent),
     index(ActivityIndex),
     component(Activity, ActivityIndex, ActivityComponent),
     component(OtherActivity, ActivityIndex, OtherActivityComponent),
