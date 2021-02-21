@@ -30,6 +30,7 @@ done
 PIPES_DIR=$(mktemp -d)
 # mkfifo "${PIPES_DIR}/subprograms" "${PIPES_DIR}/predicates"
 
+# TODO: Fix non-determinism
 clingo --opt-mode=optN --const max_timestep=4 --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
     | tee \
         >(grep 'Grounding:' \
