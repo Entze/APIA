@@ -30,6 +30,8 @@ def generate_aia_subprograms_to_ground(current_timestep: int, step_number: AIALo
                 for timestep in range(current_timestep + 1))
 
     # action_description(timestep)
+    # TODO: Should this be the max timestep of our world?
+    #     This would allow the agent to plan ahead.
     yield from (ASPSubprogramInstantiation(name='action_description', arguments=(timestep,))
                 for timestep in range(current_timestep + 1))
 
