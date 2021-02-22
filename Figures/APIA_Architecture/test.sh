@@ -28,24 +28,23 @@ for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
 done
 
 TEMP_DIR=$(mktemp -d)
-# mkfifo "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 
-# TODO: Fix non-determinism
 clingo --opt-mode=optN --const max_timestep=4 --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
-    | tee \
-        >(grep 'Grounding:' \
-            | sed -E 's/, (ASPSubprogramInstantiation)/,\n    \1/g' \
-            | sed 's/,$//g' \
-            | sed 's/)))$/))/g' \
-            | sed 's/^Grounding: (/Grounding:\n    /g' \
-            > "${TEMP_DIR}/subprograms") \
-        >(grep 'Answer:' -A1 \
-            | tail -n 2 \
-            | sed -n '2p' \
-            | tr ' ' '\n' \
-            | sort \
-            > "${TEMP_DIR}/predicates") \
-    > /dev/null
+    > "${TEMP_DIR}/output"
+
+grep 'Grounding:' "${TEMP_DIR}/output" \
+    | sed -E 's/, (ASPSubprogramInstantiation)/,\n    \1/g' \
+    | sed 's/,$//g' \
+    | sed 's/)))$/))/g' \
+    | sed 's/^Grounding: (/Grounding:\n    /g' \
+    > "${TEMP_DIR}/subprograms"
+
+grep 'Answer:' -A1 "${TEMP_DIR}/output" \
+    | tail -n 2 \
+    | sed -n '2p' \
+    | tr ' ' '\n' \
+    | sort \
+    > "${TEMP_DIR}/predicates"
 
 cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 rm -rf "${TEMP_DIR}"
