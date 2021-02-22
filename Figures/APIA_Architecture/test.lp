@@ -63,7 +63,7 @@ def main(clingo_control: clingo.Control):
          for test_number in range(1, max_test_number + 1)),
     ))
     clingo_control.add('base', (), '\n'.join(f'step({timestep}).'
-                                             for timestep in range(current_timestep + 1)))
+                                             for timestep in range(max_timestep + 1)))
     print(f'Grounding: {subprograms_to_ground!r}')
     clingo_control.ground(subprograms_to_ground)
     clingo_control.solve()
