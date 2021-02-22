@@ -2,13 +2,14 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if (( $# < 2 )); then
-    echo "Usage: $0 FILE [...]" >&2
+if (( $# < 3 )); then
+    echo "Usage: $0 TEST_NUM MAX_TIMESTEP FILE [...]" >&2
     exit 1
 fi
 
 TEST_NUM=$1
-shift
+MAX_TIMESTEP=$2
+shift 2
 FILES=( "$@" )
 
 GLOBAL_FILES=(
@@ -29,7 +30,7 @@ done
 
 TEMP_DIR=$(mktemp -d)
 
-clingo --opt-mode=optN --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
+clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 1 \
     > "${TEMP_DIR}/output"
 
 grep 'Grounding:' "${TEMP_DIR}/output" \
