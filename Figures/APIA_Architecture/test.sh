@@ -29,7 +29,7 @@ done
 
 TEMP_DIR=$(mktemp -d)
 
-clingo --opt-mode=optN --const max_timestep=4 --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
+clingo --opt-mode=optN --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
     > "${TEMP_DIR}/output"
 
 grep 'Grounding:' "${TEMP_DIR}/output" \
