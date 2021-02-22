@@ -27,8 +27,8 @@ for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
     FILES+=( "${RELATIVE_PATH}" )
 done
 
-PIPES_DIR=$(mktemp -d)
-# mkfifo "${PIPES_DIR}/subprograms" "${PIPES_DIR}/predicates"
+TEMP_DIR=$(mktemp -d)
+# mkfifo "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 
 # TODO: Fix non-determinism
 clingo --opt-mode=optN --const max_timestep=4 --const test="${TEST_NUM}" --warn=no-atom-undefined "${FILES[@]}" 1 \
@@ -38,14 +38,14 @@ clingo --opt-mode=optN --const max_timestep=4 --const test="${TEST_NUM}" --warn=
             | sed 's/,$//g' \
             | sed 's/)))$/))/g' \
             | sed 's/^Grounding: (/Grounding:\n    /g' \
-            > "${PIPES_DIR}/subprograms") \
+            > "${TEMP_DIR}/subprograms") \
         >(grep 'Answer:' -A1 \
             | tail -n 2 \
             | sed -n '2p' \
             | tr ' ' '\n' \
             | sort \
-            > "${PIPES_DIR}/predicates") \
+            > "${TEMP_DIR}/predicates") \
     > /dev/null
 
-cat "${PIPES_DIR}/subprograms" "${PIPES_DIR}/predicates"
-rm -rf "${PIPES_DIR}"
+cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
+rm -rf "${TEMP_DIR}"
