@@ -29,6 +29,13 @@ for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
 done
 
 TEMP_DIR=$(mktemp -d)
+# echo "${TEMP_DIR}"
+
+# clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" --text 1 \
+#     | tee "${TEMP_DIR}/ground_program"
+
+clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 0 \
+    > "${TEMP_DIR}/full_output"
 
 clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 1 \
     > "${TEMP_DIR}/output"
