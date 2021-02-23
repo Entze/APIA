@@ -143,6 +143,7 @@ holds(status(Activity, ActivityIndex), Timestep) :-
     goal(Goal),
     Timestep = 0.
 
+% Determines the next ID for generated activities
 holds(next_name(ir), Timestep) :-
     Timestep = 0.
 
