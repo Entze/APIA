@@ -28,8 +28,8 @@ door_has_lock(Door) :-
 
 %%%% Activities %%%%
 
-% TODO: Look into how to use this constant properly
-#const ir = 0.
+% Starting ID for generated activities
+#const ir = 2.
 
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
