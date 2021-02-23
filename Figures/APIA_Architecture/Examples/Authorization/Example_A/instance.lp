@@ -114,4 +114,5 @@ observed(status(Activity, ActivityIndex), Timestep) :-
 % TODO: Look at (p. 41) of dissertation
 -observed(next_name(Activity), Timestep) :-
     Timestep = 0,
-    fluent(inertial, next_name(Activity)).
+    fluent(inertial, next_name(Activity)),
+    Activity < ir.
