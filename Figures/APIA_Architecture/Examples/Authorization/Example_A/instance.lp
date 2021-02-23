@@ -28,6 +28,9 @@ door_has_lock(Door) :-
 
 %%%% Activities %%%%
 
+% Starting ID for generated activities
+#const ir = 2.
+
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
     Person = "Alice",
@@ -79,6 +82,18 @@ component(Activity, ComponentIndex, Component) :-
 
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,
+    Door = "d12".
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
+    Door = "d23".
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
+    Door = "d34".
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
     Door = "d34".
 
 observed(in_room(Person, Room), Timestep) :-
@@ -111,4 +126,5 @@ observed(status(Activity, ActivityIndex), Timestep) :-
 % TODO: Look at (p. 41) of dissertation
 -observed(next_name(Activity), Timestep) :-
     Timestep = 0,
-    fluent(inertial, next_name(Activity)).
+    fluent(inertial, next_name(Activity)),
+    Activity < ir.

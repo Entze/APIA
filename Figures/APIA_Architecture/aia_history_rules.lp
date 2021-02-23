@@ -8,9 +8,6 @@
 
 #program aia_history_rules(current_timestep).
 
-% TODO: Look into how to use this constant properly
-#const ir = 0.
-
 component(Action) :-
     physical_action(Action),
     agent_action(Action).
@@ -146,6 +143,7 @@ holds(status(Activity, ActivityIndex), Timestep) :-
     goal(Goal),
     Timestep = 0.
 
+% Determines the next ID for generated activities
 holds(next_name(ir), Timestep) :-
     Timestep = 0.
 

@@ -6,6 +6,8 @@
 %%%% Step 2 %%%%
 #program aia_intended_action_rules(current_timestep).
 
+#const max_len = 10. % TODO: Update this
+
 % TODO: Consider removing this addition
 interpretation(ActionsNeeded, current_timestep) :-
     number_unobserved(UnobservedActions, current_timestep),
@@ -68,6 +70,7 @@ category_3_history(Activity, current_timestep) :-
     holds(in_progress(Activity), current_timestep).
 
 occurs(Action, FutureTimestep) :-
+    step(FutureTimestep),
     category_3_history(Activity, current_timestep),
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
@@ -80,6 +83,7 @@ occurs(Action, FutureTimestep) :-
 projected_success(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     -holds(minor(Activity), current_timestep),
+    step(FutureTimestep),
     current_timestep < FutureTimestep,
     holds(active(Activity), FutureTimestep),
     goal(Activity, Goal),
@@ -191,6 +195,7 @@ intended_action(wait, current_timestep) :-
     futile(Goal, current_timestep).
 
 some_action_occurred(FutureTimestep) :-
+    step(FutureTimestep),
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
     occurs(Action, FutureTimestep).
@@ -205,6 +210,7 @@ goal(Activity, Goal) :-
     new_candidate(Activity, current_timestep).
 
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
+    step(FutureTimestep),
     physical_action(Action),
     agent_action(Action),
     interpretation(UnobservedActions, current_timestep),
@@ -215,6 +221,7 @@ goal(Activity, Goal) :-
     some_action_occurred(FutureTimestep - 1).
 
 occurs(Action, FutureTimestep) :-
+    step(FutureTimestep),
     apply_cr_rule(plan_new(Action, FutureTimestep)).
 
 :~
@@ -246,6 +253,7 @@ has_component(Activity, ActivityIndex) :-
     component(Activity, ActivityIndex, ActivityComponent).
 
 length(Activity, ActivityLength) :-
+    ActivityLength <= max_len,
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
@@ -258,6 +266,7 @@ length(Activity, ActivityLength) :-
 % See p. 73 of dissertation
 
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
+    step(FutureTimestep),
     physical_action(Action),
     agent_action(Action),
     interpretation(UnobservedActions, current_timestep),
@@ -269,6 +278,7 @@ length(Activity, ActivityLength) :-
     some_action_occurred(FutureTimestep - 1).
 
 occurs(Action, FutureTimestep) :-
+    step(FutureTimestep),
     apply_cr_rule(plan_existing(Action, FutureTimestep)).
 
 :~
