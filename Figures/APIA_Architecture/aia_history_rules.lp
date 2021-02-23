@@ -8,9 +8,6 @@
 
 #program aia_history_rules(current_timestep).
 
-% TODO: Look into how to use this constant properly
-#const ir = 0.
-
 component(Action) :-
     physical_action(Action),
     agent_action(Action).
