@@ -61,6 +61,10 @@ fluent(defined, next_action(Activity, Action)) :-
 fluent(inertial, next_name(Activity)) :-
     activity(Activity).
 
+% TODO: Verify that this is correct (our addition).
+fluent(inertial, next_name(Activity)) :-
+    Activity = ir.
+
 %%%% Actions %%%%
 
 %--- Agent actions ---%
