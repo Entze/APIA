@@ -6,6 +6,8 @@
 %%%% Step 2 %%%%
 #program aia_intended_action_rules(current_timestep).
 
+#const max_len = 10. % TODO: Update this
+
 % TODO: Consider removing this addition
 interpretation(ActionsNeeded, current_timestep) :-
     number_unobserved(UnobservedActions, current_timestep),
@@ -251,6 +253,7 @@ has_component(Activity, ActivityIndex) :-
     component(Activity, ActivityIndex, ActivityComponent).
 
 length(Activity, ActivityLength) :-
+    ActivityLength <= max_len,
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
