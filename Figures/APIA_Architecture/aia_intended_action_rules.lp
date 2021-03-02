@@ -64,6 +64,7 @@ intended_action(stop(Activity), current_timestep) :-
 % "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
 % (p. 45) of dissertation
 
+% TODO: Shouldn't this also hold for at least current_timestep + 1?
 category_3_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     -holds(minor(Activity), current_timestep),
@@ -71,6 +72,7 @@ category_3_history(Activity, current_timestep) :-
 
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
+    % TODO: We need this to hold, but it won't until current_timestep >= 2
     category_3_history(Activity, current_timestep),
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
@@ -85,7 +87,7 @@ projected_success(Activity, current_timestep) :-
     -holds(minor(Activity), current_timestep),
     step(FutureTimestep),
     current_timestep < FutureTimestep,
-    holds(active(Activity), FutureTimestep),
+    holds(active(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
     goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
@@ -154,6 +156,7 @@ candidate(Activity, current_timestep) :-
 candidate(Activity, current_timestep) :-
     existing_candidate(Activity, current_timestep).
 
+% TODO: Why does this not produce occurs(start(1), 1)?
 occurs(start(Activity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
