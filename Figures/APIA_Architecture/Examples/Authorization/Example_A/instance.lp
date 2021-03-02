@@ -29,13 +29,13 @@ door_has_lock(Door) :-
 %%%% Actions %%%%
 
 % move_through(Actor, Door)
-agent_action(move_through(Actor, Room)) :-
+agent_action(move_through(Actor, Door)) :-
     person(Actor),
-    room(Room).
+    door(Door).
 
-exogenous_action(move_through(Actor, Room)) :-
+exogenous_action(move_through(Actor, Door)) :-
     person(Actor),
-    room(Room).
+    door(Door).
 
 % lock_door(Actor, Door)
 agent_action(lock_door(Actor, Door)) :-

@@ -29,9 +29,9 @@ fluent(inertial, greeted_by(Person, Actor)) :-
 %%%% Actions %%%%
 
 % move_through(Actor, Door)
-physical_action(move_through(Actor, Room)) :-
+physical_action(move_through(Actor, Door)) :-
     person(Actor),
-    room(Room).
+    door(Door).
 
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
