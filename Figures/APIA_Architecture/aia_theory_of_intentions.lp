@@ -291,7 +291,7 @@ holds(active_goal(MinorGoal), timestep) :-
     -holds(MinorGoal, timestep),
     goal(ChildActivity, MinorGoal),
     holds(status(ChildActivity, ChildActivityIndex), timestep),
-    holds(length(ChildActivity, ChildActivityLength), timestep),
+    length(ChildActivity, ChildActivityLength),
     ChildActivityIndex = ChildActivityLength.
 
 %--- Misc. ---%
