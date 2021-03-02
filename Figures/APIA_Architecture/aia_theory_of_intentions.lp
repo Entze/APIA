@@ -240,10 +240,10 @@ holds(active_goal(Goal), timestep + 1) :-
     agent_action(Action2).
 
 % -active_goal(Goal) if
-%   -minor(Goal), goal(Goal)
+%   -minor(Goal), Goal
 -holds(active_goal(Goal), timestep) :-
     -holds(minor(Goal), timestep),
-    holds(goal(Goal), timestep).
+    holds(Goal, timestep).
 
 %--- Sub goal ---%
 
