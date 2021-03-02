@@ -42,9 +42,6 @@ if [[ "${DEBUG}" == 'trace' ]]; then
 fi
 
 clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 0 \
-    > "${TEMP_DIR}/full_output"
-
-clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 1 \
     > "${TEMP_DIR}/output"
 
 grep 'Grounding:' "${TEMP_DIR}/output" \
@@ -61,6 +58,18 @@ grep 'Answer:' -A1 "${TEMP_DIR}/output" \
     | sort \
     > "${TEMP_DIR}/predicates"
 
+if [[ "$(grep -c 'Answer: 1$' "${TEMP_DIR}/output")" -eq 1 ]]; then
+    # Normal output
+    NUM_MODELS=$(grep -c 'Answer:' "${TEMP_DIR}/output")
+else
+    # optN output (Ignore first 'Answer 1, 2, 3, ...' until Answer 1, 2, 3, ...)
+    NUM_MODELS=$(grep 'Answer:' "${TEMP_DIR}/output" \
+        | tail -n +2 \
+        | sed -n '/Answer: 1$/,$p' \
+        | wc -l )
+fi
+
+echo "Stable models: ${NUM_MODELS}"
 cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 if [[ -n "${DEBUG}" ]]; then
     echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
