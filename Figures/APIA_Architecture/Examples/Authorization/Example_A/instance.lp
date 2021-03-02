@@ -31,40 +31,48 @@ door_has_lock(Door) :-
 % move_through(Actor, Door)
 agent_action(move_through(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door(Door),
+    Actor = "Bob".
 
 exogenous_action(move_through(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door(Door),
+    Actor != "Bob".
 
 % lock_door(Actor, Door)
 agent_action(lock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door(Door),
+    Actor = "Bob".
 
 exogenous_action(lock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door(Door),
+    Actor != "Bob".
 
 % unlock_door(Actor, Door)
 agent_action(unlock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door(Door),
+    Actor = "Bob".
 
 exogenous_action(unlock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door(Door),
+    Actor != "Bob".
 
 % greet(Actor, Person)
 agent_action(greet(Actor, Person)) :-
     person(Actor),
     person(Person),
-    Actor != Person.
+    Actor != Person,
+    Actor = "Bob".
 
 exogenous_action(greet(Actor, Person)) :-
     person(Actor),
     person(Person),
-    Actor != Person.
+    Actor != Person,
+    Actor != "Bob".
 
 %%%% Activities %%%%
 
