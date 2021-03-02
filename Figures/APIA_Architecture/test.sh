@@ -28,11 +28,18 @@ for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
     FILES+=( "${RELATIVE_PATH}" )
 done
 
-TEMP_DIR=$(mktemp -d)
-# echo "${TEMP_DIR}"
+DEBUG=debug
 
-# clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" --text 1 \
-#     | tee "${TEMP_DIR}/ground_program"
+TEMP_DIR=$(mktemp -d)
+
+if [[ -n "${DEBUG}" ]]; then
+    echo "${TEMP_DIR}"
+fi
+
+if [[ "${DEBUG}" == 'trace' ]]; then
+    clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" --text 1 \
+        | tee "${TEMP_DIR}/ground_program"
+fi
 
 clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 0 \
     > "${TEMP_DIR}/full_output"
@@ -55,4 +62,8 @@ grep 'Answer:' -A1 "${TEMP_DIR}/output" \
     > "${TEMP_DIR}/predicates"
 
 cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
-rm -rf "${TEMP_DIR}"
+if [[ -n "${DEBUG}" ]]; then
+    echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
+else
+    rm -rf "${TEMP_DIR}"
+fi
