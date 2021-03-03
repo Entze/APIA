@@ -27,7 +27,8 @@ fluent(inertial, status(Activity, ActivityIndex)) :-
 fluent(defined, active(Activity)) :-
     activity(Activity).
 
-fluent(defined, child(ChildActivity, Activity)) :-
+% Originally: child(ChildActivity, Activity)
+fluent(defined, child_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
@@ -163,23 +164,23 @@ holds(status(Activity, activity_index__non_active), timestep + 1) :-
 -occurs(wait, timestep) | -occurs(Action, timestep) :-
     agent_action(Action).
 
-% child(ChildActivity) if
+% child_activity(ChildActivity) if
 %   component(Activity, Activity + 1, ChildActivity), status(Activity, ActivityIndex)
-holds(child(ChildActivity), timestep) :-
+holds(child_activity(ChildActivity), timestep) :-
     component(Activity, Activity + 1, ChildActivity),
     holds(status(Activity, ActivityIndex), timestep).
 
 % child_goal(ChildGoal, Goal) if
-%   child(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
+%   child_activity(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
 holds(child_goal(ChildGoal, Goal), timestep) :-
-    holds(child(ChildActivity, Activity), timestep),
+    holds(child_activity(ChildActivity, Activity), timestep),
     goal(Activity, Goal),
     goal(ChildActivity, ChildGoal).
 
 % descendant(ChildActivity, Activity) if
-%   child(ChildActivity, Activity)
+%   child_activity(ChildActivity, Activity)
 holds(descendant(ChildActivity, Activity), timestep) :-
-    holds(child(ChildActivity, Activity), timestep).
+    holds(child_activity(ChildActivity, Activity), timestep).
 
 % descendant(GrandChildActivity, Activity) if
 %   descendant(ChildActivity, Activity), descendant(GrandChildActivity, ChildActivity)
@@ -188,9 +189,9 @@ holds(descendant(GrandChildActivity, Activity), timestep) :-
     holds(descendant(GrandChildActivity, ChildActivity), timestep).
 
 % minor(ChildActivity) if
-%   child(ChildActivity, Activity)
+%   child_activity(ChildActivity, Activity)
 holds(minor(ChildActivity), timestep) :-
-    holds(child(ChildActivity, Activity), timestep).
+    holds(child_activity(ChildActivity, Activity), timestep).
 
 % minor(ChildGoal) if
 %   child_goal(ChildGoal, Goal)
