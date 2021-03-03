@@ -134,7 +134,7 @@ impossible(select(Goal), Timestep) :-
 % TODO: Should these be observed() statements due to legality definition
 % on (p. 40) of dissertation?
 
-holds(status(Activity, ActivityIndex), Timestep) :-
+holds(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.

@@ -124,9 +124,9 @@ observed(baz(C), Timestep) :-
     Timestep = 0,
     fluent(inertial, active_goal(Goal)).
 
-observed(status(Activity, ActivityIndex), Timestep) :-
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
     Timestep = 0,
-    fluent(inertial, status(Activity, ActivityIndex)),
+    fluent(inertial, activity_status(Activity, ActivityIndex)),
     ActivityIndex = -1.
 
 % TODO: Look at (p. 41) of dissertation

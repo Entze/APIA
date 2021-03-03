@@ -20,7 +20,8 @@
 fluent(inertial, active_goal(Goal)) :-
     goal(Goal).
 
-fluent(inertial, status(Activity, ActivityIndex)) :-
+% Originally: status(Activity, ActivityIndex)
+fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
@@ -117,25 +118,25 @@ action(wait).
 %%%% Action descriptions %%%%
 #program action_description(timestep).
 
-% -status(Activity, OldActivityIndex) if
-%   status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
--holds(status(Activity, OldActivityIndex), timestep) :-
-    holds(status(Activity, ActivityIndex), timestep),
+% -activity_status(Activity, OldActivityIndex) if
+%   activity_status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
+-holds(activity_status(Activity, OldActivityIndex), timestep) :-
+    holds(activity_status(Activity, ActivityIndex), timestep),
     length(Activity, ActivityLength),
     OldActivityIndex = -1..ActivityLength,
     OldActivityIndex != ActivityIndex.
 
 % active_activity(Activity) if
-%   -status(Activity, -1)
+%   -activity_status(Activity, -1)
 holds(active_activity(Activity), timestep) :-
-    -holds(status(Activity, activity_index__non_active), timestep).
+    -holds(activity_status(Activity, activity_index__non_active), timestep).
 
-% start(Activity) causes status(Activity, 0)
-holds(status(Activity, activity_index__new), timestep + 1) :-
+% start(Activity) causes activity_status(Activity, 0)
+holds(activity_status(Activity, activity_index__new), timestep + 1) :-
     occurs(start(Activity), timestep).
 
-% stop(Activity) causes status(Activity, -1)
-holds(status(Activity, activity_index__non_active), timestep + 1) :-
+% stop(Activity) causes activity_status(Activity, -1)
+holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
     occurs(stop(Activity), timestep).
 
 % impossible start(Activity) if
@@ -166,10 +167,10 @@ holds(status(Activity, activity_index__non_active), timestep + 1) :-
     agent_action(Action).
 
 % child_activity(ChildActivity) if
-%   component(Activity, Activity + 1, ChildActivity), status(Activity, ActivityIndex)
+%   component(Activity, Activity + 1, ChildActivity), activity_status(Activity, ActivityIndex)
 holds(child_activity(ChildActivity), timestep) :-
     component(Activity, Activity + 1, ChildActivity),
-    holds(status(Activity, ActivityIndex), timestep).
+    holds(activity_status(Activity, ActivityIndex), timestep).
 
 % child_goal(ChildGoal, Goal) if
 %   child_activity(ChildActivity, Activity), goal(Activity, Goal), goal(ChildActivity, ChildGoal)
@@ -253,14 +254,14 @@ holds(active_goal(Goal), timestep + 1) :-
 % active_goal(MinorGoal) if
 %   minor(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), goal(ChildActivity, MinorGoal),
-%   -MinorGoal, status(ChildActivity, -1)
+%   -MinorGoal, activity_status(ChildActivity, -1)
 holds(active_goal(MinorGoal), timestep) :-
     holds(minor(MinorGoal), timestep),
     holds(child_goal(MinorGoal, Goal), timestep),
     holds(active_goal(Goal), timestep),
     goal(ChildActivity, MinorGoal),
     -holds(MinorGoal, timestep),
-    holds(status(ChildActivity, activity_index__non_active), timestep).
+    holds(activity_status(ChildActivity, activity_index__non_active), timestep).
 
 % "A minor goal MinorGoal is no longer active when it is achieved."
 % -active_goal(MinorGoal) if
@@ -284,7 +285,7 @@ holds(active_goal(MinorGoal), timestep) :-
 % -active_goal(MinorGoal) if
 %   minor(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), -MinorGoal,
-%   goal(ChildActivity, MinorGoal), status(ChildActivity, ChildActivityIndex),
+%   goal(ChildActivity, MinorGoal), activity_status(ChildActivity, ChildActivityIndex),
 %   length(ChildActivity, ChildActivityLength)
 -holds(active_goal(MinorGoal), timestep) :-
     holds(minor(MinorGoal), timestep),
@@ -292,7 +293,7 @@ holds(active_goal(MinorGoal), timestep) :-
     holds(active_goal(Goal), timestep),
     -holds(MinorGoal, timestep),
     goal(ChildActivity, MinorGoal),
-    holds(status(ChildActivity, ChildActivityIndex), timestep),
+    holds(activity_status(ChildActivity, ChildActivityIndex), timestep),
     length(ChildActivity, ChildActivityLength),
     ChildActivityIndex = ChildActivityLength.
 
@@ -313,71 +314,71 @@ holds(in_progress(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % next_action(Activity, Action) if
-%   physical_action(Action), agent_action(Action), status(Activity, ActivityIndex),
+%   physical_action(Action), agent_action(Action), activity_status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, Action), in_progress(Activity)
 holds(next_action(Activity, Action), timestep) :-
     physical_action(Action),
     agent_action(Action),
-    holds(status(Activity, ActivityIndex), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, Action),
     holds(in_progress(Activity), timestep).
 
 % next_action(Activity, start(ChildActivity)) if
-%   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), -active_activity(ChildActivity)
 holds(next_action(Activity, start(ChildActivity)), timestep) :-
-    holds(status(Activity, ActivityIndex), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
     holds(in_progress(Activity), timestep),
     -holds(active_activity(ChildActivity), timestep).
 
 % next_action(Activity, Action) if
-%   agent_action(Action), status(Activity, ActivityIndex),
+%   agent_action(Action), activity_status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), in_progress(ChildActivity), next_action(ChildActivity, Action)
 holds(next_action(Activity, Action), timestep) :-
     agent_action(Action),
-    holds(status(Activity, ActivityIndex), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
     holds(in_progress(Activity), timestep),
     holds(in_progress(ChildActivity), timestep),
     holds(next_action(ChildActivity, Action), timestep).
 
 % next_action(Activity, stop(ChildActivity)) if
-%   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
 %   in_progress(Activity), active_activity(ChildActivity),
 %   goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
 holds(next_action(Activity, stop(ChildActivity)), timestep) :-
-    holds(status(Activity, ActivityIndex), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
     holds(in_progress(Activity), timestep),
     holds(active_activity(ChildActivity), timestep),
     goal(ChildActivity, ChildGoal),
     -holds(active_goal(ChildGoal), timestep).
 
-% Action causes status(Activity, ActivityIndex + 1) if
-%   next_action(Activity, Action), status(Activity, ActivityIndex),
+% Action causes activity_status(Activity, ActivityIndex + 1) if
+%   next_action(Activity, Action), activity_status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, Action), physical_action(Action), agent_action(Action)
-holds(status(Activity, ActivityIndex + 1), timestep + 1) :-
+holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(Action, timestep),
     holds(next_action(Activity, Action), timestep),
-    holds(status(Activity, ActivityIndex), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, Action),
     physical_action(Action),
     agent_action(Action).
 
-% stop(ChildActivity) causes status(Activity, ActivityIndex + 1) if
-%   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
+% stop(ChildActivity) causes activity_status(Activity, ActivityIndex + 1) if
+%   activity_status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
 %   next_action(Activity, stop(ChildActivity))
-holds(status(Activity, ActivityIndex + 1), timestep + 1) :-
+holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(stop(ChildActivity), timestep),
-    holds(status(Activity, ActivityIndex), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
     holds(next_action(Activity, stop(ChildActivity)), timestep).
 
-% stop(Activity) causes status(ChildActivity, -1) if
+% stop(Activity) causes activity_status(ChildActivity, -1) if
 %   descendant(ChildActivity, Activity)
-holds(status(ChildActivity, activity_index__non_active), timestep + 1) :-
+holds(activity_status(ChildActivity, activity_index__non_active), timestep + 1) :-
     occurs(stop(Activity), timestep),
     holds(descendant(ChildActivity, Activity), timestep).
 
