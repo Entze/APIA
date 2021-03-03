@@ -197,15 +197,15 @@ intended_action(wait, current_timestep) :-
     category_4_history(Goal, current_timestep),
     futile(Goal, current_timestep).
 
+%--- Creating new candidates ---%
+%
+% See p. 71 of dissertation
+
 some_action_occurred(FutureTimestep) :-
     step(FutureTimestep),
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
     occurs(Action, FutureTimestep).
-
-%--- Creating new candidates ---%
-%
-% See p. 71 of dissertation
 
 goal(Activity, Goal) :-
     interpretation(UnobservedActions, current_timestep),
