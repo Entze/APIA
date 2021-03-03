@@ -9,7 +9,7 @@ Graphviz figures to PDF:
   when: manual
   allow_failure: false
   image: alpine
-  needs:
+  needs: []
   script:
     - apk add make graphviz
     - make build-graphviz
@@ -26,7 +26,7 @@ PlantUML figures to PDF:
     name: think/plantuml
     entrypoint:
       - ''
-  needs:
+  needs: []
   script:
     - apk add make
     - make build-plantuml
@@ -90,7 +90,7 @@ ShellCheck:
   when: manual
   allow_failure: true
   image: koalaman/shellcheck-alpine:latest
-  needs:
+  needs: []
   script:
     - apk add --no-cache git
     - git ls-files --exclude='*.sh' --ignored -z | xargs -0 shellcheck
