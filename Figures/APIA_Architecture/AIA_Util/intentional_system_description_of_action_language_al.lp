@@ -87,7 +87,7 @@ holds(baz(B), timestep) :-
 % activity(Activity) :-
 %     Activity = 1.
 %
-% goal(Activity, ActivityGoal) :-
+% activity_goal(Activity, ActivityGoal) :-
 %     Activity = 1,
 %     ActivityGoal = %* ... *%.
 %

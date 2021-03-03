@@ -19,8 +19,8 @@ equal(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
     goal(Goal),
-    goal(Activity, Goal),
-    goal(OtherActivity, Goal),
+    activity_goal(Activity, Goal),
+    activity_goal(OtherActivity, Goal),
     equal_plan(Activity, OtherActivity).
 
 equal_plan(Activity, OtherActivity) :-
@@ -201,7 +201,7 @@ need_to_observe_goal(ChildGoal, Timestep) :-
     activity(ChildActivity),
     goal(Goal),
     goal(ChildGoal),
-    goal(ChildActivity, ChildGoal),
+    activity_goal(ChildActivity, ChildGoal),
     holds(immediate_child_goal(ChildGoal, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 

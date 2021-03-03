@@ -59,7 +59,7 @@ category_2_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     -holds(minor(Activity), current_timestep),
     holds(active_activity(Activity), current_timestep),
-    goal(Activity, Goal),
+    activity_goal(Activity, Goal),
     -active_goal(Goal).
 
 intended_action(stop(Activity), current_timestep) :-
@@ -105,7 +105,7 @@ projected_success(Activity, current_timestep) :-
     step(FutureTimestep),
     current_timestep < FutureTimestep,
     holds(active_activity(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
-    goal(Activity, Goal),
+    activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
 -projected_success(Activity, current_timestep) :-
@@ -176,7 +176,7 @@ existing_candidate(Activity, current_timestep) :-
     category_4_history(Goal, current_timestep),
     holds(next_name(NextActivity), current_timestep),
     Activity < NextActivity,
-    goal(Activity, Goal).
+    activity_goal(Activity, Goal).
 
 new_candidate(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -200,13 +200,13 @@ occurs(start(Activity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     candidate(Activity, current_timestep),
-    goal(Activity, Goal),
+    activity_goal(Activity, Goal),
     not impossible(start(Activity), current_timestep).
 
 impossible(start(OtherActivity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
-    goal(Activity, Goal),
+    activity_goal(Activity, Goal),
     occurs(start(Activity), current_timestep),
     activity(OtherActivity),
     OtherActivity != Activity.
@@ -259,7 +259,7 @@ some_action_occurred(FutureTimestep) :-
 % "To describe a new candidate we must give it a name, goal, and plan."
 % (p. 71) of dissertation
 
-goal(Activity, Goal) :-
+activity_goal(Activity, Goal) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep).
