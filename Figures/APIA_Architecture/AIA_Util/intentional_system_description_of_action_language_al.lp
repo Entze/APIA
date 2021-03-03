@@ -93,14 +93,14 @@ holds(baz(B), timestep) :-
 %
 % length(Activity, ActivityLength) :-
 %     Activity = 1,
-%     ActivityLength = #max{ ComponentIndex : component(Activity, ComponentIndex, _) }.
+%     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 %
-% component(Activity, ComponentIndex, Component) :-
+% activity_component(Activity, ComponentIndex, Component) :-
 %     Activity = 1,
 %     ComponentIndex = 1,
 %     Component = %* ... *%.
 %
-% component(Activity, ComponentIndex, Component) :-
+% activity_component(Activity, ComponentIndex, Component) :-
 %     Activity = 1,
 %     ComponentIndex = 2,
 %     Component = %* ... *%.

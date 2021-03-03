@@ -36,8 +36,8 @@ different_component(Activity, OtherActivity) :-
     component(ActivityComponent),
     component(OtherActivityComponent),
     index(ActivityIndex),
-    component(Activity, ActivityIndex, ActivityComponent),
-    component(OtherActivity, ActivityIndex, OtherActivityComponent),
+    activity_component(Activity, ActivityIndex, ActivityComponent),
+    activity_component(OtherActivity, ActivityIndex, OtherActivityComponent),
     ActivityComponent != OtherActivityComponent.
 
 :-

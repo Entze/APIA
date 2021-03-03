@@ -95,30 +95,30 @@ goal(Activity, ActivityGoal) :-
 
 length(Activity, ActivityLength) :-
     Activity = 1,
-    ActivityLength = #max{ ComponentIndex : component(Activity, ComponentIndex, _) }.
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
-component(Activity, ComponentIndex, Component) :-
+activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 1,
     Component = move_through(Actor, Door),
     Actor = "Bob",
     Door = "d12".
 
-component(Activity, ComponentIndex, Component) :-
+activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 2,
     Component = move_through(Actor, Door),
     Actor = "Bob",
     Door = "d23".
 
-component(Activity, ComponentIndex, Component) :-
+activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 3,
     Component = move_through(Actor, Door),
     Actor = "Bob",
     Door = "d34".
 
-component(Activity, ComponentIndex, Component) :-
+activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 4,
     Component = greet(Actor, Person),

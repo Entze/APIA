@@ -302,8 +302,8 @@ component(Activity, PreviousTimestep - 1, Action) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
-    component(Activity, ActivityIndex, ActivityComponent1),
-    component(Activity, ActivityIndex, ActivityComponent2),
+    activity_component(Activity, ActivityIndex, ActivityComponent1),
+    activity_component(Activity, ActivityIndex, ActivityComponent2),
     ActivityComponent1 != ActivityComponent2.
 
 % --------------------
@@ -312,13 +312,13 @@ component(Activity, PreviousTimestep - 1, Action) :-
 % (p. 71) of dissertation
 
 % TODO: Remove has_component() with:
-%   #max{ ActivityIndex : component(Activity, ActivityIndex, ActivityComponent) }
+%   #max{ ActivityIndex : activity_component(Activity, ActivityIndex, ActivityComponent) }
 has_component(Activity, ActivityIndex) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    component(Activity, ActivityIndex, ActivityComponent).
+    activity_component(Activity, ActivityIndex, ActivityComponent).
 
 length(Activity, ActivityLength) :-
     ActivityLength <= max_len,
