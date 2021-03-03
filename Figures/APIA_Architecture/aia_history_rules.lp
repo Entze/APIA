@@ -119,7 +119,7 @@ impossible(select(Goal), Timestep) :-
     Timestep < current_timestep,
     goal(Goal),
     activity(Activity),
-    holds(active(Activity), Timestep).
+    holds(active_activity(Activity), Timestep).
 
 impossible(select(Goal), Timestep) :-
     step(Timestep),

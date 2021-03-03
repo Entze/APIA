@@ -39,7 +39,7 @@ active_goal_or_activity(current_timestep) :-
 
 active_goal_or_activity(current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    holds(active(Activity), current_timestep).
+    holds(active_activity(Activity), current_timestep).
 
 intended_action(wait, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -58,7 +58,7 @@ intended_action(wait, current_timestep) :-
 category_2_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     -holds(minor(Activity), current_timestep),
-    holds(active(Activity), current_timestep),
+    holds(active_activity(Activity), current_timestep),
     goal(Activity, Goal),
     -active_goal(Goal).
 
@@ -104,7 +104,7 @@ projected_success(Activity, current_timestep) :-
     -holds(minor(Activity), current_timestep),
     step(FutureTimestep),
     current_timestep < FutureTimestep,
-    holds(active(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
+    holds(active_activity(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
     goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 

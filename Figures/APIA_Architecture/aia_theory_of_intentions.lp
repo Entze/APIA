@@ -24,7 +24,8 @@ fluent(inertial, status(Activity, ActivityIndex)) :-
     length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
-fluent(defined, active(Activity)) :-
+% Originally: active(Activity)
+fluent(defined, active_activity(Activity)) :-
     activity(Activity).
 
 % Originally: child(ChildActivity, Activity)
@@ -124,9 +125,9 @@ action(wait).
     OldActivityIndex = -1..ActivityLength,
     OldActivityIndex != ActivityIndex.
 
-% active(Activity) if
+% active_activity(Activity) if
 %   -status(Activity, -1)
-holds(active(Activity), timestep) :-
+holds(active_activity(Activity), timestep) :-
     -holds(status(Activity, activity_index__non_active), timestep).
 
 % start(Activity) causes status(Activity, 0)
@@ -138,14 +139,14 @@ holds(status(Activity, activity_index__non_active), timestep + 1) :-
     occurs(stop(Activity), timestep).
 
 % impossible start(Activity) if
-%   active(Activity)
+%   active_activity(Activity)
 -occurs(start(Activity), timestep) :-
-    holds(active(Activity), timestep).
+    holds(active_activity(Activity), timestep).
 
 % impossible stop(Activity) if
-%   -active(Activity)
+%   -active_activity(Activity)
 -occurs(stop(Activity), timestep) :-
-    -holds(active(Activity), timestep).
+    -holds(active_activity(Activity), timestep).
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
 % impossible Action1, Action2 if
@@ -298,16 +299,16 @@ holds(active_goal(MinorGoal), timestep) :-
 %--- Misc. ---%
 
 % in_progress(Activity) if
-%   active(Activity), goal(Activity, Goal), active_goal(Goal)
+%   active_activity(Activity), goal(Activity, Goal), active_goal(Goal)
 holds(in_progress(Activity), timestep) :-
-    holds(active(Activity), timestep),
+    holds(active_activity(Activity), timestep),
     goal(Activity, Goal),
     holds(active_goal(Goal), timestep).
 
 % in_progress(Goal) if
-%   active(Activity), goal(Activity, Goal), active_goal(Goal)
+%   active_activity(Activity), goal(Activity, Goal), active_goal(Goal)
 holds(in_progress(Goal), timestep) :-
-    holds(active(Activity), timestep),
+    holds(active_activity(Activity), timestep),
     goal(Activity, Goal),
     holds(active_goal(Goal), timestep).
 
@@ -323,12 +324,12 @@ holds(next_action(Activity, Action), timestep) :-
 
 % next_action(Activity, start(ChildActivity)) if
 %   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
-%   in_progress(Activity), -active(ChildActivity)
+%   in_progress(Activity), -active_activity(ChildActivity)
 holds(next_action(Activity, start(ChildActivity)), timestep) :-
     holds(status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
     holds(in_progress(Activity), timestep),
-    -holds(active(ChildActivity), timestep).
+    -holds(active_activity(ChildActivity), timestep).
 
 % next_action(Activity, Action) if
 %   agent_action(Action), status(Activity, ActivityIndex),
@@ -344,13 +345,13 @@ holds(next_action(Activity, Action), timestep) :-
 
 % next_action(Activity, stop(ChildActivity)) if
 %   status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
-%   in_progress(Activity), active(ChildActivity),
+%   in_progress(Activity), active_activity(ChildActivity),
 %   goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
 holds(next_action(Activity, stop(ChildActivity)), timestep) :-
     holds(status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
     holds(in_progress(Activity), timestep),
-    holds(active(ChildActivity), timestep),
+    holds(active_activity(ChildActivity), timestep),
     goal(ChildActivity, ChildGoal),
     -holds(active_goal(ChildGoal), timestep).
 
