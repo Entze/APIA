@@ -1,9 +1,9 @@
 % Based on Blount et al. 2014. "Towards a Theory of Intentional Agents"
 % and Blount. 2013. "An architecture for intentional agents"
 %
+% Step 2.
+%
 % See p. 63 of dissertation
-
-%%%% Step 2 %%%%
 #program aia_intended_action_rules(current_timestep).
 
 #const max_len = 10. % TODO: Update this
@@ -20,7 +20,8 @@ interpretation(ActionsNeeded, current_timestep) :-
     interpretation(ActionsNeeded, current_timestep),
     UnobservedActions != ActionsNeeded.
 
-%--- Category 1 ---%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % "Let cm_n be the current mental state of history \tau_n"
 % "there are no activities or goals that are active in cm_n"
 % (p. 45) of dissertation
@@ -45,7 +46,8 @@ intended_action(wait, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_1_history(current_timestep).
 
-%--- Category 2 ---%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
 % (p. 45) of dissertation
@@ -66,7 +68,8 @@ intended_action(stop(Activity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_2_history(Activity, current_timestep).
 
-%--- Category 3 ---%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
 % (p. 45) of dissertation
@@ -123,7 +126,7 @@ intended_action(Action, current_timestep) :-
     agent_action(Action),
     projected_success(Activity, current_timestep).
 
-% --------------------
+% ------------------------------------------------------------------------------------------
 
 { apply_cr_rule(futile_activity(Activity, current_timestep)) } :-
     interpretation(UnobservedActions, current_timestep),
@@ -150,7 +153,8 @@ intended_action(stop(Activity), current_timestep) :-
     category_3_history(Activity, current_timestep),
     futile(Activity, current_timestep).
 
-%--- Category 4 ---%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
 % (p. 45) of dissertation
@@ -166,7 +170,8 @@ category_4_history(Goal, current_timestep) :-
     holds(active_goal(Goal), current_timestep),
     -holds(goal_in_progress(Goal), current_timestep).
 
-% --------------------
+% ------------------------------------------------------------------------------------------
+
 %
 % "The following rules give the ASP denitions of new and existing candidate activities"
 % (p. 68) of dissertation
@@ -189,7 +194,7 @@ candidate(Activity, current_timestep) :-
 candidate(Activity, current_timestep) :-
     existing_candidate(Activity, current_timestep).
 
-% --------------------
+% ------------------------------------------------------------------------------------------
 %
 % "The following rules guarantee that each answer set contains
 % at most the starting of a single candidate activity."
@@ -211,7 +216,7 @@ impossible(start(OtherActivity), current_timestep) :-
     activity(OtherActivity),
     OtherActivity != Activity.
 
-% --------------------
+% ------------------------------------------------------------------------------------------
 
 % "The following rule guarantees that candidates that are started by rule (5.31)
 %  achieve the goal by forbidding all answer sets where -projected success
@@ -254,7 +259,7 @@ some_action_occurred(FutureTimestep) :-
     current_timestep <= FutureTimestep,
     occurs(Action, FutureTimestep).
 
-% --------------------
+% ------------------------------------------------------------------------------------------
 %
 % "To describe a new candidate we must give it a name, goal, and plan."
 % (p. 71) of dissertation
@@ -306,7 +311,7 @@ component(Activity, PreviousTimestep - 1, Action) :-
     activity_component(Activity, ActivityIndex, ActivityComponent2),
     ActivityComponent1 != ActivityComponent2.
 
-% --------------------
+% ------------------------------------------------------------------------------------------
 %
 % "[this rule] describes the length of the new candidate."
 % (p. 71) of dissertation
@@ -383,7 +388,7 @@ intended_action(start(Activity), current_timestep) :-
     occurs(start(Activity), current_timestep),
     projected_success(Activity, current_timestep).
 
-% --------------------
+% ------------------------------------------------------------------------------------------
 
 % "The last two rules are preference statements of CR-Prolog and ensure that a goal is futile
 %  only if there is no candidate that is expected to achieve the goal.

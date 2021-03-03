@@ -4,18 +4,18 @@
 #const activity_index__non_active = -1.
 #const activity_index__new = 0.
 
-%%%% Domains %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % goal(Goal)
 % activity(Activity)
 
-%%%% Statics %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % activity_component(Activity, ComponentIndex, Component)
 % activity_length(Activity, ActivityLength)
 % activity_goal(Activity, ActivityGoal)
 
-%%%% Fluents %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fluent(inertial, active_goal(Goal)) :-
     goal(Goal).
@@ -73,7 +73,7 @@ fluent(inertial, next_name(Activity)) :-
 fluent(inertial, next_name(Activity)) :-
     Activity = ir.
 
-%%%% Actions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %--- Agent actions ---%
 
@@ -120,7 +120,7 @@ action(Action) :-
 
 action(wait).
 
-%%%% Action descriptions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
 % -activity_status(Activity, OldActivityIndex) if

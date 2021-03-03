@@ -46,7 +46,7 @@ different_component(Activity, OtherActivity) :-
     equal(Activity, OtherActivity),
     Activity != OtherActivity.
 
-%%%% Initialization Axiom %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialization Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 58 of dissertation
 #program base.
@@ -59,7 +59,7 @@ holds(Fluent, Timestep) :-
     -observed(Fluent, Timestep),
     Timestep = 0.
 
-%%%% Reality Check Axioms %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Reality Check Axioms %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 58 of dissertation
 #program aia_history_rules(current_timestep).
@@ -74,7 +74,7 @@ holds(Fluent, Timestep) :-
     Timestep <= current_timestep,
     holds(Fluent, Timestep).
 
-%%%% Occurrence-Awareness Axiom %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 58 of dissertation
 #program aia_history_rules(current_timestep).
@@ -87,7 +87,7 @@ occurs(Action, Timestep) :-
     Timestep < current_timestep,
     -happened(Action, Timestep).
 
-%%%% Misc %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 59 of dissertation
 
@@ -102,7 +102,7 @@ occurs(Action, Timestep) :-
     occurs(Action, Timestep),
     not attempt(Action, Timestep).
 
-%%%% Pre-model rules %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 59 of dissertation
 
@@ -147,7 +147,7 @@ holds(activity_status(Activity, ActivityIndex), Timestep) :-
 holds(next_name(ir), Timestep) :-
     Timestep = 0.
 
-%%%% Applicability constraints %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Applicability constraints %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % "the agent always observes the results of
 %   - his attempts to perform actions,
@@ -224,7 +224,7 @@ observed_goal(Goal, Timestep) :-
     need_to_observe_goal(Goal, Timestep),
     not observed_goal(Goal, Timestep).
 
-%%%% Model rules %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 61 of dissertation
 

@@ -1,6 +1,6 @@
 % See p. 74 of dissertation for AIA control loop
 
-%%%% Expected sequence %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Expected sequence %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %--- (Initial observations) ---%
 % See instance.lp

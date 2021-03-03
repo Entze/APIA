@@ -1,15 +1,15 @@
-%%%% Domains %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % room(Room)
 % door(Door)
 % person(Person)
 
-%%%% Statics %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_connects(Door, Room)
 % door_has_lock(Door)
 
-%%%% Fluents %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_locked(Door)
 fluent(inertial, door_locked(Door)) :-
@@ -34,7 +34,7 @@ fluent(inertial, greeted_by(Person, Actor)) :-
     person(Actor),
     Person != Actor.
 
-%%%% Actions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % move_through(Actor, Door)
 physical_action(move_through(Actor, Room)) :-
@@ -114,7 +114,7 @@ exogenous_action(greet(Actor, Person)) :-
     person(Person),
     Actor != Person.
 
-%%%% Action descriptions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
 % move_through(Actor, Door) causes in_room(Actor, ToRoom)
@@ -189,7 +189,7 @@ holds(greeted_by(Person, Actor), timestep + 1) :-
     holds(in_room(Person, PersonRoom), timestep),
     ActorRoom != PersonRoom.
 
-%%%% Authorization policy %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % "Anyone is allowed to move from any room to any room"
 %

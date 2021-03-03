@@ -70,7 +70,7 @@ def main(clingo_control: clingo.Control):
 
 #end.
 
-%%%% Convenience predicates %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Convenience predicates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.
 
 auth_compliance(strong) :-
@@ -79,7 +79,7 @@ auth_compliance(strong) :-
 auth_compliance(weak) :-
     not -auth_compliance(weak).
 
-%%%% #show statements %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #show statements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % TODO: Uncomment when finished debugging
 %#show holds/2.
