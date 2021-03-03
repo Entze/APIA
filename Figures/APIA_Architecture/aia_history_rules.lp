@@ -8,13 +8,20 @@
 
 #program aia_history_rules(current_timestep).
 
+% ------------------------------------------------------------------------------------------
+
+% "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
+% (p. 57) of dissertation
+
 component(Action) :-
     physical_action(Action),
     agent_action(Action).
 
+% (p. 57) of dissertation
 component(Activity) :-
     activity(Activity).
 
+% (p. 57) of dissertation
 equal(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
@@ -23,6 +30,7 @@ equal(Activity, OtherActivity) :-
     activity_goal(OtherActivity, Goal),
     equal_plan(Activity, OtherActivity).
 
+% (p. 57) of dissertation
 equal_plan(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
@@ -30,6 +38,7 @@ equal_plan(Activity, OtherActivity) :-
     activity_length(OtherActivity, ActivityLength),
     not different_component(Activity, OtherActivity).
 
+% (p. 57) of dissertation
 different_component(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
@@ -40,6 +49,7 @@ different_component(Activity, OtherActivity) :-
     activity_component(OtherActivity, ActivityIndex, OtherActivityComponent),
     ActivityComponent != OtherActivityComponent.
 
+% (p. 57) of dissertation
 :-
     activity(Activity),
     activity(OtherActivity),
@@ -47,55 +57,55 @@ different_component(Activity, OtherActivity) :-
     Activity != OtherActivity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialization Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% See p. 58 of dissertation
 #program base.
 
+% (p. 58) of dissertation
 holds(Fluent, Timestep) :-
     observed(Fluent, Timestep),
     Timestep = 0.
 
+% (p. 58) of dissertation
 -holds(Fluent, Timestep) :-
     -observed(Fluent, Timestep),
     Timestep = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Reality Check Axioms %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% See p. 58 of dissertation
 #program aia_history_rules(current_timestep).
 
+% (p. 58) of dissertation
 :-
     observed(Fluent, Timestep),
     Timestep <= current_timestep,
     -holds(Fluent, Timestep).
 
+% (p. 58) of dissertation
 :-
     -observed(Fluent, Timestep),
     Timestep <= current_timestep,
     holds(Fluent, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% See p. 58 of dissertation
 #program aia_history_rules(current_timestep).
 
+% (p. 58) of dissertation
 occurs(Action, Timestep) :-
     Timestep < current_timestep,
     happened(Action, Timestep).
 
+% (p. 58) of dissertation
 -occurs(Action, Timestep) :-
     Timestep < current_timestep,
     -happened(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% See p. 59 of dissertation
 
+% (p. 59) of dissertation
 occurs(Action, Timestep) :-
     Timestep < current_timestep,
     attempt(Action, Timestep),
     not impossible(Action, Timestep).
 
+% (p. 59) of dissertation
 :-
     Timestep < current_timestep,
     agent_action(Action),
@@ -103,9 +113,8 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% See p. 59 of dissertation
 
+% (p. 59) of dissertation
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -114,6 +123,7 @@ impossible(select(Goal), Timestep) :-
     occurs(select(OtherGoal), Timestep),
     Goal != OtherGoal.
 
+% (p. 59) of dissertation
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -121,29 +131,34 @@ impossible(select(Goal), Timestep) :-
     activity(Activity),
     holds(active_activity(Activity), Timestep).
 
+% (p. 59) of dissertation
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
     goal(Goal),
     holds(active_goal(Goal), Timestep).
 
-%%%%
-%
+% ------------------------------------------------------------------------------------------
+
 % See p. 60 of dissertation
 %
 % TODO: Should these be observed() statements due to legality definition
 % on (p. 40) of dissertation?
 
+% (p. 60) of dissertation
 holds(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.
 
+% (p. 60) of dissertation
 -holds(active_goal(Goal), Timestep) :-
     goal(Goal),
     Timestep = 0.
 
 % Determines the next ID for generated activities
+%
+% (p. 60) of dissertation
 holds(next_name(ir), Timestep) :-
     Timestep = 0.
 
@@ -155,18 +170,21 @@ holds(next_name(ir), Timestep) :-
 %   - the truth value of his goal."
 % (p. 60) of dissertation
 
+% (p. 60) of dissertation
 observed_result(Action, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     agent_action(Action),
     happened(Action, Timestep).
 
+% (p. 60) of dissertation
 observed_result(Action, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     agent_action(Action),
     -happened(Action, Timestep).
 
+% (p. 60) of dissertation
 :-
     step(Timestep),
     Timestep <= current_timestep,
@@ -174,6 +192,7 @@ observed_result(Action, Timestep) :-
     agent_action(Action),
     not observed_result(Action, Timestep).
 
+% (p. 60) of dissertation
 :-
     step(Timestep),
     Timestep < current_timestep,
@@ -181,6 +200,7 @@ observed_result(Action, Timestep) :-
     occurs(select(Goal), Timestep),
     not happened(select(Goal), Timestep).
 
+% (p. 60) of dissertation
 :-
     step(Timestep),
     Timestep < current_timestep,
@@ -188,6 +208,7 @@ observed_result(Action, Timestep) :-
     occurs(abandon(Goal), Timestep),
     not happened(abandon(Goal), Timestep).
 
+% (p. 61) of dissertation
 need_to_observe_goal(Goal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
@@ -195,6 +216,7 @@ need_to_observe_goal(Goal, Timestep) :-
     % -holds(minor_goal(Goal), Timestep - 1),  % From AIA implementation
     holds(active_goal(Goal), Timestep - 1).
 
+% (p. 61) of dissertation
 need_to_observe_goal(ChildGoal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
@@ -205,18 +227,21 @@ need_to_observe_goal(ChildGoal, Timestep) :-
     holds(immediate_child_goal(ChildGoal, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 
+% (p. 61) of dissertation
 observed_goal(Goal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     goal(Goal),
     observed(Goal, Timestep).
 
+% (p. 61) of dissertation
 observed_goal(Goal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     goal(Goal),
     -observed(Goal, Timestep).
 
+% (p. 61) of dissertation
 :-
     step(Timestep),
     Timestep <= current_timestep,
@@ -241,8 +266,8 @@ occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
     [1@1, diagnosis(Action, Timestep, current_timestep)]
 
-%%%%
-%
+% ------------------------------------------------------------------------------------------
+
 % See p. 62 of dissertation
 
 unobserved(Action, Timestep) :-
