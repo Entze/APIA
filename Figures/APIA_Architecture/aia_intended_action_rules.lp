@@ -248,6 +248,8 @@ component(Activity, PreviousTimestep - 1, Action) :-
     component(Activity, ActivityIndex, ActivityComponent2),
     ActivityComponent1 != ActivityComponent2.
 
+% TODO: Remove has_component() with:
+%   #max{ ActivityIndex : component(Activity, ActivityIndex, ActivityComponent) }
 has_component(Activity, ActivityIndex) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
