@@ -39,7 +39,7 @@ active_goal_or_activity(current_timestep) :-
 
 active_goal_or_activity(current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    holds(active(Activity), current_timestep).
+    holds(active_activity(Activity), current_timestep).
 
 intended_action(wait, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -57,9 +57,9 @@ intended_action(wait, current_timestep) :-
 % (p. 64) of dissertation
 category_2_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Activity), current_timestep),
-    holds(active(Activity), current_timestep),
-    goal(Activity, Goal),
+    -holds(minor_activity(Activity), current_timestep),
+    holds(active_activity(Activity), current_timestep),
+    activity_goal(Activity, Goal),
     -active_goal(Goal).
 
 intended_action(stop(Activity), current_timestep) :-
@@ -78,8 +78,8 @@ intended_action(stop(Activity), current_timestep) :-
 % TODO: Shouldn't this also hold for at least current_timestep + 1?
 category_3_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Activity), current_timestep),
-    holds(in_progress(Activity), current_timestep).
+    -holds(minor_activity(Activity), current_timestep),
+    holds(activity_in_progress(Activity), current_timestep).
 
 % "we first formalize the notion of a continued execution of an activity from the current step.
 %  Recall that a continued execution of an activity is a trajectory whose arcs
@@ -91,8 +91,8 @@ occurs(Action, FutureTimestep) :-
     category_3_history(Activity, current_timestep),
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
-    -holds(minor(Activity), FutureTimestep),
-    holds(in_progress(Activity), FutureTimestep),
+    -holds(minor_activity(Activity), FutureTimestep),
+    holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
     agent_action(Action),
     not impossible(Action, FutureTimestep).
@@ -101,11 +101,11 @@ occurs(Action, FutureTimestep) :-
 % (p. 66) of dissertation
 projected_success(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Activity), current_timestep),
+    -holds(minor_activity(Activity), current_timestep),
     step(FutureTimestep),
     current_timestep < FutureTimestep,
-    holds(active(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
-    goal(Activity, Goal),
+    holds(active_activity(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
+    activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
 -projected_success(Activity, current_timestep) :-
@@ -162,9 +162,9 @@ intended_action(stop(Activity), current_timestep) :-
 % (p. 65) of dissertation
 category_4_history(Goal, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Goal), current_timestep),
+    -holds(minor_goal(Goal), current_timestep),
     holds(active_goal(Goal), current_timestep),
-    -holds(in_progress(Goal), current_timestep).
+    -holds(goal_in_progress(Goal), current_timestep).
 
 % --------------------
 %
@@ -176,7 +176,7 @@ existing_candidate(Activity, current_timestep) :-
     category_4_history(Goal, current_timestep),
     holds(next_name(NextActivity), current_timestep),
     Activity < NextActivity,
-    goal(Activity, Goal).
+    activity_goal(Activity, Goal).
 
 new_candidate(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
@@ -200,13 +200,13 @@ occurs(start(Activity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     candidate(Activity, current_timestep),
-    goal(Activity, Goal),
+    activity_goal(Activity, Goal),
     not impossible(start(Activity), current_timestep).
 
 impossible(start(OtherActivity), current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
-    goal(Activity, Goal),
+    activity_goal(Activity, Goal),
     occurs(start(Activity), current_timestep),
     activity(OtherActivity),
     OtherActivity != Activity.
@@ -259,7 +259,7 @@ some_action_occurred(FutureTimestep) :-
 % "To describe a new candidate we must give it a name, goal, and plan."
 % (p. 71) of dissertation
 
-goal(Activity, Goal) :-
+activity_goal(Activity, Goal) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep).
@@ -302,8 +302,8 @@ component(Activity, PreviousTimestep - 1, Action) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
-    component(Activity, ActivityIndex, ActivityComponent1),
-    component(Activity, ActivityIndex, ActivityComponent2),
+    activity_component(Activity, ActivityIndex, ActivityComponent1),
+    activity_component(Activity, ActivityIndex, ActivityComponent2),
     ActivityComponent1 != ActivityComponent2.
 
 % --------------------
@@ -312,15 +312,15 @@ component(Activity, PreviousTimestep - 1, Action) :-
 % (p. 71) of dissertation
 
 % TODO: Remove has_component() with:
-%   #max{ ActivityIndex : component(Activity, ActivityIndex, ActivityComponent) }
+%   #max{ ActivityIndex : activity_component(Activity, ActivityIndex, ActivityComponent) }
 has_component(Activity, ActivityIndex) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    component(Activity, ActivityIndex, ActivityComponent).
+    activity_component(Activity, ActivityIndex, ActivityComponent).
 
-length(Activity, ActivityLength) :-
+activity_length(Activity, ActivityLength) :-
     ActivityLength <= max_len,
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
@@ -366,7 +366,7 @@ occurs(NextAction, FutureTimestep) :-
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     current_timestep < FutureTimestep,
-    holds(in_progress(Activity), FutureTimestep),
+    holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, NextAction), FutureTimestep),
     mental_action(Action),
     agent_action(Action).

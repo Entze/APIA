@@ -19,15 +19,15 @@ equal(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
     goal(Goal),
-    goal(Activity, Goal),
-    goal(OtherActivity, Goal),
+    activity_goal(Activity, Goal),
+    activity_goal(OtherActivity, Goal),
     equal_plan(Activity, OtherActivity).
 
 equal_plan(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
-    length(Activity, ActivityLength),
-    length(OtherActivity, ActivityLength),
+    activity_length(Activity, ActivityLength),
+    activity_length(OtherActivity, ActivityLength),
     not different_component(Activity, OtherActivity).
 
 different_component(Activity, OtherActivity) :-
@@ -36,8 +36,8 @@ different_component(Activity, OtherActivity) :-
     component(ActivityComponent),
     component(OtherActivityComponent),
     index(ActivityIndex),
-    component(Activity, ActivityIndex, ActivityComponent),
-    component(OtherActivity, ActivityIndex, OtherActivityComponent),
+    activity_component(Activity, ActivityIndex, ActivityComponent),
+    activity_component(OtherActivity, ActivityIndex, OtherActivityComponent),
     ActivityComponent != OtherActivityComponent.
 
 :-
@@ -119,7 +119,7 @@ impossible(select(Goal), Timestep) :-
     Timestep < current_timestep,
     goal(Goal),
     activity(Activity),
-    holds(active(Activity), Timestep).
+    holds(active_activity(Activity), Timestep).
 
 impossible(select(Goal), Timestep) :-
     step(Timestep),
@@ -134,7 +134,7 @@ impossible(select(Goal), Timestep) :-
 % TODO: Should these be observed() statements due to legality definition
 % on (p. 40) of dissertation?
 
-holds(status(Activity, ActivityIndex), Timestep) :-
+holds(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.
@@ -192,7 +192,7 @@ need_to_observe_goal(Goal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     goal(Goal),
-    % -holds(minor(Goal), Timestep - 1),  % From AIA implementation
+    % -holds(minor_goal(Goal), Timestep - 1),  % From AIA implementation
     holds(active_goal(Goal), Timestep - 1).
 
 need_to_observe_goal(ChildGoal, Timestep) :-
@@ -201,7 +201,7 @@ need_to_observe_goal(ChildGoal, Timestep) :-
     activity(ChildActivity),
     goal(Goal),
     goal(ChildGoal),
-    goal(ChildActivity, ChildGoal),
+    activity_goal(ChildActivity, ChildGoal),
     holds(immediate_child_goal(ChildGoal, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 

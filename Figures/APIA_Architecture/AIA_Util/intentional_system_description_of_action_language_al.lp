@@ -87,20 +87,20 @@ holds(baz(B), timestep) :-
 % activity(Activity) :-
 %     Activity = 1.
 %
-% goal(Activity, ActivityGoal) :-
+% activity_goal(Activity, ActivityGoal) :-
 %     Activity = 1,
 %     ActivityGoal = %* ... *%.
 %
-% length(Activity, ActivityLength) :-
+% activity_length(Activity, ActivityLength) :-
 %     Activity = 1,
-%     ActivityLength = #max{ ComponentIndex : component(Activity, ComponentIndex, _) }.
+%     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 %
-% component(Activity, ComponentIndex, Component) :-
+% activity_component(Activity, ComponentIndex, Component) :-
 %     Activity = 1,
 %     ComponentIndex = 1,
 %     Component = %* ... *%.
 %
-% component(Activity, ComponentIndex, Component) :-
+% activity_component(Activity, ComponentIndex, Component) :-
 %     Activity = 1,
 %     ComponentIndex = 2,
 %     Component = %* ... *%.
@@ -124,9 +124,9 @@ observed(baz(C), Timestep) :-
     Timestep = 0,
     fluent(inertial, active_goal(Goal)).
 
-observed(status(Activity, ActivityIndex), Timestep) :-
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
     Timestep = 0,
-    fluent(inertial, status(Activity, ActivityIndex)),
+    fluent(inertial, activity_status(Activity, ActivityIndex)),
     ActivityIndex = -1.
 
 % TODO: Look at (p. 41) of dissertation
