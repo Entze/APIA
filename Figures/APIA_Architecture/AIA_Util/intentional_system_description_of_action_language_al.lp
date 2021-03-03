@@ -91,7 +91,7 @@ holds(baz(B), timestep) :-
 %     Activity = 1,
 %     ActivityGoal = %* ... *%.
 %
-% length(Activity, ActivityLength) :-
+% activity_length(Activity, ActivityLength) :-
 %     Activity = 1,
 %     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 %

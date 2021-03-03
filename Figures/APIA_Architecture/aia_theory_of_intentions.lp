@@ -12,7 +12,7 @@
 %%%% Statics %%%%
 
 % activity_component(Activity, ComponentIndex, Component)
-% length(Activity, ActivityLength)
+% activity_length(Activity, ActivityLength)
 % goal(Activity, ActivityGoal)
 
 %%%% Fluents %%%%
@@ -22,7 +22,7 @@ fluent(inertial, active_goal(Goal)) :-
 
 % Originally: status(Activity, ActivityIndex)
 fluent(inertial, activity_status(Activity, ActivityIndex)) :-
-    length(Activity, ActivityLength),
+    activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
 % Originally: active(Activity)
@@ -123,7 +123,7 @@ action(wait).
 %   activity_status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
 -holds(activity_status(Activity, OldActivityIndex), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
-    length(Activity, ActivityLength),
+    activity_length(Activity, ActivityLength),
     OldActivityIndex = -1..ActivityLength,
     OldActivityIndex != ActivityIndex.
 
@@ -287,7 +287,7 @@ holds(active_goal(MinorGoal), timestep) :-
 %   minor(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), -MinorGoal,
 %   goal(ChildActivity, MinorGoal), activity_status(ChildActivity, ChildActivityIndex),
-%   length(ChildActivity, ChildActivityLength)
+%   activity_length(ChildActivity, ChildActivityLength)
 -holds(active_goal(MinorGoal), timestep) :-
     holds(minor(MinorGoal), timestep),
     holds(child_goal(MinorGoal, Goal), timestep),
@@ -295,7 +295,7 @@ holds(active_goal(MinorGoal), timestep) :-
     -holds(MinorGoal, timestep),
     goal(ChildActivity, MinorGoal),
     holds(activity_status(ChildActivity, ChildActivityIndex), timestep),
-    length(ChildActivity, ChildActivityLength),
+    activity_length(ChildActivity, ChildActivityLength),
     ChildActivityIndex = ChildActivityLength.
 
 %--- Misc. ---%

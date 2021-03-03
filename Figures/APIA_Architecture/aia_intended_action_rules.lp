@@ -320,7 +320,7 @@ has_component(Activity, ActivityIndex) :-
     occurs(start(Activity), current_timestep),
     activity_component(Activity, ActivityIndex, ActivityComponent).
 
-length(Activity, ActivityLength) :-
+activity_length(Activity, ActivityLength) :-
     ActivityLength <= max_len,
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),

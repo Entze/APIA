@@ -93,7 +93,7 @@ goal(Activity, ActivityGoal) :-
     Person = "Alice",
     Actor = "Bob".
 
-length(Activity, ActivityLength) :-
+activity_length(Activity, ActivityLength) :-
     Activity = 1,
     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 

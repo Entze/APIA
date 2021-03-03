@@ -26,8 +26,8 @@ equal(Activity, OtherActivity) :-
 equal_plan(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
-    length(Activity, ActivityLength),
-    length(OtherActivity, ActivityLength),
+    activity_length(Activity, ActivityLength),
+    activity_length(OtherActivity, ActivityLength),
     not different_component(Activity, OtherActivity).
 
 different_component(Activity, OtherActivity) :-
