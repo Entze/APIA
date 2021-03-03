@@ -93,4 +93,4 @@ ShellCheck:
   needs: []
   script:
     - apk add --no-cache git
-    - git ls-files --exclude='*.sh' --ignored -z | xargs -0 shellcheck
+    - git ls-files --exclude='*.sh' --ignored -z | xargs -0 -r shellcheck
