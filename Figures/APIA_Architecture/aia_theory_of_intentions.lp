@@ -46,7 +46,8 @@ fluent(defined, descendant_activity(ChildActivity, Activity)) :-
     activity(ChildActivity),
     ChildActivity != Activity.
 
-fluent(defined, minor(Activity)) :-
+% Originally: minor(Activity)
+fluent(defined, minor_activity(Activity)) :-
     activity(Activity).
 
 % Originally: minor(Goal)
@@ -192,9 +193,9 @@ holds(descendant_activity(GrandChildActivity, Activity), timestep) :-
     holds(descendant_activity(ChildActivity, Activity), timestep),
     holds(descendant_activity(GrandChildActivity, ChildActivity), timestep).
 
-% minor(ChildActivity) if
+% minor_activity(ChildActivity) if
 %   child_activity(ChildActivity, Activity)
-holds(minor(ChildActivity), timestep) :-
+holds(minor_activity(ChildActivity), timestep) :-
     holds(child_activity(ChildActivity, Activity), timestep).
 
 % minor_goal(ChildGoal) if
@@ -392,8 +393,8 @@ holds(activity_status(ChildActivity, activity_index__non_active), timestep + 1) 
     Activity != ChildActivity.
 
 % start(Activity) causes next_name(Activity + 1) if
-%   next_name(Activity), -minor(Activity)
+%   next_name(Activity), -minor_activity(Activity)
 holds(next_name(Activity + 1), timestep + 1) :-
     occurs(start(Activity), timestep),
     holds(next_name(Activity), timestep),
-    -holds(minor(Activity), timestep).
+    -holds(minor_activity(Activity), timestep).

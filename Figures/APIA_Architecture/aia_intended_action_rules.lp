@@ -57,7 +57,7 @@ intended_action(wait, current_timestep) :-
 % (p. 64) of dissertation
 category_2_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Activity), current_timestep),
+    -holds(minor_activity(Activity), current_timestep),
     holds(active_activity(Activity), current_timestep),
     activity_goal(Activity, Goal),
     -active_goal(Goal).
@@ -78,7 +78,7 @@ intended_action(stop(Activity), current_timestep) :-
 % TODO: Shouldn't this also hold for at least current_timestep + 1?
 category_3_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Activity), current_timestep),
+    -holds(minor_activity(Activity), current_timestep),
     holds(in_progress(Activity), current_timestep).
 
 % "we first formalize the notion of a continued execution of an activity from the current step.
@@ -91,7 +91,7 @@ occurs(Action, FutureTimestep) :-
     category_3_history(Activity, current_timestep),
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
-    -holds(minor(Activity), FutureTimestep),
+    -holds(minor_activity(Activity), FutureTimestep),
     holds(in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
     agent_action(Action),
@@ -101,7 +101,7 @@ occurs(Action, FutureTimestep) :-
 % (p. 66) of dissertation
 projected_success(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
-    -holds(minor(Activity), current_timestep),
+    -holds(minor_activity(Activity), current_timestep),
     step(FutureTimestep),
     current_timestep < FutureTimestep,
     holds(active_activity(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
