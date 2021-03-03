@@ -49,7 +49,8 @@ fluent(defined, descendant_activity(ChildActivity, Activity)) :-
 fluent(defined, minor(Activity)) :-
     activity(Activity).
 
-fluent(defined, minor(Goal)) :-
+% Originally: minor(Goal)
+fluent(defined, minor_goal(Goal)) :-
     goal(Goal).
 
 fluent(defined, in_progress(Activity)) :-
@@ -196,9 +197,9 @@ holds(descendant_activity(GrandChildActivity, Activity), timestep) :-
 holds(minor(ChildActivity), timestep) :-
     holds(child_activity(ChildActivity, Activity), timestep).
 
-% minor(ChildGoal) if
+% minor_goal(ChildGoal) if
 %   child_goal(ChildGoal, Goal)
-holds(minor(ChildGoal), timestep) :-
+holds(minor_goal(ChildGoal), timestep) :-
     holds(child_goal(ChildGoal, Goal), timestep).
 
 % select(Goal) causes active_goal(Goal)
@@ -220,9 +221,9 @@ holds(active_goal(Goal), timestep + 1) :-
     -holds(active_goal(Goal), timestep).
 
 % impossible abandon(Goal) if
-%   minor(Goal)
+%   minor_goal(Goal)
 -occurs(abandon(Goal), timestep) :-
-    holds(minor(Goal), timestep).
+    holds(minor_goal(Goal), timestep).
 
 % "We assume that no physical action may occur concurrently with a special exogenous action"
 % impossible Action1, Action2 if
@@ -244,20 +245,20 @@ holds(active_goal(Goal), timestep + 1) :-
     agent_action(Action2).
 
 % -active_goal(Goal) if
-%   -minor(Goal), Goal
+%   -minor_goal(Goal), Goal
 -holds(active_goal(Goal), timestep) :-
-    -holds(minor(Goal), timestep),
+    -holds(minor_goal(Goal), timestep),
     holds(Goal, timestep).
 
 %--- Sub goal ---%
 
 % "An unachieved minor goal MinorGoal of an activity ChildActivity becomes active when ChildActivity is the next component of an ongoing activity Activity"
 % active_goal(MinorGoal) if
-%   minor(MinorGoal), child_goal(MinorGoal, Goal),
+%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), activity_goal(ChildActivity, MinorGoal),
 %   -MinorGoal, activity_status(ChildActivity, -1)
 holds(active_goal(MinorGoal), timestep) :-
-    holds(minor(MinorGoal), timestep),
+    holds(minor_goal(MinorGoal), timestep),
     holds(child_goal(MinorGoal, Goal), timestep),
     holds(active_goal(Goal), timestep),
     activity_goal(ChildActivity, MinorGoal),
@@ -266,30 +267,30 @@ holds(active_goal(MinorGoal), timestep) :-
 
 % "A minor goal MinorGoal is no longer active when it is achieved."
 % -active_goal(MinorGoal) if
-%   minor(MinorGoal), child_goal(MinorGoal, Goal),
+%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), MinorGoal.
 -holds(active_goal(MinorGoal), timestep) :-
-    holds(minor(MinorGoal), timestep),
+    holds(minor_goal(MinorGoal), timestep),
     holds(child_goal(MinorGoal, Goal), timestep),
     holds(active_goal(Goal), timestep),
     holds(MinorGoal, timestep).
 
 % "A minor goal MinorGoal is no longer active when its parent [goal] is no longer active"
 % -active_goal(MinorGoal) if
-%   minor(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
+%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
 -holds(active_goal(MinorGoal), timestep) :-
-    holds(minor(MinorGoal), timestep),
+    holds(minor_goal(MinorGoal), timestep),
     holds(child_goal(MinorGoal, Goal), timestep),
     -holds(active_goal(Goal), timestep).
 
 % "A minor goal MinorGoal of ChildActivity is no longer active when ChildActivity has been executed."
 % -active_goal(MinorGoal) if
-%   minor(MinorGoal), child_goal(MinorGoal, Goal),
+%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal),
 %   active_goal(Goal), -MinorGoal,
 %   activity_goal(ChildActivity, MinorGoal), activity_status(ChildActivity, ChildActivityIndex),
 %   activity_length(ChildActivity, ChildActivityLength)
 -holds(active_goal(MinorGoal), timestep) :-
-    holds(minor(MinorGoal), timestep),
+    holds(minor_goal(MinorGoal), timestep),
     holds(child_goal(MinorGoal, Goal), timestep),
     holds(active_goal(Goal), timestep),
     -holds(MinorGoal, timestep),

@@ -192,7 +192,7 @@ need_to_observe_goal(Goal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     goal(Goal),
-    % -holds(minor(Goal), Timestep - 1),  % From AIA implementation
+    % -holds(minor_goal(Goal), Timestep - 1),  % From AIA implementation
     holds(active_goal(Goal), Timestep - 1).
 
 need_to_observe_goal(ChildGoal, Timestep) :-
