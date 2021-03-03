@@ -58,7 +58,8 @@ fluent(defined, minor_goal(Goal)) :-
 fluent(defined, activity_in_progress(Activity)) :-
     activity(Activity).
 
-fluent(defined, in_progress(Goal)) :-
+% Originally: in_progress(Goal)
+fluent(defined, goal_in_progress(Goal)) :-
     goal(Goal).
 
 fluent(defined, next_action(Activity, Action)) :-
@@ -310,9 +311,9 @@ holds(activity_in_progress(Activity), timestep) :-
     activity_goal(Activity, Goal),
     holds(active_goal(Goal), timestep).
 
-% in_progress(Goal) if
+% goal_in_progress(Goal) if
 %   active_activity(Activity), activity_goal(Activity, Goal), active_goal(Goal)
-holds(in_progress(Goal), timestep) :-
+holds(goal_in_progress(Goal), timestep) :-
     holds(active_activity(Activity), timestep),
     activity_goal(Activity, Goal),
     holds(active_goal(Goal), timestep).

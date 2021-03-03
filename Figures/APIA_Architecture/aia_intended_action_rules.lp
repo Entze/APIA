@@ -164,7 +164,7 @@ category_4_history(Goal, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     -holds(minor_goal(Goal), current_timestep),
     holds(active_goal(Goal), current_timestep),
-    -holds(in_progress(Goal), current_timestep).
+    -holds(goal_in_progress(Goal), current_timestep).
 
 % --------------------
 %
