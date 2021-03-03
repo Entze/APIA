@@ -79,7 +79,7 @@ intended_action(stop(Activity), current_timestep) :-
 category_3_history(Activity, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     -holds(minor_activity(Activity), current_timestep),
-    holds(in_progress(Activity), current_timestep).
+    holds(activity_in_progress(Activity), current_timestep).
 
 % "we first formalize the notion of a continued execution of an activity from the current step.
 %  Recall that a continued execution of an activity is a trajectory whose arcs
@@ -92,7 +92,7 @@ occurs(Action, FutureTimestep) :-
     interpretation(UnobservedActions, current_timestep),
     current_timestep <= FutureTimestep,
     -holds(minor_activity(Activity), FutureTimestep),
-    holds(in_progress(Activity), FutureTimestep),
+    holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
     agent_action(Action),
     not impossible(Action, FutureTimestep).
@@ -366,7 +366,7 @@ occurs(NextAction, FutureTimestep) :-
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     current_timestep < FutureTimestep,
-    holds(in_progress(Activity), FutureTimestep),
+    holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, NextAction), FutureTimestep),
     mental_action(Action),
     agent_action(Action).
