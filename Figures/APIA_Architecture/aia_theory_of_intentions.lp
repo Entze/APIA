@@ -40,7 +40,8 @@ fluent(defined, child_goal(ChildGoal, Goal)) :-
     goal(ChildGoal),
     ChildGoal != Goal.
 
-fluent(defined, descendant(ChildActivity, Activity)) :-
+% Originally: descendant(ChildActivity, Activity)
+fluent(defined, descendant_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
@@ -179,16 +180,16 @@ holds(child_goal(ChildGoal, Goal), timestep) :-
     goal(Activity, Goal),
     goal(ChildActivity, ChildGoal).
 
-% descendant(ChildActivity, Activity) if
+% descendant_activity(ChildActivity, Activity) if
 %   child_activity(ChildActivity, Activity)
-holds(descendant(ChildActivity, Activity), timestep) :-
+holds(descendant_activity(ChildActivity, Activity), timestep) :-
     holds(child_activity(ChildActivity, Activity), timestep).
 
-% descendant(GrandChildActivity, Activity) if
-%   descendant(ChildActivity, Activity), descendant(GrandChildActivity, ChildActivity)
-holds(descendant(GrandChildActivity, Activity), timestep) :-
-    holds(descendant(ChildActivity, Activity), timestep),
-    holds(descendant(GrandChildActivity, ChildActivity), timestep).
+% descendant_activity(GrandChildActivity, Activity) if
+%   descendant_activity(ChildActivity, Activity), descendant_activity(GrandChildActivity, ChildActivity)
+holds(descendant_activity(GrandChildActivity, Activity), timestep) :-
+    holds(descendant_activity(ChildActivity, Activity), timestep),
+    holds(descendant_activity(GrandChildActivity, ChildActivity), timestep).
 
 % minor(ChildActivity) if
 %   child_activity(ChildActivity, Activity)
@@ -377,10 +378,10 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     holds(next_action(Activity, stop(ChildActivity)), timestep).
 
 % stop(Activity) causes activity_status(ChildActivity, -1) if
-%   descendant(ChildActivity, Activity)
+%   descendant_activity(ChildActivity, Activity)
 holds(activity_status(ChildActivity, activity_index__non_active), timestep + 1) :-
     occurs(stop(Activity), timestep),
-    holds(descendant(ChildActivity, Activity), timestep).
+    holds(descendant_activity(ChildActivity, Activity), timestep).
 
 % -next_name(Activity) if
 %   next_name(ChildActivity), Activity != ChildActivity
