@@ -237,10 +237,6 @@ observed_goal(Goal, Timestep) :-
 occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
 
-:~
-    apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
-    [1@1, diagnosis(Action, Timestep, current_timestep)]
-
 %%%%
 %
 % See p. 62 of dissertation

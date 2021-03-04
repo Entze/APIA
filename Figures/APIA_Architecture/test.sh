@@ -20,6 +20,7 @@ GLOBAL_FILES=(
     aopl_authorization_compliance.lp
     aopl_obligation_compliance.lp
     general_axioms.lp
+    apia_cr_prolog.lp
     test.lp
 )
 

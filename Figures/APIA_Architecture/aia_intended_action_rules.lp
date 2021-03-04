@@ -133,10 +133,6 @@ intended_action(Action, current_timestep) :-
 futile(Activity, current_timestep) :-
     apply_cr_rule(futile_activity(Activity, current_timestep)).
 
-:~
-    apply_cr_rule(futile_activity(Activity, current_timestep)).
-    [1@1, futile(Activity, current_timestep)]
-
 :-
     interpretation(UnobservedActions, current_timestep),
     category_3_history(Activity, current_timestep),
@@ -235,10 +231,6 @@ impossible(start(OtherActivity), current_timestep) :-
 futile(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
-:~
-    apply_cr_rule(futile_goal(Goal, current_timestep)).
-    [1@1, futile_goal(Goal, current_timestep)]
-
 intended_action(wait, current_timestep) :-
     interpretation(UnobservedActions, current_timestep),
     category_4_history(Goal, current_timestep),
@@ -280,10 +272,6 @@ activity_goal(Activity, Goal) :-
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_new(Action, FutureTimestep)).
-
-:~
-    apply_cr_rule(plan_new(Action, FutureTimestep)).
-    [1@1, plan_new(Action, FutureTimestep)]
 
 % "[this rule] creates component statements based on those occurrences"
 % (p. 71) of dissertation
@@ -351,10 +339,6 @@ activity_length(Activity, ActivityLength) :-
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_existing(Action, FutureTimestep)).
-
-:~
-    apply_cr_rule(plan_existing(Action, FutureTimestep)).
-    [1@1, plan_existing(Action, FutureTimestep)]
 
 % "The following rule generates the occurrences of mental agent actions
 %  that may be a part of the total execution of an existing activity.
