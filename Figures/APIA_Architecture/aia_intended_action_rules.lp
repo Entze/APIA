@@ -6,7 +6,7 @@
 % See p. 63 of dissertation
 #program aia_intended_action_rules(current_timestep).
 
-#const max_len = 10. % TODO: Update this
+#const max_activity_length = 10. % TODO: Update this
 
 % Our addition
 % interpretation(ActionsNeeded, current_timestep) :-
@@ -307,7 +307,7 @@ has_component(Activity, ActivityIndex) :-
     activity_component(Activity, ActivityIndex, ActivityComponent).
 
 activity_length(Activity, ActivityLength) :-
-    ActivityLength <= max_len,
+    ActivityLength <= max_activity_length,
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
