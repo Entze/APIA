@@ -4,9 +4,7 @@
 % Step 2.
 %
 % See p. 63 of dissertation
-#program aia_intended_action_rules(current_timestep).
-
-#const max_activity_length = 10. % TODO: Update this
+#program aia_intended_action_rules(current_timestep, max_activity_length).
 
 % Our addition
 % interpretation(ActionsNeeded, current_timestep) :-
