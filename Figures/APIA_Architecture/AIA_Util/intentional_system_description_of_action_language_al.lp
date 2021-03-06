@@ -86,6 +86,9 @@ holds(baz(B), timestep) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Starting ID for generated activities
+#const ir = 1.
+
 % goal(Goal) :-
 %     Goal = %* ... *%,
 %
@@ -137,4 +140,5 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
 % TODO: Look at (p. 41) of dissertation
 -observed(next_name(Activity), Timestep) :-
     Timestep = 0,
-    fluent(inertial, next_name(Activity)).
+    fluent(inertial, next_name(Activity)),
+    Activity != ir.
