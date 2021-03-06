@@ -76,7 +76,7 @@ category_2_history(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     holds(active_activity(Activity), current_timestep),
     activity_goal(Activity, Goal),
-    -active_goal(Goal).
+    -holds(active_goal(Goal), current_timestep).
 
 % "Recall that the agent's intended action is to wait when his history is of category 1"
 % (p. 65) of dissertation
