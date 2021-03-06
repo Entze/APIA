@@ -9,6 +9,10 @@
 % goal(Goal)
 % activity(Activity)
 
+% TODO: Verify that this is correct (our addition).
+activity(Activity) :-
+    Activity = (ir; ir + 1).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % activity_component(Activity, ComponentIndex, Component)
@@ -24,6 +28,18 @@ fluent(inertial, active_goal(Goal)) :-
 fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
+
+% TODO: Verify that this is correct (our addition).
+fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+    Activity = (ir; ir + 1),
+    MaxActivityLength = 12,  % TODO: Parameterize this value
+    ActivityIndex = -1..MaxActivityLength.
+
+% TODO: Move this
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
+    Timestep = 0,
+    Activity = (ir; ir + 1),
+    ActivityIndex = -1.
 
 % Originally: active(Activity)
 fluent(defined, active_activity(Activity)) :-
@@ -68,10 +84,6 @@ fluent(defined, next_action(Activity, Action)) :-
 
 fluent(inertial, next_name(Activity)) :-
     activity(Activity).
-
-% TODO: Verify that this is correct (our addition).
-fluent(inertial, next_name(Activity)) :-
-    Activity = ir.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
