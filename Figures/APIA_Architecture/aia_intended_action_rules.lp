@@ -297,7 +297,7 @@ occurs(Action, FutureTimestep) :-
 
 % "[this rule] creates component statements based on those occurrences"
 % (p. 71) of dissertation
-component(Activity, PreviousTimestep - 1, Action) :-
+activity_component(Activity, PreviousTimestep - 1, Action) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),

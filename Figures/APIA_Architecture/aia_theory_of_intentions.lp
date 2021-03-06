@@ -203,12 +203,12 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
     agent_action(Action).
 
 % child_activity(ChildActivity) if
-%   component(Activity, Activity + 1, ChildActivity),
+%   activity_component(Activity, Activity + 1, ChildActivity),
 %   activity_status(Activity, ActivityIndex)
 %
 % (p. 30) of dissertation
 holds(child_activity(ChildActivity), timestep) :-
-    component(Activity, Activity + 1, ChildActivity),
+    activity_component(Activity, Activity + 1, ChildActivity),
     activity(ChildActivity),
     holds(activity_status(Activity, ActivityIndex), timestep).
 
@@ -424,7 +424,7 @@ holds(goal_in_progress(Goal), timestep) :-
 %   physical_action(Action),
 %   agent_action(Action),
 %   activity_status(Activity, ActivityIndex),
-%   component(Activity, ActivityIndex + 1, Action),
+%   activity_component(Activity, ActivityIndex + 1, Action),
 %   activity_in_progress(Activity)
 %
 % (p. 33) of dissertation
@@ -432,19 +432,19 @@ holds(next_action(Activity, Action), timestep) :-
     physical_action(Action),
     agent_action(Action),
     holds(activity_status(Activity, ActivityIndex), timestep),
-    component(Activity, ActivityIndex + 1, Action),
+    activity_component(Activity, ActivityIndex + 1, Action),
     holds(activity_in_progress(Activity), timestep).
 
 % next_action(Activity, start(ChildActivity)) if
 %   activity_status(Activity, ActivityIndex),
-%   component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_component(Activity, ActivityIndex + 1, ChildActivity),
 %   activity_in_progress(Activity),
 %   -active_activity(ChildActivity)
 %
 % (p. 33) of dissertation
 holds(next_action(Activity, start(ChildActivity)), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
-    component(Activity, ActivityIndex + 1, ChildActivity),
+    activity_component(Activity, ActivityIndex + 1, ChildActivity),
     activity(ChildActivity),
     holds(activity_in_progress(Activity), timestep),
     -holds(active_activity(ChildActivity), timestep).
@@ -452,7 +452,7 @@ holds(next_action(Activity, start(ChildActivity)), timestep) :-
 % next_action(Activity, Action) if
 %   agent_action(Action),
 %   activity_status(Activity, ActivityIndex),
-%   component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_component(Activity, ActivityIndex + 1, ChildActivity),
 %   activity_in_progress(Activity),
 %   activity_in_progress(ChildActivity),
 %   next_action(ChildActivity, Action)
@@ -461,7 +461,7 @@ holds(next_action(Activity, start(ChildActivity)), timestep) :-
 holds(next_action(Activity, Action), timestep) :-
     agent_action(Action),
     holds(activity_status(Activity, ActivityIndex), timestep),
-    component(Activity, ActivityIndex + 1, ChildActivity),
+    activity_component(Activity, ActivityIndex + 1, ChildActivity),
     activity(ChildActivity),
     holds(activity_in_progress(Activity), timestep),
     holds(activity_in_progress(ChildActivity), timestep),
@@ -469,7 +469,7 @@ holds(next_action(Activity, Action), timestep) :-
 
 % next_action(Activity, stop(ChildActivity)) if
 %   activity_status(Activity, ActivityIndex),
-%   component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_component(Activity, ActivityIndex + 1, ChildActivity),
 %   activity_in_progress(Activity),
 %   active_activity(ChildActivity),
 %   activity_goal(ChildActivity, ChildGoal),
@@ -478,7 +478,7 @@ holds(next_action(Activity, Action), timestep) :-
 % (p. 34) of dissertation
 holds(next_action(Activity, stop(ChildActivity)), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
-    component(Activity, ActivityIndex + 1, ChildActivity),
+    activity_component(Activity, ActivityIndex + 1, ChildActivity),
     activity(ChildActivity),
     holds(activity_in_progress(Activity), timestep),
     holds(active_activity(ChildActivity), timestep),
@@ -490,7 +490,7 @@ holds(next_action(Activity, stop(ChildActivity)), timestep) :-
 %   if
 %     next_action(Activity, Action),
 %     activity_status(Activity, ActivityIndex),
-%     component(Activity, ActivityIndex + 1, Action),
+%     activity_component(Activity, ActivityIndex + 1, Action),
 %     physical_action(Action),
 %     agent_action(Action)
 %
@@ -499,7 +499,7 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(Action, timestep),
     holds(next_action(Activity, Action), timestep),
     holds(activity_status(Activity, ActivityIndex), timestep),
-    component(Activity, ActivityIndex + 1, Action),
+    activity_component(Activity, ActivityIndex + 1, Action),
     physical_action(Action),
     agent_action(Action).
 
@@ -507,14 +507,14 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
 %   causes activity_status(Activity, ActivityIndex + 1)
 %   if
 %     activity_status(Activity, ActivityIndex),
-%     component(Activity, ActivityIndex + 1, ChildActivity),
+%     activity_component(Activity, ActivityIndex + 1, ChildActivity),
 %     next_action(Activity, stop(ChildActivity))
 %
 % (p. 34) of dissertation
 holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(stop(ChildActivity), timestep),
     holds(activity_status(Activity, ActivityIndex), timestep),
-    component(Activity, ActivityIndex + 1, ChildActivity),
+    activity_component(Activity, ActivityIndex + 1, ChildActivity),
     activity(ChildActivity),
     holds(next_action(Activity, stop(ChildActivity)), timestep).
 
