@@ -56,6 +56,21 @@ invalid(permitted(Action, Timestep), Reason) :-
     not action(Action),
     Reason = "Action is not defined in action/1".
 
+% ------------------------------------------------------------------------------------------
+
+-auth_compliance(strong, Action, Timestep) :-
+    occurs(Action, Timestep),
+    not permitted(Action, Timestep).
+
+-auth_compliance(weak, Action, Timestep) :-
+    occurs(Action, Timestep),
+    -permitted(Action, Timestep).
+
+auth_compliance(ComplianceLevel, Action, Timestep) :-
+    ComplianceLevel = (strong; weak),
+    occurs(Action, Timestep),
+    -auth_compliance(ComplianceLevel, Action, Timestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(obl(Action), Reason) :-
@@ -91,6 +106,22 @@ invalid(obl(Action, Timestep), Reason) :-
 invalid(obl(neg(neg(Action)), Timestep), Reason) :-
     obl(neg(neg(Action)), Timestep),
     Reason = "Double neg() in obl".
+
+% ------------------------------------------------------------------------------------------
+
+-obl_compliant(Action, Timestep) :-
+    obl(Action, Timestep),
+    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
+    not occurs(Action, Timestep).
+
+-obl_compliant(neg(Action), Timestep) :-
+    obl(neg(Action), Timestep),
+    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
+    not -occurs(Action, Timestep).
+
+obl_compliant(Happening, Timestep) :-
+    obl(Happening, Timestep),
+    not -obl_compliant(Happening, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Compliance %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
