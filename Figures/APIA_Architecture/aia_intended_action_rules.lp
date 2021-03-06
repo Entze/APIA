@@ -128,6 +128,10 @@ intended_action(Action, current_timestep) :-
 
 % ------------------------------------------------------------------------------------------
 
+:-
+    category_3_history(Activity, current_timestep),
+    -projected_success(Activity, current_timestep).
+
 { apply_cr_rule(futile_activity(Activity, current_timestep)) } :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep).
@@ -138,10 +142,6 @@ futile(Activity, current_timestep) :-
 :~
     apply_cr_rule(futile_activity(Activity, current_timestep)).
     [1@1, futile(Activity, current_timestep)]
-
-:-
-    category_3_history(Activity, current_timestep),
-    -projected_success(Activity, current_timestep).
 
 % "the intended action of a history of category 3 is [to stop the activity
 %  when there is *no* successful continued execution from a possible current state]"
