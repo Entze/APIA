@@ -125,8 +125,8 @@ obl_compliant(Happening, Timestep) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Compliance %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-invalid(auth_compliance(Level), Reason) :-
-    -auth_compliance(Level),
-    Level != strong,
-    Level != weak,
+invalid(auth_compliance(ComplianceLevel), Reason) :-
+    -auth_compliance(ComplianceLevel),
+    ComplianceLevel != strong,
+    ComplianceLevel != weak,
     Reason = "Invalid authorization compliance level".
