@@ -56,6 +56,8 @@ some_action_occurred(FutureTimestep) :-
 category_1_history(current_timestep) :-
     not active_goal_or_activity(current_timestep).
 
+% "Recall that the agent's intended action is to wait when his history is of category 1"
+% (p. 65) of dissertation
 intended_action(wait, current_timestep) :-
     category_1_history(current_timestep).
 
@@ -76,6 +78,8 @@ category_2_history(Activity, current_timestep) :-
     activity_goal(Activity, Goal),
     -active_goal(Goal).
 
+% "Recall that the agent's intended action is to wait when his history is of category 1"
+% (p. 65) of dissertation
 intended_action(stop(Activity), current_timestep) :-
     category_2_history(Activity, current_timestep).
 
@@ -119,6 +123,7 @@ projected_success(Activity, current_timestep) :-
     activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
+% (p. 66) of dissertation
 -projected_success(Activity, current_timestep) :-
     activity(Activity),
     not projected_success(Activity, current_timestep).
@@ -134,10 +139,15 @@ intended_action(Action, current_timestep) :-
 
 % ------------------------------------------------------------------------------------------
 
+% "The following constraint (5.27) forbids all answer sets where -projected_success
+%  (i.e. the continued execution of the activity is not successful)"
+% (p. 67) of dissertation
 :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep).
 
+% "however if there is no such answer set then the activity is futile"
+% (p. 67) of dissertation
 { apply_cr_rule(futile_activity(Activity, current_timestep)) } :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep).
@@ -151,7 +161,7 @@ futile(Activity, current_timestep) :-
 
 % "the intended action of a history of category 3 is [to stop the activity
 %  when there is *no* successful continued execution from a possible current state]"
-% (p. 66) of dissertation
+% (p. 66-68) of dissertation
 intended_action(stop(Activity), current_timestep) :-
     category_3_history(Activity, current_timestep),
     futile(Activity, current_timestep).
@@ -173,7 +183,6 @@ category_4_history(Goal, current_timestep) :-
     -holds(goal_in_progress(Goal), current_timestep).
 
 % ------------------------------------------------------------------------------------------
-
 %
 % "The following rules give the ASP denitions of new and existing candidate activities"
 % (p. 68) of dissertation
@@ -197,7 +206,7 @@ candidate(Activity, current_timestep) :-
 % ------------------------------------------------------------------------------------------
 %
 % "The following rules guarantee that each answer set contains
-% at most the starting of a single candidate activity."
+%  at most the starting of a single candidate activity."
 % (p. 69) of dissertation
 
 % TODO: Why does this not produce occurs(start(1), 1)?
@@ -226,7 +235,7 @@ impossible(start(OtherActivity), current_timestep) :-
     -projected_success(Activity, current_timestep),
     not futile(Goal, current_timestep).
 
-% "If none are left then the goal is futile and the intended action is dened by rules"
+% "If none are left then the goal is futile"
 % (p. 70) of dissertation
 { apply_cr_rule(futile_goal(Goal, current_timestep)) } :-
     category_4_history(Goal, current_timestep),
@@ -240,11 +249,12 @@ futile(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
     [1@1, futile_goal(Goal, current_timestep)]
 
+% (p. 70) of dissertation
 intended_action(wait, current_timestep) :-
     category_4_history(Goal, current_timestep),
     futile(Goal, current_timestep).
 
-%--- Creating new candidates ---%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating new candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 71 of dissertation
 
@@ -253,9 +263,16 @@ intended_action(wait, current_timestep) :-
 % "To describe a new candidate we must give it a name, goal, and plan."
 % (p. 71) of dissertation
 
+% "The goal of the new activity is given by the following rule"
+% (p. 71) of dissertation
 activity_goal(Activity, Goal) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep).
+
+% ------------------------------------------------------------------------------------------
+%
+% "The plan of a new candidate is defined by the following rules."
+% (p. 71) of dissertation
 
 % "[this rule] generates a minimal uninterrupted sequence of occurrences of physical actions"
 % (p. 71) of dissertation
@@ -317,7 +334,7 @@ activity_length(Activity, ActivityLength) :-
     has_component(Activity, ActivityLength),
     not has_component(Activity, ActivityLength + 1).
 
-%--- Creating existing candidates ---%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating existing candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % See p. 73 of dissertation
 
