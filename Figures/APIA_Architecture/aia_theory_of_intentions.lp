@@ -136,7 +136,8 @@ action(wait).
 #program action_description(timestep).
 
 % -activity_status(Activity, OldActivityIndex) if
-%   activity_status(Activity, ActivityIndex), OldActivityIndex != ActivityIndex
+%   activity_status(Activity, ActivityIndex),
+%   OldActivityIndex != ActivityIndex
 %
 % (p. 29) of dissertation
 -holds(activity_status(Activity, OldActivityIndex), timestep) :-
@@ -151,13 +152,15 @@ action(wait).
 holds(active_activity(Activity), timestep) :-
     -holds(activity_status(Activity, activity_index__non_active), timestep).
 
-% start(Activity) causes activity_status(Activity, 0)
+% start(Activity)
+%   causes activity_status(Activity, 0)
 %
 % (p. 29) of dissertation
 holds(activity_status(Activity, activity_index__new), timestep + 1) :-
     occurs(start(Activity), timestep).
 
-% stop(Activity) causes activity_status(Activity, -1)
+% stop(Activity)
+%   causes activity_status(Activity, -1)
 %
 % (p. 29) of dissertation
 holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
@@ -179,7 +182,8 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
 % impossible Action1, Action2 if
-%   mental_action(Action1), agent_action(Action1),
+%   mental_action(Action1),
+%   agent_action(Action1),
 %   agent_action(Action2),
 %   Action1 != Action2.
 %
@@ -199,7 +203,8 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
     agent_action(Action).
 
 % child_activity(ChildActivity) if
-%   component(Activity, Activity + 1, ChildActivity), activity_status(Activity, ActivityIndex)
+%   component(Activity, Activity + 1, ChildActivity),
+%   activity_status(Activity, ActivityIndex)
 %
 % (p. 30) of dissertation
 holds(child_activity(ChildActivity), timestep) :-
@@ -208,7 +213,9 @@ holds(child_activity(ChildActivity), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep).
 
 % child_goal(ChildGoal, Goal) if
-%   child_activity(ChildActivity, Activity), activity_goal(Activity, Goal), activity_goal(ChildActivity, ChildGoal)
+%   child_activity(ChildActivity, Activity),
+%   activity_goal(Activity, Goal),
+%   activity_goal(ChildActivity, ChildGoal)
 %
 % (p. 30) of dissertation
 holds(child_goal(ChildGoal, Goal), timestep) :-
@@ -224,7 +231,8 @@ holds(descendant_activity(ChildActivity, Activity), timestep) :-
     holds(child_activity(ChildActivity, Activity), timestep).
 
 % descendant_activity(GrandChildActivity, Activity) if
-%   descendant_activity(ChildActivity, Activity), descendant_activity(GrandChildActivity, ChildActivity)
+%   descendant_activity(ChildActivity, Activity),
+%   descendant_activity(GrandChildActivity, ChildActivity)
 %
 % (p. 30) of dissertation
 holds(descendant_activity(GrandChildActivity, Activity), timestep) :-
@@ -245,7 +253,8 @@ holds(minor_activity(ChildActivity), timestep) :-
 holds(minor_goal(ChildGoal), timestep) :-
     holds(child_goal(ChildGoal, Goal), timestep).
 
-% select(Goal) causes active_goal(Goal)
+% select(Goal)
+%   causes active_goal(Goal)
 %
 % (p. 30) of dissertation
 holds(active_goal(Goal), timestep + 1) :-
@@ -258,7 +267,8 @@ holds(active_goal(Goal), timestep + 1) :-
 -occurs(select(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
-% abandon(Goal) causes -active_goal(Goal)
+% abandon(Goal)
+%   causes -active_goal(Goal)
 %
 % (p. 30) of dissertation
 -holds(active_goal(Goal), timestep + 1) :-
@@ -281,7 +291,8 @@ holds(active_goal(Goal), timestep + 1) :-
 % "We assume that no physical action may occur concurrently with a special exogenous action"
 %
 % impossible Action1, Action2 if
-%   mental_action(Action1), special_exogenous_action(Action1),
+%   mental_action(Action1),
+%   special_exogenous_action(Action1),
 %   physical_action(Action2)
 %
 % (p. 31) of dissertation
@@ -293,8 +304,10 @@ holds(active_goal(Goal), timestep + 1) :-
 % "We assume that no mental agent action may occur concurrently with a special exogenous action"
 %
 % impossible Action1, Action2 if
-%   mental_action(Action1), special_exogenous_action(Action1),
-%   mental_action(Action2), agent_action(Action2)
+%   mental_action(Action1),
+%   special_exogenous_action(Action1),
+%   mental_action(Action2),
+%   agent_action(Action2)
 %
 % (p. 31) of dissertation
 -occurs(Action1, timestep) | -occurs(Action2, timestep) :-
@@ -304,7 +317,8 @@ holds(active_goal(Goal), timestep + 1) :-
     agent_action(Action2).
 
 % -active_goal(Goal) if
-%   -minor_goal(Goal), Goal
+%   -minor_goal(Goal),
+%   Goal
 %
 % (p. 31) of dissertation
 -holds(active_goal(Goal), timestep) :-
@@ -316,9 +330,12 @@ holds(active_goal(Goal), timestep + 1) :-
 % "An unachieved minor goal MinorGoal of an activity ChildActivity becomes active when ChildActivity is the next component of an ongoing activity Activity"
 %
 % active_goal(MinorGoal) if
-%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal),
-%   active_goal(Goal), activity_goal(ChildActivity, MinorGoal),
-%   -MinorGoal, activity_status(ChildActivity, -1)
+%   minor_goal(MinorGoal),
+%   child_goal(MinorGoal, Goal),
+%   active_goal(Goal),
+%   activity_goal(ChildActivity, MinorGoal),
+%   -MinorGoal,
+%   activity_status(ChildActivity, -1)
 %
 % (p. 31) of dissertation
 holds(active_goal(MinorGoal), timestep) :-
@@ -332,8 +349,10 @@ holds(active_goal(MinorGoal), timestep) :-
 % "A minor goal MinorGoal is no longer active when it is achieved."
 %
 % -active_goal(MinorGoal) if
-%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal),
-%   active_goal(Goal), MinorGoal.
+%   minor_goal(MinorGoal),
+%   child_goal(MinorGoal, Goal),
+%   active_goal(Goal),
+%   MinorGoal.
 %
 % (p. 32) of dissertation
 -holds(active_goal(MinorGoal), timestep) :-
@@ -345,7 +364,9 @@ holds(active_goal(MinorGoal), timestep) :-
 % "A minor goal MinorGoal is no longer active when its parent [goal] is no longer active"
 %
 % -active_goal(MinorGoal) if
-%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal), -active_goal(Goal)
+%   minor_goal(MinorGoal),
+%   child_goal(MinorGoal, Goal),
+%   -active_goal(Goal)
 %
 % (p. 32) of dissertation
 -holds(active_goal(MinorGoal), timestep) :-
@@ -356,9 +377,12 @@ holds(active_goal(MinorGoal), timestep) :-
 % "A minor goal MinorGoal of ChildActivity is no longer active when ChildActivity has been executed."
 %
 % -active_goal(MinorGoal) if
-%   minor_goal(MinorGoal), child_goal(MinorGoal, Goal),
-%   active_goal(Goal), -MinorGoal,
-%   activity_goal(ChildActivity, MinorGoal), activity_status(ChildActivity, ChildActivityIndex),
+%   minor_goal(MinorGoal),
+%   child_goal(MinorGoal, Goal),
+%   active_goal(Goal),
+%   -MinorGoal,
+%   activity_goal(ChildActivity, MinorGoal),
+%   activity_status(ChildActivity, ChildActivityIndex),
 %   activity_length(ChildActivity, ChildActivityLength)
 %
 % (p. 32) of dissertation
@@ -375,7 +399,9 @@ holds(active_goal(MinorGoal), timestep) :-
 %--- Misc. ---%
 
 % activity_in_progress(Activity) if
-%   active_activity(Activity), activity_goal(Activity, Goal), active_goal(Goal)
+%   active_activity(Activity),
+%   activity_goal(Activity, Goal),
+%   active_goal(Goal)
 %
 % (p. 33) of dissertation
 holds(activity_in_progress(Activity), timestep) :-
@@ -384,7 +410,9 @@ holds(activity_in_progress(Activity), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % goal_in_progress(Goal) if
-%   active_activity(Activity), activity_goal(Activity, Goal), active_goal(Goal)
+%   active_activity(Activity),
+%   activity_goal(Activity, Goal),
+%   active_goal(Goal)
 %
 % (p. 33) of dissertation
 holds(goal_in_progress(Goal), timestep) :-
@@ -393,8 +421,11 @@ holds(goal_in_progress(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % next_action(Activity, Action) if
-%   physical_action(Action), agent_action(Action), activity_status(Activity, ActivityIndex),
-%   component(Activity, ActivityIndex + 1, Action), activity_in_progress(Activity)
+%   physical_action(Action),
+%   agent_action(Action),
+%   activity_status(Activity, ActivityIndex),
+%   component(Activity, ActivityIndex + 1, Action),
+%   activity_in_progress(Activity)
 %
 % (p. 33) of dissertation
 holds(next_action(Activity, Action), timestep) :-
@@ -405,8 +436,10 @@ holds(next_action(Activity, Action), timestep) :-
     holds(activity_in_progress(Activity), timestep).
 
 % next_action(Activity, start(ChildActivity)) if
-%   activity_status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
-%   activity_in_progress(Activity), -active_activity(ChildActivity)
+%   activity_status(Activity, ActivityIndex),
+%   component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_in_progress(Activity),
+%   -active_activity(ChildActivity)
 %
 % (p. 33) of dissertation
 holds(next_action(Activity, start(ChildActivity)), timestep) :-
@@ -417,9 +450,12 @@ holds(next_action(Activity, start(ChildActivity)), timestep) :-
     -holds(active_activity(ChildActivity), timestep).
 
 % next_action(Activity, Action) if
-%   agent_action(Action), activity_status(Activity, ActivityIndex),
+%   agent_action(Action),
+%   activity_status(Activity, ActivityIndex),
 %   component(Activity, ActivityIndex + 1, ChildActivity),
-%   activity_in_progress(Activity), activity_in_progress(ChildActivity), next_action(ChildActivity, Action)
+%   activity_in_progress(Activity),
+%   activity_in_progress(ChildActivity),
+%   next_action(ChildActivity, Action)
 %
 % (p. 34) of dissertation
 holds(next_action(Activity, Action), timestep) :-
@@ -432,9 +468,12 @@ holds(next_action(Activity, Action), timestep) :-
     holds(next_action(ChildActivity, Action), timestep).
 
 % next_action(Activity, stop(ChildActivity)) if
-%   activity_status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
-%   activity_in_progress(Activity), active_activity(ChildActivity),
-%   activity_goal(ChildActivity, ChildGoal), -active_goal(ChildGoal)
+%   activity_status(Activity, ActivityIndex),
+%   component(Activity, ActivityIndex + 1, ChildActivity),
+%   activity_in_progress(Activity),
+%   active_activity(ChildActivity),
+%   activity_goal(ChildActivity, ChildGoal),
+%   -active_goal(ChildGoal)
 %
 % (p. 34) of dissertation
 holds(next_action(Activity, stop(ChildActivity)), timestep) :-
@@ -446,9 +485,14 @@ holds(next_action(Activity, stop(ChildActivity)), timestep) :-
     activity_goal(ChildActivity, ChildGoal),
     -holds(active_goal(ChildGoal), timestep).
 
-% Action causes activity_status(Activity, ActivityIndex + 1) if
-%   next_action(Activity, Action), activity_status(Activity, ActivityIndex),
-%   component(Activity, ActivityIndex + 1, Action), physical_action(Action), agent_action(Action)
+% Action
+%   causes activity_status(Activity, ActivityIndex + 1)
+%   if
+%     next_action(Activity, Action),
+%     activity_status(Activity, ActivityIndex),
+%     component(Activity, ActivityIndex + 1, Action),
+%     physical_action(Action),
+%     agent_action(Action)
 %
 % (p. 34) of dissertation
 holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
@@ -459,9 +503,12 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     physical_action(Action),
     agent_action(Action).
 
-% stop(ChildActivity) causes activity_status(Activity, ActivityIndex + 1) if
-%   activity_status(Activity, ActivityIndex), component(Activity, ActivityIndex + 1, ChildActivity),
-%   next_action(Activity, stop(ChildActivity))
+% stop(ChildActivity)
+%   causes activity_status(Activity, ActivityIndex + 1)
+%   if
+%     activity_status(Activity, ActivityIndex),
+%     component(Activity, ActivityIndex + 1, ChildActivity),
+%     next_action(Activity, stop(ChildActivity))
 %
 % (p. 34) of dissertation
 holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
@@ -471,8 +518,10 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     activity(ChildActivity),
     holds(next_action(Activity, stop(ChildActivity)), timestep).
 
-% stop(Activity) causes activity_status(ChildActivity, -1) if
-%   descendant_activity(ChildActivity, Activity)
+% stop(Activity)
+%   causes activity_status(ChildActivity, -1)
+%   if
+%     descendant_activity(ChildActivity, Activity)
 %
 % (p. 35) of dissertation
 holds(activity_status(ChildActivity, activity_index__non_active), timestep + 1) :-
@@ -480,7 +529,8 @@ holds(activity_status(ChildActivity, activity_index__non_active), timestep + 1) 
     holds(descendant_activity(ChildActivity, Activity), timestep).
 
 % -next_name(Activity) if
-%   next_name(ChildActivity), Activity != ChildActivity
+%   next_name(ChildActivity),
+%   Activity != ChildActivity
 %
 % (p. 35) of dissertation
 -holds(next_name(Activity), timestep) :-
@@ -488,8 +538,11 @@ holds(activity_status(ChildActivity, activity_index__non_active), timestep + 1) 
     activity(Activity),
     Activity != ChildActivity.
 
-% start(Activity) causes next_name(Activity + 1) if
-%   next_name(Activity), -minor_activity(Activity)
+% start(Activity)
+%   causes next_name(Activity + 1)
+%   if
+%     next_name(Activity),
+%     -minor_activity(Activity)
 %
 % (p. 35) of dissertation
 holds(next_name(Activity + 1), timestep + 1) :-
