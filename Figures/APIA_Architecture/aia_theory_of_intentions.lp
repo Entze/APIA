@@ -192,6 +192,7 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 % (p. 30) of dissertation
 holds(child_activity(ChildActivity), timestep) :-
     component(Activity, Activity + 1, ChildActivity),
+    activity(ChildActivity),
     holds(activity_status(Activity, ActivityIndex), timestep).
 
 % child_goal(ChildGoal, Goal) if
@@ -399,6 +400,7 @@ holds(next_action(Activity, Action), timestep) :-
 holds(next_action(Activity, start(ChildActivity)), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
+    activity(ChildActivity),
     holds(activity_in_progress(Activity), timestep),
     -holds(active_activity(ChildActivity), timestep).
 
@@ -412,6 +414,7 @@ holds(next_action(Activity, Action), timestep) :-
     agent_action(Action),
     holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
+    activity(ChildActivity),
     holds(activity_in_progress(Activity), timestep),
     holds(activity_in_progress(ChildActivity), timestep),
     holds(next_action(ChildActivity, Action), timestep).
@@ -425,6 +428,7 @@ holds(next_action(Activity, Action), timestep) :-
 holds(next_action(Activity, stop(ChildActivity)), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
+    activity(ChildActivity),
     holds(activity_in_progress(Activity), timestep),
     holds(active_activity(ChildActivity), timestep),
     activity_goal(ChildActivity, ChildGoal),
@@ -452,6 +456,7 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(stop(ChildActivity), timestep),
     holds(activity_status(Activity, ActivityIndex), timestep),
     component(Activity, ActivityIndex + 1, ChildActivity),
+    activity(ChildActivity),
     holds(next_action(Activity, stop(ChildActivity)), timestep).
 
 % stop(Activity) causes activity_status(ChildActivity, -1) if
