@@ -264,8 +264,6 @@ observed(greeted_by(Person, Actor), Timestep) :-
 %--- Iteration 7: Step 2 (Find intended action) ---%
 #program test_26.
 
-% TODO: Determine why no categories are being triggered
-
 % Intended action should be stop(1)
 %:-
 %    not intended_action(stop(Activity), Timestep),
@@ -274,6 +272,9 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 %--- Iteration 7: Step 3 (Attempt the intended action) ---%
 #program test_27.
+
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
 
 attempt(stop(Activity), Timestep) :-
     Timestep = 6,
@@ -291,3 +292,29 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 7,
     Person = "Alice",
     Actor = "Bob".
+
+
+
+%--- Iteration 8: Step 1 (Interpret observations) ---%
+#program test_29.
+
+%--- Iteration 8: Step 2 (Find intended action) ---%
+#program test_30.
+
+% Intended action should be wait
+%:-
+%    not intended_action(wait, Timestep),
+%    Timestep = 7.
+
+%--- Iteration 8: Step 3 (Attempt the intended action) ---%
+#program test_31.
+
+attempt(wait, Timestep) :-
+    Timestep = 7.
+
+%--- Iteration 8: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
+#program test_32.
+
+happened(wait, Timestep) :-
+    Timestep = 7.
