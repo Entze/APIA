@@ -37,6 +37,12 @@ active_goal_or_activity(current_timestep) :-
 active_goal_or_activity(current_timestep) :-
     holds(active_activity(Activity), current_timestep).
 
+% (p. 71) of dissertation
+some_action_occurred(FutureTimestep) :-
+    step(FutureTimestep),
+    current_timestep <= FutureTimestep,
+    occurs(Action, FutureTimestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % "Let cm_n be the current mental state of history \tau_n"
@@ -241,11 +247,6 @@ intended_action(wait, current_timestep) :-
 %--- Creating new candidates ---%
 %
 % See p. 71 of dissertation
-
-some_action_occurred(FutureTimestep) :-
-    step(FutureTimestep),
-    current_timestep <= FutureTimestep,
-    occurs(Action, FutureTimestep).
 
 % ------------------------------------------------------------------------------------------
 %
