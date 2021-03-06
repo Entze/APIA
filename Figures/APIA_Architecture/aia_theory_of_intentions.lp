@@ -496,3 +496,10 @@ holds(next_name(Activity + 1), timestep + 1) :-
     occurs(start(Activity), timestep),
     holds(next_name(Activity), timestep),
     -holds(minor_activity(Activity), timestep).
+
+% Definition of impossible
+% (p. 98) of dissertation
+%
+% TODO: Consider what to do with this
+-occurs(Action, timestep) :-
+    impossible(Action, timestep).
