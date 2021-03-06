@@ -58,7 +58,7 @@ grep 'Grounding:' "${TEMP_DIR}/output" \
 grep 'Answer:' -A1 "${TEMP_DIR}/output" \
     | tail -n 2 \
     | sed -n '2p' \
-    | tr ' ' '\n' \
+    | sed -e 's/) /)\n/g' \
     | sort \
     > "${TEMP_DIR}/predicates"
 
