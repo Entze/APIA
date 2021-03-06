@@ -19,6 +19,30 @@ holds(Fluent, Timestep) :-
     -observed(Fluent, Timestep),
     Timestep = 0.
 
+% ------------------------------------------------------------------------------------------
+
+% See p. 60 of dissertation
+%
+% TODO: Should these be observed() statements due to legality definition
+% on (p. 40) of dissertation?
+
+% (p. 60) of dissertation
+holds(activity_status(Activity, ActivityIndex), Timestep) :-
+    activity(Activity),
+    Timestep = 0,
+    ActivityIndex = -1.
+
+% (p. 60) of dissertation
+-holds(active_goal(Goal), Timestep) :-
+    goal(Goal),
+    Timestep = 0.
+
+% Determines the next ID for generated activities
+%
+% (p. 60) of dissertation
+holds(next_name(ir), Timestep) :-
+    Timestep = 0.
+
 #program aia_history_rules(current_timestep).
 
 % ------------------------------------------------------------------------------------------
@@ -122,30 +146,6 @@ impossible(select(Goal), Timestep) :-
     Timestep < current_timestep,
     goal(Goal),
     holds(active_goal(Goal), Timestep).
-
-% ------------------------------------------------------------------------------------------
-
-% See p. 60 of dissertation
-%
-% TODO: Should these be observed() statements due to legality definition
-% on (p. 40) of dissertation?
-
-% (p. 60) of dissertation
-holds(activity_status(Activity, ActivityIndex), Timestep) :-
-    activity(Activity),
-    Timestep = 0,
-    ActivityIndex = -1.
-
-% (p. 60) of dissertation
--holds(active_goal(Goal), Timestep) :-
-    goal(Goal),
-    Timestep = 0.
-
-% Determines the next ID for generated activities
-%
-% (p. 60) of dissertation
-holds(next_name(ir), Timestep) :-
-    Timestep = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Applicability constraints %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
