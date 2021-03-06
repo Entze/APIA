@@ -12,6 +12,8 @@ MAX_TIMESTEP=$2
 shift 2
 FILES=( "$@" )
 
+DEBUG=debug
+
 GLOBAL_FILES=(
     aaa_axioms.lp
     aia_theory_of_intentions.lp
@@ -24,12 +26,14 @@ GLOBAL_FILES=(
     test.lp
 )
 
+if [[ -n "${DEBUG}" ]]; then
+    GLOBAL_FILES+=( apia_debugging_checks.lp )
+fi
+
 for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
     RELATIVE_PATH=$(realpath --relative-to . "${SCRIPT_DIR}/${GLOBAL_FILE}")
     FILES+=( "${RELATIVE_PATH}" )
 done
-
-DEBUG=debug
 
 TEMP_DIR=$(mktemp -d)
 
@@ -55,7 +59,7 @@ grep 'Grounding:' "${TEMP_DIR}/output" \
 grep 'Answer:' -A1 "${TEMP_DIR}/output" \
     | tail -n 2 \
     | sed -n '2p' \
-    | tr ' ' '\n' \
+    | sed -e 's/) /)\n/g' \
     | sort \
     > "${TEMP_DIR}/predicates"
 

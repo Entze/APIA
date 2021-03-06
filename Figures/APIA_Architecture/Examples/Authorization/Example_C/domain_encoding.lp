@@ -1,15 +1,15 @@
-%%%% Domains %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % room(Room)
 % door(Door)
 % person(Person)
 
-%%%% Statics %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_connects(Door, Room)
 % door_has_lock(Door)
 
-%%%% Fluents %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_locked(Door)
 fluent(inertial, door_locked(Door)) :-
@@ -34,7 +34,7 @@ fluent(inertial, greeted_by(Person, Actor)) :-
     person(Actor),
     Person != Actor.
 
-%%%% Actions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % move_through(Actor, Door)
 physical_action(move_through(Actor, Room)) :-
@@ -114,12 +114,15 @@ exogenous_action(greet(Actor, Person)) :-
     person(Person),
     Actor != Person.
 
-%%%% Action descriptions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
-% move_through(Actor, Door) causes in_room(Actor, ToRoom)
-%   if in_room(Actor, FromRoom), door_connects(Door, FromRoom),
-%      ToRoom != FromRoom
+% move_through(Actor, Door)
+%   causes in_room(Actor, ToRoom)
+%   if
+%     in_room(Actor, FromRoom),
+%     door_connects(Door, FromRoom),
+%     ToRoom != FromRoom
 holds(in_room(Actor, ToRoom), timestep + 1) :-
     occurs(move_through(Actor, Door), timestep),
     door_connects(Door, ToRoom),
@@ -127,42 +130,49 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
     ToRoom != FromRoom,
     holds(in_room(Actor, FromRoom), timestep).
 
-% -in_room(Actor, FromRoom) if in_room(Actor, ToRoom)
+% -in_room(Actor, FromRoom) if
+%   in_room(Actor, ToRoom)
 -holds(in_room(Actor, FromRoom), timestep) :-
     room(FromRoom),
     holds(in_room(Actor, ToRoom), timestep),
     FromRoom != ToRoom.
 
-% impossible move_through(Actor, Door)
-%   if in_room(Actor, Room), not door_connects(Door, Room)
+% impossible move_through(Actor, Door) if
+%   in_room(Actor, Room),
+%   not door_connects(Door, Room)
 -occurs(move_through(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
-% lock_door(Actor, Door) causes door_locked(Door)
+% lock_door(Actor, Door)
+%   causes door_locked(Door)
 holds(door_locked(Door), timestep + 1) :-
     occurs(lock_door(Actor, Door), timestep).
 
-% impossible lock_door(Actor, Door)
-%   if in_room(Actor, Room), not door_connects(Door, Room)
+% impossible lock_door(Actor, Door) if
+%   in_room(Actor, Room),
+%   not door_connects(Door, Room)
 -occurs(lock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
-% unlock_door(Actor, Door) causes -door_locked(Door)
+% unlock_door(Actor, Door)
+%   causes -door_locked(Door)
 -holds(door_locked(Door), timestep + 1) :-
     occurs(unlock_door(Actor, Door), timestep).
 
-% impossible unlock_door(Actor, Door)
-%   if in_room(Actor, Room), not door_connects(Door, Room)
+% impossible unlock_door(Actor, Door) if
+%   in_room(Actor, Room),
+%   not door_connects(Door, Room)
 -occurs(unlock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
 
-% knock_on_door(Actor, Door) causes knocked_on_door(Door)
+% knock_on_door(Actor, Door)
+%   causes knocked_on_door(Door)
 holds(knocked_on_door(Door), timestep + 1) :-
     occurs(knock_on_door(Actor, Person), timestep).
 
@@ -173,23 +183,26 @@ holds(knocked_on_door(Door), timestep + 1) :-
     holds(in_room(Actor, Room), timestep),
     not door_connects(Door, Room).
 
-% begin_working(Actor) causes busy_working(Actor)
+% begin_working(Actor)
+%   causes busy_working(Actor)
 holds(busy_working(Actor), timestep + 1) :-
     occurs(begin_working(Actor), timestep).
 
-% greet(Actor, Person) causes greeted_by(Person, Actor)
+% greet(Actor, Person)
+%   causes greeted_by(Person, Actor)
 holds(greeted_by(Person, Actor), timestep + 1) :-
     occurs(greet(Actor, Person), timestep).
 
-% impossible greet(Actor, Person)
-%   if in_room(Actor, ActorRoom), in_room(Person, PersonRoom),
-%      ActorRoom != PersonRoom.
+% impossible greet(Actor, Person) if
+%   in_room(Actor, ActorRoom),
+%   in_room(Person, PersonRoom),
+%   ActorRoom != PersonRoom.
 -occurs(greet(Actor, Person), timestep) :-
     holds(in_room(Actor, ActorRoom), timestep),
     holds(in_room(Person, PersonRoom), timestep),
     ActorRoom != PersonRoom.
 
-%%%% Authorization policy %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % "Anyone is allowed to move from any room to any room"
 %
@@ -200,8 +213,8 @@ permitted(move_through(Actor, Door), timestep) :-
 
 % "Anyone is allowed to greet a coworker if the coworker is not busy working"
 %
-% permitted(greet(Actor, Person))
-%   if not busy_working(Person)
+% permitted(greet(Actor, Person)) if
+%   not busy_working(Person)
 permitted(greet(Actor, Person), timestep) :-
     person(Actor),
     person(Person),
@@ -210,9 +223,11 @@ permitted(greet(Actor, Person), timestep) :-
 
 % "Normally, anyone is allowed to greet a coworker if the coworker is busy working but he/she has knocked on the door (to the room they are in)"
 %
-% normally permitted(greet(Actor, Person))
-%   if busy_working(Person), in_room(Person, Room),
-%      door_connects(Door, Room), knocked_on_door(Door)
+% normally permitted(greet(Actor, Person)) if
+%   busy_working(Person),
+%   in_room(Person, Room),
+%   door_connects(Door, Room),
+%   knocked_on_door(Door)
 permitted(greet(Actor, Person), timestep) :-
     person(Actor),
     person(Person),

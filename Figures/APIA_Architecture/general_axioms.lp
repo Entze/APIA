@@ -2,7 +2,7 @@
 % fluent(defined, Fluent)
 % aciton(Action)
 
-%%%% Inertia axiom %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Inertia axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program axioms(timestep).
 
 holds(Fluent, timestep + 1) :-
@@ -15,14 +15,14 @@ holds(Fluent, timestep + 1) :-
     -holds(Fluent, timestep),
     not holds(Fluent, timestep + 1).
 
-%%%% Closed-world assumption for defined fluents %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption for defined fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program axioms(timestep).
 
 -holds(Fluent, timestep) :-
     fluent(defined, Fluent),
     not holds(Fluent, timestep).
 
-%%%% Closed-world assumption for actions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption for actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program axioms(timestep).
 
 -occurs(Action, timestep) :-

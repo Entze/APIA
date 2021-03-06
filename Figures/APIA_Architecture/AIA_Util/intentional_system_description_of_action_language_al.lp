@@ -1,6 +1,6 @@
 % Example file
 
-%%%% Domains %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 a(A) :-
     A = 1..3.
@@ -11,12 +11,12 @@ b(B) :-
 c(C) :-
     C = 3.
 
-%%%% Statics %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 foo(A) :-
     a(A).
 
-%%%% Fluents %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % bar(B)
 fluent(inertial, bar(B)) :-
@@ -26,7 +26,7 @@ fluent(inertial, bar(B)) :-
 fluent(defined, baz(C)) :-
     c(C).
 
-%%%% Actions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Requirements:
 %   - All user-defined actions must be physical actions
@@ -57,29 +57,34 @@ agent_action(do_baz(C)) :-
 exogenous_action(do_baz(C)) :-
     c(C).
 
-%%%% Action descriptions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
-% do_bar(B) causes bar(B)
-%   [if ...]
+% do_bar(B) causes bar(B) [if
+%   ...]
 holds(bar(B), timestep + 1) :-
     occurs(do_bar(B), timestep).
     % [...]
 
-% baz(B)
-%   if bar(B), [...]
+% baz(B) if
+%   bar(B),
+%   [...]
 holds(baz(B), timestep) :-
     holds(bar(B), timestep).
     % [...]
 
-% impossible do_foo(A), do_bar(B), do_baz(C)
-%   if foo(A), bar(B), baz(C), A = B, B = C
+% impossible do_foo(A), do_bar(B), do_baz(C) if
+%   foo(A),
+%   bar(B),
+%   baz(C),
+%   A = B,
+%   B = C
 -occurs(do_foo(A), timestep) | -occurs(do_bar(B), timestep) | -occurs(do_baz(C), timestep) :-
     foo(A),
     holds(bar(B), timestep),
     holds(baz(C), timestep).
 
-%%%% Activities %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % goal(Goal) :-
 %     Goal = %* ... *%,
@@ -107,7 +112,7 @@ holds(baz(B), timestep) :-
 %
 % ...
 
-%%%% Initial observations (before AIA control loop) %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
 
 -observed(bar(B), Timestep) :-

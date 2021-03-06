@@ -1,4 +1,4 @@
-%%%% Domains %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 room(Room) :-
     Room = ("r1"; "r2"; "r3"; "r4").
@@ -9,7 +9,7 @@ door(Door) :-
 person(Person) :-
     Person = ("Bob"; "Alice").
 
-%%%% Statics %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 door_connects(Door, Room) :-
     Door = "d12",
@@ -26,7 +26,7 @@ door_connects(Door, Room) :-
 door_has_lock(Door) :-
     Door = "d34".
 
-%%%% Starting fluent values %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Starting fluent values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -holds(door_locked(Door), Timestep) :-
     Timestep = 0,

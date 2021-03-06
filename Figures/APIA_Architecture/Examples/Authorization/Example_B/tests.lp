@@ -20,7 +20,7 @@ def main(clingo_control: clingo.Control):
 
 #end.
 
-%%%% Convenience predicates %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Convenience predicates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.
 
 auth_compliance(strong) :-
@@ -29,7 +29,7 @@ auth_compliance(strong) :-
 auth_compliance(weak) :-
     not -auth_compliance(weak).
 
-%%%% Expected sequence %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Expected sequence %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 #program test_1.
 

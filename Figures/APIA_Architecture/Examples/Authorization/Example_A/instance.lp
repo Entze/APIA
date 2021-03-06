@@ -1,4 +1,4 @@
-%%%% Domains %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 room(Room) :-
     Room = ("r1"; "r2"; "r3"; "r4").
@@ -9,7 +9,7 @@ door(Door) :-
 person(Person) :-
     Person = ("Bob"; "Alice").
 
-%%%% Statics %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 door_connects(Door, Room) :-
     Door = "d12",
@@ -26,7 +26,7 @@ door_connects(Door, Room) :-
 door_has_lock(Door) :-
     Door = "d34".
 
-%%%% Actions %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % move_through(Actor, Door)
 agent_action(move_through(Actor, Door)) :-
@@ -74,7 +74,7 @@ exogenous_action(greet(Actor, Person)) :-
     Actor != Person,
     Actor != "Bob".
 
-%%%% Activities %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
 #const ir = 2.
@@ -125,7 +125,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Bob",
     Person = "Alice".
 
-%%%% Initial observations (before AIA control loop) %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
 
 -observed(door_locked(Door), Timestep) :-
@@ -175,4 +175,4 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
 -observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     fluent(inertial, next_name(Activity)),
-    Activity < ir.
+    Activity != ir.
