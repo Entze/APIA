@@ -43,8 +43,6 @@ holds(activity_status(Activity, ActivityIndex), Timestep) :-
 holds(next_name(ir), Timestep) :-
     Timestep = 0.
 
-#program aia_history_rules(current_timestep).
-
 % ------------------------------------------------------------------------------------------
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
