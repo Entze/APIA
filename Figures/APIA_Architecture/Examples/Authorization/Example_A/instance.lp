@@ -161,6 +161,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person != Actor.
 
 %--- Theory of Intentions ---%
+% TODO: Consider incorporating into aia_history_rules.lp
 
 -observed(active_goal(Goal), Timestep) :-
     Timestep = 0,
