@@ -61,6 +61,9 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 %--- Iteration 2: Step 3 (Attempt the intended action) ---%
 #program test_7.
 
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
+
 attempt(start(Activity), Timestep) :-
     Timestep = 1,
     Activity = 1.
@@ -95,6 +98,9 @@ happened(start(Activity), Timestep) :-
 
 %--- Iteration 3: Step 3 (Attempt the intended action) ---%
 #program test_11.
+
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
 
 attempt(move_through(Actor, Door), Timestep) :-
     Timestep = 2,
@@ -138,6 +144,9 @@ observed(in_room(Person, Room), Timestep) :-
 %--- Iteration 4: Step 3 (Attempt the intended action) ---%
 #program test_15.
 
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
+
 attempt(move_through(Actor, Door), Timestep) :-
     Timestep = 3,
     Actor = "Bob",
@@ -179,6 +188,9 @@ observed(in_room(Person, Room), Timestep) :-
 
 %--- Iteration 5: Step 3 (Attempt the intended action) ---%
 #program test_19.
+
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
 
 attempt(move_through(Actor, Door), Timestep) :-
     Timestep = 4,
@@ -222,6 +234,9 @@ observed(in_room(Person, Room), Timestep) :-
 %--- Iteration 6: Step 3 (Attempt the intended action) ---%
 #program test_23.
 
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
+
 attempt(greet(Actor, Person), Timestep) :-
     Timestep = 5,
     Actor = "Bob",
@@ -248,6 +263,8 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 %--- Iteration 7: Step 2 (Find intended action) ---%
 #program test_26.
+
+% TODO: Determine why no categories are being triggered
 
 % Intended action should be stop(1)
 %:-
