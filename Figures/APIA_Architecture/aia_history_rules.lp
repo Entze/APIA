@@ -96,17 +96,27 @@ different_component(Activity, OtherActivity) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_history_rules(current_timestep).
 
+% "Guarantees that occurrences of actions that are observed to have happened
+%  actually occur"
 % (p. 58) of dissertation
 occurs(Action, Timestep) :-
     Timestep < current_timestep,
     happened(Action, Timestep).
 
+% "Guarantees that occurrences of actions that are observed not to have happened
+%  actually do not occur"
 % (p. 58) of dissertation
 -occurs(Action, Timestep) :-
     Timestep < current_timestep,
     -happened(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% "The following two rules guarantee that an observation that an agent action did not occur
+%  is due to the violation of an executability condition for that action."
+% (p. 59) of dissertation
+%
+% TODO: Verify impossible/2 works as expected. (we don't transcode AL to ASP in this way)
 
 % (p. 59) of dissertation
 occurs(Action, Timestep) :-
@@ -122,6 +132,8 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TODO: Verify impossible/2 works as expected. (we don't transcode AL to ASP in this way)
 
 % (p. 59) of dissertation
 impossible(select(Goal), Timestep) :-
@@ -236,7 +248,11 @@ observed_goal(Goal, Timestep) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% See p. 61 of dissertation
+% "The next rule corresponds to the condition from the definition of model
+%  which limits the number of unobserved occurrences of exogenous actions
+%  to the minimal number necessary to satisfy the observations.
+%  This is found by the following cr-rule."
+% (p. 61) of dissertation
 
 { apply_cr_rule(diagnosis(Action, Timestep, current_timestep)) } :-
     Timestep = 0..current_timestep,
@@ -253,7 +269,9 @@ occurs(Action, Timestep) :-
 
 % ------------------------------------------------------------------------------------------
 
-% See p. 62 of dissertation
+% "The last two rules are for determining the value of the flag by simply
+%  counting the number of unobserved occurrences of physical exogenous actions"
+% (p. 62) of dissertation
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
