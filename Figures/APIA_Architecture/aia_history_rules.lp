@@ -6,6 +6,19 @@
 % happened(Action, Timestep)
 % observed(Fluent, Timestep)
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialization Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
+
+% (p. 58) of dissertation
+holds(Fluent, Timestep) :-
+    observed(Fluent, Timestep),
+    Timestep = 0.
+
+% (p. 58) of dissertation
+-holds(Fluent, Timestep) :-
+    -observed(Fluent, Timestep),
+    Timestep = 0.
+
 #program aia_history_rules(current_timestep).
 
 % ------------------------------------------------------------------------------------------
@@ -55,19 +68,6 @@ different_component(Activity, OtherActivity) :-
     activity(OtherActivity),
     equal(Activity, OtherActivity),
     Activity != OtherActivity.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialization Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program base.
-
-% (p. 58) of dissertation
-holds(Fluent, Timestep) :-
-    observed(Fluent, Timestep),
-    Timestep = 0.
-
-% (p. 58) of dissertation
--holds(Fluent, Timestep) :-
-    -observed(Fluent, Timestep),
-    Timestep = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_history_rules(current_timestep).
