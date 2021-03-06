@@ -238,7 +238,6 @@ impossible(start(OtherActivity), current_timestep) :-
 futile(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
-
 % (p. 70) of dissertation
 intended_action(wait, current_timestep) :-
     category_4_history(Goal, current_timestep),
