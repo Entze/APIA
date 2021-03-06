@@ -17,3 +17,10 @@
 -auth_compliance(weak) :-
     occurs(Action, Timestep),
     -permitted(Action, Timestep).
+
+% Closed-world assumption
+auth_compliance(strong) :-
+    not -auth_compliance(strong).
+
+auth_compliance(weak) :-
+    not -auth_compliance(weak).

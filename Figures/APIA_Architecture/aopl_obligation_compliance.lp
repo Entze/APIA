@@ -23,3 +23,7 @@
     obl(neg(Action), Timestep),
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
     not -occurs(Action, Timestep).
+
+% Closed-world assumption
+obl_compliant :-
+    not -obl_compliant.

@@ -68,15 +68,7 @@ def main(clingo_control: clingo.Control):
     clingo_control.solve()
 
 #end.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Convenience predicates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.
-
-auth_compliance(strong) :-
-    not -auth_compliance(strong).
-
-auth_compliance(weak) :-
-    not -auth_compliance(weak).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% #show statements %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
