@@ -144,7 +144,8 @@ intended_action(Action, current_timestep) :-
 % (p. 67) of dissertation
 :-
     category_3_history(Activity, current_timestep),
-    -projected_success(Activity, current_timestep).
+    -projected_success(Activity, current_timestep),
+    not futile(Activity, current_timestep).
 
 % "however if there is no such answer set then the activity is futile"
 % (p. 67) of dissertation
