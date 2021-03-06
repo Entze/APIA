@@ -392,16 +392,18 @@ intended_action(start(Activity), current_timestep) :-
 %  only if there is no candidate that is expected to achieve the goal.
 % (p. 74) of dissertation
 
-% prefer(plan_new(Action, Timestep), futile_goal(Goal, Timestep)).
+% prefer(plan_new(Action, Timestep1), futile_goal(Goal, Timestep2)).
 :~
     action(Action),
-    not apply_cr_rule(plan_new(Action, Timestep)),
-    apply_cr_rule(futile_goal(Goal, Timestep)).
-    [1@2, plan_new(Action, Timestep), futile_goal(Goal, Timestep)]
+    step(Timestep1),
+    not apply_cr_rule(plan_new(Action, Timestep1)),
+    apply_cr_rule(futile_goal(Goal, Timestep2)).
+    [1@2, plan_new(Action, Timestep1), futile_goal(Goal, Timestep2)]
 
-% prefer(plan_existing(Action, Timestep), futile_goal(Goal, Timestep)).
+% prefer(plan_existing(Action, Timestep1), futile_goal(Goal, Timestep2)).
 :~
     action(Action),
-    not apply_cr_rule(plan_existing(Action, Timestep)),
-    apply_cr_rule(futile_goal(Goal, Timestep)).
-    [1@2, plan_existing(Action, Timestep), futile_goal(Goal, Timestep)]
+    step(Timestep1),
+    not apply_cr_rule(plan_existing(Action, Timestep1)),
+    apply_cr_rule(futile_goal(Goal, Timestep2)).
+    [1@2, plan_existing(Action, Timestep1), futile_goal(Goal, Timestep2)]
