@@ -175,4 +175,4 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
 -observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     fluent(inertial, next_name(Activity)),
-    Activity < ir.
+    Activity != ir.
