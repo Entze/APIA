@@ -352,8 +352,8 @@ occurs(NextAction, FutureTimestep) :-
     current_timestep < FutureTimestep,
     holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, NextAction), FutureTimestep),
-    mental_action(Action),
-    agent_action(Action).
+    mental_action(NextAction),
+    agent_action(NextAction).
 
 % "The next rule describes the intended action to start a candidate activity
 %  (new or existing)
