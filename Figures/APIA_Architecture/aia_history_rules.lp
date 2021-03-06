@@ -281,4 +281,4 @@ unobserved(Action, Timestep) :-
     not happened(Action, Timestep).
 
 number_unobserved(UnobservedActions, current_timestep) :-
-    UnobservedActions = #count{ Action : unobserved(Action, current_timestep) }.
+    UnobservedActions = #count{ Action, Timestep : unobserved(Action, Timestep) }.
