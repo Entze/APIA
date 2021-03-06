@@ -129,8 +129,7 @@ action(wait).
 % (p. 29) of dissertation
 -holds(activity_status(Activity, OldActivityIndex), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
-    activity_length(Activity, ActivityLength),
-    OldActivityIndex = -1..ActivityLength,
+    fluent(inertial, activity_status(Activity, OldActivityIndex)),
     OldActivityIndex != ActivityIndex.
 
 % active_activity(Activity) if
