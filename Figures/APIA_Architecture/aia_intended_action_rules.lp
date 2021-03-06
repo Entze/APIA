@@ -27,6 +27,16 @@
 %     interpretation(ActionsNeeded, current_timestep),
 %     UnobservedActions != ActionsNeeded.
 
+% ------------------------------------------------------------------------------------------
+
+% (p. 64) of dissertation
+active_goal_or_activity(current_timestep) :-
+    holds(active_goal(Goal), current_timestep).
+
+% (p. 64) of dissertation
+active_goal_or_activity(current_timestep) :-
+    holds(active_activity(Activity), current_timestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % "Let cm_n be the current mental state of history \tau_n"
@@ -39,12 +49,6 @@
 % (p. 64) of dissertation
 category_1_history(current_timestep) :-
     not active_goal_or_activity(current_timestep).
-
-active_goal_or_activity(current_timestep) :-
-    holds(active_goal(Goal), current_timestep).
-
-active_goal_or_activity(current_timestep) :-
-    holds(active_activity(Activity), current_timestep).
 
 intended_action(wait, current_timestep) :-
     category_1_history(current_timestep).
