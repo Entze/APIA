@@ -1,3 +1,15 @@
 #!/usr/bin/env bash
-clingo --opt-mode=optN --const max_timestep=4 --const test="$1" ../generic_encoding.lp ../../../AOPL_Util/authorization_compliance.lp ../../../aia_theory_of_intentions.lp ../../../aia_reasoning_tasks.lp domain_encoding.lp instance.lp ../sanity_checks.lp tests.lp 1 \
-    | grep 'Answer:' -A1 | tail -n 2 | sed -n '2p' | tr ' ' '\n' | sort
+
+if (( $# >= 1 )); then
+    TEST_NUM=$1
+    MAX_TIMESTEP=$2
+else
+    if tty -s; then
+        read -r -p 'Test number: ' TEST_NUM
+    else
+        echo "Usage: $0 TEST_NUM MAX_TIMESTEP" >&2
+        exit 1
+    fi
+fi
+
+../../../test.sh "${TEST_NUM}" "${MAX_TIMESTEP:-12}" domain_encoding.lp instance.lp ../sanity_checks.lp tests.lp

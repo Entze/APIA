@@ -1,5 +1,5 @@
-#include "AOPL_Util/authorization_compliance.lp".
-#include "AOPL_Util/obligation_compliance.lp".
+#include "../aopl_authorization_compliance.lp".
+#include "../aopl_obligation_compliance.lp".
 
 % Non-compliant if we are not even weakly compliant
 :-
