@@ -92,8 +92,6 @@ intended_action(stop(Activity), current_timestep) :-
 % "The history is of category 3 when a top-level activity and its goal are both active
 %  (i.e. the activity is in progress)"
 % (p. 64) of dissertation
-%
-% TODO: Shouldn't this also hold for at least current_timestep + 1?
 category_3_history(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     holds(activity_in_progress(Activity), current_timestep).
@@ -104,7 +102,6 @@ category_3_history(Activity, current_timestep) :-
 % (p. 66) of dissertation
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
-    % TODO: We need this to hold, but it won't until current_timestep >= 2
     category_3_history(Activity, current_timestep),
     current_timestep <= FutureTimestep,
     -holds(minor_activity(Activity), FutureTimestep),
@@ -206,7 +203,6 @@ candidate(Activity, current_timestep) :-
 %  at most the starting of a single candidate activity."
 % (p. 69) of dissertation
 
-% TODO: Why does this not produce occurs(start(1), 1)?
 occurs(start(Activity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     candidate(Activity, current_timestep),
