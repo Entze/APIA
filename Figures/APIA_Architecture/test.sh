@@ -25,6 +25,10 @@ GLOBAL_FILES=(
     test.lp
 )
 
+if [[ -n "${DEBUG}" ]]; then
+    GLOBAL_FILES+=( apia_debugging_checks.lp )
+fi
+
 for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
     RELATIVE_PATH=$(realpath --relative-to . "${SCRIPT_DIR}/${GLOBAL_FILE}")
     FILES+=( "${RELATIVE_PATH}" )
