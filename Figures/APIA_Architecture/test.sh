@@ -12,6 +12,8 @@ MAX_TIMESTEP=$2
 shift 2
 FILES=( "$@" )
 
+DEBUG=debug
+
 GLOBAL_FILES=(
     aaa_axioms.lp
     aia_theory_of_intentions.lp
@@ -27,8 +29,6 @@ for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
     RELATIVE_PATH=$(realpath --relative-to . "${SCRIPT_DIR}/${GLOBAL_FILE}")
     FILES+=( "${RELATIVE_PATH}" )
 done
-
-DEBUG=debug
 
 TEMP_DIR=$(mktemp -d)
 
