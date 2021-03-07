@@ -41,4 +41,13 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 %   - Consider the goal futile
 %   - Ignore the policy
 
+% Option 1
+:-
+    -obl_compliant.
+
+% Option 2
+% (do nothing)
+
+% ------------------------------------------------------------------------------
+
 % Minimize violations with an obligation policy
