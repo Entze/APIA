@@ -56,6 +56,22 @@ abnormal(require_auth_compliance(weak)) :-
 %   - Maximize compliance with an authorization policy
 %   - Minimize activity length (within compliance threshold)
 
+% Option 1
+#const auth_violation_minimize_priority = 0.
+
+:~
+    -auth_compliance(strong).
+    [1@auth_violation_minimize_priority, -auth_compliance(weak)]
+
+:~
+    -auth_compliance(weak).
+    [2@auth_violation_minimize_priority, -auth_compliance(weak)]
+
+% Option 2
+:-
+    ComplianceLevel = weak,  % Or strong
+    -auth_compliance(ComplianceLevel).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Obligation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Always try to satisfy an obligation policy to do an action.
