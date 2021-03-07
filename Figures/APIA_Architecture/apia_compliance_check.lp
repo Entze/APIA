@@ -50,7 +50,9 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 
 % ------------------------------------------------------------------------------
 
+#const obl_violation_minimize_priority = 0.
+
 % Minimize violations with an obligation policy
 :~
     -obl_compliant(Timestep).
-    [1, Timestep]
+    [1@obl_violation_minimize_priority, Timestep]
