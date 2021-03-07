@@ -1,5 +1,7 @@
 #program base.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Iff [for all occurs(Action, Timestep), permitted(Action, Timestep) is true],
 %   then we are strongly compliant
 %
@@ -18,7 +20,8 @@
     occurs(Action, Timestep),
     -permitted(Action, Timestep).
 
-% Closed-world assumption
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 auth_compliance(strong) :-
     not -auth_compliance(strong).
 

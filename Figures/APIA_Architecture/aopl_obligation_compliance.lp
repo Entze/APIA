@@ -1,5 +1,7 @@
 #program base.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Iff [for all obl(Action, Timestep), occurs(Action, Timestep) is true]
 % and [for all obl(-Action, Timestep), occurs(Action, Timestep) is false],
 %      then we are compliant
@@ -24,6 +26,7 @@
     action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
     not -occurs(Action, Timestep).
 
-% Closed-world assumption
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 obl_compliant :-
     not -obl_compliant.
