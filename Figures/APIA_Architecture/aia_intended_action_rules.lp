@@ -380,7 +380,7 @@ intended_action(start(Activity), current_timestep) :-
     LowerPriorityCRRule = futile_goal(Goal, Timestep2),
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, HigherPriorityCRRule, LowerPriorityCRRule]
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
 % prefer(plan_existing(Action, Timestep1), futile_goal(Goal, Timestep2)).
 :~
@@ -390,4 +390,4 @@ intended_action(start(Activity), current_timestep) :-
     LowerPriorityCRRule = futile_goal(Goal, Timestep2),
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, HigherPriorityCRRule, LowerPriorityCRRule]
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
