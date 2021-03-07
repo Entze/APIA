@@ -22,6 +22,20 @@
 % If we are unable to satisfy an obligation policy to do an action, then we ignore it.
 % We cannot be at fault for not doing what we cannot do.
 
+:-
+    action(Action),
+    obl(Action, Timestep),
+    not occurs(Action, Timestep),
+    not abnormal(satisfy_obl(Action, Timestep)).
+
+{ apply_cr_rule(satisfy_obl(Action, Timestep)) } :-
+    obl(Action, Timestep).
+
+abnormal(satisfy_obl(Action, Timestep)) :-
+    apply_cr_rule(satisfy_obl(Action, Timestep)).
+
+% ------------------------------------------------------------------------------
+
 % If we are unable to satisfy an obligation policy to abstain from an action while achieving the goal
 % then we either:
 %   - Consider the goal futile
