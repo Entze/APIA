@@ -38,3 +38,15 @@ obl_compliant(Timestep) :-
 
 obl_compliant :-
     not -obl_compliant.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% An obligation policy cannot be contradictory
+
+-obl(neg(Action), Timestep) :-
+    obl(Action, Timestep),
+    action(Action).
+
+-obl(Action, Timestep) :-
+    obl(neg(Action), Timestep),
+    action(Action).
