@@ -6,11 +6,51 @@
 %   - consider the activity futile unless it is the most compliant activity (prefers strong policy compliance)
 %   - continue the activity (prefers prior commitments over strong compliance)
 
+% Option 1
+:-
+    not -auth_compliance(weak),  % We are weakly compliant
+    -auth_compliance(strong).
+
+% Option 2
+:-
+    not -auth_compliance(weak),  % We are weakly compliant
+    -auth_compliance(strong),
+    not abnormal(require_auth_compliance(strong)).
+
+{ apply_cr_rule(require_auth_compliance(strong)) }.
+
+abnormal(require_auth_compliance(strong)) :-
+    apply_cr_rule(require_auth_compliance(strong)).
+
+% Option 3
+% (do nothing)
+
+% ------------------------------------------------------------------------------
+
 % If our activity is non-compliant,
 % either:
 %   - consider the activity futile (paranoid; requires compliance)
 %   - consider the activity futile unless it is the most compliant activity (prefers compliance)
 %   - continue the activity (pure utilitarian; ignores policy completely)
+
+% Option 1
+:-
+    -auth_compliance(weak).
+
+% Option 2
+:-
+    -auth_compliance(weak),
+    not abnormal(require_auth_compliance(weak)).
+
+{ apply_cr_rule(require_auth_compliance(weak)) }.
+
+abnormal(require_auth_compliance(weak)) :-
+    apply_cr_rule(require_auth_compliance(weak)).
+
+% Option 3
+% (do nothing)
+
+% ------------------------------------------------------------------------------
 
 % Either:
 %   - Maximize compliance with an authorization policy
