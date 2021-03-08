@@ -91,8 +91,15 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
 %
 % (p. 60) of dissertation
 % Note: Originally occurs(...)
-observed(next_name(ir), Timestep) :-
-    Timestep = 0.
+observed(next_name(Activity), Timestep) :-
+    Timestep = 0,
+    Activity = ir.
+
+% Note: Our addition
+-observed(next_name(Activity), Timestep) :-
+    Timestep = 0,
+    activity(Activity),
+    Activity != ir.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_history_rules(current_timestep).
