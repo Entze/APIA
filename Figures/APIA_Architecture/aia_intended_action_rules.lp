@@ -311,10 +311,7 @@ activity_length(Activity, ActivityLength) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    ActivityLength = #max{ ActivityIndex :
-        category_4_history(Goal, current_timestep),
-        new_candidate(Activity, current_timestep),
-        occurs(start(Activity), current_timestep),
+    ActivityLength = #max{ ActivityIndex, ActivityComponent :
         activity_component(Activity, ActivityIndex, ActivityComponent)
     },
     ActivityLength > 0.
