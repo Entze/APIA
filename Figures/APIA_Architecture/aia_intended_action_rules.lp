@@ -72,6 +72,8 @@ intended_action(wait, current_timestep) :-
 % "The history is of category 2 when a top-level activity is active
 %  but the goal of the activity is not."
 % (p. 64) of dissertation
+%
+% Note: -holds(active_goal(Goal), current_timestep) is our fix
 category_2_history(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     holds(active_activity(Activity), current_timestep),
