@@ -70,19 +70,20 @@ holds(Fluent, Timestep) :-
 % ------------------------------------------------------------------------------------------
 
 % See p. 60 of dissertation
-%
-% TODO: Should these be observed() statements due to legality definition
-% on (p. 40) of dissertation?
 
 % (p. 60) of dissertation
-% Note: Originally occurs(...)
+%
+% Note: Originally occurs(...).
+%   Changed due to legality definition on (p. 40) of dissertation
 observed(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.
 
 % (p. 60) of dissertation
-% Note: Originally -occurs(...)
+%
+% Note: Originally occurs(...).
+%   Changed due to legality definition on (p. 40) of dissertation
 -observed(active_goal(Goal), Timestep) :-
     goal(Goal),
     Timestep = 0.
@@ -90,7 +91,9 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
 % Determines the next ID for generated activities
 %
 % (p. 60) of dissertation
-% Note: Originally occurs(...)
+%
+% Note: Originally occurs(...).
+%   Changed due to legality definition on (p. 40) of dissertation
 observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     Activity = ir.
