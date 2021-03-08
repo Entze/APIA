@@ -50,3 +50,17 @@ obl_compliant :-
 -obl(Action, Timestep) :-
     obl(neg(Action), Timestep),
     action(Action).
+
+% If an agent is obligated to perform an action,
+% the action must be at least weakly compliant with its authorization policy
+:-
+    action(Action),
+    obl(Action, Timestep),
+    -permitted(Action, Timestep).
+
+% If an agent is obligated to abstain from an action,
+% the action cannot be explicitly permitted under its authorization policy
+:-
+    action(Action),
+    obl(neg(Action), Timestep),
+    permitted(Action, Timestep).
