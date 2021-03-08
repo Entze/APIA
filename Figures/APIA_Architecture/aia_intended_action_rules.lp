@@ -72,6 +72,8 @@ intended_action(wait, current_timestep) :-
 % "The history is of category 2 when a top-level activity is active
 %  but the goal of the activity is not."
 % (p. 64) of dissertation
+%
+% Note: -holds(active_goal(Goal), current_timestep) is our fix
 category_2_history(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     holds(active_activity(Activity), current_timestep),
@@ -116,7 +118,7 @@ projected_success(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     step(FutureTimestep),
     current_timestep < FutureTimestep,
-    holds(active_activity(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
+    holds(active_activity(Activity), FutureTimestep),
     activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
@@ -304,21 +306,19 @@ activity_component(Activity, PreviousTimestep - 1, Action) :-
 % "[this rule] describes the length of the new candidate."
 % (p. 71) of dissertation
 
-% TODO: Remove has_component() with:
-%   #max{ ActivityIndex : activity_component(Activity, ActivityIndex, ActivityComponent) }
-has_component(Activity, ActivityIndex) :-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    activity_component(Activity, ActivityIndex, ActivityComponent).
-
+% Note: We removed has_component(...)
 activity_length(Activity, ActivityLength) :-
     ActivityLength <= max_activity_length,
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    has_component(Activity, ActivityLength),
-    not has_component(Activity, ActivityLength + 1).
+    ActivityLength = #max{ ActivityIndex :
+        category_4_history(Goal, current_timestep),
+        new_candidate(Activity, current_timestep),
+        occurs(start(Activity), current_timestep),
+        activity_component(Activity, ActivityIndex, ActivityComponent)
+    },
+    ActivityLength > 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating existing candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
