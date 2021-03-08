@@ -126,8 +126,6 @@ occurs(Action, Timestep) :-
 % "The following two rules guarantee that an observation that an agent action did not occur
 %  is due to the violation of an executability condition for that action."
 % (p. 59) of dissertation
-%
-% TODO: Verify impossible/2 works as expected. (we don't transcode AL to ASP in this way)
 
 % (p. 59) of dissertation
 occurs(Action, Timestep) :-
@@ -143,8 +141,6 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% TODO: Verify impossible/2 works as expected. (we don't transcode AL to ASP in this way)
 
 % (p. 59) of dissertation
 impossible(select(Goal), Timestep) :-

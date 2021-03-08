@@ -170,14 +170,14 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 %   active_activity(Activity)
 %
 % (p. 29) of dissertation
--occurs(start(Activity), timestep) :-
+impossible(start(Activity), timestep) :-
     holds(active_activity(Activity), timestep).
 
 % impossible stop(Activity) if
 %   -active_activity(Activity)
 %
 % (p. 29) of dissertation
--occurs(stop(Activity), timestep) :-
+impossible(stop(Activity), timestep) :-
     -holds(active_activity(Activity), timestep).
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
@@ -188,21 +188,32 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 %   Action1 != Action2.
 %
 % (p. 29) of dissertation. Condensed
-%
-% TODO: Switch to impossible translation (p. 19)
--occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+impossible(Action1, timestep) :-
     mental_action(Action1),
     agent_action(Action1),
     agent_action(Action2),
-    Action1 != Action2.
+    Action1 != Action2,
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    agent_action(Action1),
+    agent_action(Action2),
+    Action1 != Action2,
+    occurs(Action1, timestep).
 
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
 % impossible wait, Action if
 %   agent_action(Action).
 %
 % (p. 29) of dissertation
--occurs(wait, timestep) | -occurs(Action, timestep) :-
-    agent_action(Action).
+impossible(wait, timestep) :-
+    agent_action(Action),
+    occurs(Action, timestep).
+
+impossible(Action, timestep) :-
+    agent_action(Action),
+    occurs(wait, timestep).
 
 % child_activity(ChildActivity) if
 %   activity_component(Activity, Activity + 1, ChildActivity),
@@ -266,7 +277,7 @@ holds(active_goal(Goal), timestep + 1) :-
 %   active_goal(Goal)
 %
 % (p. 31) of dissertation
--occurs(select(Goal), timestep) :-
+impossible(select(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % abandon(Goal)
@@ -280,14 +291,14 @@ holds(active_goal(Goal), timestep + 1) :-
 %   -active_goal(Goal)
 %
 % (p. 31) of dissertation
--occurs(abandon(Goal), timestep) :-
+impossible(abandon(Goal), timestep) :-
     -holds(active_goal(Goal), timestep).
 
 % impossible abandon(Goal) if
 %   minor_goal(Goal)
 %
 % (p. 31) of dissertation
--occurs(abandon(Goal), timestep) :-
+impossible(abandon(Goal), timestep) :-
     holds(minor_goal(Goal), timestep).
 
 % "We assume that no physical action may occur concurrently with a special exogenous action"
@@ -298,10 +309,17 @@ holds(active_goal(Goal), timestep + 1) :-
 %   physical_action(Action2)
 %
 % (p. 31) of dissertation
--occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+impossible(Action1, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
-    physical_action(Action2).
+    physical_action(Action2),
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    special_exogenous_action(Action1),
+    physical_action(Action2),
+    occurs(Action1, timestep).
 
 % "We assume that no mental agent action may occur concurrently with a special exogenous action"
 %
@@ -312,11 +330,19 @@ holds(active_goal(Goal), timestep + 1) :-
 %   agent_action(Action2)
 %
 % (p. 31) of dissertation
--occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+impossible(Action1, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
     mental_action(Action2),
-    agent_action(Action2).
+    agent_action(Action2),
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    special_exogenous_action(Action1),
+    mental_action(Action2),
+    agent_action(Action2),
+    occurs(Action1, timestep).
 
 % -active_goal(Goal) if
 %   -minor_goal(Goal),
@@ -555,6 +581,6 @@ holds(next_name(Activity + 1), timestep + 1) :-
 % Definition of impossible
 % (p. 98) of dissertation
 %
-% TODO: Consider what to do with this
+% TODO: Consider where to put this
 -occurs(Action, timestep) :-
     impossible(Action, timestep).

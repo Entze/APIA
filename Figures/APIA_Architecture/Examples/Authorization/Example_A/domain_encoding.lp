@@ -75,7 +75,7 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
 % impossible move_through(Actor, Door) if
 %   in_room(Actor, Room),
 %   not door_connects(Door, Room)
--occurs(move_through(Actor, Door), timestep) :-
+impossible(move_through(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
@@ -88,7 +88,7 @@ holds(door_locked(Door), timestep + 1) :-
 % impossible lock_door(Actor, Door) if
 %   in_room(Actor, Room),
 %   not door_connects(Door, Room)
--occurs(lock_door(Actor, Door), timestep) :-
+impossible(lock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
@@ -101,7 +101,7 @@ holds(door_locked(Door), timestep + 1) :-
 % impossible unlock_door(Actor, Door) if
 %   in_room(Actor, Room),
 %   not door_connects(Door, Room)
--occurs(unlock_door(Actor, Door), timestep) :-
+impossible(unlock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
@@ -115,7 +115,7 @@ holds(greeted_by(Person, Actor), timestep + 1) :-
 %   in_room(Actor, ActorRoom),
 %   in_room(Person, PersonRoom),
 %   ActorRoom != PersonRoom.
--occurs(greet(Actor, Person), timestep) :-
+impossible(greet(Actor, Person), timestep) :-
     holds(in_room(Actor, ActorRoom), timestep),
     holds(in_room(Person, PersonRoom), timestep),
     ActorRoom != PersonRoom.
