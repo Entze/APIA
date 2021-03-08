@@ -75,21 +75,31 @@ holds(Fluent, Timestep) :-
 % on (p. 40) of dissertation?
 
 % (p. 60) of dissertation
-holds(activity_status(Activity, ActivityIndex), Timestep) :-
+% Note: Originally occurs(...)
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.
 
 % (p. 60) of dissertation
--holds(active_goal(Goal), Timestep) :-
+% Note: Originally -occurs(...)
+-observed(active_goal(Goal), Timestep) :-
     goal(Goal),
     Timestep = 0.
 
 % Determines the next ID for generated activities
 %
 % (p. 60) of dissertation
-holds(next_name(ir), Timestep) :-
-    Timestep = 0.
+% Note: Originally occurs(...)
+observed(next_name(Activity), Timestep) :-
+    Timestep = 0,
+    Activity = ir.
+
+% Note: Our addition
+-observed(next_name(Activity), Timestep) :-
+    Timestep = 0,
+    activity(Activity),
+    Activity != ir.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_history_rules(current_timestep).
@@ -208,7 +218,7 @@ need_to_observe_goal(Goal, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     goal(Goal),
-    % -holds(minor_goal(Goal), Timestep - 1),  % From AIA implementation
+    % -holds(minor_goal(Goal), Timestep - 1),  % TODO: From AIA implementation
     holds(active_goal(Goal), Timestep - 1).
 
 % (p. 61) of dissertation
@@ -219,7 +229,7 @@ need_to_observe_goal(ChildGoal, Timestep) :-
     goal(Goal),
     goal(ChildGoal),
     activity_goal(ChildActivity, ChildGoal),
-    holds(immediate_child_goal(ChildGoal, Goal), Timestep),
+    holds(immediate_child_goal(ChildGoal, Goal), Timestep),  % TODO: Ensure this is defined as a fluent
     holds(active_goal(Goal), Timestep).
 
 % (p. 61) of dissertation

@@ -125,20 +125,3 @@ holds(baz(B), timestep) :-
 observed(baz(C), Timestep) :-
     Timestep = 0,
     c(C).
-
-%--- Theory of Intentions ---%
-% TODO: Consider incorporating into aia_history_rules.lp
-
--observed(active_goal(Goal), Timestep) :-
-    Timestep = 0,
-    fluent(inertial, active_goal(Goal)).
-
-observed(activity_status(Activity, ActivityIndex), Timestep) :-
-    Timestep = 0,
-    fluent(inertial, activity_status(Activity, ActivityIndex)),
-    ActivityIndex = -1.
-
--observed(next_name(Activity), Timestep) :-
-    Timestep = 0,
-    fluent(inertial, next_name(Activity)),
-    Activity != ir.
