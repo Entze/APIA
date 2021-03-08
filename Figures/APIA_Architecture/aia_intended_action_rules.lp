@@ -118,7 +118,7 @@ projected_success(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     step(FutureTimestep),
     current_timestep < FutureTimestep,
-    holds(active_activity(Activity), FutureTimestep),  % TODO: Needs the above rule to hold
+    holds(active_activity(Activity), FutureTimestep),
     activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
 
