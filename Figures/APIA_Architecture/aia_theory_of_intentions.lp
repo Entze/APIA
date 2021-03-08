@@ -9,7 +9,7 @@
 % goal(Goal)
 % activity(Activity)
 
-% TODO: Verify that this is correct (our addition).
+% Note: Our addition
 activity(Activity) :-
     Activity = (ir; ir + 1).
 
@@ -29,7 +29,7 @@ fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
-% TODO: Verify that this is correct (our addition).
+% Note: Our addition
 fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     Activity = (ir; ir + 1),
     MaxActivityLength = 12,  % TODO: Parameterize this value

@@ -278,7 +278,7 @@ occurs(Action, Timestep) :-
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
-    physical_action(Action),  % TODO: In paper, but not AIA
+    physical_action(Action),  % Note: In paper, but not AIA
     exogenous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).
