@@ -306,21 +306,19 @@ activity_component(Activity, PreviousTimestep - 1, Action) :-
 % "[this rule] describes the length of the new candidate."
 % (p. 71) of dissertation
 
-% TODO: Remove has_component() with:
-%   #max{ ActivityIndex : activity_component(Activity, ActivityIndex, ActivityComponent) }
-has_component(Activity, ActivityIndex) :-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    activity_component(Activity, ActivityIndex, ActivityComponent).
-
+% Note: We removed has_component(...)
 activity_length(Activity, ActivityLength) :-
     ActivityLength <= max_activity_length,
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    has_component(Activity, ActivityLength),
-    not has_component(Activity, ActivityLength + 1).
+    ActivityLength = #max{ ActivityIndex :
+        category_4_history(Goal, current_timestep),
+        new_candidate(Activity, current_timestep),
+        occurs(start(Activity), current_timestep),
+        activity_component(Activity, ActivityIndex, ActivityComponent)
+    },
+    ActivityLength > 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating existing candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
