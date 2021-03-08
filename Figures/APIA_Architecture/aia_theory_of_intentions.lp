@@ -583,7 +583,5 @@ holds(next_name(Activity + 1), timestep + 1) :-
 
 % Definition of impossible
 % (p. 98) of dissertation
-%
-% TODO: Consider where to put this
 -occurs(Action, timestep) :-
     impossible(Action, timestep).
