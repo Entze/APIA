@@ -104,6 +104,14 @@ observed(next_name(Activity), Timestep) :-
     activity(Activity),
     Activity != ir.
 
+% ------------------------------------------------------------------------------------------
+
+% Note: Our addition
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
+    Timestep = 0,
+    Activity = (ir; ir + 1),
+    ActivityIndex = -1.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_history_rules(current_timestep).
 

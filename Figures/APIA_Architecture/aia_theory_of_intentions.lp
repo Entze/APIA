@@ -35,12 +35,6 @@ fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     MaxActivityLength = 12,  % TODO: Parameterize this value
     ActivityIndex = -1..MaxActivityLength.
 
-% TODO: Move this
-observed(activity_status(Activity, ActivityIndex), Timestep) :-
-    Timestep = 0,
-    Activity = (ir; ir + 1),
-    ActivityIndex = -1.
-
 % Note: Originally, active(Activity)
 fluent(defined, active_activity(Activity)) :-
     activity(Activity).
