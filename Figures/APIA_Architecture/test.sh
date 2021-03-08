@@ -29,6 +29,8 @@ GLOBAL_FILES=(
 
 if [[ -n "${DEBUG}" ]]; then
     GLOBAL_FILES+=( apia_debugging_checks.lp )
+else
+    GLOBAL_FILES+=( show.lp )
 fi
 
 for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
