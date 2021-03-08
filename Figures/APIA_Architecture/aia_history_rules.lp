@@ -228,7 +228,7 @@ need_to_observe_goal(ChildGoal, Timestep) :-
     goal(Goal),
     goal(ChildGoal),
     activity_goal(ChildActivity, ChildGoal),
-    holds(immediate_child_goal(ChildGoal, Goal), Timestep),  % TODO: Ensure this is defined as a fluent
+    holds(child_goal(ChildGoal, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 
 % (p. 61) of dissertation
