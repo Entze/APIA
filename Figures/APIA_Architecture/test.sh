@@ -24,7 +24,7 @@ GLOBAL_FILES=(
     general_axioms.lp
     apia_cr_prolog.lp
     apia_policy.lp
-    test.lp
+    test.py
 )
 
 if [[ -n "${DEBUG}" ]]; then
