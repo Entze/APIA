@@ -188,6 +188,8 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 %   Action1 != Action2.
 %
 % (p. 29) of dissertation. Condensed
+%
+% TODO: Switch to impossible translation (p. 19)
 -occurs(Action1, timestep) | -occurs(Action2, timestep) :-
     mental_action(Action1),
     agent_action(Action1),
