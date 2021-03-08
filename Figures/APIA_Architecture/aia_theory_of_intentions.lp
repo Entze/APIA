@@ -24,7 +24,7 @@ activity(Activity) :-
 fluent(inertial, active_goal(Goal)) :-
     goal(Goal).
 
-% Originally: status(Activity, ActivityIndex)
+% Note: Originally, status(Activity, ActivityIndex)
 fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
@@ -41,11 +41,11 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
     Activity = (ir; ir + 1),
     ActivityIndex = -1.
 
-% Originally: active(Activity)
+% Note: Originally, active(Activity)
 fluent(defined, active_activity(Activity)) :-
     activity(Activity).
 
-% Originally: child(ChildActivity, Activity)
+% Note: Originally, child(ChildActivity, Activity)
 fluent(defined, child_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
@@ -56,25 +56,25 @@ fluent(defined, child_goal(ChildGoal, Goal)) :-
     goal(ChildGoal),
     ChildGoal != Goal.
 
-% Originally: descendant(ChildActivity, Activity)
+% Note: Originally, descendant(ChildActivity, Activity)
 fluent(defined, descendant_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
 
-% Originally: minor(Activity)
+% Note: Originally, minor(Activity)
 fluent(defined, minor_activity(Activity)) :-
     activity(Activity).
 
-% Originally: minor(Goal)
+% Note: Originally, minor(Goal)
 fluent(defined, minor_goal(Goal)) :-
     goal(Goal).
 
-% Originally: in_progress(Activity)
+% Note: Originally, in_progress(Activity)
 fluent(defined, activity_in_progress(Activity)) :-
     activity(Activity).
 
-% Originally: in_progress(Goal)
+% Note: Originally, in_progress(Goal)
 fluent(defined, goal_in_progress(Goal)) :-
     goal(Goal).
 
