@@ -46,11 +46,14 @@ fluent(defined, active_activity(Activity)) :-
     activity(Activity).
 
 % Note: Originally, child(ChildActivity, Activity)
+%               or, immediate_child(ChildActivity, Activity)
 fluent(defined, child_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
 
+% Note: Originally, child_goal(ChildActivity, Activity)
+%               or, immediate_child_goal(ChildActivity, Activity)
 fluent(defined, child_goal(ChildGoal, Goal)) :-
     goal(Goal),
     goal(ChildGoal),
