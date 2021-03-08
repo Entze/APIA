@@ -75,20 +75,23 @@ holds(Fluent, Timestep) :-
 % on (p. 40) of dissertation?
 
 % (p. 60) of dissertation
-holds(activity_status(Activity, ActivityIndex), Timestep) :-
+% Note: Originally occurs(...)
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.
 
 % (p. 60) of dissertation
--holds(active_goal(Goal), Timestep) :-
+% Note: Originally -occurs(...)
+-observed(active_goal(Goal), Timestep) :-
     goal(Goal),
     Timestep = 0.
 
 % Determines the next ID for generated activities
 %
 % (p. 60) of dissertation
-holds(next_name(ir), Timestep) :-
+% Note: Originally occurs(...)
+observed(next_name(ir), Timestep) :-
     Timestep = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
