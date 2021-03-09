@@ -84,11 +84,11 @@ abnormal(require_auth_compliance(weak)) :-
     not occurs(Action, Timestep),
     not abnormal(satisfy_obl(Action, Timestep)).
 
-{ apply_cr_rule(satisfy_obl(Action, Timestep)) } :-
+{ apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))) } :-
     obl(Action, Timestep).
 
 abnormal(satisfy_obl(Action, Timestep)) :-
-    apply_cr_rule(satisfy_obl(Action, Timestep)).
+    apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))).
 
 % ------------------------------------------------------------------------------
 
