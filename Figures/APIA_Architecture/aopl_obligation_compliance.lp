@@ -20,12 +20,12 @@
 
 -obl_compliant(Timestep) :-
     obl(Action, Timestep),
-    action(Action),
+    agent_action(Action),  % Note: Our modification
     not occurs(Action, Timestep).
 
 -obl_compliant(Timestep) :-
     obl(neg(Action), Timestep),
-    action(Action),
+    agent_action(Action),
     not -occurs(Action, Timestep).
 
 -obl_compliant :-

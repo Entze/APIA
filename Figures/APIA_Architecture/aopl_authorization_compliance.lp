@@ -9,6 +9,7 @@
 %   then we are not strongly compliant
 -auth_compliance(strong) :-
     occurs(Action, Timestep),
+    agent_action(Action),  % Note: Our addition
     not permitted(Action, Timestep).
 
 % Iff [for all occurs(Action, Timestep), permitted(Action, Timestep) is not false],
@@ -18,6 +19,7 @@
 %   then we are not weakly compliant
 -auth_compliance(weak) :-
     occurs(Action, Timestep),
+    agent_action(Action),  % Note: Our addition
     -permitted(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
