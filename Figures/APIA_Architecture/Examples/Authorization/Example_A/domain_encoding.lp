@@ -169,13 +169,13 @@ impossible(greet(Actor, Person), timestep) :-
 %
 % permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
-    person(Actor),
+    agent(Actor),
     door(Door).
 
 % "Anyone is allowed to greet a coworker"
 %
 % permitted(greet(Actor, Person))
 permitted(greet(Actor, Person), timestep) :-
-    person(Actor),
+    agent(Actor),
     person(Person),
     Actor != Person.
