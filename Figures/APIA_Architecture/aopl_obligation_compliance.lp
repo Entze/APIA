@@ -42,6 +42,20 @@ obl_compliant :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% An obligation policy can only describe agent actions (and wait)
+
+:-
+    obl(Action, Timestep),
+    action(Action),
+    Action != wait,
+    not agent_action(Action).
+
+:-
+    obl(neg(Action), Timestep),
+    action(Action),
+    Action != wait,
+    not agent_action(Action).
+
 % An obligation policy cannot be contradictory
 
 -obl(neg(Action), Timestep) :-
