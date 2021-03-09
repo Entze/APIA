@@ -3,6 +3,7 @@
 % room(Room)
 % door(Door)
 % person(Person)
+% agent(Agent)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -33,9 +34,29 @@ physical_action(move_through(Actor, Door)) :-
     person(Actor),
     door(Door).
 
+agent_action(move_through(Actor, Door)) :-
+    person(Actor),
+    agent(Actor),
+    door(Door).
+
+exogenous_action(move_through(Actor, Door)) :-
+    person(Actor),
+    not agent(Actor),
+    door(Door).
+
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
     person(Actor),
+    door(Door).
+
+agent_action(lock_door(Actor, Door)) :-
+    person(Actor),
+    agent(Actor),
+    door(Door).
+
+exogenous_action(lock_door(Actor, Door)) :-
+    person(Actor),
+    not agent(Actor),
     door(Door).
 
 % unlock_door(Actor, Door)
@@ -43,9 +64,31 @@ physical_action(unlock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
+agent_action(unlock_door(Actor, Door)) :-
+    person(Actor),
+    agent(Actor),
+    door(Door).
+
+exogenous_action(unlock_door(Actor, Door)) :-
+    person(Actor),
+    not agent(Actor),
+    door(Door).
+
 % greet(Actor, Person)
 physical_action(greet(Actor, Person)) :-
     person(Actor),
+    person(Person),
+    Actor != Person.
+
+agent_action(greet(Actor, Person)) :-
+    person(Actor),
+    agent(Actor),
+    person(Person),
+    Actor != Person.
+
+exogenous_action(greet(Actor, Person)) :-
+    person(Actor),
+    not agent(Actor),
     person(Person),
     Actor != Person.
 
