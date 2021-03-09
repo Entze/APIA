@@ -1,6 +1,7 @@
 #program base.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: Our implementation based on formal defintion
 % Note: action(Action) ensures is_positive(Action) = true.
 
 % Iff [for all obl(Action, Timestep), occurs(Action, Timestep) is true]
@@ -41,6 +42,7 @@ obl_compliant :-
     not -obl_compliant.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: Our additions
 
 % An obligation policy can only describe agent actions (and wait)
 

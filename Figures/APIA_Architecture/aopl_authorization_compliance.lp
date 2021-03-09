@@ -31,6 +31,7 @@ auth_compliance(weak) :-
     not -auth_compliance(weak).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: Our additions
 
 % An authorizaiton policy can only describe agent actions (and wait)
 
