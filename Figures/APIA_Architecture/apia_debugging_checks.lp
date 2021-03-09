@@ -69,7 +69,7 @@ invalid(permitted(Action, Timestep), Reason) :-
 auth_compliance(ComplianceLevel, Action, Timestep) :-
     ComplianceLevel = (strong; weak),
     occurs(Action, Timestep),
-    -auth_compliance(ComplianceLevel, Action, Timestep).
+    not -auth_compliance(ComplianceLevel, Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
