@@ -1,4 +1,5 @@
 #include "util.lp".
+% TODO: Update this file using the original methodology
 
 % We satisfy a particular obl(Action) when occurs(Action) is true
 obl_satisfied(obl(Action)) :-

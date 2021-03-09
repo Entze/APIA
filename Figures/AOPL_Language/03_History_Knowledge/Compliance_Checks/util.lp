@@ -1,6 +1,8 @@
 #script(python)
 import clingo
 
+# TODO: Remove this file in favor of obl(neg(Action))
+
 
 def is_positive(symbol: clingo.Symbol) -> bool:
     return symbol.positive
