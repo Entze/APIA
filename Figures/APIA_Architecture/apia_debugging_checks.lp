@@ -60,15 +60,18 @@ invalid(permitted(Action, Timestep), Reason) :-
 
 -auth_compliance(strong, Action, Timestep) :-
     occurs(Action, Timestep),
+    agent_action(Action),
     not permitted(Action, Timestep).
 
 -auth_compliance(weak, Action, Timestep) :-
     occurs(Action, Timestep),
+    agent_action(Action),
     -permitted(Action, Timestep).
 
 auth_compliance(ComplianceLevel, Action, Timestep) :-
     ComplianceLevel = (strong; weak),
     occurs(Action, Timestep),
+    agent_action(Action),
     not -auth_compliance(ComplianceLevel, Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,12 +114,12 @@ invalid(obl(neg(neg(Action)), Timestep), Reason) :-
 
 -obl_compliant(Action, Timestep) :-
     obl(Action, Timestep),
-    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
+    agent_action(Action),
     not occurs(Action, Timestep).
 
 -obl_compliant(neg(Action), Timestep) :-
     obl(neg(Action), Timestep),
-    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
+    agent_action(Action),
     not -occurs(Action, Timestep).
 
 obl_compliant(Happening, Timestep) :-
