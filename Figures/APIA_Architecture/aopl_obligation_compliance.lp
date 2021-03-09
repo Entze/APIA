@@ -1,6 +1,7 @@
 #program base.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Note: action(Action) ensures is_positive(Action) = true.
 
 % Iff [for all obl(Action, Timestep), occurs(Action, Timestep) is true]
 % and [for all obl(-Action, Timestep), occurs(Action, Timestep) is false],
@@ -19,12 +20,12 @@
 
 -obl_compliant(Timestep) :-
     obl(Action, Timestep),
-    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
+    action(Action),
     not occurs(Action, Timestep).
 
 -obl_compliant(Timestep) :-
     obl(neg(Action), Timestep),
-    action(Action),  % Note: action(Action) ensures is_positive(Action) = true.
+    action(Action),
     not -occurs(Action, Timestep).
 
 -obl_compliant :-
