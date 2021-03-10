@@ -24,10 +24,3 @@ supervisor_to(Boss, Person) :-
     person(Person),
     Boss = 1,
     Person = 2.
-
-higher_ranking_than(Boss, Person) :-
-    supervisor_to(Boss, Person).
-
-higher_ranking_than(HigherPerson, LowerPerson) :-
-    higher_ranking_than(HigherPerson, MidPerson)
-    supervisor_to(MidPerson, LowerPerson).

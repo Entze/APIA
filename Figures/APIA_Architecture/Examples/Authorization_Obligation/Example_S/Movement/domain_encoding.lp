@@ -2,6 +2,25 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% location(Location)
+% cubical(Location)
+% private_office(Location)
+
+% room(Room)
+% location(location(Location), room(Room))
+% conference_room(Room)
+% classification(room(Room), Classification)
+
+% path(Location1, Location2)
+% door(Location1, Location2)
+% door_has_lock(Location1, Location2)
+
+path(Location2, Location1) :-
+    path(Location1, Location2).
+
+path(Location1, Location2) :-
+    door(Location1, Location2).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -53,19 +72,63 @@ exogenous_action(sit_in_chair(Actor, ChairType)) :-
 
 % lock_door(Actor, Door)
 
-% pick_up_phone(Actor, Cellphone)
-
-% drop_off_phone(Actor, Cellphone)
-
-% pick_up_cd(Actor, CD)
-
-% put_down_cd(Actor, CD)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program action_description(timestep).
+
+% "Normally, anyone is allowed to move from room to room"
+%
+% normally permitted(move(Actor, ToLocation))
+permitted(move(Actor, ToLocation), timestep) :-
+    person(Actor),
+    location(ToLocation),
+    not -permitted(move(Actor, ToLocation), timestep).
+
+% "Normally, one must turn off the lights when leaving a room"
+%
+% lights_1: normally obl(turn_off_lights(Actor, OldRoom)) if
+%   occurs(move(Actor, ToLocation)),
+%   location(location(Location), room(NewRoom)),
+%   OldRoom != NewRoom.
+
+% "Normally, one must not turn off the lights when leaving the main room"
+%
+% lights_2: normally obl(turn_off_lights(Actor, OldRoom)) if
+%   occurs(move(Actor, ToLocation)),
+%   location(location(Location), room(NewRoom)),
+%   OldRoom != NewRoom,
+%   main_room(OldRoom)
+
+% prefer(lights_2, lights_1)
+abnormal(lights_1, timestep) :-
+    . % TODO: Complete
+
+% "Normally, one must turn off the lights when leaving a room after hours"
+
+% "Never turn off the lights when someone else is in the room"
+%
+% obl(neg(turn_off_lights(Actor, Room))) if
+%   ...
+
+% "Normally, no one is allowed to sit down in someone's cubicle"
+
+% "Normally, one is allowed to sit down in someone's cubicle if the owner of the cubicle is there"
+
+% "You are allowed to sit down in your own cubicle"
+
+% "Normally, no one is allowed to sit down in someone's private office"
+
+% "Normally, one is allowed to sit down in someone's private office if the owner of the office is there"
+
+% "You are allowed to sit down in your own private office"
+
+% "You are allowed to open the door to your own office"
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 % Starting ID for generated activities
 #const ir = 1.
@@ -98,6 +161,7 @@ exogenous_action(sit_in_chair(Actor, ChairType)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
+#program base.
 
 -observed(bar(B), Timestep) :-
     Timestep = 0,

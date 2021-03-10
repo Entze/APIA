@@ -2,22 +2,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% computer(Computer)
-% cellphone(Cellphone)
-% computer_has(Computer, cd_drive)
-% location(computer(Computer), location(Location))
+% classified(room(Room))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-fluent(inertial, computer_on(Computer)) :-
-    computer(Computer).
-
-fluent(inertial, cd_drive_full(Computer)) :-
-    computer_has(Computer, cd_drive).
-
-fluent(inertial, chair_count(Location, Chairs)) :-
-    location(Location),
-    Chairs = 0..12.  % TODO: Parameterize this value
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -25,20 +12,41 @@ fluent(inertial, chair_count(Location, Chairs)) :-
 %   - All user-defined actions must be physical actions
 %   - All user-defined actions must be either agent actions, exogenous actions, or both
 
-% pick_up_phone(Actor, Cellphone)
-
-% drop_off_phone(Actor, Cellphone)
-
-% pick_up_cd(Actor, CD)
-
-% put_down_cd(Actor, CD)
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program action_description(timestep).
+
+% "No one without security clearance can enter a classified room."
+%
+% -permitted(move(Actor, ToLocation)) if
+%   location(location(Location), room(Room)),
+%   classified(room(Room))
+-permitted(move(Actor, ToLocation), timestep) :-
+    location(location(Location), room(Room)),
+    classified(room(Room)).
+
+% "Everyone with electronic devices is not allowed to enter a classified room"
+%
+% -permitted(move(Actor, ToLocation)) if
+%   location(location(Location), room(Room)),
+%   classified(room(Room))
+-permitted(move(Actor, ToLocation), timestep) :-
+    location(location(Location), room(Room)),
+    classified(room(Room)),
+
+% "Everyone must take their ID badge with them when moving"
+%
+% obl(take_id_badge(Actor)) if
+%   -has_id_badge,
+%   occurs(move(Actor, _))
+
+% "Classified meetings are not authorized outside of a classified room"
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 % Starting ID for generated activities
 #const ir = 1.
@@ -71,6 +79,7 @@ fluent(inertial, chair_count(Location, Chairs)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
+#program base.
 
 -observed(bar(B), Timestep) :-
     Timestep = 0,

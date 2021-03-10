@@ -36,16 +36,10 @@ path(Location1, Location2) :-
     Location1 = 1,
     Location2 = 2.
 
-path(Location2, Location1) :-
-    path(Location1, Location2).
-
 % Doors are not necessarily two-way
 door(Location1, Location2) :-
     Location1 = 1,
     Location2 = 2.
-
-path(Location1, Location2) :-
-    door(Location1, Location2).
 
 door_has_lock(Location1, Location2) :-
     Location1 = 1,
