@@ -26,13 +26,48 @@ fluent(inertial, chair_count(Location, Chairs)) :-
 %   - All user-defined actions must be either agent actions, exogenous actions, or both
 
 % pick_up_phone(Actor, Cellphone)
+physical_action(pick_up_phone(Actor, Cellphone)) :-
+    agent(Actor).
+
+agent_action(pick_up_phone(Actor, Cellphone)) :-
+    agent(Actor).
+
+exogenous_action(pick_up_phone(Actor, Cellphone)) :-
+    person(Actor),
+    not agent(Actor).
 
 % drop_off_phone(Actor, Cellphone)
+physical_action(drop_off_phone(Actor, Cellphone)) :-
+    agent(Actor).
+
+agent_action(drop_off_phone(Actor, Cellphone)) :-
+    agent(Actor).
+
+exogenous_action(drop_off_phone(Actor, Cellphone)) :-
+    person(Actor),
+    not agent(Actor).
 
 % pick_up_cd(Actor, CD)
+physical_action(pick_up_cd(Actor, CD)) :-
+    agent(Actor).
+
+agent_action(pick_up_cd(Actor, CD)) :-
+    agent(Actor).
+
+exogenous_action(pick_up_cd(Actor, CD)) :-
+    person(Actor),
+    not agent(Actor).
 
 % put_down_cd(Actor, CD)
+physical_action(put_down_cd(Actor, CD)) :-
+    agent(Actor).
 
+agent_action(put_down_cd(Actor, CD)) :-
+    agent(Actor).
+
+exogenous_action(put_down_cd(Actor, CD)) :-
+    person(Actor),
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).

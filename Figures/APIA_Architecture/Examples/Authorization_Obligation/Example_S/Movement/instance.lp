@@ -16,7 +16,7 @@ private_office(Location) :-
 room(Room) :-
     Room = ("main").
 
-location(location(Location), room(Room)) :-
+location_room(Location, Room) :-
     location(Location),
     room(Room),
     Location = 1,

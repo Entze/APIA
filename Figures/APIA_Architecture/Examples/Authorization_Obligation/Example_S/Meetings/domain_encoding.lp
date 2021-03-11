@@ -21,6 +21,14 @@ fluent(inertial, meeting_attendee(Meeting, Person)) :-
     meeting(Meeting),
     person(Person).
 
+% meeting_all_attendees_present(Meeting)
+fluent(defined, meeting_all_attendees_present(Meeting)) :-
+    meeting(Meeting).
+
+% meeting_all_attendees_not_busy(Meeting)
+fluent(defined, meeting_all_attendees_not_busy(Meeting)) :-
+    meeting(Meeting).
+
 % meeting_held(Meeting)
 fluent(inertial, meeting_held(Meeting)) :-
     meeting(Meeting).
@@ -44,16 +52,68 @@ fluent(defined, next_meeting(Meeting)) :-
 %   - All user-defined actions must be either agent actions, exogenous actions, or both
 
 % begin_working(Actor)
+physical_action(begin_working(Actor)) :-
+    agent(Actor).
+
+agent_action(begin_working(Actor)) :-
+    agent(Actor).
+
+exogenous_action(begin_working(Actor)) :-
+    agent(Actor).
 
 % stop_working(Actor)
+physical_action(stop_working(Actor)) :-
+    agent(Actor).
+
+agent_action(stop_working(Actor)) :-
+    agent(Actor).
+
+exogenous_action(stop_working(Actor)) :-
+    agent(Actor).
 
 % schedule_meeting(Actor, Meeting)
+physical_action(schedule_meeting(Actor, Meeting)) :-
+    agent(Actor).
+
+agent_action(schedule_meeting(Actor, Meeting)) :-
+    agent(Actor).
+
+exogenous_action(schedule_meeting(Actor, Meeting)) :-
+    person(Actor),
+    not agent(Actor).
 
 % classify_meeting(Actor, Meeting)
+physical_action(classify_meeting(Actor, Meeting)) :-
+    agent(Actor).
+
+agent_action(classify_meeting(Actor, Meeting)) :-
+    agent(Actor).
+
+exogenous_action(classify_meeting(Actor, Meeting)) :-
+    person(Actor),
+    not agent(Actor).
 
 % invite_to_meeting(Actor, Meeting, Person)
+physical_action(invite_to_meeting(Actor, Meeting, Person)) :-
+    agent(Actor).
+
+agent_action(invite_to_meeting(Actor, Meeting, Person)) :-
+    agent(Actor).
+
+exogenous_action(invite_to_meeting(Actor, Meeting, Person)) :-
+    person(Actor),
+    not agent(Actor).
 
 % hold_meeting(Actor, Meeting)
+physical_action(hold_meeting(Actor, Meeting)) :-
+    agent(Actor).
+
+agent_action(hold_meeting(Actor, Meeting)) :-
+    agent(Actor).
+
+exogenous_action(hold_meeting(Actor, Meeting)) :-
+    person(Actor),
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -62,11 +122,15 @@ fluent(defined, next_meeting(Meeting)) :-
 
 % begin_working(Actor)
 %   causes busy_working(Actor)
+holds(busy_working(Actor), timestep + 1) :-
+    occurs(begin_working(Actor), timestep).
 
 % -----------------------------------------------------------------------
 
 % stop_working(Actor)
 %   causes -busy_working(Actor)
+-holds(busy_working(Actor), timestep + 1) :-
+    occurs(stop_working(Actor), timestep).
 
 % -----------------------------------------------------------------------
 
@@ -89,36 +153,110 @@ holds(next_meeting(Meeting + 1), timestep) :-
 
 % impossible schedule_meeting(Actor, Meeting) if
 %   -next_meeting(Meeting)
+-occurs(schedule_meeting(Actor, Meeting), timestep) :-
+    -holds(next_meeting(Meeting), timestep).
 
 % -----------------------------------------------------------------------
 
 % classify_meeting(Actor, Meeting)
 %   causes meeting_classified(Meeting)
+holds(meeting_classified(Meeting), timestep + 1) :-
+    occurs(classify_meeting(Actor, Meeting), timestep).
 
 % -----------------------------------------------------------------------
 
 % invite_to_meeting(Actor, Meeting, Person)
 %   causes meeting_attendee(Meeting, Person)
+holds(meeting_attendee(Meeting, Person), timestep + 1) :-
+    occurs(invite_to_meeting(Actor, Meeting, Person), timestep).
+
+% -----------------------------------------------------------------------
+
+% -meeting_all_attendees_present(Meeting) if
+%   agent(Agent),
+%   person_location(Agent, AgentLocation),
+%   meeting_attendee(Meeting, Person),
+%   person_location(Person, Location),
+%   AgentLocation != Location.
+-holds(meeting_all_attendees_present(Meeting), timestep) :-
+    agent(Agent),
+    holds(person_location(Agent, AgentLocation), timestep),
+    holds(meeting_attendee(Meeting, Person), timestep),
+    holds(person_location(Person, Location), timestep),
+    AgentLocation != Location.
+
+% meeting_all_attendees_present(Meeting) if
+%   -meeting_all_attendees_present(Meeting)
+%
+% (not-negative to positive closed-world assumption)
+% (Axioms only provide not-positive to negative closed-world assumption)
+holds(meeting_all_attendees_present(Meeting), timestep) :-
+    meeting(Meeting),
+    not -holds(meeting_all_attendees_present(Meeting), timestep).
+
+% -----------------------------------------------------------------------
+
+% -meeting_all_attendees_not_busy(Meeting) if
+%   meeting_attendee(Meeting, Person),
+%   busy_working(Person)
+-holds(meeting_all_attendees_not_busy(Meeting), timestep) :-
+    holds(meeting_attendee(Meeting, Person), timestep),
+    holds(busy_working(Person), timestep).
+
+% meeting_all_attendees_not_busy(Meeting) if
+%   -meeting_all_attendees_not_busy(Meeting)
+%
+% (not-negative to positive closed-world assumption)
+% (Axioms only provide not-positive to negative closed-world assumption)
+holds(meeting_all_attendees_not_busy(Meeting), timestep) :-
+    meeting(Meeting),
+    not -holds(meeting_all_attendees_not_busy(Meeting), timestep).
 
 % -----------------------------------------------------------------------
 
 % hold_meeting(Actor, Meeting)
 %   causes meeting_held(Meeting)
+holds(meeting_held(Meeting), timestep + 1) :-
+    occurs(hold_meeting(Actor, Meeting), timestep).
 
 % impromptu_meeting(Meeting) if
 %   meeting_held(Meeting),
 %   -meeting_scheduled(Meeting)
+holds(impromptu_meeting(Meeting), timestep) :-
+    holds(meeting_held(Meeting), timestep),
+    -holds(meeting_scheduled(Meeting), timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
 % "Normally, no one is allowed to hold a meeting until all attendees are present"
+%
+% normally -permitted(hold_meeting(Actor, Meeting)) if
+%   -meeting_all_attendees_present(Meeting)
+-permitted(hold_meeting(Actor, Meeting), timestep) :-
+    agent(Actor),
+    meeting(Meeting),
+    -holds(meeting_all_attendees_present(Actor, Meeting), timestep),
+    not permitted(hold_meeting(Actor, Meeting), timestep).
 
 % "Normally, anyone is allowed to hold an impromptu meeting with a coworker if the coworker is not busy"
+%
+% normally permitted(hold_meeting(Actor, Meeting)) if
+%   -meeting_scheduled(Meeting),
+%   meeting_all_attendees_not_busy(Meeting)
 
 % "Normally, no one is allowed to hold an impromptu meeting with a coworker if he is busy"
+%
+% meeting_1: normally permitted(hold_meeting(Actor, Meeting)) if
+%   -meeting_scheduled(Meeting),
+%   -meeting_all_attendees_not_busy(Meeting)
 
-% "Normally, no one is allowed to hold an impromptu meeting with a higher-ranking employee if he is busy"
+% "Normally, no one is allowed to invite a higher-ranking employee to an impromptu meeting if he is busy"
+%
+% meeting_2: normally -permitted(invite_to_meeting(Actor, Meeting, Person)) if
+%   -meeting_scheduled(Meeting),
+%   higher_ranking_than(Person, Actor)
+%   busy_working(Person)
 
 % "Normally, no one is authorized to hold a meeting with more than two people outside of a conference room"
 
@@ -127,6 +265,8 @@ holds(next_meeting(Meeting + 1), timestep) :-
 % "Normally, no one is allowed to hold a meeting with their supervisor unless they have first held a meeting with their co-workers"
 
 % "Anyone is allowed to hold an impromptu meeting if it is urgent"
+
+% perfer(meeting_2, meeting_1)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
