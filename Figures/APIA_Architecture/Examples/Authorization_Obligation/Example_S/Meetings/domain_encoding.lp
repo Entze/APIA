@@ -21,6 +21,11 @@ fluent(inertial, meeting_attendee(Meeting, Person)) :-
     meeting(Meeting),
     person(Person).
 
+% meeting_attendees_count(Meeting, AttendeeCount)
+fluent(defined, meeting_attendees_count(Meeting, AttendeeCount)) :-
+    meeting(Meeting),
+    AttendeeCount = 0..5.
+
 % meeting_all_attendees_present(Meeting)
 fluent(defined, meeting_all_attendees_present(Meeting)) :-
     meeting(Meeting).
@@ -36,6 +41,11 @@ fluent(inertial, meeting_held(Meeting)) :-
 % impromptu_meeting(Meeting)
 fluent(defined, impromptu_meeting(Meeting)) :-
     meeting(Meeting).
+
+% meeting_location(Meeting, Location)
+fluent(inertial, meeting_location(Meeting, Location)) :-
+    meeting(Meeting),
+    location(Location).
 
 % current_meeting(Meeting)
 fluent(inertial, next_meeting(Meeting)) :-
@@ -125,6 +135,11 @@ exogenous_action(hold_meeting(Actor, Meeting)) :-
 holds(busy_working(Actor), timestep + 1) :-
     occurs(begin_working(Actor), timestep).
 
+% impossible begin_working(Actor) if
+%   busy_working(Actor)
+impossible(begin_working(Actor), timestep) :-
+    holds(busy_working(Actor), timestep).
+
 % -----------------------------------------------------------------------
 
 % stop_working(Actor)
@@ -132,7 +147,18 @@ holds(busy_working(Actor), timestep + 1) :-
 -holds(busy_working(Actor), timestep + 1) :-
     occurs(stop_working(Actor), timestep).
 
+% impossible stop_working(Actor) if
+%   -busy_working(Actor)
+impossible(stop_working(Actor), timestep) :-
+    -holds(busy_working(Actor), timestep).
+
 % -----------------------------------------------------------------------
+
+% schedule_meeting(Actor, Meeting)
+%   causes meeting_scheduled(Meeting)
+holds(meeting_scheduled(Meeting), timestep + 1) :-
+    person(Actor),
+    occurs(schedule_meeting(Actor, Meeting), timestep).
 
 % schedule_meeting(Actor, Meeting)
 %   causes current_meeting(Meeting)
@@ -163,12 +189,22 @@ holds(next_meeting(Meeting + 1), timestep) :-
 holds(meeting_classified(Meeting), timestep + 1) :-
     occurs(classify_meeting(Actor, Meeting), timestep).
 
+% impossible classify_meeting(Actor, Meeting) if
+%   meeting_classified(Meeting)
+impossible(classify_meeting(Actor, Meeting), timestep) :-
+    meeting_classified(Meeting),
+
 % -----------------------------------------------------------------------
 
 % invite_to_meeting(Actor, Meeting, Person)
 %   causes meeting_attendee(Meeting, Person)
 holds(meeting_attendee(Meeting, Person), timestep + 1) :-
     occurs(invite_to_meeting(Actor, Meeting, Person), timestep).
+
+% impossible invite_to_meeting(Actor, Meeting, Person) if
+%   meeting_attendee(Meeting, Person)
+impossible(invite_to_meeting(Actor, Meeting, Person), timestep) :-
+    meeting_attendee(Meeting, Person),
 
 % -----------------------------------------------------------------------
 
@@ -219,12 +255,39 @@ holds(meeting_all_attendees_not_busy(Meeting), timestep) :-
 holds(meeting_held(Meeting), timestep + 1) :-
     occurs(hold_meeting(Actor, Meeting), timestep).
 
+% hold_meeting(Actor, Meeting)
+%   causes meeting_location(Meeting, Location)
+%   if
+%     person_location(Actor, Location)
+holds(meeting_location(Meeting, Location), timestep + 1) :-
+    person(Actor),
+    occurs(hold_meeting(Actor, Meeting), timestep),
+    holds(person_location(Actor, Location), timestep).
+
+% -----------------------------------------------------------------------
+
 % impromptu_meeting(Meeting) if
 %   meeting_held(Meeting),
 %   -meeting_scheduled(Meeting)
 holds(impromptu_meeting(Meeting), timestep) :-
     holds(meeting_held(Meeting), timestep),
     -holds(meeting_scheduled(Meeting), timestep).
+
+% -----------------------------------------------------------------------
+
+% -meeting_location(Meeting, OtherLocation) if
+%   meeting_location(Meeting, Location),
+%   OtherLocation != Location.
+-holds(meeting_location(Meeting, OtherLocation), timestep) :-
+    holds(meeting_location(Meeting, Location), timestep),
+    location(OtherLocation),
+    OtherLocation != Location.
+
+% -meeting_location(Meeting, Location) if
+%   -meeting_held(Meeting)
+-holds(meeting_location(Meeting, Location), timestep) :-
+    -holds(meeting_held(Meeting), timestep),
+    location(Location).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -275,15 +338,33 @@ permitted(hold_meeting(Actor, Meeting))  :-
     holds(busy_working(Person), timestep),
     not permitted(invite_to_meeting(Actor, Meeting, Person)).
 
-% "Normally, no one is authorized to hold a meeting with more than two people outside of a conference room"
+% prefer(meeting_2, meeting_1)
 
-% "Normally, no one is allowed to hold a meeting without first scheduling it"
+% "Normally, no one is authorized to hold a meeting with more than two people outside of a conference room"
+%
+% normally permitted(hold_meeting(Actor, Meeting)) if
+%   meeting_attendee_count(Meeting, AttendeeCount),
+%   AttendeeCount > 2,
+%   person_location(Actor, Location),
+%   (not in conference room)
+
+% "Normally, no one is allowed to hold an impromptu meeting"
+%
+% normally -permitted(hold_meeting(Actor, Meeting)) if
+%   -meeting_scheduled(Meeting)
 
 % "Normally, no one is allowed to hold a meeting with their supervisor unless they have first held a meeting with their co-workers"
 
 % "Anyone is allowed to hold an impromptu meeting if it is urgent"
+%
+% permitted(hold_meeting(Actor, Meeting)) if
+%   -meeting_scheduled(Meeting),
+%   urgent_meeting(Meeting)
 
-% perfer(meeting_2, meeting_1)
+% "Classified meetings are not authorized outside of a classified room"
+
+% "No one can enter a classified meeting or location when an electronic device"
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

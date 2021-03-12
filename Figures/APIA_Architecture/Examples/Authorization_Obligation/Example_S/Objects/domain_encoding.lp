@@ -2,10 +2,14 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% id_badge(Person)
 % computer(Computer)
 % computer_has(Computer, cd_drive)
 % cellphone(Cellphone)
 % cd(CD)
+
+object(id_badge(Person)) :-
+    id_badge(Person).
 
 object(computer(Computer)) :-
     computer(Computer).
@@ -356,6 +360,18 @@ holds(object_location(Object, ToLocation), timestep + 1) :-
     occurs(move(Actor, ToLocation), timestep),
     holds(object_in(Object, HousingObject), timestep),
     holds(object_held_by(HousingObject, Actor), timestep).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program action_description(timestep).
+
+% "Everyone must take their ID badge with them when moving"
+%
+% obl(pick_up_object(id_badge(Actor))) if
+%   -object_held_by(id_badge(Actor), Actor),
+%   occurs(move(Actor, ToLocation))
+obl(pick_up_object(id_badge(Actor)), timestep) :-
+    occurs(move(Actor, ToLocation), timestep),
+    -holds(object_held_by(id_badge(Actor), Actor), timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -28,6 +28,15 @@ fluent(inertial, person_location(Person, Location)) :-
     person(Person),
     location(Location).
 
+% door_locked(FromLocation, ToLocation)
+fluent(inertial, door_locked(FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation).
+
+% door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
+fluent(inertial, door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)) :-
+    door_has_lock(FromLocation, ToLocation),
+    TimestepsLeft = 0..3.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Requirements:
@@ -73,27 +82,29 @@ exogenous_action(sit_in_chair(Actor, ChairType)) :-
     person(Actor),
     not agent(Actor).
 
-% unlock_door(Actor, Door)
-physical_action(unlock_door(Actor, Door)) :-
+% unlock_door(Actor, FromLocation, ToLocation)
+physical_action(unlock_door(Actor, FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation),
     agent(Actor).
 
-agent_action(unlock_door(Actor, Door)) :-
+agent_action(unlock_door(Actor, FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation),
     agent(Actor).
 
-exogenous_action(unlock_door(Actor, Door)) :-
+exogenous_action(unlock_door(Actor, FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation),
     person(Actor),
     not agent(Actor).
 
-% lock_door(Actor, Door)
-physical_action(lock_door(Actor, Door)) :-
-    agent(Actor).
+% lock_door(FromLocation, ToLocation)
+physical_action(lock_door(FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation).
 
-agent_action(lock_door(Actor, Door)) :-
-    agent(Actor).
+agent_action(lock_door(FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation).
 
-exogenous_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    not agent(Actor).
+exogenous_action(lock_door(FromLocation, ToLocation)) :-
+    door_has_lock(FromLocation, ToLocation).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -106,6 +117,49 @@ holds(person_location(Actor, ToLocation), timestep + 1) :-
 % impossible move(Actor, ToLocation) if
 %   person_location(Actor, FromLocation),
 %   not path(FromLocation, ToLocation)
+
+% -------------------------------------------------------------------
+
+% unlock_door(Actor, FromLocation, ToLocation)
+%   causes -door_locked(FromLocation, ToLocation)
+%   if
+%     object_in(id_badge(Actor), HousingObject)
+%     HousingObject = door(FromLocation, ToLocation)
+-holds(door_locked(FromLocation, ToLocation), timestep) :-
+    occurs(unlock_door(Actor, FromLocation, ToLocation), timestep),
+    holds(object_in(id_badge(Actor), door(FromLocation, ToLocation)), timestep).
+
+% -------------------------------------------------------------------
+
+% lock_door(FromLocation, ToLocation)
+%   causes door_locked(FromLocation, ToLocation)
+holds(door_locked(FromLocation, ToLocation), timestep) :-
+    occurs(lock_door(FromLocation, ToLocation), timestep).
+
+% -------------------------------------------------------------------
+
+% Action
+%   causes door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft - 1)
+%   if
+%     door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
+%     TimestepsLeft > 0,
+%     not -door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft - 1)
+holds(door_autolock_countdown(FromLocation, ToLocation, NewTimestepsLeft), timestep) :-
+    occurs(_, timestep),
+    holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
+    TimestepsLeft > 0,
+    NewTimestepsLeft = TimestepsLeft - 1,
+    not -holds(door_autolock_countdown(FromLocation, ToLocation, NewTimestepsLeft), timestep).
+
+% Action
+%   causes door_locked(FromLocation, ToLocation)
+%   if
+%     door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft),
+%     TimestempsLeft = 1
+holds(door_locked(FromLocation, ToLocation), timestep) :-
+    occurs(_, timestep),
+    holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
+    TimestempsLeft = 1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -157,6 +211,24 @@ abnormal(lights_1, timestep) :-
 % "You are allowed to sit down in your own private office"
 
 % "You are allowed to open the door to your own office"
+
+% "No one without security clearance can enter a classified room."
+%
+% -permitted(move(Actor, ToLocation)) if
+%   location(location(Location), room(Room)),
+%   classified(room(Room))
+-permitted(move(Actor, ToLocation), timestep) :-
+    location(location(Location), room(Room)),
+    classified(room(Room)).
+
+% "Everyone with electronic devices is not allowed to enter a classified room"
+%
+% -permitted(move(Actor, ToLocation)) if
+%   location(location(Location), room(Room)),
+%   classified(room(Room))
+-permitted(move(Actor, ToLocation), timestep) :-
+    location(location(Location), room(Room)),
+    classified(room(Room)),
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.

@@ -19,34 +19,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
-% "No one without security clearance can enter a classified room."
-%
-% -permitted(move(Actor, ToLocation)) if
-%   location(location(Location), room(Room)),
-%   classified(room(Room))
--permitted(move(Actor, ToLocation), timestep) :-
-    location(location(Location), room(Room)),
-    classified(room(Room)).
-
-% "Everyone with electronic devices is not allowed to enter a classified room"
-%
-% -permitted(move(Actor, ToLocation)) if
-%   location(location(Location), room(Room)),
-%   classified(room(Room))
--permitted(move(Actor, ToLocation), timestep) :-
-    location(location(Location), room(Room)),
-    classified(room(Room)),
-
-% "Everyone must take their ID badge with them when moving"
-%
-% obl(take_id_badge(Actor)) if
-%   -has_id_badge,
-%   occurs(move(Actor, _))
-
-% "Classified meetings are not authorized outside of a classified room"
-
-% "No one can enter a classified meeting or location when an electronic device"
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.
 
