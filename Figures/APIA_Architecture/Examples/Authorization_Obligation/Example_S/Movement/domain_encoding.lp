@@ -200,4 +200,4 @@ permitted(move(Actor, ToLocation), timestep) :-
 %   classified(room(Room))
 -permitted(move(Actor, ToLocation), timestep) :-
     location(location(Location), room(Room)),
-    classified(room(Room)),
+    classified(room(Room)).
