@@ -45,6 +45,8 @@
 
 % "Classified meetings are not authorized outside of a classified room"
 
+% "No one can enter a classified meeting or location when an electronic device"
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.
 

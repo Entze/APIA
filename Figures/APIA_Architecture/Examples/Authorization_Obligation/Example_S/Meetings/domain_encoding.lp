@@ -244,12 +244,23 @@ holds(impromptu_meeting(Meeting), timestep) :-
 % normally permitted(hold_meeting(Actor, Meeting)) if
 %   -meeting_scheduled(Meeting),
 %   meeting_all_attendees_not_busy(Meeting)
+permitted(hold_meeting(Actor, Meeting)) :-
+    agent(Actor),
+    -holds(meeting_scheduled(Meeting), timestep),
+    holds(meeting_all_attendees_not_busy(Meeting), timestep),
+    not -permitted(hold_meeting(Actor, Meeting)).
 
 % "Normally, no one is allowed to hold an impromptu meeting with a coworker if he is busy"
 %
 % meeting_1: normally permitted(hold_meeting(Actor, Meeting)) if
 %   -meeting_scheduled(Meeting),
 %   -meeting_all_attendees_not_busy(Meeting)
+permitted(hold_meeting(Actor, Meeting))  :-
+    agent(Actor),
+    -holds(meeting_scheduled(Meeting), timestep),
+    -holds(meeting_all_attendees_not_busy(Meeting), timestep),
+    not abnormal(meeting_1(Actor, Meeting)),
+    not -permitted(hold_meeting(Actor, Meeting)) .
 
 % "Normally, no one is allowed to invite a higher-ranking employee to an impromptu meeting if he is busy"
 %
@@ -257,6 +268,12 @@ holds(impromptu_meeting(Meeting), timestep) :-
 %   -meeting_scheduled(Meeting),
 %   higher_ranking_than(Person, Actor)
 %   busy_working(Person)
+-permitted(invite_to_meeting(Actor, Meeting, Person))  :-
+    agent(Actor),
+    -holds(meeting_scheduled(Meeting), timestep),
+    holds(higher_ranking_than(Person, Actor), timestep),
+    holds(busy_working(Person), timestep),
+    not permitted(invite_to_meeting(Actor, Meeting, Person)).
 
 % "Normally, no one is authorized to hold a meeting with more than two people outside of a conference room"
 
