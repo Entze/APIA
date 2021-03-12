@@ -2,11 +2,15 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% light(Room)
+% chair()
 % id_badge(Person)
 % computer(Computer)
-% computer_has(Computer, cd_drive)
 % cellphone(Cellphone)
 % cd(CD)
+
+object(light(Room)) :-
+    light(Room).
 
 object(id_badge(Person)) :-
     id_badge(Person).
@@ -20,45 +24,109 @@ object(cellphone(Cellphone)) :-
 object(cd(CD)) :-
     cd(CD).
 
-object_holdable(Object) :-
+% -------------------------------------------------------
+
+object_attribute(Object, holdable) :-
+    object(Object),
+    Object = (
+        id_badge(Person);
+        cellphone(Cellphone);
+        cd(CD);
+        chair(Chair)
+    ).
+
+object_weight(Object, Weight) :-
+    object_attribute(Object, holdable),
+    Object = (
+        id_badge(Person)
+    ),
+    Weight = 0.
+
+object_weight(Object, Weight) :-
+    object_attribute(Object, holdable),
+    Object = (
+        cellphone(Cellphone);
+        cd(CD)
+    ),
+    Weight = 1.
+
+object_weight(Object, Weight) :-
+    object_attribute(Object, holdable),
+    Object = (
+        chair(Chair)
+    ),
+    Weight = 2.
+
+object_attribute(Object, houses) :-
     object(Object).
 
-housing_object(HousingObject) :-
-    object(Object).
+object_attribute(Object, insertable) :-
+    object(Object),
+    Object = (
+        id_badge(Person);
+        cd(CD)
+    ).
 
 object_insertable_in(Object, HousingObject) :-
     object(Object),
-    object(HousingObject).
+    object(HousingObject),
+    Object = (
+        id_badge(Person);
+    ),
+    HousingObject = (
+        door()
+    ).
 
-object_requires_power(Object) :-
-    object(Object).
+object_attribute(Object, power) :-
+    object(Object),
+    Object = (
+        light(Room);
+        computer(Computer);
+        cellphone(Cellphone)
+    ).
+
+object_attribute(Object, openable) :-
+    object(Object),
+    Object = (
+        door()
+    ).
+
+object_attribute(Object, sitable) :-
+    object(Object),
+    Object = (
+        chair()
+    ).
+
+object_attribute(Object, cd_drive) :-
+    object(Object),
+    Object = computer(Computer).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fluent(inertial, object_held_by(Object, Person)) :-
-    object_holdable(Object),
+    object_attribute(Object, holdable),
     person(Person).
 
-fluent(defined, person_object_count(Person, ObjectCount)) :-
+fluent(defined, person_object_carry_weight(Person, Weight)) :-
     person(Person),
-    ObjectCount = 0..3.
+    Weight = 0..3.
 
 fluent(inertial, object_in(InnerObject, HousingObject)) :-
     object_insertable_in(InnerObject, HousingObject).
 
 fluent(defined, inserted_object_count(HousingObject, ObjectCount)) :-
-    housing_object(HousingObject),
+    object_attribute(HousingObject, housing),
     ObjectCount = 0..2.
 
 fluent(inertial, object_turned_on(Object)) :-
-    object_requires_power(Object).
+    object_attribute(Object, power).
 
 fluent(inertial, object_location(Object, Location)) :-
     object(Object),
     location(Location).
 
-fluent(inertial, cd_drive_full(Computer)) :-
-    computer_has(Computer, cd_drive).
+fluent(inertial, cd_drive_full(Object)) :-
+    object_attribute(Object, cd_drive).
 
 fluent(inertial, chair_count(Location, Chairs)) :-
     location(Location),
@@ -201,8 +269,8 @@ exogenous_action(turn_off_object(Actor, Object)) :-
 #program action_description(timestep).
 
 % pick_up_object(Actor, Object)
-%   causes object_held_by(Object, Person)
-holds(object_held_by(Object, Person), timestep + 1) :-
+%   causes object_held_by(Object, Actor)
+holds(object_held_by(Object, Actor), timestep + 1) :-
     person(Actor),
     object(Object),
     occurs(pick_up_object(Actor, Object), timestep).
@@ -225,26 +293,33 @@ impossible(pick_up_object(Actor, Object), timestep) :-
     holds(object_held_by(Object, Actor), timestep).
 
 % impossible pick_up_object(Actor, Object) if
-%   person_object_count(Person, ObjectCount)
-%   ObjectCount = 2
+%   object_weight(Object, Weight)
+%   person_object_carry_weight(Person, CarryWeight)
+%   NewCarryWeight = Weight + CarryWeight,
+%   NewCarryWeight >= 2
 impossible(pick_up_object(Actor, Object), timestep) :-
     person(Actor),
-    holds(person_object_count(Person, ObjectCount), timestep),
-    ObjectCount = 2.
+    object_weight(Object, Weight),
+    holds(person_object_carry_weight(Person, CarryWeight), timestep),
+    NewCarryWeight = Weight + CarryWeight,
+    NewCarryWeight >= 2.
 
 % ---------------------------------------------------------------------
 
-% person_object_count(Person, ObjectCount) if
+% person_object_carry_weight(Person, Weight) if
 %   ...
-holds(person_object_count(Person, ObjectCount), timestep) :-
+holds(person_object_carry_weight(Person, CarryWeight), timestep) :-
     person(Person),
-    ObjectCount = #count{ Object : holds(object_held_by(Object, Person)) }.
+    CarryWeight = #sum{ Weight, Object :
+        holds(object_held_by(Object, Person)),
+        object_weight(Object, Weight)
+    }.
 
 % ---------------------------------------------------------------------
 
 % put_down_object(Actor, Object)
-%   causes -object_held_by(Object, Person)
--holds(object_held_by(Object, Person), timestep + 1) :-
+%   causes -object_held_by(Object, Actor)
+-holds(object_held_by(Object, Actor), timestep + 1) :-
     person(Actor),
     object(Object),
     occurs(put_down_object(Actor, Object), timestep).
@@ -258,10 +333,35 @@ impossible(put_down_object(Actor, Object), timestep) :-
 
 % impossible put_down_object(Actor, Object) if
 %   not object_holdable(Object)
-impossible(put_down_object(Actor, Object), timestep) :-
-    person(Actor),
+% ---
+% impossible(put_down_object(Actor, Object), timestep) :-
+%     person(Actor),
+%     object(Object),
+%     not object_holdable(Object).
+
+% ---------------------------------------------------------------------
+
+% ask_to_put_down_object(Person, Object)
+%   causes -object_held_by(Object, Person)
+-holds(object_held_by(Object, Person), timestep + 1) :-
+    person(Person),
     object(Object),
-    not object_holdable(Object).
+    occurs(ask_to_put_down_object(Person, Object), timestep).
+
+% impossible ask_to_put_down_object(Person, Object) if
+%   -object_held_by(Object, Person)
+impossible(ask_to_put_down_object(Person, Object), timestep) :-
+    person(Person),
+    object(Object),
+    -holds(object_held_by(Object, Person), timestep).
+
+% impossible ask_to_put_down_object(Person, Object) if
+%   not object_holdable(Object)
+% ---
+% impossible(ask_to_put_down_object(Person, Object), timestep) :-
+%     person(Person),
+%     object(Object),
+%     not object_holdable(Object).
 
 % ---------------------------------------------------------------------
 
@@ -284,14 +384,17 @@ holds(object_in(Object, HousingObject), timestep + 1) :-
 
 % impossible insert_object(Actor, Object, HousingObject) if
 %   not object_insertable(Object, HousingObject)
-impossible(insert_object(Actor, Object, HousingObject), timestep) :-
-    person(Actor),
-    object(Object),
-    not object_holdable(Object).
+% ---
+% impossible(insert_object(Actor, Object, HousingObject), timestep) :-
+%     person(Actor),
+%     object(Object),
+%     not object_holdable(Object).
 
 % impossible insert_object(Actor, Object, HousingObject) if
 %   object_in(Object, _)
 impossible(insert_object(Actor, Object, HousingObject), timestep) :-
+    action(Action),
+    Action = insert_object
     person(Actor),
     object(Object),
     holds(object_in(Object, _), timestep).
@@ -301,7 +404,7 @@ impossible(insert_object(Actor, Object, HousingObject), timestep) :-
 %   ObjectCount = 1
 impossible(insert_object(Actor, Object, HousingObject), timestep) :-
     person(Actor),
-    holds(person_object_count(Person, ObjectCount), timestep),
+    holds(person_object_carry_weight(Person, Weight), timestep),
     ObjectCount = 2.
 
 % ---------------------------------------------------------------------
@@ -329,10 +432,11 @@ impossible(remove_object(Actor, Object, HousingObject), timestep) :-
 
 % impossible remove_object(Actor, Object, HousingObject) if
 %   not object_holdable(Object)
-impossible(remove_object(Actor, Object, HousingObject), timestep) :-
-    person(Actor),
-    object(Object),
-    not object_holdable(Object).
+% ---
+% impossible(remove_object(Actor, Object, HousingObject), timestep) :-
+%     person(Actor),
+%     object(Object),
+%     not object_holdable(Object).
 
 % ---------------------------------------------------------------------
 
@@ -352,10 +456,11 @@ impossible(turn_on_object(Actor, Object), timestep) :-
 
 % impossible turn_on_object(Actor, Object) if
 %   not object_requires_power(Object)
-impossible(turn_on_object(Actor, Object), timestep) :-
-    person(Actor),
-    object(Object),
-    not object_requires_power(Object).
+% ---
+% impossible(turn_on_object(Actor, Object), timestep) :-
+%     person(Actor),
+%     object(Object),
+%     not object_requires_power(Object).
 
 % ---------------------------------------------------------------------
 
@@ -375,10 +480,11 @@ impossible(turn_off_object(Actor, Object), timestep) :-
 
 % impossible turn_off_object(Actor, Object) if
 %   not object_requires_power(Object)
-impossible(turn_off_object(Actor, Object), timestep) :-
-    person(Actor),
-    object(Object),
-    not object_requires_power(Object).
+% ---
+% impossible(turn_off_object(Actor, Object), timestep) :-
+%     person(Actor),
+%     object(Object),
+%     not object_requires_power(Object).
 
 % ---------------------------------------------------------------------
 
@@ -409,16 +515,23 @@ holds(object_location(Object, ToLocation), timestep + 1) :-
 
 % "Everyone must take their ID badge with them when moving"
 %
-% obl(pick_up_object(id_badge(Actor))) if
-%   -object_held_by(id_badge(Actor), Actor),
+% obl(pick_up_object(Object)) if
+%   Object = id_badge(Actor),
+%   -object_held_by(Object, Actor),
 %   occurs(move(Actor, ToLocation))
-obl(pick_up_object(id_badge(Actor)), timestep) :-
+obl(pick_up_object(Object), timestep) :-
+    id_badge(Actor),
+    Object = id_badge(Actor),
     occurs(move(Actor, ToLocation), timestep),
-    -holds(object_held_by(id_badge(Actor), Actor), timestep).
+    -holds(object_held_by(Object, Actor), timestep).
+
+% "No one is permitted to carry an electronic device into a classified room"
 
 % "Normally, one must turn off the lights when leaving a room"
 %
-% lights_1: normally obl(turn_off_lights(Actor, OldRoom)) if
+% lights_1: normally obl(turn_off_object(Actor, Object)) if
+%   object(Object),
+%   Object = light(Light),
 %   occurs(move(Actor, ToLocation)),
 %   location_room(Location, NewRoom),
 %   OldRoom != NewRoom.
@@ -441,3 +554,4 @@ abnormal(lights_1, timestep) :-
 %
 % obl(neg(turn_off_lights(Actor, Room))) if
 %   ...
+

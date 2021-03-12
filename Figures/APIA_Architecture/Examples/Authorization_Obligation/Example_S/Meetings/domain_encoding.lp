@@ -368,5 +368,15 @@ permitted(hold_meeting(Actor, Meeting))  :-
 %   urgent_meeting(Meeting)
 
 % "Classified meetings are not authorized outside of a classified room"
+%
+% -permitted(hold_meeting(Actor, Meeting)) if
+%   meeting_classified(Meeting),
+%   person_location(Actor, Location),
+%   (not in classified room)
 
 % "No one can enter a classified meeting or location when an electronic device"
+%
+% -permitted(hold_meeting(Actor, Meeting)) if
+%   meeting_classified(Meeting),
+%   meeting_attendee(Meeting, Person),
+%   object_held_by(Person, electronic)
