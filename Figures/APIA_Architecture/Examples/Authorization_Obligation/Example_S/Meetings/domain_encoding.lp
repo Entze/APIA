@@ -76,20 +76,23 @@ physical_action(stop_working(Actor)) :-
     agent(Actor).
 
 agent_action(stop_working(Actor)) :-
+    physical_action(stop_working(Actor)),
     agent(Actor).
 
 exogenous_action(stop_working(Actor)) :-
-    agent(Actor).
+    physical_action(stop_working(Actor)),
+    not agent(Actor).
 
 % schedule_meeting(Actor, Meeting)
 physical_action(schedule_meeting(Actor, Meeting)) :-
     agent(Actor).
 
 agent_action(schedule_meeting(Actor, Meeting)) :-
+    physical_action(schedule_meeting(Actor, Meeting)),
     agent(Actor).
 
 exogenous_action(schedule_meeting(Actor, Meeting)) :-
-    person(Actor),
+    physical_action(schedule_meeting(Actor, Meeting)),
     not agent(Actor).
 
 % classify_meeting(Actor, Meeting)
@@ -97,10 +100,11 @@ physical_action(classify_meeting(Actor, Meeting)) :-
     agent(Actor).
 
 agent_action(classify_meeting(Actor, Meeting)) :-
+    physical_action(classify_meeting(Actor, Meeting)),
     agent(Actor).
 
 exogenous_action(classify_meeting(Actor, Meeting)) :-
-    person(Actor),
+    physical_action(classify_meeting(Actor, Meeting)),
     not agent(Actor).
 
 % invite_to_meeting(Actor, Meeting, Person)
@@ -108,10 +112,11 @@ physical_action(invite_to_meeting(Actor, Meeting, Person)) :-
     agent(Actor).
 
 agent_action(invite_to_meeting(Actor, Meeting, Person)) :-
+    physical_action(invite_to_meeting(Actor, Meeting, Person)),
     agent(Actor).
 
 exogenous_action(invite_to_meeting(Actor, Meeting, Person)) :-
-    person(Actor),
+    physical_action(invite_to_meeting(Actor, Meeting, Person)),
     not agent(Actor).
 
 % hold_meeting(Actor, Meeting)
@@ -119,10 +124,11 @@ physical_action(hold_meeting(Actor, Meeting)) :-
     agent(Actor).
 
 agent_action(hold_meeting(Actor, Meeting)) :-
+    physical_action(hold_meeting(Actor, Meeting)),
     agent(Actor).
 
 exogenous_action(hold_meeting(Actor, Meeting)) :-
-    person(Actor),
+    physical_action(hold_meeting(Actor, Meeting)),
     not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

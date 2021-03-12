@@ -49,25 +49,23 @@ physical_action(move(Actor, ToLocation)) :-
     location(ToLocation).
 
 agent_action(move(Actor, ToLocation)) :-
-    person(Actor),
-    agent(Actor),
-    location(ToLocation).
+    physical_action(move(Actor, ToLocation)),
+    agent(Actor).
 
 exogenous_action(move(Actor, ToLocation)) :-
-    person(Actor),
-    not agent(Actor),
-    location(ToLocation).
+    physical_action(move(Actor, ToLocation)),
+    not agent(Actor).
 
 % stand(Actor)
 physical_action(stand(Actor)) :-
     person(Actor).
 
 agent_action(stand(Actor)) :-
-    person(Actor),
-    agent(Actor).
+    physical_action(stand(Actor)),
+    person(Actor).
 
 exogenous_action(stand(Actor)) :-
-    person(Actor),
+    physical_action(stand(Actor)),
     not agent(Actor).
 
 % sit_in_chair(Actor, ChairType)
@@ -75,11 +73,11 @@ physical_action(sit_in_chair(Actor, ChairType)) :-
     person(Actor).
 
 agent_action(sit_in_chair(Actor, ChairType)) :-
-    person(Actor),
+    physical_action(sit_in_chair(Actor, ChairType)),
     agent(Actor).
 
 exogenous_action(sit_in_chair(Actor, ChairType)) :-
-    person(Actor),
+    physical_action(sit_in_chair(Actor, ChairType)),
     not agent(Actor).
 
 % unlock_door(Actor, FromLocation, ToLocation)
@@ -88,23 +86,23 @@ physical_action(unlock_door(Actor, FromLocation, ToLocation)) :-
     agent(Actor).
 
 agent_action(unlock_door(Actor, FromLocation, ToLocation)) :-
-    door_has_lock(FromLocation, ToLocation),
+    physical_action(unlock_door(Actor, FromLocation, ToLocation)),
     agent(Actor).
 
 exogenous_action(unlock_door(Actor, FromLocation, ToLocation)) :-
-    door_has_lock(FromLocation, ToLocation),
-    person(Actor),
+    physical_action(unlock_door(Actor, FromLocation, ToLocation)),
     not agent(Actor).
 
 % lock_door(FromLocation, ToLocation)
+%   - Ignore the actor that locked the door
 physical_action(lock_door(FromLocation, ToLocation)) :-
     door_has_lock(FromLocation, ToLocation).
 
 agent_action(lock_door(FromLocation, ToLocation)) :-
-    door_has_lock(FromLocation, ToLocation).
+    physical_action(lock_door(FromLocation, ToLocation)).
 
 exogenous_action(lock_door(FromLocation, ToLocation)) :-
-    door_has_lock(FromLocation, ToLocation).
+    physical_action(lock_door(FromLocation, ToLocation)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).

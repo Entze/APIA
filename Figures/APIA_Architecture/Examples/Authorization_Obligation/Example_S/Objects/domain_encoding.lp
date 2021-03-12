@@ -70,89 +70,132 @@ fluent(inertial, chair_count(Location, Chairs)) :-
 %   - All user-defined actions must be physical actions
 %   - All user-defined actions must be either agent actions, exogenous actions, or both
 
+%-------------------------------------------------------
+
 % pick_up_object(Actor, Object)
 physical_action(pick_up_object(Actor, Object)) :-
-    agent(Actor),
+    person(Actor),
     object(Object).
 
 agent_action(pick_up_object(Actor, Object)) :-
-    agent(Actor),
-    object(Object).
+    physical_action(pick_up_object(Actor, Object)),
+    agent(Actor).
 
 exogenous_action(pick_up_object(Actor, Object)) :-
-    person(Actor),
-    not agent(Actor),
-    object(Object).
+    physical_action(pick_up_object(Actor, Object)),
+    not agent(Actor).
+
+%-------------------------------------------------------
 
 % put_down_object(Actor, Object)
 physical_action(put_down_object(Actor, Object)) :-
-    agent(Actor),
+    person(Actor),
     object(Object).
 
 agent_action(put_down_object(Actor, Object)) :-
-    agent(Actor),
-    object(Object).
+    physical_action(put_down_object(Actor, Object)),
+    agent(Actor).
 
 exogenous_action(put_down_object(Actor, Object)) :-
-    person(Actor),
-    not agent(Actor),
+    physical_action(put_down_object(Actor, Object)),
+    not agent(Actor).
+
+%-------------------------------------------------------
+
+% ask_to_put_down_object(Person, Object)
+%   - Ignore the specific actor who asked
+physical_action(ask_to_put_down_object(Person, Object)) :-
+    person(Person),
     object(Object).
+
+agent_action(ask_to_put_down_object(Person, Object)) :-
+    physical_action(ask_to_put_down_object(Person, Object)),
+    person(Person),
+    agent(Actor),
+    Person != Actor.
+
+exogenous_action(ask_to_put_down_object(Person, Object)) :-
+    physical_action(ask_to_put_down_object(Person, Object)),
+    person(Person),
+    agent(Actor),
+    Person != Actor.
+
+%-------------------------------------------------------
 
 % insert_object(Actor, Object, HousingObject)
 physical_action(insert_object(Actor, Object, HousingObject)) :-
-    agent(Actor),
-    object(Object).
+    person(Actor),
+    object_attribute(Object, insertable),
+    object_attribute(HousingObject, houses),
+    object_insertable_in(Object, HousingObject).
 
 agent_action(insert_object(Actor, Object, HousingObject)) :-
+    physical_action(insert_object(Actor, Object, HousingObject)).
     agent(Actor),
-    object(Object).
 
 exogenous_action(insert_object(Actor, Object, HousingObject)) :-
-    person(Actor),
-    not agent(Actor),
-    object(Object).
+    physical_action(insert_object(Actor, Object, HousingObject)).
+    not agent(Actor).
+
+%-------------------------------------------------------
 
 % remove_object(Actor, Object, HousingObject)
 physical_action(remove_object(Actor, Object, HousingObject)) :-
-    agent(Actor),
-    object(Object).
+    person(Actor),
+    object_attribute(Object, insertable),
+    object_attribute(HousingObject, houses),
+    object_insertable_in(Object, HousingObject).
 
 agent_action(remove_object(Actor, Object, HousingObject)) :-
     agent(Actor),
-    object(Object).
+    object_attribute(Object, insertable),
+    object_attribute(HousingObject, houses),
+    object_insertable_in(Object, HousingObject).
 
 exogenous_action(remove_object(Actor, Object, HousingObject)) :-
     person(Actor),
     not agent(Actor),
-    object(Object).
+    object_attribute(Object, insertable),
+    object_attribute(HousingObject, houses),
+    object_insertable_in(Object, HousingObject).
+
+%-------------------------------------------------------
 
 % turn_on_object(Actor, Object)
 physical_action(turn_on_object(Actor, Object)) :-
-    agent(Actor),
-    object(Object).
+    person(Actor),
+    object(Object),
+    object_attribute(Object, power).
 
 agent_action(turn_on_object(Actor, Object)) :-
     agent(Actor),
-    object(Object).
+    object(Object),
+    object_attribute(Object, power).
 
 exogenous_action(turn_on_object(Actor, Object)) :-
     person(Actor),
     not agent(Actor),
-    object(Object).
+    object(Object),
+    object_attribute(Object, power).
+
+%-------------------------------------------------------
 
 % turn_off_object(Actor, Object)
 physical_action(turn_off_object(Actor, Object)) :-
-    agent(Actor),
-    object(Object).
+    person(Actor),
+    object(Object),
+    object_attribute(Object, power).
 
 agent_action(turn_off_object(Actor, Object)) :-
     agent(Actor),
-    object(Object).
+    object(Object),
+    object_attribute(Object, power).
 
 exogenous_action(turn_off_object(Actor, Object)) :-
     person(Actor),
     not agent(Actor),
-    object(Object).
+    object(Object),
+    object_attribute(Object, power).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
