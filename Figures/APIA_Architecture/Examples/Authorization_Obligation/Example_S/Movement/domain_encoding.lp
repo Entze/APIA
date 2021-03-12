@@ -172,32 +172,6 @@ permitted(move(Actor, ToLocation), timestep) :-
     location(ToLocation),
     not -permitted(move(Actor, ToLocation), timestep).
 
-% "Normally, one must turn off the lights when leaving a room"
-%
-% lights_1: normally obl(turn_off_lights(Actor, OldRoom)) if
-%   occurs(move(Actor, ToLocation)),
-%   location_room(Location, NewRoom),
-%   OldRoom != NewRoom.
-
-% "Normally, one must not turn off the lights when leaving the main room"
-%
-% lights_2: normally obl(turn_off_lights(Actor, OldRoom)) if
-%   occurs(move(Actor, ToLocation)),
-%   location_room(Location, NewRoom),
-%   OldRoom != NewRoom,
-%   main_room(OldRoom)
-
-% prefer(lights_2, lights_1)
-abnormal(lights_1, timestep) :-
-    . % TODO: Complete
-
-% "Normally, one must turn off the lights when leaving a room after hours"
-
-% "Never turn off the lights when someone else is in the room"
-%
-% obl(neg(turn_off_lights(Actor, Room))) if
-%   ...
-
 % "Normally, no one is allowed to sit down in someone's cubicle"
 
 % "Normally, one is allowed to sit down in someone's cubicle if the owner of the cubicle is there"
