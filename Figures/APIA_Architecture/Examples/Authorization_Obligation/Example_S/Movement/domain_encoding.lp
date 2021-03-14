@@ -14,6 +14,7 @@
 % path(Location1, Location2)
 % door(Location1, Location2)
 % door_has_lock(Location1, Location2)
+% door_autolock_pause(FromLocation, ToLocation, Timesteps)
 
 path(Location2, Location1) :-
     path(Location1, Location2).
@@ -54,30 +55,6 @@ agent_action(move(Actor, ToLocation)) :-
 
 exogenous_action(move(Actor, ToLocation)) :-
     physical_action(move(Actor, ToLocation)),
-    not agent(Actor).
-
-% stand(Actor)
-physical_action(stand(Actor)) :-
-    person(Actor).
-
-agent_action(stand(Actor)) :-
-    physical_action(stand(Actor)),
-    person(Actor).
-
-exogenous_action(stand(Actor)) :-
-    physical_action(stand(Actor)),
-    not agent(Actor).
-
-% sit_in_chair(Actor, ChairType)
-physical_action(sit_in_chair(Actor, ChairType)) :-
-    person(Actor).
-
-agent_action(sit_in_chair(Actor, ChairType)) :-
-    physical_action(sit_in_chair(Actor, ChairType)),
-    agent(Actor).
-
-exogenous_action(sit_in_chair(Actor, ChairType)) :-
-    physical_action(sit_in_chair(Actor, ChairType)),
     not agent(Actor).
 
 % unlock_door(Actor, FromLocation, ToLocation)
@@ -123,16 +100,63 @@ impossible(move(Actor, ToLocation), timestep) :-
     holds(person_location(Actor, FromLocation), timestep),
     holds(door_locked(FromLocation, ToLocation), timestep).
 
+% ---------------------------------------------------------------------
+
+% move(Actor, ToLocation)
+%   causes object_location(Object, ToLocation, ObjectCount + 1)
+%   if
+%     person_holding_object(Actor, Object)
+%     object_location(Object, ToLocation, ObjectCount)
+holds(object_location(Object, ToLocation, ObjectCount + 1), timestep + 1) :-
+    person(Actor),
+    object(Object),
+    occurs(move(Actor, ToLocation), timestep),
+    holds(person_holding_object(Actor, Object), timestep),
+    holds(object_location(Object, ToLocation, ObjectCount), timestep),
+
+% move(Actor, ToLocation)
+%   causes object_location(Object, FromLocation, ObjectCount - 1)
+%   if
+%     person_holding_object(Actor, Object),
+%     person_location(Actor, FromLocation),
+%     object_location(Object, FromLocation, ObjectCount)
+holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
+    person(Actor),
+    object(Object),
+    occurs(move(Actor, ToLocation), timestep),
+    holds(person_holding_object(Actor, Object), timestep),
+    holds(person_location(Actor, FromLocation), timestep),
+    holds(object_location(Object, FromLocation, ObjectCount),
+
 % -------------------------------------------------------------------
 
 % unlock_door(Actor, FromLocation, ToLocation)
 %   causes -door_locked(FromLocation, ToLocation)
 %   if
-%     object_in(id_badge(Actor), HousingObject)
-%     HousingObject = door(FromLocation, ToLocation)
+%     person_holding_object(Actor, Object)
+%     Object = id_badge.
 -holds(door_locked(FromLocation, ToLocation), timestep) :-
     occurs(unlock_door(Actor, FromLocation, ToLocation), timestep),
-    holds(object_in(id_badge(Actor), door(FromLocation, ToLocation)), timestep).
+    holds(person_holding_object(Actor, Object), timestep),
+    Object = id_badge.
+
+% impossible unlock_door(Actor, FromLocation, ToLocation) if
+%   person_location(Actor, Location),
+%   FromLocation != Location
+impossible(unlock_door(Actor, FromLocation, ToLocation), timestep) :-
+    door_has_lock(FromLocation, ToLocation),
+    holds(person_location(Actor, Location), timestep),
+    FromLocation != Location.
+
+% unlock_door(FromLocation, ToLocation)
+%   causes door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
+%   if
+%     door_autolock_pause(FromLocation, ToLocation, Timesteps)
+%     TimestepsLeft = Timesteps
+holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep + 1) :-
+    occurs(unlock_door(FromLocation, ToLocation), timestep),
+    door_autolock_pause(FromLocation, ToLocation, Timesteps),
+    TimestepsLeft = Timesteps.
 
 % -------------------------------------------------------------------
 
@@ -140,6 +164,24 @@ impossible(move(Actor, ToLocation), timestep) :-
 %   causes door_locked(FromLocation, ToLocation)
 holds(door_locked(FromLocation, ToLocation), timestep) :-
     occurs(lock_door(FromLocation, ToLocation), timestep).
+
+% impossible lock_door(Actor, FromLocation, ToLocation) if
+%   person_location(Actor, Location),
+%   FromLocation != Location
+%   ToLocation != Location
+impossible(lock_door(Actor, FromLocation, ToLocation), timestep) :-
+    door_has_lock(FromLocation, ToLocation),
+    holds(person_location(Actor, Location), timestep),
+    FromLocation != Location,
+    ToLocation != Location.
+
+% lock_door(FromLocation, ToLocation)
+%   causes door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
+%   if
+%     TimestepsLeft = 0
+holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep + 1) :-
+    occurs(lock_door(FromLocation, ToLocation), timestep),
+    TimestepsLeft = 0.
 
 % -------------------------------------------------------------------
 

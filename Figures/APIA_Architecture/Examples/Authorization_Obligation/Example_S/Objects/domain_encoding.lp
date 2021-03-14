@@ -68,6 +68,12 @@ object_weight(Object, Weight) :-
     ),
     Weight = 2.
 
+object_attribute(Object, sitable) :-
+    object(Object),
+    Object = (
+        chair
+    ).
+
 object_attribute(Object, power) :-
     object(Object),
     Object = (
@@ -110,8 +116,21 @@ fluent(defined, person_holding_weight(Person, Weight)) :-
     person(Person),
     Weight = 0..3.
 
+fluent(inertial, person_sitting_on_object(Person, Object)) :-
+    person(Person),
+    object(Object),
+    object_attribute(Object, sitable).
+
+fluent(defined, people_sitting_on_object_count((Location, Object), PeopleCount)) :-
+    object(Object),
+    object_attribute(Object, sitable),
+    location(Location),
+    PeopleCount = 0..5.
+
 fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
-    object_attribute(Object, power).
+    location(Location),
+    object_attribute(Object, power),
+    ObjectCount = 0..12.
 
 fluent(inertial, object_location(Object, Location, ObjectCount)) :-
     object(Object),
@@ -165,9 +184,8 @@ physical_action(ask_to_put_down_object(Person, Object)) :-
 
 agent_action(ask_to_put_down_object(Person, Object)) :-
     physical_action(ask_to_put_down_object(Person, Object)),
-    person(Person),
     agent(Actor),
-    Person != Actor.
+    Person = Actor.
 
 exogenous_action(ask_to_put_down_object(Person, Object)) :-
     physical_action(ask_to_put_down_object(Person, Object)),
@@ -184,15 +202,15 @@ physical_action(turn_on_object(Actor, Object)) :-
     object_attribute(Object, power).
 
 agent_action(turn_on_object(Actor, Object)) :-
+    physical_action(turn_on_object(Actor, Object)),
     agent(Actor),
-    object(Object),
-    object_attribute(Object, power).
+    Person = Actor.
 
 exogenous_action(turn_on_object(Actor, Object)) :-
-    person(Actor),
-    not agent(Actor),
-    object(Object),
-    object_attribute(Object, power).
+    physical_action(turn_on_object(Actor, Object)),
+    person(Person),
+    agent(Actor),
+    Person != Actor.
 
 %-------------------------------------------------------
 
@@ -203,15 +221,25 @@ physical_action(turn_off_object(Actor, Object)) :-
     object_attribute(Object, power).
 
 agent_action(turn_off_object(Actor, Object)) :-
+    physical_action(turn_off_object(Actor, Object)),
     agent(Actor),
-    object(Object),
-    object_attribute(Object, power).
+    Person = Actor.
 
 exogenous_action(turn_off_object(Actor, Object)) :-
-    person(Actor),
-    not agent(Actor),
-    object(Object),
-    object_attribute(Object, power).
+    physical_action(turn_off_object(Actor, Object)),
+    person(Person),
+    agent(Actor),
+    Person != Actor.
+
+%-------------------------------------------------------
+
+% sit_on_object(Actor, Object)
+
+%-------------------------------------------------------
+
+% stand_up(Actor)
+physical_action(stand_up(Actor)) :-
+    person(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -234,7 +262,7 @@ holds(person_holding_object(Actor, Object, ObjectCount + 1), timestep + 1) :-
 %   person_holding_object(Actor, Object, ObjectCount),
 %   OtherObjectCount != ObjectCount
 -holds(person_holding_object(Actor, Object, OtherObjectCount), timestep) :-
-    holds(person_holding_object(Actor, Object, ObjectCount), timestep)
+    holds(person_holding_object(Actor, Object, ObjectCount), timestep),
     max_object_count(Object, MaxCount),
     OtherObjectCount = 0..MaxCount,
     OtherObjectCount != ObjectCount.
@@ -410,34 +438,6 @@ impossible(turn_off_object(Actor, Object), timestep) :-
 %     person(Actor),
 %     object(Object),
 %     not object_requires_power(Object).
-
-% ---------------------------------------------------------------------
-
-% move(Actor, ToLocation)
-%   causes object_location(Object, ToLocation, ObjectCount + 1)
-%   if
-%     person_holding_object(Actor, Object)
-%     object_location(Object, ToLocation, ObjectCount)
-holds(object_location(Object, ToLocation, ObjectCount + 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(move(Actor, ToLocation), timestep),
-    holds(person_holding_object(Actor, Object), timestep),
-    holds(object_location(Object, ToLocation, ObjectCount), timestep),
-
-% move(Actor, ToLocation)
-%   causes object_location(Object, FromLocation, ObjectCount - 1)
-%   if
-%     person_holding_object(Actor, Object),
-%     person_location(Actor, FromLocation),
-%     object_location(Object, FromLocation, ObjectCount)
-holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(move(Actor, ToLocation), timestep),
-    holds(person_holding_object(Actor, Object), timestep),
-    holds(person_location(Actor, FromLocation), timestep),
-    holds(object_location(Object, FromLocation, ObjectCount),
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).

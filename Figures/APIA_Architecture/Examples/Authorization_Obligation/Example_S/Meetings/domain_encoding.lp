@@ -66,10 +66,10 @@ physical_action(begin_working(Actor)) :-
     agent(Actor).
 
 agent_action(begin_working(Actor)) :-
-    agent(Actor).
+    physical_action(begin_working(Actor)).
 
 exogenous_action(begin_working(Actor)) :-
-    agent(Actor).
+    physical_action(begin_working(Actor)).
 
 % stop_working(Actor)
 physical_action(stop_working(Actor)) :-
