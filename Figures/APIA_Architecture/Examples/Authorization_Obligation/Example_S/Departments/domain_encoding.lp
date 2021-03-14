@@ -13,7 +13,7 @@ higher_ranking_than(Boss, Person) :-
     supervisor_to(Boss, Person).
 
 higher_ranking_than(HigherPerson, LowerPerson) :-
-    higher_ranking_than(HigherPerson, MidPerson)
+    higher_ranking_than(HigherPerson, MidPerson),
     supervisor_to(MidPerson, LowerPerson).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

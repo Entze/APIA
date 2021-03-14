@@ -85,7 +85,8 @@ exogenous_action(stop_working(Actor)) :-
 
 % schedule_meeting(Actor, Meeting)
 physical_action(schedule_meeting(Actor, Meeting)) :-
-    agent(Actor).
+    agent(Actor),
+    meeting(Meeting).
 
 agent_action(schedule_meeting(Actor, Meeting)) :-
     physical_action(schedule_meeting(Actor, Meeting)),
@@ -97,7 +98,8 @@ exogenous_action(schedule_meeting(Actor, Meeting)) :-
 
 % classify_meeting(Actor, Meeting)
 physical_action(classify_meeting(Actor, Meeting)) :-
-    agent(Actor).
+    agent(Actor),
+    meeting(Meeting).
 
 agent_action(classify_meeting(Actor, Meeting)) :-
     physical_action(classify_meeting(Actor, Meeting)),
@@ -109,7 +111,9 @@ exogenous_action(classify_meeting(Actor, Meeting)) :-
 
 % invite_to_meeting(Actor, Meeting, Person)
 physical_action(invite_to_meeting(Actor, Meeting, Person)) :-
-    agent(Actor).
+    agent(Actor),
+    meeting(Meeting),
+    person(Person).
 
 agent_action(invite_to_meeting(Actor, Meeting, Person)) :-
     physical_action(invite_to_meeting(Actor, Meeting, Person)),
@@ -121,7 +125,8 @@ exogenous_action(invite_to_meeting(Actor, Meeting, Person)) :-
 
 % hold_meeting(Actor, Meeting)
 physical_action(hold_meeting(Actor, Meeting)) :-
-    agent(Actor).
+    agent(Actor),
+    meeting(Meeting).
 
 agent_action(hold_meeting(Actor, Meeting)) :-
     physical_action(hold_meeting(Actor, Meeting)),
@@ -181,11 +186,13 @@ holds(next_meeting(Meeting + 1), timestep) :-
 %   OtherMeeting != Meeting.
 -holds(next_meeting(OtherMeeting), timestep) :-
     holds(next_meeting(Meeting), timestep),
+    meeting(OtherMeeting),
     OtherMeeting != Meeting.
 
 % impossible schedule_meeting(Actor, Meeting) if
 %   -next_meeting(Meeting)
 -occurs(schedule_meeting(Actor, Meeting), timestep) :-
+    person(Actor),
     -holds(next_meeting(Meeting), timestep).
 
 % -----------------------------------------------------------------------
@@ -198,7 +205,8 @@ holds(meeting_classified(Meeting), timestep + 1) :-
 % impossible classify_meeting(Actor, Meeting) if
 %   meeting_classified(Meeting)
 impossible(classify_meeting(Actor, Meeting), timestep) :-
-    meeting_classified(Meeting),
+    person(Actor),
+    meeting_classified(Meeting).
 
 % -----------------------------------------------------------------------
 
@@ -210,7 +218,8 @@ holds(meeting_attendee(Meeting, Person), timestep + 1) :-
 % impossible invite_to_meeting(Actor, Meeting, Person) if
 %   meeting_attendee(Meeting, Person)
 impossible(invite_to_meeting(Actor, Meeting, Person), timestep) :-
-    meeting_attendee(Meeting, Person),
+    person(Actor),
+    meeting_attendee(Meeting, Person).
 
 % -----------------------------------------------------------------------
 

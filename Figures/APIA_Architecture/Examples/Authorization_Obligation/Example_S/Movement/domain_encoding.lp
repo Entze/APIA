@@ -9,7 +9,7 @@
 % room(Room)
 % location_room(Location, Room)
 % conference_room(Room)
-% classification(room(Room), Classification)
+% room_classified(Room)
 
 % path(Location1, Location2)
 % door(Location1, Location2)
@@ -112,7 +112,7 @@ holds(object_location(Object, ToLocation, ObjectCount + 1), timestep + 1) :-
     object(Object),
     occurs(move(Actor, ToLocation), timestep),
     holds(person_holding_object(Actor, Object), timestep),
-    holds(object_location(Object, ToLocation, ObjectCount), timestep),
+    holds(object_location(Object, ToLocation, ObjectCount), timestep).
 
 % move(Actor, ToLocation)
 %   causes object_location(Object, FromLocation, ObjectCount - 1)
@@ -126,7 +126,7 @@ holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
     occurs(move(Actor, ToLocation), timestep),
     holds(person_holding_object(Actor, Object), timestep),
     holds(person_location(Actor, FromLocation), timestep),
-    holds(object_location(Object, FromLocation, ObjectCount),
+    holds(object_location(Object, FromLocation, ObjectCount), timestep).
 
 % -------------------------------------------------------------------
 
@@ -236,17 +236,21 @@ permitted(move(Actor, ToLocation), timestep) :-
 % "No one without security clearance can enter a classified room."
 %
 % -permitted(move(Actor, ToLocation)) if
-%   location(location(Location), room(Room)),
-%   classified(room(Room))
+%   location_room(ToLocation, Room)
+%   room_classified(Room)
 -permitted(move(Actor, ToLocation), timestep) :-
-    location(location(Location), room(Room)),
-    classified(room(Room)).
+    person(Actor),
+    location(ToLocation),
+    location_room(ToLocation, Room),
+    room_classified(Room).
 
 % "Everyone with electronic devices is not allowed to enter a classified room"
 %
 % -permitted(move(Actor, ToLocation)) if
-%   location(location(Location), room(Room)),
-%   classified(room(Room))
+%   location_room(ToLocation, Room)
+%   room_classified(Room)
 -permitted(move(Actor, ToLocation), timestep) :-
-    location(location(Location), room(Room)),
-    classified(room(Room)).
+    person(Actor),
+    location(ToLocation),
+    location_room(ToLocation, Room),
+    room_classified(Room).
