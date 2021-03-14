@@ -68,23 +68,6 @@ object_weight(Object, Weight) :-
     ),
     Weight = 2.
 
-object_attribute(Object, insertable) :-
-    object(Object),
-    Object = (
-        id_badge;
-        cd
-    ).
-
-object_insertable_in(InnerObject, Object) :-
-    object(InnerObject),
-    object(Object),
-    InnerObject = (
-        id_badge;
-    ),
-    Object = (
-        door
-    ).
-
 object_attribute(Object, power) :-
     object(Object),
     Object = (
@@ -126,32 +109,6 @@ fluent(defined, person_holding_object(Person, Object)) :-
 fluent(defined, person_holding_weight(Person, Weight)) :-
     person(Person),
     Weight = 0..3.
-
-fluent(inertial, object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount)) :-
-    object(Object),
-    object(InnerObject),
-    object_attribute(InnerObject, holdable),
-    max_object_count(InnerObject, MaxCount),
-    InnerObjectCount = 0..MaxCount.
-
-fluent(defined, object_contains_inserted_object((Location, Object), InnerObject)) :-
-    object(Object),
-    object(InnerObject),
-    object_insertable_in(InnerObject, Object).
-
-fluent(defined, object_with_inserted_object_count((Location, Object), ObjectCount)) :-
-    object(Object),
-    object_insertable_in(InnerObject, Object),
-    ObjectCount = 0..5.
-
-fluent(defined, object_contains_inserted_object((Location, Object), InnerObject)) :-
-    object(bject),
-    object(InnerObject),
-    object_insertable_in(InnerObject, Object).
-
-fluent(defined, object_inserted_count((Location, Object), Count)) :-
-    object(Object),
-    Count = 0..3.
 
 fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
     object_attribute(Object, power).
@@ -217,38 +174,6 @@ exogenous_action(ask_to_put_down_object(Person, Object)) :-
     person(Person),
     agent(Actor),
     Person != Actor.
-
-%-------------------------------------------------------
-
-% insert_object(Actor, InnerObject, Object)
-physical_action(insert_object(Actor, InnerObject, Object)) :-
-    person(Actor),
-    object_attribute(InnerObject, insertable),
-    object_insertable_in(InnerObject, Object).
-
-agent_action(insert_object(Actor, InnerObject, Object)) :-
-    physical_action(insert_object(Actor, InnerObject, Object)).
-    agent(Actor).
-
-exogenous_action(insert_object(Actor, InnerObject, Object)) :-
-    physical_action(insert_object(Actor, InnerObject, Object)).
-    not agent(Actor).
-
-%-------------------------------------------------------
-
-% remove_object(Actor, InnerObject, Object)
-physical_action(remove_object(Actor, InnerObject, Object)) :-
-    person(Actor),
-    object_attribute(InnerObject, insertable),
-    object_insertable_in(InnerObject, Object).
-
-agent_action(remove_object(Actor, InnerObject, Object)) :-
-    physical_action(remove_object(Actor, InnerObject, Object)),
-    agent(Actor).
-
-exogenous_action(remove_object(Actor, InnerObject, Object)) :-
-    physical_action(remove_object(Actor, InnerObject, Object)),
-    not agent(Actor).
 
 %-------------------------------------------------------
 
@@ -430,114 +355,6 @@ impossible(ask_to_put_down_object(Person, Object), timestep) :-
 
 % ---------------------------------------------------------------------
 
-% insert_object(Actor, InnerObject, Object)
-%   causes object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount + 1)
-%   if
-%     person_location(Actor, Location)
-%     object_contains_inserted_object((Location, Object), InnerObject InnerObjectCount)
-holds(object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount + 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(insert_object(Actor, InnerObject, Object), timestep),
-    holds(person_location(Actor, Location), timestep),
-    holds(object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount), timestep).
-
-% impossible insert_object(Actor, InnerObject, Object) if
-%   object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount),
-%   max_count(Object, MaxCount),
-%   InnerObjectCount = MaxCount
-impossible(insert_object(Actor, InnerObject, Object), timestep) :-
-    object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount),
-    max_count(Object, MaxCount),
-    InnerObjectCount = MaxCount.
-
-% insert_object(Actor, InnerObject, Object)
-%   causes person_holding_object(Actor, Object, ObjectCount - 1)
-%   if
-%     person_holding_object(Actor, Object, ObjectCount)
-holds(person_holding_object(Actor, Object, ObjectCount - 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(insert_object(Actor, InnerObject, Object), timestep),
-    person_holding_object(Actor, Object, ObjectCount).
-
-% impossible insert_object(Actor, InnerObject, Object) if
-%   person_holding_object(Actor, Object, ObjectCount)
-%   ObjectCount = 0
-impossible(insert_object(Actor, InnerObject, Object), timestep) :-
-    person(Actor),
-    object(Object),
-    person_holding_object(Actor, Object, ObjectCount),
-    ObjectCount = 0.
-
-% impossible insert_object(Actor, InnerObject, Object)
-%   location
-
-% impossible insert_object(Actor, InnerObject, Object) if
-%   not object_insertable(InnerObject, Object)
-% ---
-% impossible(insert_object(Actor, InnerObject, Object), timestep) :-
-%     person(Actor),
-%     object(Object),
-%     not object_holdable(Object).
-
-% ---------------------------------------------------------------------
-
-% ---------------------------------------------------------------------
-
-% remove_object(Actor, InnerObject, Object)
-%   causes object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount - 1)
-%   if
-%     person_location(Actor, Location)
-%     object_contains_inserted_object((Location, Object), InnerObject InnerObjectCount)
-holds(object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount - 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(remove_object(Actor, InnerObject, Object), timestep),
-    holds(person_location(Actor, Location), timestep),
-    holds(object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount), timestep).
-
-% impossible remove_object(Actor, Object) if
-%   object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount),
-%   max_count(Object, MaxCount),
-%   InnerObjectCount = MaxCount
-impossible(remove_object(Actor, InnerObject, Object), timestep) :-
-    object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount),
-    max_count(Object, MaxCount),
-    InnerObjectCount = MaxCount.
-
-% remove_object(Actor, InnerObject, Object)
-%   causes person_holding_object(Actor, Object, ObjectCount + 1)
-%   if
-%     person_holding_object(Actor, Object, ObjectCount)
-holds(person_holding_object(Actor, Object, ObjectCount + 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(remove_object(Actor, InnerObject, Object), timestep),
-    person_holding_object(Actor, Object, ObjectCount).
-
-% impossible remove_object(Actor, InnerObject, Object) if
-%   object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount)
-%   InnerObjectCount = 0
-impossible(remove_object(Actor, InnerObject, Object), timestep) :-
-    person(Actor),
-    object(Object),
-    object_contains_inserted_object((Location, Object), InnerObject, InnerObjectCount),
-    InnerObjectCount = 0
-
-% impossible remove_object(Actor, InnerObject, Object)
-%   location
-
-% impossible remove_object(Actor, InnerObject, Object) if
-%   not object_insertable(InnerObject, Object)
-% ---
-% impossible(remove_object(Actor, InnerObject, Object), timestep) :-
-%     person(Actor),
-%     object(Object),
-%     not object_holdable(Object).
-
-% ---------------------------------------------------------------------
-
 % turn_on_object(Actor, Object)
 %   causes object_turned_on(Location, Object, ObjectCount + 1)
 %   if
@@ -601,16 +418,12 @@ impossible(turn_off_object(Actor, Object), timestep) :-
 %   if
 %     person_holding_object(Actor, Object)
 %     object_location(Object, ToLocation, ObjectCount)
-%     object_inserted_count((Location, Object), InsertCount)
-%     InsertCount = 0
 holds(object_location(Object, ToLocation, ObjectCount + 1), timestep + 1) :-
     person(Actor),
     object(Object),
     occurs(move(Actor, ToLocation), timestep),
     holds(person_holding_object(Actor, Object), timestep),
     holds(object_location(Object, ToLocation, ObjectCount), timestep),
-    holds(object_inserted_count((Location, Object), InsertCount), timestep),
-    InsertCount = 0.
 
 % move(Actor, ToLocation)
 %   causes object_location(Object, FromLocation, ObjectCount - 1)
@@ -618,8 +431,6 @@ holds(object_location(Object, ToLocation, ObjectCount + 1), timestep + 1) :-
 %     person_holding_object(Actor, Object),
 %     person_location(Actor, FromLocation),
 %     object_location(Object, FromLocation, ObjectCount)
-%     object_inserted_count((Location, Object), InsertCount)
-%     InsertCount = 0
 holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
     person(Actor),
     object(Object),
@@ -627,38 +438,6 @@ holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
     holds(person_holding_object(Actor, Object), timestep),
     holds(person_location(Actor, FromLocation), timestep),
     holds(object_location(Object, FromLocation, ObjectCount),
-    holds(object_inserted_count((Location, Object), InsertCount), timestep),
-    InsertCount = 0.
-
-% impossible move(Actor, ToLocation) if
-%   causes object_location(Object, FromLocation, ObjectCount - 1)
-%   if
-%     person_holding_object(Actor, Object),
-%     person_location(Actor, FromLocation),
-%     object_location(Object, FromLocation, ObjectCount)
-%     object_inserted_count((Location, Object), InsertCount)
-%     InsertCount = 0
-holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(move(Actor, ToLocation), timestep),
-    holds(person_holding_object(Actor, Object), timestep),
-    holds(person_location(Actor, FromLocation), timestep),
-    holds(object_location(Object, FromLocation, ObjectCount),
-    holds(object_inserted_count((Location, Object), InsertCount), timestep),
-    InsertCount = 0.
-
-% move(Actor, ToLocation)
-%   causes object_location(Object, ToLocation, ObjectCount)
-%   if
-%     object_contains_inserted_object((Location, Object), InnerObject)
-%     person_holding_object(Actor, Object)
-holds(object_location(Object, ToLocation), timestep + 1) :-
-    person(Actor),
-    object(Object),
-    occurs(move(Actor, ToLocation), timestep),
-    holds(object_contains_inserted_object((Location, Object), InnerObject), timestep),
-    holds(person_holding_object(Actor, Object), timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
