@@ -1,12 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% location(Location)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% location(Location)
 % cubical(Location)
 % private_office(Location)
 
 % room(Room)
+% main_room(Room)
 % location_room(Location, Room)
 % conference_room(Room)
 % room_classified(Room)
@@ -15,6 +17,8 @@
 % door(Location1, Location2)
 % door_has_lock(Location1, Location2)
 % door_autolock_pause(FromLocation, ToLocation, Timesteps)
+
+% action_duration(Action, Duration)
 
 path(Location2, Location1) :-
     path(Location1, Location2).
@@ -37,6 +41,12 @@ fluent(inertial, door_locked(FromLocation, ToLocation)) :-
 fluent(inertial, door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)) :-
     door_has_lock(FromLocation, ToLocation),
     TimestepsLeft = 0..3.
+
+fluent(inertial, time(Hour, Minute)) :-
+    Hour = 0..23,
+    Minute = (0; 15; 30; 45).
+
+fluent(defined, time_business_hours).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -207,6 +217,42 @@ holds(door_locked(FromLocation, ToLocation), timestep) :-
     occurs(_, timestep),
     holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
     TimestempsLeft = 1.
+
+% -------------------------------------------------------------------
+
+% Action
+%   causes time(NewHour, NewMinute)
+%   if
+%     time(Hour, Minute),
+%     action_duration(Action, Duration)
+%     NewTime = (Hour * 60 + Minute) + Duration
+%     NewMinute = NewTime \ 60
+%     NewHour = (NewTime / 60) \ 24
+holds(time(NewHour, NewMinute), timestep + 1) :-
+    occurs(Action, timestep),
+    action_duration(Action, Duration),
+    holds(time(Hour, Minute), timestep),
+    NewTime = (Hour * 60 + Minute) + Duration,
+    NewMinute = NewTime \ 60,
+    NewHour = (NewTime / 60) \ 24.
+
+% -time(OtherHour, Minute) if
+%   time(Hour, Minute)
+-holds(time(OtherHour, OtherMinute), timestep) :-
+    holds(time(Hour, Minute), timestep),
+    fluent(inertial, time(OtherHour, OtherMinute)),
+    (Hour, Minute) != (OtherHour, OtherMinute).
+
+% -------------------------------------------------------------------
+
+% time_business_hours if
+%   time(Hour, Minute),
+%   Hour >= 8,
+%   Hour < 5
+holds(time_business_hours, timestep) :-
+    holds(time(Hour, Minute), timestep),
+    Hour >= 8,
+    Hour < 5.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
