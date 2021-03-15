@@ -21,17 +21,17 @@ invalid(fluent(FluentType, Fluent), Reason) :-
     fluent(FluentType, Fluent),
     FluentType != defined,
     FluentType != inertial,
-    Reason = "Invalid FluentType".
+    Reason = @str_format("Invalid FluentType").
 
 invalid(holds(Fluent, Timestep), Reason) :-
     holds(Fluent, Timestep),
     not fluent(_, Fluent),
-    Reason = "Fluent is not defined in fluent/2".
+    Reason = @str_format("Fluent is not defined in fluent/2").
 
 invalid(occurs(Action, Timestep), Reason) :-
     occurs(Action, Timestep),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -40,38 +40,38 @@ invalid(action(Action), Reason) :-
     not agent_action(Action),
     not exogenous_action(Action),
     Action != wait,
-    Reason = "Action is neither an agent action nor an exogenous action".
+    Reason = @str_format("Action is neither an agent action nor an exogenous action").
 
 invalid(action(Action), Reason) :-
     action(Action),
     not physical_action(Action),
     not mental_action(Action),
     Action != wait,
-    Reason = "Action is neither a physical action nor a mental action".
+    Reason = @str_format("Action is neither a physical action nor a mental action").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Authorization (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(permitted(Action), Reason) :-
     permitted(Action),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 -invalid(permitted(Action), Reason) :-
     -permitted(Action),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Authorization (with timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(permitted(Action, Timestep), Reason) :-
     permitted(Action, Timestep),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 -invalid(permitted(Action, Timestep), Reason) :-
     -permitted(Action, Timestep),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 % ------------------------------------------------------------------------------------------
 
@@ -97,17 +97,17 @@ invalid(obl(Action), Reason) :-
     obl(Action),
     not action(Action),
     not action(neg(Action)),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 -invalid(obl(Action), Reason) :-
     -obl(Action),
     not action(Action),
     not action(neg(Action)),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 invalid(obl(neg(neg(Action))), Reason) :-
     obl(neg(neg(Action))),
-    Reason = "Double neg() in obl".
+    Reason = @str_format("Double neg() in obl").
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (with timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -116,31 +116,31 @@ invalid(obl(Action, Timestep), Reason) :-
     obl(Action, Timestep),
     @function_signature(Action) != "neg/1",
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 invalid(obl(Action, Timestep), Reason) :-
     obl(neg(Action), Timestep),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 invalid(neg(obl(Action, Timestep)), Reason) :-
     -obl(Action, Timestep),
     @function_signature(Action) != "neg/1",
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 invalid(neg(obl(Action, Timestep)), Reason) :-
     -obl(neg(Action), Timestep),
     not action(Action),
-    Reason = "Action is not defined in action/1".
+    Reason = @str_format("Action is not defined in action/1").
 
 invalid(obl(neg(neg(Action)), Timestep), Reason) :-
     obl(neg(neg(Action)), Timestep),
-    Reason = "Double neg() in obl".
+    Reason = @str_format("Double neg() in obl").
 
 invalid(neg(obl(neg(neg(Action)), Timestep)), Reason) :-
     -obl(neg(neg(Action)), Timestep),
-    Reason = "Double neg() in -obl".
+    Reason = @str_format("Double neg() in -obl").
 
 % ------------------------------------------------------------------------------------------
 
@@ -164,4 +164,4 @@ invalid(auth_compliance(ComplianceLevel), Reason) :-
     -auth_compliance(ComplianceLevel),
     ComplianceLevel != strong,
     ComplianceLevel != weak,
-    Reason = "Invalid authorization compliance level".
+    Reason = @str_format("Invalid authorization compliance level").
