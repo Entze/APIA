@@ -12,7 +12,7 @@ MAX_TIMESTEP=$2
 shift 2
 FILES=( "$@" )
 
-DEBUG=
+# Set DEBUG to '', 'debug', or 'trace'
 
 GLOBAL_FILES=(
     aaa_axioms.lp
