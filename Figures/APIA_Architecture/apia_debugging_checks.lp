@@ -94,21 +94,45 @@ invalid(obl(neg(neg(Action))), Reason) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (with timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+#script(python)
+
+import clingo
+
+
+def function_signature(symbol: clingo.Symbol) -> str:
+    return f'{symbol.name}/{len(symbol.arguments)}'
+
+#end.
+
 invalid(obl(Action, Timestep), Reason) :-
     obl(Action, Timestep),
+    @function_signature(Action) != "neg/1",
     not action(Action),
-    not action(neg(Action)),
     Reason = "Action is not defined in action/1".
 
--invalid(obl(Action, Timestep), Reason) :-
-    -obl(Action, Timestep),
+invalid(obl(Action, Timestep), Reason) :-
+    obl(neg(Action), Timestep),
     not action(Action),
-    not action(neg(Action)),
+    Reason = "Action is not defined in action/1".
+
+invalid(neg(obl(Action, Timestep)), Reason) :-
+    -obl(Action, Timestep),
+    @function_signature(Action) != "neg/1",
+    not action(Action),
+    Reason = "Action is not defined in action/1".
+
+invalid(neg(obl(Action, Timestep)), Reason) :-
+    -obl(neg(Action), Timestep),
+    not action(Action),
     Reason = "Action is not defined in action/1".
 
 invalid(obl(neg(neg(Action)), Timestep), Reason) :-
     obl(neg(neg(Action)), Timestep),
     Reason = "Double neg() in obl".
+
+invalid(neg(obl(neg(neg(Action)), Timestep)), Reason) :-
+    -obl(neg(neg(Action)), Timestep),
+    Reason = "Double neg() in -obl".
 
 % ------------------------------------------------------------------------------------------
 
