@@ -42,42 +42,43 @@ obl_compliant :-
     not -obl_compliant.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aopl_sanity_check(timestep).
 % Note: Our additions
 
 % An obligation policy can only describe agent actions (and wait)
 
 :-
-    obl(Action, Timestep),
+    obl(Action, timestep),
     action(Action),
     Action != wait,
     not agent_action(Action).
 
 :-
-    obl(neg(Action), Timestep),
+    obl(neg(Action), timestep),
     action(Action),
     Action != wait,
     not agent_action(Action).
 
 % An obligation policy cannot be contradictory
 
--obl(neg(Action), Timestep) :-
-    obl(Action, Timestep),
+-obl(neg(Action), timestep) :-
+    obl(Action, timestep),
     action(Action).
 
--obl(Action, Timestep) :-
-    obl(neg(Action), Timestep),
+-obl(Action, timestep) :-
+    obl(neg(Action), timestep),
     action(Action).
 
 % If an agent is obligated to perform an action,
 % the action must be at least weakly compliant with its authorization policy
 :-
     action(Action),
-    obl(Action, Timestep),
-    -permitted(Action, Timestep).
+    obl(Action, timestep),
+    -permitted(Action, timestep).
 
 % If an agent is obligated to abstain from an action,
 % the action cannot be explicitly permitted under its authorization policy
 :-
     action(Action),
-    obl(neg(Action), Timestep),
-    permitted(Action, Timestep).
+    obl(neg(Action), timestep),
+    permitted(Action, timestep).

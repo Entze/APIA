@@ -31,18 +31,19 @@ auth_compliance(weak) :-
     not -auth_compliance(weak).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aopl_sanity_check(timestep).
 % Note: Our additions
 
 % An authorizaiton policy can only describe agent actions (and wait)
 
 :-
-    permitted(Action, Timestep),
+    permitted(Action, timestep),
     action(Action),
     Action != wait,
     not agent_action(Action).
 
 :-
-    -permitted(Action, Timestep),
+    -permitted(Action, timestep),
     action(Action),
     Action != wait,
     not agent_action(Action).

@@ -46,6 +46,10 @@ def generate_aia_subprograms_to_ground(current_timestep: int, max_timestep: int,
     if step_number >= 2:
         yield ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(current_timestep, max_activity_length))
 
+    # aopl_sanity_check(timestep)
+    yield from (ASPSubprogramInstantiation(name='aopl_sanity_check', arguments=(timestep,))
+                for timestep in range(max_timestep + 1))
+
 
 def main(clingo_control: clingo.Control):
     max_test_number = clingo_control.get_const('test').number
