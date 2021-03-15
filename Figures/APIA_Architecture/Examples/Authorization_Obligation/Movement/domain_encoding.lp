@@ -261,7 +261,7 @@ holds(time_business_hours, timestep) :-
 %
 % normally permitted(move(Actor, ToLocation))
 permitted(move(Actor, ToLocation), timestep) :-
-    person(Actor),
+    agent(Actor),
     location(ToLocation),
     not -permitted(move(Actor, ToLocation), timestep).
 
@@ -285,7 +285,7 @@ permitted(move(Actor, ToLocation), timestep) :-
 %   location_room(ToLocation, Room)
 %   room_classified(Room)
 -permitted(move(Actor, ToLocation), timestep) :-
-    person(Actor),
+    agent(Actor),
     location(ToLocation),
     location_room(ToLocation, Room),
     room_classified(Room).
@@ -296,7 +296,7 @@ permitted(move(Actor, ToLocation), timestep) :-
 %   location_room(ToLocation, Room)
 %   room_classified(Room)
 -permitted(move(Actor, ToLocation), timestep) :-
-    person(Actor),
+    agent(Actor),
     location(ToLocation),
     location_room(ToLocation, Room),
     room_classified(Room).

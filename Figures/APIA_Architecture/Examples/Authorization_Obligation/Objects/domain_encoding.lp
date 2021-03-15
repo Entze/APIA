@@ -170,15 +170,10 @@ physical_action(ask_to_put_down_object(Person, Object)) :-
     object(Object).
 
 agent_action(ask_to_put_down_object(Person, Object)) :-
-    physical_action(ask_to_put_down_object(Person, Object)),
-    agent(Actor),
-    Person = Actor.
+    physical_action(ask_to_put_down_object(Person, Object)).
 
 exogenous_action(ask_to_put_down_object(Person, Object)) :-
-    physical_action(ask_to_put_down_object(Person, Object)),
-    person(Person),
-    agent(Actor),
-    Person != Actor.
+    physical_action(ask_to_put_down_object(Person, Object)).
 
 %-------------------------------------------------------
 
@@ -190,14 +185,11 @@ physical_action(turn_on_object(Actor, Object)) :-
 
 agent_action(turn_on_object(Actor, Object)) :-
     physical_action(turn_on_object(Actor, Object)),
-    agent(Actor),
-    Person = Actor.
+    agent(Actor).
 
 exogenous_action(turn_on_object(Actor, Object)) :-
     physical_action(turn_on_object(Actor, Object)),
-    person(Person),
-    agent(Actor),
-    Person != Actor.
+    not agent(Actor).
 
 %-------------------------------------------------------
 
@@ -209,14 +201,11 @@ physical_action(turn_off_object(Actor, Object)) :-
 
 agent_action(turn_off_object(Actor, Object)) :-
     physical_action(turn_off_object(Actor, Object)),
-    agent(Actor),
-    Person = Actor.
+    agent(Actor).
 
 exogenous_action(turn_off_object(Actor, Object)) :-
     physical_action(turn_off_object(Actor, Object)),
-    person(Person),
-    agent(Actor),
-    Person != Actor.
+    not agent(Actor).
 
 %-------------------------------------------------------
 
@@ -232,9 +221,7 @@ agent_action(sit_on_object(Actor, Object)) :-
 
 exogenous_action(sit_on_object(Actor, Object)) :-
     physical_action(sit_on_object(Actor, Object)),
-    person(Person),
-    agent(Actor),
-    Person != Actor.
+    not agent(Actor).
 
 %-------------------------------------------------------
 
@@ -248,9 +235,7 @@ agent_action(stand_up(Actor)) :-
 
 exogenous_action(stand_up(Actor)) :-
     physical_action(stand_up(Actor)),
-    person(Person),
-    agent(Actor),
-    Person != Actor.
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
