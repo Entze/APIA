@@ -202,6 +202,14 @@ invalid(neg(obl(neg(neg(Action)), Timestep)), Reason) :-
 
 % ------------------------------------------------------------------------------------------
 
+invalid(obl(Action, Timestep), Reason) :-
+    action(Action),
+    obl(Action, Timestep),
+    obl(neg(Action), Timestep),
+    Reason = @str_format("obl({0}) contradicts obl(-{0})", Action).
+
+% ------------------------------------------------------------------------------------------
+
 -obl_compliant(Action, Timestep) :-
     obl(Action, Timestep),
     agent_action(Action),
@@ -215,6 +223,20 @@ invalid(neg(obl(neg(neg(Action)), Timestep)), Reason) :-
 obl_compliant(Happening, Timestep) :-
     obl(Happening, Timestep),
     not -obl_compliant(Happening, Timestep).
+
+% ------------------------------------------------------------------------------------------
+
+invalid(obl(Action, Timestep), Reason) :-
+    action(Action),
+    obl(Action, Timestep),
+    -permitted(Action, Timestep),
+    Reason = @str_format("obl({0}) contradicts -permitted({0})", Action).
+
+invalid(obl(neg(Action), Timestep), Reason) :-
+    action(Action),
+    obl(neg(Action), Timestep),
+    permitted(Action, Timestep),
+    Reason = @str_format("obl(-{0}) contradicts permitted({0})", Action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Compliance %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
