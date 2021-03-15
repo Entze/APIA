@@ -2,13 +2,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% light(Room)
-% chair()
-% id_badge(Person)
-% computer(Computer)
-% cellphone(Cellphone)
-% cd(CD)
-
 object(Object) :-
     Object = (
         id_badge;
@@ -18,10 +11,6 @@ object(Object) :-
         computer;
         chair
     ).
-
-% max_object_count(ObjectClass, MaxCount)
-
-% -------------------------------------------------------
 
 object_attribute(Object, holdable) :-
     object(Object),
