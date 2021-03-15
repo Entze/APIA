@@ -1,3 +1,13 @@
+#script(python)
+
+import clingo
+
+
+def function_signature(symbol: clingo.Symbol) -> str:
+    return f'{symbol.name}/{len(symbol.arguments)}'
+
+#end.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% General %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(fluent(FluentType, Fluent), Reason) :-
@@ -94,15 +104,6 @@ invalid(obl(neg(neg(Action))), Reason) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (with timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-#script(python)
-
-import clingo
-
-
-def function_signature(symbol: clingo.Symbol) -> str:
-    return f'{symbol.name}/{len(symbol.arguments)}'
-
-#end.
 
 invalid(obl(Action, Timestep), Reason) :-
     obl(Action, Timestep),
