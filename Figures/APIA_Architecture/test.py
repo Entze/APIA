@@ -31,7 +31,7 @@ def function_signature(symbol: clingo.Symbol) -> str:
     return f'{symbol.name}/{len(symbol.arguments)}'
 
 
-def generate_aia_subprograms_to_ground(current_timestep: int, max_timestep: int, step_number: AIALoopStep):
+def _generate_aia_subprograms_to_ground(current_timestep: int, max_timestep: int, step_number: AIALoopStep):
     # base
     yield ASPSubprogramInstantiation(name='base', arguments=())
 
@@ -68,7 +68,7 @@ def main(clingo_control: clingo.Control):
     max_timestep = clingo_control.get_const('max_timestep').number
     aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
 
-    aia_subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number)
+    aia_subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number)
 
     # test_X
     subprograms_to_ground = tuple(chain(
