@@ -59,7 +59,7 @@ abnormal(require_auth_compliance(weak)) :-
 % ------------------------------------------------------------------------------
 
 % Either:
-%   - Maximize compliance with an authorization policy
+%   - Maximize compliance with an authorization policy (cautious)
 %   - Minimize activity length (within compliance threshold). See above options
 
 % Option 1
