@@ -29,11 +29,11 @@ fluent(defined, meeting_attendees_count(Meeting, AttendeeCount)) :-
     AttendeeCount = 0..5.
 
 % meeting_all_attendees_present(Meeting)
-fluent(defined, meeting_all_attendees_present(Meeting)) :-
+fluent(defined_negative, meeting_all_attendees_present(Meeting)) :-
     meeting(Meeting).
 
 % meeting_all_attendees_not_busy(Meeting)
-fluent(defined, meeting_all_attendees_not_busy(Meeting)) :-
+fluent(defined_negative, meeting_all_attendees_not_busy(Meeting)) :-
     meeting(Meeting).
 
 % meeting_held(Meeting)
@@ -238,15 +238,6 @@ impossible(invite_to_meeting(Actor, Meeting, Person), timestep) :-
     holds(person_location(Person, Location), timestep),
     AgentLocation != Location.
 
-% meeting_all_attendees_present(Meeting) if
-%   -meeting_all_attendees_present(Meeting)
-%
-% (not-negative to positive closed-world assumption)
-% (Axioms only provide not-positive to negative closed-world assumption)
-holds(meeting_all_attendees_present(Meeting), timestep) :-
-    meeting(Meeting),
-    not -holds(meeting_all_attendees_present(Meeting), timestep).
-
 % -----------------------------------------------------------------------
 
 % -meeting_all_attendees_not_busy(Meeting) if
@@ -255,15 +246,6 @@ holds(meeting_all_attendees_present(Meeting), timestep) :-
 -holds(meeting_all_attendees_not_busy(Meeting), timestep) :-
     holds(meeting_attendee(Meeting, Person), timestep),
     holds(busy_working(Person), timestep).
-
-% meeting_all_attendees_not_busy(Meeting) if
-%   -meeting_all_attendees_not_busy(Meeting)
-%
-% (not-negative to positive closed-world assumption)
-% (Axioms only provide not-positive to negative closed-world assumption)
-holds(meeting_all_attendees_not_busy(Meeting), timestep) :-
-    meeting(Meeting),
-    not -holds(meeting_all_attendees_not_busy(Meeting), timestep).
 
 % -----------------------------------------------------------------------
 
@@ -386,6 +368,8 @@ permitted(hold_meeting(Actor, Meeting))  :-
 %   (not in classified room)
 
 % "No one can enter a classified meeting or location when an electronic device"
+%
+% TODO: Make this an obligation policy
 %
 % -permitted(hold_meeting(Actor, Meeting)) if
 %   meeting_classified(Meeting),

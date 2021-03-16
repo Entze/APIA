@@ -59,7 +59,7 @@ abnormal(require_auth_compliance(weak)) :-
 % ------------------------------------------------------------------------------
 
 % Either:
-%   - Maximize compliance with an authorization policy
+%   - Maximize compliance with an authorization policy (cautious)
 %   - Minimize activity length (within compliance threshold). See above options
 
 % Option 1
@@ -97,7 +97,6 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 
 % ------------------------------------------------------------------------------
 
-#program apia_options_obl_refrain_from_action_1.
 % If we are unable to satisfy an obligation policy to abstain from an action while achieving the goal
 % then we either:
 %   - Consider the goal futile (cautious)

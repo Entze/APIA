@@ -22,6 +22,10 @@ holds(Fluent, timestep + 1) :-
     fluent(defined, Fluent),
     not holds(Fluent, timestep).
 
+holds(Fluent, timestep) :-
+    fluent(defined_negative, Fluent),
+    not -holds(Fluent, timestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption for actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program axioms(timestep).
 
