@@ -3,6 +3,7 @@
 invalid(fluent(FluentType, Fluent), Reason) :-
     fluent(FluentType, Fluent),
     FluentType != defined,
+    FluentType != defined_negative,
     FluentType != inertial,
     Reason = @str_format("Invalid FluentType: {}", FluentType).
 
