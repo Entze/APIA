@@ -46,10 +46,12 @@ fluent(inertial, door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft
     door_has_lock(FromLocation, ToLocation),
     TimestepsLeft = 0..3.
 
+% time(Hour, Minute)
 fluent(inertial, time(Hour, Minute)) :-
     Hour = 0..23,
     Minute = (0; 15; 30; 45).
 
+% time_business_hours
 fluent(defined, time_business_hours).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
