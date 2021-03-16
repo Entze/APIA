@@ -369,6 +369,8 @@ permitted(hold_meeting(Actor, Meeting))  :-
 
 % "No one can enter a classified meeting or location when an electronic device"
 %
+% TODO: Make this an obligation policy
+%
 % -permitted(hold_meeting(Actor, Meeting)) if
 %   meeting_classified(Meeting),
 %   meeting_attendee(Meeting, Person),
