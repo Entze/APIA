@@ -108,10 +108,6 @@ room_classified(Room) :-
 
 % -----------------------------------------------------------------------
 
-path(Location1, Location2) :-
-    Location1 = 1,
-    Location2 = 2.
-
 % Doors are not necessarily two-way
 
 door(FromLocation, ToLocation) :-
