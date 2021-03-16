@@ -103,7 +103,7 @@ room_classified(Room) :-
     room(Room),
     Room = (
         "room_classified";
-        @str_format("room_classified_conference_{}", RoomNumber)
+        @str_format("room_classified_conference_{}", 1)
     ).
 
 % -----------------------------------------------------------------------
