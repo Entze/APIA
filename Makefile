@@ -14,7 +14,7 @@ CLINGO_FIGURES := $(shell find Figures/ -name '*.clingo.sh' -type f)
 
 GRAPHVIZ_FILTERS := dot neato twopi circo fdp sfdp patchwork osage
 
-LATEX_SOURCES := $(wildcard *.tex) $(wildcard */*.tex) $(wildcard *.bib)
+LATEX_SOURCES := $(shell find . -mindepth 2 -type f '(' -name '*.tex' -or -name '*.bib' ')' | sed 's|^\./||g')
 LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%.$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES)) $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
 REMOTE_RESOURCES :=
 
