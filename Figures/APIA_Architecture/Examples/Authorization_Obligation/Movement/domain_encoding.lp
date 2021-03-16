@@ -26,6 +26,10 @@ path(Location2, Location1) :-
 path(Location1, Location2) :-
     door(Location1, Location2).
 
+action_duration(Action, Duration) :-
+    mental_action(Action),
+    Duration = 0.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % person_location(Person, Location)
@@ -225,12 +229,14 @@ holds(door_locked(FromLocation, ToLocation), timestep) :-
 %   if
 %     time(Hour, Minute),
 %     action_duration(Action, Duration)
+%     Duration > 0
 %     NewTime = (Hour * 60 + Minute) + Duration
 %     NewMinute = NewTime \ 60
 %     NewHour = (NewTime / 60) \ 24
 holds(time(NewHour, NewMinute), timestep + 1) :-
     occurs(Action, timestep),
     action_duration(Action, Duration),
+    Duration > 0,
     holds(time(Hour, Minute), timestep),
     NewTime = (Hour * 60 + Minute) + Duration,
     NewMinute = NewTime \ 60,
