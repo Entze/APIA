@@ -4,6 +4,10 @@
 
 location(Location) :-
     Location = (
+        % Double-door building entry
+        "location_outside_1";
+        "location_inside_1";
+
         % Main room
         @str_format("location_office_space_{}", 1..11);
         @str_format("location_cubical_{}", 1..4);
@@ -109,10 +113,14 @@ path(Location1, Location2) :-
     Location2 = 2.
 
 % Doors are not necessarily two-way
-door(Location1, Location2) :-
-    Location1 = 1,
-    Location2 = 2.
 
-door_has_lock(Location1, Location2) :-
-    Location1 = 1,
-    Location2 = 2.
+door(FromLocation, ToLocation) :-
+    door(ToLocation, FromLocation).
+
+door(FromLocation, ToLocation) :-
+    FromLocation = "location_outside_1",
+    ToLocation = "location_inside_1".
+
+door_has_lock(FromLocation, ToLocation) :-
+    FromLocation = "location_outside_1",
+    ToLocation = "location_inside_1".
