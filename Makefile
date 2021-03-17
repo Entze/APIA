@@ -87,6 +87,12 @@ ifeq ($(INKSCAPE_VERSION), 0)
 	inkscape --without-gui --export-pdf=$@ $<
 endif
 
+%.pdf: %.figure.R
+	./$<
+
+%.pdf: %.figure.py
+	./$<
+
 %.snippet.out.txt: %.snippet.sh
 	-mkdir -p $(@D)
 	cd $(@D) && (./$(notdir $<) > $(notdir $@)); test $$? -le 32
