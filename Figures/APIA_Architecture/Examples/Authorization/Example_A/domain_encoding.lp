@@ -35,14 +35,12 @@ physical_action(move_through(Actor, Door)) :-
     door(Door).
 
 agent_action(move_through(Actor, Door)) :-
-    person(Actor),
-    agent(Actor),
-    door(Door).
+    physical_action(move_through(Actor, Door)),
+    agent(Actor).
 
 exogenous_action(move_through(Actor, Door)) :-
-    person(Actor),
-    not agent(Actor),
-    door(Door).
+    physical_action(move_through(Actor, Door)),
+    not agent(Actor).
 
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
@@ -50,14 +48,12 @@ physical_action(lock_door(Actor, Door)) :-
     door(Door).
 
 agent_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    agent(Actor),
-    door(Door).
+    physical_action(lock_door(Actor, Door)),
+    agent(Actor).
 
 exogenous_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    not agent(Actor),
-    door(Door).
+    physical_action(lock_door(Actor, Door)),
+    not agent(Actor).
 
 % unlock_door(Actor, Door)
 physical_action(unlock_door(Actor, Door)) :-
@@ -65,14 +61,12 @@ physical_action(unlock_door(Actor, Door)) :-
     door(Door).
 
 agent_action(unlock_door(Actor, Door)) :-
-    person(Actor),
-    agent(Actor),
-    door(Door).
+    physical_action(unlock_door(Actor, Door)),
+    agent(Actor).
 
 exogenous_action(unlock_door(Actor, Door)) :-
-    person(Actor),
-    not agent(Actor),
-    door(Door).
+    physical_action(unlock_door(Actor, Door)),
+    not agent(Actor).
 
 % greet(Actor, Person)
 physical_action(greet(Actor, Person)) :-
@@ -81,16 +75,12 @@ physical_action(greet(Actor, Person)) :-
     Actor != Person.
 
 agent_action(greet(Actor, Person)) :-
-    person(Actor),
-    agent(Actor),
-    person(Person),
-    Actor != Person.
+    physical_action(greet(Actor, Person)),
+    agent(Actor).
 
 exogenous_action(greet(Actor, Person)) :-
-    person(Actor),
-    not agent(Actor),
-    person(Person),
-    Actor != Person.
+    physical_action(greet(Actor, Person)),
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
