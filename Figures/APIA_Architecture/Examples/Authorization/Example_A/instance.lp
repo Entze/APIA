@@ -95,10 +95,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Timestep = 0,
     Door = "d34".
 
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d34".
-
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Bob",
