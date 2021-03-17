@@ -889,18 +889,22 @@ In order to simplify the expression of alternatives for which multiple answer se
 \begin{definition}
     A \textit{choice rule} (or \textit{constraint literal}) is an expression of the form~\citep{calimeri_asp-core-2_2020,balduccini_asp_2011}:
     \begin{equation}
-        m\{l_1,l_2, \dots, l_k\}n
+        m \le \{l_1,l_2, \dots, l_k\} \le n
+    \end{equation}
+    or
+    \begin{equation}
+        m \{l_1,l_2, \dots, l_k\} n
     \end{equation}
     where $ l_1,l_2, \dots, l_k $ are literals and $m$, $n$ are arithmetic expressions.
     This expression is satisfied when $m \le |\{ l_1,l_2, \dots, l_k\}| \le n$.
 
     To simplify this syntax even further, one can also use variables to simplify a constraint literal such as~\citep{balduccini_asp_2011}:
     \begin{equation}
-        m\{l(a_1, b_2),l(a_2,b_2), \dots, l(a_k, b_k)\}n
+        m \le \{l(a_1, b_2),l(a_2,b_2), \dots, l(a_k, b_k)\} \le n
     \end{equation}
     into an expression of the form:
     \begin{equation}
-        m\{l(A, B) : dom_a(A), dom_b(B)\}n
+        m \le \{l(A, B) : dom_a(A), dom_b(B)\} \le n
     \end{equation}
     where $dom_a$ and $dom_b$ are function symbols that define the domain of variables $A$ and $B$, respectively.
 \end{definition}
