@@ -5,6 +5,7 @@ watch() {
 }
 
 while true; do
-    watch
     make
+    watch
+    sleep 2
 done
