@@ -26,23 +26,24 @@ door_connects(Door, Room) :-
 door_has_lock(Door) :-
     Door = "d34".
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Starting fluent values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See p. 50 of dissertation
 
--holds(door_locked(Door), Timestep) :-
+-observed(door_locked(Door), Timestep) :-
     Timestep = 0,
     Door = "d34".
 
-holds(in_room(Person, Room), Timestep) :-
+observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Bob",
     Room = "r1".
 
-holds(in_room(Person, Room), Timestep) :-
+observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Alice",
     Room = "r4".
 
--holds(greeted_by(Person, Actor), Timestep) :-
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 0,
     person(Person),
     person(Actor),
