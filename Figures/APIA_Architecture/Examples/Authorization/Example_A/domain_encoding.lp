@@ -154,6 +154,7 @@ impossible(greet(Actor, Person), timestep) :-
     ActorRoom != PersonRoom.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program action_description(timestep).
 
 % "Anyone is allowed to move from any room to any room"
 %
