@@ -10,17 +10,17 @@ SVG_FIGURES := $(shell find Figures/ -name '*.svg' -type f)
 DRAWIO_FIGURES := $(shell find Figures/ -name '*.drawio' -type f)
 MERMAID_FIGURES := $(shell find Figures/ -name '*.mmd' -type f)
 CODE_FIGURES := $(shell find Figures/ -name '*.lp' -type f) $(shell find Figures/ -name '*.txt' -type f)
-CLINGO_FIGURES := $(shell find Figures/ -name '*.clingo.sh' -type f)
+CODE_SNIPPET_FIGURES := $(shell find Figures/ -name '*.snippet.sh' -type f)
 
 GRAPHVIZ_FILTERS := dot neato twopi circo fdp sfdp patchwork osage
 
 LATEX_SOURCES := $(shell find . -mindepth 2 -type f '(' -name '*.tex' -or -name '*.bib' ')' | sed 's|^\./||g')
-LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%.$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES)) $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
+LATEX_RESOURCES := $(wildcard */*.pdf) $(wildcard */*.eps) $(wildcard */*.jpg) $(wildcard */*.png) $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%.$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES))) $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES)) $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES)) $(patsubst %.svg,%.pdf,$(SVG_FIGURES)) $(CODE_FIGURES) $(patsubst %.snippet.sh,%.snippet.txt,$(CODE_SNIPPET_FIGURES)) $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
 REMOTE_RESOURCES :=
 
 build: Thesis.pdf
 
-build-figures: build-graphviz build-plantuml build-svg build-drawio build-mermaid build-clingo
+build-figures: build-graphviz build-plantuml build-svg build-drawio build-mermaid build-code-snippet
 
 build-graphviz: $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%-$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES)))
 
@@ -32,7 +32,7 @@ build-drawio: $(patsubst %.drawio,%.pdf,$(DRAWIO_FIGURES))
 
 build-mermaid: $(patsubst %.mmd,%.pdf,$(MERMAID_FIGURES))
 
-build-clingo: $(patsubst %.clingo.sh,%.clingo.txt,$(CLINGO_FIGURES))
+build-code-snippet: $(patsubst %.snippet.sh,%.snippet.txt,$(CODE_SNIPPET_FIGURES))
 
 .env:
 	echo -n > $@
@@ -87,11 +87,11 @@ ifeq ($(INKSCAPE_VERSION), 0)
 	inkscape --without-gui --export-pdf=$@ $<
 endif
 
-%.clingo.out.txt: %.clingo.sh
+%.snippet.out.txt: %.snippet.sh
 	-mkdir -p $(@D)
 	cd $(@D) && (./$(notdir $<) > $(notdir $@)); test $$? -le 32
 
-%.clingo.txt: %.clingo.sh %.clingo.out.txt
+%.snippet.txt: %.snippet.sh %.snippet.out.txt
 	-mkdir -p $(@D)
 	echo -n '$$ ' > $@
 	head -n 1 $< | perl -pe 's/^#!.*$$\\n//g' >> $@
@@ -101,8 +101,8 @@ clean-latex:
 	latexmk -C
 
 clean-other:
-	find Figures/ -name '*.clingo.txt' -exec rm '{}' \;
-	find Figures/ -name '*.clingo.out.txt' -exec rm '{}' \;
+	find Figures/ -name '*.snippet.txt' -exec rm '{}' \;
+	find Figures/ -name '*.snippet.out.txt' -exec rm '{}' \;
 	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*.$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
 	find Figures/ -name '*.pdf' -exec rm '{}' \;
 	find Figures/ -name '*.svg' -exec rm '{}' \;
@@ -110,6 +110,6 @@ clean-other:
 
 clean: clean-latex clean-other
 
-.PHONY: build build-graphviz build-plantuml build-svg build-clingo clean clean-latex clean-other
+.PHONY: build build-graphviz build-plantuml build-svg build-code-snippet clean clean-latex clean-other
 .SECONDARY:
-.PRECIOUS: %.clingo.txt
+.PRECIOUS: %.snippet.txt

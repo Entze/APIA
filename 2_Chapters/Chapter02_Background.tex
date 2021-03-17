@@ -1070,7 +1070,7 @@ Its logic encoding $lp(s_0)$ would be:
 
 Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as \textsc{clingo}.
 Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
-\lstinputlisting{Figures/APL_Language/01_Initial_Example/run.clingo.txt}
+\lstinputlisting{Figures/APL_Language/01_Initial_Example/run.snippet.txt}
 
 Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
 
@@ -1134,7 +1134,7 @@ So, continuing the previous example, one would write:
 :- permitted(assume_command(c1, m1)).
 \end{lstlisting}
 The logic program $lp(P, s) \cup \{ \leftarrow permitted(assume\_command(c_1, m_1)). \}$ results in:
-\lstinputlisting{Figures/APL_Language/02_Full_Knowledge/strongly_compliant.clingo.txt}
+\lstinputlisting{Figures/APL_Language/02_Full_Knowledge/strongly_compliant.snippet.txt}
 Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
 \subsubsection{Checking Compliance with Partial Knowledge of State}
@@ -1217,19 +1217,19 @@ The encoding of $\delta(V_{lim})$ is as follows:
 %\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/Pm.lp}
 
 The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/strongly_compliant.clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/strongly_compliant.snippet.txt}
 Thus $A$ is not strongly compliant with $P_m$.
 
 The result of logic program \cref{eq:authorization_partial_knowledge_weakly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/weakly_compliant.clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/weakly_compliant.snippet.txt}
 Thus $A$ is not weakly compliant with $P_m$.
 
 The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant.clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant.snippet.txt}
 However, before we can say $A$ is non-compliant, we must first determine whether $P_m$ is categorical.
 To do so, we will rerun the second test giving \textsc{clingo} the option ``0'', which instructs \textsc{clingo} to find every satisfiable model instead of stopping at the first one.
 The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with option ``0'' is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.clingo.txt}
+\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.snippet.txt}
 Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
 
 \subsubsection{Checking Compliance using a History of Past Actions}
@@ -1370,10 +1370,10 @@ $Check_1$ and $Check_2$ are as follows:
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Check_2.lp}
 
 The output of logic program \cref{eq:authorization_history_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1.snippet.txt}
 
 The output of logic program \cref{eq:authorization_history_knowledge_weakly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2.snippet.txt}
 
 By this output, we might be led to say that action $A_1$ is weakly compliant given history $H_n$.
 However, \citet{gelfond_authorization_2008} implicitly assume that the inertia property of inertial fluents is already encoded in logic form.
@@ -1382,8 +1382,8 @@ To do this, we must add the following \textit{inertia axiom} for the inertial fl
 
 With this inertia axiom, \cref{eq:authorization_history_knowledge_strongly_compliant} is inconsistent hence action $A_1$ is strongly compliant given history $H_n$.
 
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1_with_Inertia_Axiom.clingo.txt}
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2_with_Inertia_Axiom.clingo.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1_with_Inertia_Axiom.snippet.txt}
+\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2_with_Inertia_Axiom.snippet.txt}
 
 \subsection{Language $\mathcal{AOPL}$}
 \label{subsec:aopl}
@@ -1641,17 +1641,17 @@ To address $obl(\neg a)$, we write $obl(-Action), \ @is\_positive(Action) = true
 Finally, if we add:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/strongly_compliant.lp}
 we can see that the event $<s_0, A>$ is not strongly compliant:
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/strongly_compliant.clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/strongly_compliant.snippet.txt}
 
 Upon further investigation (which is not shown here for brevity), one can see that this is because our policy $P$ does not have any authorization statements.
 Hence, no action is strongly compliant.
 However, the event $<s_0, A>$ is weakly compliant:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/weakly_compliant.lp}
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/weakly_compliant.clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/weakly_compliant.snippet.txt}
 
 For completeness, the event $<s_0, A>$ is not non-compliant:
 \lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/non_compliant.lp}
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/non_compliant.clingo.txt}
+\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/non_compliant.snippet.txt}
 
 \section{Related Work}
 

@@ -1,6 +1,6 @@
 .codemod.bookmark
-*.clingo.txt
-*.clingo.out.txt
+*.snippet.txt
+*.snippet.out.txt
 *.docx
 *.svg
 
