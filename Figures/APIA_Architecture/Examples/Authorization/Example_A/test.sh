@@ -16,4 +16,11 @@ fi
 
 cd "${SCRIPT_DIR}" || exit 2
 
-../../../test.sh "${TEST_NUM}" "${MAX_TIMESTEP:-12}" domain_encoding.lp instance.lp ../sanity_checks.lp tests.lp
+FILES=(
+    domain_encoding.lp
+    instance.lp
+    ../sanity_checks.lp
+    tests.lp
+)
+
+../../../test.sh "${TEST_NUM}" "${MAX_TIMESTEP:-12}" "${FILES[@]}"
