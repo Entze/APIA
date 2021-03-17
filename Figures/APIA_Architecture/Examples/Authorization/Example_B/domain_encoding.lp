@@ -3,6 +3,7 @@
 % room(Room)
 % door(Door)
 % person(Person)
+% agent(Agent)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -37,17 +38,17 @@ fluent(inertial, greeted_by(Person, Actor)) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % move_through(Actor, Door)
-physical_action(move_through(Actor, Room)) :-
+physical_action(move_through(Actor, Door)) :-
     person(Actor),
-    room(Room).
+    door(Door).
 
-agent_action(move_through(Actor, Room)) :-
-    person(Actor),
-    room(Room).
+agent_action(move_through(Actor, Door)) :-
+    physical_action(move_through(Actor, Door)),
+    agent(Actor).
 
-exogenous_action(move_through(Actor, Room)) :-
-    person(Actor),
-    room(Room).
+exogenous_action(move_through(Actor, Door)) :-
+    physical_action(move_through(Actor, Door)),
+    not agent(Actor).
 
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
@@ -55,12 +56,12 @@ physical_action(lock_door(Actor, Door)) :-
     door(Door).
 
 agent_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door).
+    physical_action(lock_door(Actor, Door)),
+    agent(Actor).
 
 exogenous_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door).
+    physical_action(lock_door(Actor, Door)),
+    not agent(Actor).
 
 % unlock_door(Actor, Door)
 physical_action(unlock_door(Actor, Door)) :-
@@ -68,12 +69,12 @@ physical_action(unlock_door(Actor, Door)) :-
     door(Door).
 
 agent_action(unlock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door).
+    physical_action(unlock_door(Actor, Door)),
+    agent(Actor).
 
 exogenous_action(unlock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door).
+    physical_action(unlock_door(Actor, Door)),
+    not agent(Actor).
 
 % knock_on_door(Actor, Door)
 physical_action(knock_on_door(Actor, Door)) :-
@@ -81,22 +82,24 @@ physical_action(knock_on_door(Actor, Door)) :-
     door(Door).
 
 agent_action(knock_on_door(Actor, Door)) :-
-    person(Actor),
-    door(Door).
+    physical_action(knock_on_door(Actor, Door)),
+    agent(Actor).
 
 exogenous_action(knock_on_door(Actor, Door)) :-
-    person(Actor),
-    door(Door).
+    physical_action(knock_on_door(Actor, Door)),
+    not agent(Actor).
 
 % begin_working(Actor)
 physical_action(begin_working(Actor)) :-
     person(Actor).
 
 agent_action(begin_working(Actor)) :-
-    person(Actor).
+    physical_action(begin_working(Actor)),
+    agent(Actor).
 
 exogenous_action(begin_working(Actor)) :-
-    person(Actor).
+    physical_action(begin_working(Actor)),
+    not agent(Actor).
 
 % greet(Actor, Person)
 physical_action(greet(Actor, Person)) :-
@@ -105,14 +108,12 @@ physical_action(greet(Actor, Person)) :-
     Actor != Person.
 
 agent_action(greet(Actor, Person)) :-
-    person(Actor),
-    person(Person),
-    Actor != Person.
+    physical_action(greet(Actor, Person)),
+    agent(Actor).
 
 exogenous_action(greet(Actor, Person)) :-
-    person(Actor),
-    person(Person),
-    Actor != Person.
+    physical_action(greet(Actor, Person)),
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -194,11 +195,10 @@ holds(busy_working(Actor), timestep + 1) :-
 holds(greeted_by(Person, Actor), timestep + 1) :-
     occurs(greet(Actor, Person), timestep).
 
-% impossible greet(Actor, Person)
-%   if
-%     in_room(Actor, ActorRoom),
-%     in_room(Person, PersonRoom),
-%     ActorRoom != PersonRoom.
+% impossible greet(Actor, Person) if
+%   in_room(Actor, ActorRoom),
+%   in_room(Person, PersonRoom),
+%   ActorRoom != PersonRoom.
 impossible(greet(Actor, Person), timestep) :-
     holds(in_room(Actor, ActorRoom), timestep),
     holds(in_room(Person, PersonRoom), timestep),
@@ -211,7 +211,7 @@ impossible(greet(Actor, Person), timestep) :-
 %
 % permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
-    person(Actor),
+    agent(Actor),
     door(Door).
 
 % "Anyone is allowed to greet a coworker if the coworker is not busy working"
@@ -219,7 +219,7 @@ permitted(move_through(Actor, Door), timestep) :-
 % permitted(greet(Actor, Person)) if
 %   not busy_working(Person)
 permitted(greet(Actor, Person), timestep) :-
-    person(Actor),
+    agent(Actor),
     person(Person),
     not holds(busy_working(Person), timestep),
     Actor != Person.
@@ -232,7 +232,7 @@ permitted(greet(Actor, Person), timestep) :-
 %   door_connects(Door, Room),
 %   knocked_on_door(Door)
 permitted(greet(Actor, Person), timestep) :-
-    person(Actor),
+    agent(Actor),
     person(Person),
     Actor != Person,
     holds(busy_working(Person), timestep),
