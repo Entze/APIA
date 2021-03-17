@@ -111,7 +111,7 @@ clean-code-snippet:
 	find Figures/ -name '*.snippet.out.txt' -exec rm '{}' \;
 
 clean-graphviz:
-	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*.$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
+	find Figures/ '(' -false $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,-or -name '*.$(GRAPHVIZ_FILTER).$(EXT)')) ')' -exec rm '{}' \;
 
 clean-pdf:
 	find Figures/ -name '*.pdf' -exec rm '{}' \;
