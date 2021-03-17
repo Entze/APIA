@@ -100,16 +100,23 @@ endif
 clean-latex:
 	latexmk -C
 
-clean-other:
+clean-code-snippet:
 	find Figures/ -name '*.snippet.txt' -exec rm '{}' \;
 	find Figures/ -name '*.snippet.out.txt' -exec rm '{}' \;
+
+clean-graphviz:
 	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*.$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
+
+clean-pdf:
 	find Figures/ -name '*.pdf' -exec rm '{}' \;
+
+clean-image:
 	find Figures/ -name '*.svg' -exec rm '{}' \;
 	find Figures/ -name '*.png' -exec rm '{}' \;
 
-clean: clean-latex clean-other
+clean-figures: clean-code-snippet clean-graphviz clean-pdf clean-image
+clean: clean-latex clean-figures
 
-.PHONY: build build-graphviz build-plantuml build-svg build-code-snippet clean clean-latex clean-other
+.PHONY: build build-graphviz build-plantuml build-svg build-code-snippet clean clean-figures clean-latex clean-code-snippet clean-graphviz clean-pdf clean-image
 .SECONDARY:
 .PRECIOUS: %.snippet.txt
