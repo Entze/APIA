@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 if (( $# >= 1 )); then
     TEST_NUM=$1
     MAX_TIMESTEP=$2
@@ -11,6 +13,8 @@ else
         exit 1
     fi
 fi
+
+cd "${SCRIPT_DIR}" || exit 2
 
 FILES=(
     example_s.lp
