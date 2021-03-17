@@ -9,6 +9,9 @@ door(Door) :-
 person(Person) :-
     Person = ("Bob"; "Alice").
 
+agent(Agent) :-
+    Agent = "Bob".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 door_connects(Door, Room) :-
@@ -31,6 +34,14 @@ door_has_lock(Door) :-
 
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,
+    Door = "d12".
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
+    Door = "d23".
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
     Door = "d34".
 
 observed(in_room(Person, Room), Timestep) :-
@@ -42,6 +53,14 @@ observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Alice",
     Room = "r4".
+
+-observed(busy_working(Person), Timestep) :-
+    Timestep = 0,
+    Person = ("Alice"; "Bob").
+
+-observed(knocked_on_door(Door), Timestep) :-
+    Timestep = 0,
+    door(Door).
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 0,
