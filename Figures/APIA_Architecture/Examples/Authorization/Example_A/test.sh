@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 if (( $# >= 1 )); then
     TEST_NUM=$1
     MAX_TIMESTEP=$2
@@ -11,5 +13,7 @@ else
         exit 1
     fi
 fi
+
+cd "${SCRIPT_DIR}" || exit 2
 
 ../../../test.sh "${TEST_NUM}" "${MAX_TIMESTEP:-12}" domain_encoding.lp instance.lp ../sanity_checks.lp tests.lp
