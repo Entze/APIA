@@ -2,6 +2,7 @@
 *.clingo.txt
 *.clingo.out.txt
 *.docx
+*.svg
 
 #### TeX ####
 ## Core latex/pdflatex auxiliary files:
