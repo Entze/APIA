@@ -1,5 +1,78 @@
-\chapter{Sample Appendix}
+\chapter{Language $\mathcal{AOPL}$}
 
-% Include data here and other details that fit appropriately in an Appendix.
-%
-% You may have as many appendices as necessary, simply follow this one as a template for including more.
+\subsubsection{Checking Compliance}
+
+To evaluate the compliance of happening $h$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
+
+\begin{gather}
+    lp(obl(h)) =_{def}
+        obl(h). \\
+    lp(\neg obl(h)) =_{def}
+        \neg obl(h). \\
+    lp(obl(h) \textbf{ if } F) =_{def}
+        obl(h) \leftarrow
+            lp(F). \\
+    lp(\neg obl(h) \textbf{ if } F) =_{def}
+        \neg obl(h) \leftarrow
+            lp(F). \\
+    lp(d_i: \textbf{normally } obl(h) \textbf{ if } F_i) =_{def}
+        obl(h) \leftarrow
+            lp(F),
+            \textbf{not } ab(d),
+            \textbf{not } \neg obl(h). \\
+    lp(d_j: \textbf{normally } \neg obl(h) \textbf{ if } F_j) =_{def}
+        \neg obl(h) \leftarrow
+            lp(F),
+            \textbf{not } ab(d),
+            \textbf{not } obl(h). \\
+    lp(prefer(d_i, d_j)) =_{def}
+        ab(d_j) \leftarrow lp(F_1).
+\end{gather}
+
+\begin{definition}
+    $obl(h) \in P(s)$ iff the logic program $lp(P, s)$ entails $obl(h)$
+\end{definition}
+
+\begin{definition}
+    \label{def:obligation_event_compliance}
+    An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall obl(a) \in P(s) \ a \in A) \land (\forall obl(\neg a) \in P(s) \ a \not \in A)$
+\end{definition}
+
+This definition of compliance contrasts with that for authorization policies.
+Given a set of actions $A$, the definition for authorization policies can be thought of first enumerating action $a \in A$ then checking to see if $permitted(a)$ exists.
+The definition for obligation policies, by contrast, can be thought of first searching for $obl(a)$ statements, then checking to see if $a \in A$ exists (or $a \not \in A$ in the case of $obl(\neg a)$).
+
+Furthermore, the definition for obligation compliance does not differentiate between strong compliance and weak compliance.
+Were such a differentiation to exist, it would center around instances where neither $\neg obl(a)$ nor $obl(a)$ is true\footnotemark.
+For such a case, an obligation policy would not explicitly impose nor explicitly waive an agent from an obligation to perform action $a$.
+However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situation is simply called \textit{compliant}.
+
+\footnotetext{
+    A similar statement can be made about when neither $\neg obl(\neg a)$ nor $obl(\neg a)$ is true.
+}
+
+\begin{definition}
+    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
+
+    \begin{itemize}
+        \item Let $P_a$ be a derivative policy of $P$ that only has the authorization statements of $P$.
+            $P_a$ is an \textit{authorization policy induced by} $P$~\citep{gelfond_authorization_2008}.
+        \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation statements of $P$.
+            $P_o$ is an \textit{obligation policy induced by} $P$~\citep{gelfond_authorization_2008}.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
+    Let $P_a$ and $P_o$ be the authorization and obligation policy induced by $P$, respectively.
+
+    \begin{itemize}
+        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $<s, A>$ is strongly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $<s, A>$ is weakly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
+        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $<s, A>$ is neither strongly compliant nor weakly compliant with $P$\footnotemark.
+    \end{itemize}
+\end{definition}
+
+\footnotetext{
+    This definition is not explicitly provided by \citet{gelfond_authorization_2008}.
+}
