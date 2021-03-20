@@ -1,5 +1,40 @@
-\chapter{Sample Appendix}
+\chapter{PDC-agent}
 
-% Include data here and other details that fit appropriately in an Appendix.
-%
-% You may have as many appendices as necessary, simply follow this one as a template for including more.
+\begin{definition}
+    The role of each component in the \textit{Interpreter} module is presented below~\citep{liao_extended_2006}:
+
+    \begin{itemize}
+        \item The \textit{Event Treating Engine} is an event hub that passes messages and performs simple message manipulations~\citep{liao_extended_2006}.
+            While some components send events to other components directly, most events are forwarded through the Event Treating Engine.
+        \item The \textit{Belief Update} component maintains the agent's belief database on the basis of events and belief-manipulating actions (such as AddBelief or DeleteBelief)~\citep{liao_extended_2006}.
+        \item The \textit{Contract Engine} listens for events describing the current state of the environment and emits events to signal when relevant contract clauses dictate the agent perform particular actions~\citep{liao_extended_2006}.
+        \item The \textit{Policy Engine} evaluates policies~\citep{liao_extended_2006}.
+        \item The \textit{Goal Maintenance} component produces goals~\citep{liao_extended_2006}.
+        \item The \textit{Plan Engine} finds plans to meet goals, according to plans in the \textit{Plan Library}~\citep{liao_extended_2006}.
+    \end{itemize}
+\end{definition}
+
+An informal representation of the components collective control loop is presented in \cref{fig:pdc_agent_control_loop}\footnotemark.
+
+\footnotetext{
+    We have added \cref{fig:pdc_agent_control_loop} based on what \citet{liao_extended_2006} discuss in prose.
+}
+
+\citet{peng_extended_2008} extend the PDC-agent architecture to support reasoning over social norms (called NPDC-agent).
+However, the discussion of NPDC-agent is not relevant to this section.
+
+\begin{figure}[p]
+    \includegraphics[width=\textwidth]{Figures/PDC-agent/Structure_2}
+    \centering
+    \caption{PDC-agent component interactions}
+    \label{fig:pdc_agent_structure}
+\end{figure}
+
+\begin{landscape}
+    \begin{figure}[p]
+        \includegraphics[width=\paperwidth]{Figures/PDC-agent/Control_Loop}
+        \centering
+        \caption{Simplified control loop of PDC-agent}
+        \label{fig:pdc_agent_control_loop}
+    \end{figure}
+\end{landscape}
