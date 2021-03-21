@@ -794,7 +794,7 @@ Authorization policies describe what an agent can do whereas obligation policies
 
 Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its underlying assumptions, such as requiring the agent's environment be modeled by a transition system $T=<\boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ and that a policy $P$ is a subset of the trajectories of $T$ that are preferable to the agent's controller.
 
-$\mathcal{AOPL}$ adds a $obl(a)$ statement to $\mathcal{APL}$.
+$\mathcal{AOPL}$ adds an $obl(a)$ statement to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
 Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
