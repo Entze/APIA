@@ -1080,18 +1080,26 @@ Hence, the work by \citet{liao_extended_2006} is the most relevant for discussio
 \citet{liao_extended_2006} present an extension of the BDI architecture call PDC-agent, which is based off a policy and contract-aware methodology they call BGI-PDC logic\footnotemark.
 PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framework which allows for controlled and coordinated behavior among independent cooperative agents.
 \citet{liao_model_2005} use policies to control agent behavior and contracts as a mechanism to coordinate actions between agents.
+\citet{peng_extended_2008} extend the PDC-agent architecture to support reasoning over social norms (called NPDC-agent).
+However, the discussion of NPDC-agent is not relevant to this section.
 
 \footnotetext{
     \citet{liao_extended_2006} do not mention what these acronyms stand for.
 }
 
 \begin{definition}
-    The PDC-agent architecture for a single agent is defined as a collection of components, which are grouped into three modules.
+    The PDC-agent architecture for a single agent is defined as a collection of components, which are grouped into three modules\footnotemark.
     Other cooperative agents are defined likewise.
+
+    \footnotetext{
+        The PDC-agent architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure,fig:pdc_agent_control_loop}.
+        We have added \cref{fig:pdc_agent_control_loop} based on what \citet{liao_extended_2006} discuss in prose.
+    }
 \end{definition}
 
 \begin{definition}
     The \textit{Interpreter} module of the PDC-agent architecture is defined as a 7-tuple of the following components: (Event Treating Engine, Belief Update, Contract Engine, Policy Engine, Goal Maintenance, Plan Engine, Plan Library)~\citep{liao_extended_2006}.
+    See \cref{appendix:pdc_agent} for an explanation of each component.
 \end{definition}
 
 \begin{definition}
@@ -1102,8 +1110,6 @@ PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framewor
 \begin{definition}
     The \textit{Execution Module} of the PDC-agent architecture consists of the \textit{Execution Engine}, \textit{External actions}, and \textit{Internal actions}~\citep{liao_extended_2006}.
 \end{definition}
-
-This architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure}.
 
 A major distinction of the PDC-agent agent architecture is that the PDC-agent architecture supports coordination among multiple agents.
 While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture can allow multiple agents to operate in a shared environment, the AAA and $\mathcal{AIA}$ architectures do not provide any mechanism to coordinate actions between separate agents so that they can work together towards a common goal.
