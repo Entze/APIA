@@ -784,7 +784,124 @@ Lastly, the third policy statement can be represented with a strict authorizatio
 
 In total, our policy $P$ be the set of the above two statement blocks (\cref{eq:apl_example_policy_1,eq:apl_example_policy_2,eq:apl_example_policy_3,eq:apl_example_policy_4}).
 
-\subsubsection{Answer Set Programming}
+\subsection{Language $\mathcal{AOPL}$}
+\label{subsec:aopl}
+
+In addition to introducing language $\mathcal{APL}$, \citet{gelfond_authorization_2008} introduce the Authorization and Obligation Policy Language ($\mathcal{AOPL}$) to consider \textit{obligation policies} in addition to authorization policies.
+Authorization policies describe what an agent can do whereas obligation policies describe what an agent must do.
+
+\subsubsection{Definition}
+
+Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its underlying assumptions, such as requiring the agent's environment be modeled by a transition system $T=<\boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ and that a policy $P$ is a subset of the trajectories of $T$ that are preferable to the agent's controller.
+
+$\mathcal{AOPL}$ adds a $obl(a)$ statement to $\mathcal{APL}$.
+If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
+If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
+Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
+Likewise, for $\neg obl(\neg a)$.
+
+\begin{definition}
+    Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
+    \begin{gather}
+        obl\left(h\right) \textbf{ if } F \\
+        \neg obl\left(h\right) \textbf{ if } F \\
+        d_i: \textbf{normally } obl(h) \textbf{ if } F \\
+        d_j: \textbf{normally } \neg obl(h) \textbf{ if } F \\
+        prefer(d_i, d_j)
+    \end{gather}
+    where $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$ is a \textit{happening} and $F$ is a, possibly empty, conjunction of fluents, actions, or their negations.
+    Formally, $F$ is as follows for a state $s$:
+    \begin{equation}
+        F\subseteq\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\} \cup \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\} \cup \{obl(h), \neg obl(h)\}
+    \end{equation}
+\end{definition}
+
+\subsubsection{Obligation Example}
+
+To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} present an example.
+We have substantially expanded the discussion of their example, regarding both the amount of formal definitions and the overall depth of detail.
+
+Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
+He might have requirements such as:
+
+\begin{itemize}
+    \item Students are expected to not miss class.
+    \item Students should submit homework on time.
+    \item Students should do their homework independently.
+\end{itemize}
+
+Before we encode these obligations, we need to first define the transition system for this scenario.
+Suppose the environment can be modeled by a transition system $T$ where\footnotemark:
+
+\begin{equation}
+    T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>
+\end{equation}
+\begin{multline}
+    \boldsymbol{F} = \{enrolled(Student, Class), meeting(Class, MeetingNum), \\
+        due\_date(meeting(Class, MeetingNum), assignment(Class, AssignmentNum)), \\
+        family\_emergency(Student, meeting(Class, MeetingNum)), \\
+        religious\_holiday(meeting(Class, MeetingNum))\}
+\end{multline}
+\begin{multline}
+    \boldsymbol{A} = \{attend(Student, meeting(Class, MeetingNum)), \\
+        submit(Student, assignment(Class, AssignmentNum), meeting(Class, MeetingNum)), \\
+        accept\_unauthorized\_help(Student)\}
+\end{multline}
+and $Student$, $Class$, $AssignmentNum$, and $MeetingNum$ are variables that range over their respective values.
+
+\footnotetext{
+    The following definitions are only implicit in the work by \citet{gelfond_authorization_2008}.
+}
+
+Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
+\citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
+\begin{equation}
+    \label{eq:aopl_example_line_1}
+    d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
+\end{equation}
+
+\citet{gelfond_authorization_2008} assume that such an implicit exception may be ``Students do not need to attend class during family emergencies.''
+Its encoding would be as follows:
+\begin{equation}
+    \label{eq:aopl_example_line_2}
+    \neg obl(attend(S,meeting(C, N))) \textbf{ if } family\_emergency(S,meeting(C, N)).
+\end{equation}
+
+Similarly, they suggest that another exception may be ``Students should not attend class on a religious holiday.''
+Its encoding might be as follows:
+\begin{multline}
+    \label{eq:aopl_example_line_3}
+    d_2(S,C,N): \textbf{ normally } obl(\neg attend(S, meeting(C, N))) \\
+        \textbf{ if } religious\_holiday(meeting(C, N)).
+\end{multline}
+
+\citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
+If he deems that they do, he may write:
+\begin{equation}
+    \label{eq:aopl_example_line_4}
+    prefer(d_2(S,C,N),d_1(S,C,N))
+\end{equation}
+Otherwise, he may write:
+\begin{equation}
+    \label{eq:aopl_example_line_5}
+    prefer(d_1(S,C,N), d_2(S,C,N))
+\end{equation}
+
+While it is possible to omit such a statement from the policy description, doing so would produce an ambiguous policy that would allow an agent to choose which rule it would prefer to uphold.
+\citet{gelfond_authorization_2008} do not recommend allowing this behavior.
+
+The second rule may be seen as defeasible to encompass assignment extensions.
+\begin{multline}
+    \label{eq:aopl_example_line_6}
+    d_3(S,C,A,N): \textbf{ normally } obl(submit(S,assignment(C,A),meeting(C,N)) \\ \textbf{ if } enrolled(S,C), due\_date(meeting(C,N), assignment(C,A)).
+\end{multline}
+Lastly, since cheating is never permissible:
+\begin{equation}
+    \label{eq:aopl_example_line_7}
+    obl(\neg accept\_unauthorized\_help(S)).
+\end{equation}
+
+\section{Answer Set Programming}
 \label{subsubsec:asp}
 
 To check the compliance of an action with a given policy, Gelfond and Lobo [12] first translate the policy into a logic program using Answer Set Programming.
@@ -930,123 +1047,6 @@ This being said, external functions should not be used to achieve side-effects.
 Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nondeterminstically according to internal heuristics.
 As such, a developer using \textsc{clingo} has little control over the values with which an external function is called.
 A developer can only define domain for variable values, by inserting or removing facts and production rules.
-
-\subsection{Language $\mathcal{AOPL}$}
-\label{subsec:aopl}
-
-In addition to introducing language $\mathcal{APL}$, \citet{gelfond_authorization_2008} introduce the Authorization and Obligation Policy Language ($\mathcal{AOPL}$) to consider \textit{obligation policies} in addition to authorization policies.
-Authorization policies describe what an agent can do whereas obligation policies describe what an agent must do.
-
-\subsubsection{Definition}
-
-Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its underlying assumptions, such as requiring the agent's environment be modeled by a transition system $T=<\boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ and that a policy $P$ is a subset of the trajectories of $T$ that are preferable to the agent's controller.
-
-$\mathcal{AOPL}$ adds a $obl(a)$ statement to $\mathcal{APL}$.
-If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
-If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
-Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
-Likewise, for $\neg obl(\neg a)$.
-
-\begin{definition}
-    Obligation policy statements are static laws of the form~\citep{gelfond_authorization_2008}:
-    \begin{gather}
-        obl\left(h\right) \textbf{ if } F \\
-        \neg obl\left(h\right) \textbf{ if } F \\
-        d_i: \textbf{normally } obl(h) \textbf{ if } F \\
-        d_j: \textbf{normally } \neg obl(h) \textbf{ if } F \\
-        prefer(d_i, d_j)
-    \end{gather}
-    where $h \in \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\}$ is a \textit{happening} and $F$ is a, possibly empty, conjunction of fluents, actions, or their negations.
-    Formally, $F$ is as follows for a state $s$:
-    \begin{equation}
-        F\subseteq\{V(f,s)=y | (f, y) \in \boldsymbol{F} \times \boldsymbol{V}\} \cup \boldsymbol{A} \cup \{\neg a | a \in \boldsymbol{A}\} \cup \{obl(h), \neg obl(h)\}
-    \end{equation}
-\end{definition}
-
-\subsubsection{Obligation Example}
-
-To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} present an example.
-We have substantially expanded the discussion of their example, regarding both the amount of formal definitions and the overall depth of detail.
-
-Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
-He might have requirements such as:
-
-\begin{itemize}
-    \item Students are expected to not miss class.
-    \item Students should submit homework on time.
-    \item Students should do their homework independently.
-\end{itemize}
-
-Before we encode these obligations, we need to first define the transition system for this scenario.
-Suppose the environment can be modeled by a transition system $T$ where\footnotemark:
-
-\begin{equation}
-    T=<\boldsymbol{V}=\{t,f\}, \boldsymbol{F}, \boldsymbol{A}>
-\end{equation}
-\begin{multline}
-    \boldsymbol{F} = \{enrolled(Student, Class), meeting(Class, MeetingNum), \\
-        due\_date(meeting(Class, MeetingNum), assignment(Class, AssignmentNum)), \\
-        family\_emergency(Student, meeting(Class, MeetingNum)), \\
-        religious\_holiday(meeting(Class, MeetingNum))\}
-\end{multline}
-\begin{multline}
-    \boldsymbol{A} = \{attend(Student, meeting(Class, MeetingNum)), \\
-        submit(Student, assignment(Class, AssignmentNum), meeting(Class, MeetingNum)), \\
-        accept\_unauthorized\_help(Student)\}
-\end{multline}
-and $Student$, $Class$, $AssignmentNum$, and $MeetingNum$ are variables that range over their respective values.
-
-\footnotetext{
-    The following definitions are only implicit in the work by \citet{gelfond_authorization_2008}.
-}
-
-Now that we have a transition system defined, we are ready to transcribe the verbal requirements into policy strict/defeasible statements in $\mathcal{AOPL}$.
-\citet{gelfond_authorization_2008} envision possible exceptions to the first rule and, in order to maintain elaboration tolerance, express it with a defeasible obligation statement:
-\begin{equation}
-    \label{eq:aopl_example_line_1}
-    d_1(S,C,N): \textbf{ normally } obl(attend(S, meeting(C, N))) \textbf{ if } enrolled(S, C).
-\end{equation}
-
-\citet{gelfond_authorization_2008} assume that such an implicit exception may be ``Students do not need to attend class during family emergencies.''
-Its encoding would be as follows:
-\begin{equation}
-    \label{eq:aopl_example_line_2}
-    \neg obl(attend(S,meeting(C, N))) \textbf{ if } family\_emergency(S,meeting(C, N)).
-\end{equation}
-
-Similarly, they suggest that another exception may be ``Students should not attend class on a religious holiday.''
-Its encoding might be as follows:
-\begin{multline}
-    \label{eq:aopl_example_line_3}
-    d_2(S,C,N): \textbf{ normally } obl(\neg attend(S, meeting(C, N))) \\
-        \textbf{ if } religious\_holiday(meeting(C, N)).
-\end{multline}
-
-\citet{gelfond_authorization_2008} note that writing this rule as defeasible allows the designer to decide whether religious obligations overrule secular requirements.
-If he deems that they do, he may write:
-\begin{equation}
-    \label{eq:aopl_example_line_4}
-    prefer(d_2(S,C,N),d_1(S,C,N))
-\end{equation}
-Otherwise, he may write:
-\begin{equation}
-    \label{eq:aopl_example_line_5}
-    prefer(d_1(S,C,N), d_2(S,C,N))
-\end{equation}
-
-While it is possible to omit such a statement from the policy description, doing so would produce an ambiguous policy that would allow an agent to choose which rule it would prefer to uphold.
-\citet{gelfond_authorization_2008} do not recommend allowing this behavior.
-
-The second rule may be seen as defeasible to encompass assignment extensions.
-\begin{multline}
-    \label{eq:aopl_example_line_6}
-    d_3(S,C,A,N): \textbf{ normally } obl(submit(S,assignment(C,A),meeting(C,N)) \\ \textbf{ if } enrolled(S,C), due\_date(meeting(C,N), assignment(C,A)).
-\end{multline}
-Lastly, since cheating is never permissible:
-\begin{equation}
-    \label{eq:aopl_example_line_7}
-    obl(\neg accept\_unauthorized\_help(S)).
-\end{equation}
 
 \section{Related Work}
 
