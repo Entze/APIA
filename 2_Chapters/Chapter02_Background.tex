@@ -784,6 +784,16 @@ Lastly, the third policy statement can be represented with a strict authorizatio
 
 In total, our policy $P$ be the set of the above two statement blocks (\cref{eq:apl_example_policy_1,eq:apl_example_policy_2,eq:apl_example_policy_3,eq:apl_example_policy_4}).
 
+\subsubsection{Compliance}
+
+Informally, a set of actions $A$ occurring at a transition system state $s$ are \textit{strongly compliant} with a policy $P$ if all $a \in A$ are known to be permitted using rules in $P$.
+$A$ is \textit{non-compliant} with $P$ if any of $a \in A$ are known to be not permitted using rules in $P$.
+Otherwise, if $P$ is unclear and does not specify whether an action $a \in A$ is permitted or not, then the set of action $A$ is \textit{weakly compliant}.
+
+Computing compliance with $P$ is reduced to the problem of finding satisfiable answer sets using ASP (See~\cref{sec:asp}) when $P$ is translated into ASP rules.
+Compliance with $P$ at a state $s$ can be computed with full or partial knowledge of the fluent values at $s$ as well as with a description of a past state $s_0$ and a history of actions.
+We direct the curious reader to \cref{appendix:apl_compliance} for more detail.
+
 \subsection{Language $\mathcal{AOPL}$}
 \label{subsec:aopl}
 
@@ -816,10 +826,18 @@ Likewise, for $\neg obl(\neg a)$.
     \end{equation}
 \end{definition}
 
+\subsubsection{Compliance}
+
+Like $\mathcal{APL}$, compliance with an $\mathcal{AOPL}$ policy $P$ is computed by translating the rules of $P$ into ASP and finding satisfiable answer sets.
+Informally, a set of actions $A$ is compliant with an obligation policy $P$ if, where there is $obl(a)$ or $obl(\neg a)$, there is $a \in A$ and $a \not \in A$ respectively.
+Given an arbitrary $\mathcal{AOPL}$ policy (with authorization and obligation policy statements), $A$ is \textit{strongly compliant} if it is strongly compliant with its authorization policy and compliant with its obligation policy.
+Likewise for \textit{weak compliance} and \textit{non-compliance}.
+Note that $A$ can be strongly, weakly, or non-compliant with an authorization policy, $A$ can only be compliant or non-compliant with an obligation policy.
+For formal definitions, we direct the curious reader to \cref{appendix:aopl_compliance}.
+
 \subsubsection{Obligation Example}
 
 To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} present an example.
-We have substantially expanded the discussion of their example, regarding both the amount of formal definitions and the overall depth of detail.
 
 Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
 He might have requirements such as:
@@ -901,10 +919,12 @@ Lastly, since cheating is never permissible:
     obl(\neg accept\_unauthorized\_help(S)).
 \end{equation}
 
+We have substantially expanded the discussion of this example from what was represented by \citet{gelfond_authorization_2008}, regarding both the amount of formal definitions and the overall depth of detail.
+We redirect the curious reader to \cref{appendix:aopl_example}.
+
 \section{Answer Set Programming}
 \label{sec:asp}
 
-To check the compliance of an action with a given policy, Gelfond and Lobo [12] first translate the policy into a logic program using Answer Set Programming.
 \textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards quickly searching NP problems~\citep{vladimir_lifschitz_what_2008}.
 It has its foundations in Knowledge Representation and Reasoning, Logic Programming, Databases, and Boolean Constraint Solving~\citep{gebser_potassco_2011}.
 Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of Satisfiability Testing (SAT)~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
