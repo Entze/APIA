@@ -1,6 +1,6 @@
 \chapter{Language $\mathcal{APL}$}
 
-\subsubsection{Checking Compliance}
+\section{Checking Compliance}
 
 As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
 To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
@@ -170,7 +170,7 @@ $A = \{authorize(c_1, m_1)\}$ is also impossible.
 Considering $A=\emptyset$, $A$ is possible according to the action description.
 With respect to $P_m$, $A$ is weakly compliant since neither $permitted(wait)$ or $\neg permitted(wait)$ is entailed by $lp(P_m, s_0)$.
 
-\subsubsection{Checking Compliance with Complete Knowledge of State}
+\subsection{Checking Compliance with Complete Knowledge of State}
 
 To formalize this approach even further, \citet{gelfond_authorization_2008} provide propositions that decide how compliant an event $<s,a>$ is with an authorization policy $P$.
 
@@ -210,7 +210,7 @@ The logic program $lp(P, s) \cup \{ \leftarrow permitted(assume\_command(c_1, m_
 \lstinputlisting{Figures/APL_Language/02_Full_Knowledge/strongly_compliant.snippet.txt}
 Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
 
-\subsubsection{Checking Compliance with Partial Knowledge of State}
+\subsection{Checking Compliance with Partial Knowledge of State}
 
 It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
 \citet{gelfond_authorization_2008} show that checking policy compliance is also possible when an agent only knows the value of a subset of fluents in $s$.
@@ -305,7 +305,7 @@ The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with op
 \lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.snippet.txt}
 Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
 
-\subsubsection{Checking Compliance using a History of Past Actions}
+\subsection{Checking Compliance using a History of Past Actions}
 
 \citet{gelfond_authorization_2008} note that the above two approaches will not work for agents in the AAA architecture (or for that matter, the $\mathcal{AIA}$ architecture).
 Nonetheless, they develop a method for checking policy compliance under the AAA architecture knowledge constraints.
