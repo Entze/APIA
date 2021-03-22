@@ -18,6 +18,10 @@ PREVIOUS_TEST_NUMBER=${STARTING_TEST_NUMBER}
 
 while true; do
     TEST_NUMBER=$(( PREVIOUS_TEST_NUMBER + 1 ))
+    if (( (TEST_NUMBER - 1) % 4 == 2 )); then
+        TEST_NUMBER=$(( PREVIOUS_TEST_NUMBER + 2 ))
+    fi
+
     "${SCRIPT_DIR}/diff_test.sh" "${TEST_SCRIPT}" "${PREVIOUS_TEST_NUMBER}" "${TEST_NUMBER}"
 
     read -r -p 'Press [Enter] to continue...'
