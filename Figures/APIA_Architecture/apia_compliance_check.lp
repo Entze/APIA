@@ -8,12 +8,14 @@
 
 #program apia_options_auth_weakly_compliant_1.
 % Option 1
+
 :-
     not -auth_compliance(weak),  % We are weakly compliant
     -auth_compliance(strong).
 
 #program apia_options_auth_weakly_compliant_2.
 % Option 2
+
 :-
     not -auth_compliance(weak),  % We are weakly compliant
     -auth_compliance(strong),
@@ -38,11 +40,13 @@ abnormal(require_auth_compliance(strong)) :-
 
 #program apia_options_auth_non_compliant_1.
 % Option 1
+
 :-
     -auth_compliance(weak).
 
 #program apia_options_auth_non_compliant_2.
 % Option 2
+
 :-
     -auth_compliance(weak),
     not abnormal(require_auth_compliance(weak)).
@@ -120,6 +124,7 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 
 #program apia_options_obl_refrain_from_action_1.
 % Option 1
+
 :-
     obl(neg(Action), Timestep),
     agent_action(Action),
@@ -127,6 +132,7 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 
 #program apia_options_obl_refrain_from_action_2.
 % Option 2
+
 :-
     obl(neg(Action), Timestep),
     agent_action(Action),
