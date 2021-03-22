@@ -2,8 +2,8 @@
 
 % If our activity is weakly compliant,
 % either:
-%   - consider the activity futile (paranoid; requires strong compliance)
-%   - consider the activity futile unless it is the most compliant activity (prefers strong policy compliance)
+%   - consider the activity futile (requires strong compliance)
+%   - consider the activity futile unless it is the most compliant activity (prefers strong compliance)
 %   - continue the activity (prefers prior commitments over strong compliance)
 
 #program apia_options_auth_weakly_compliant_1.
@@ -32,9 +32,9 @@ abnormal(require_auth_compliance(strong)) :-
 
 % If our activity is non-compliant,
 % either:
-%   - consider the activity futile (cautious; requires compliance)
-%   - consider the activity futile unless it is the most compliant activity (prefers compliance, but utilitarian at heart)
-%   - continue the activity (pure utilitarian; ignores policy completely)
+%   - consider the activity futile (requires compliance)
+%   - consider the activity futile unless it is the most compliant activity (prefers weak compliance)
+%   - continue the activity (ignores policy completely)
 
 #program apia_options_auth_non_compliant_1.
 % Option 1
@@ -59,7 +59,7 @@ abnormal(require_auth_compliance(weak)) :-
 % ------------------------------------------------------------------------------
 
 % Either:
-%   - Maximize compliance with an authorization policy (cautious)
+%   - Maximize compliance with an authorization policy
 %   - Minimize activity length (within compliance threshold). See above options
 
 % Option 1
@@ -75,11 +75,22 @@ abnormal(require_auth_compliance(weak)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Obligation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% If an activity fails to do a required action while achieving a goal
+% then we either:
+%   - Consider the activity futile
+%   - Consider the activity futile, unless the goal cannnot be achieved by doing the action
+%   - Ignore the policy
+
 #program apia_options_obl_do_action_1.
-% Option:
-% Always try to satisfy an obligation policy to do an action.
-% If we are unable to satisfy an obligation policy to do an action, then we ignore it.
-% We cannot be at fault for not doing what we cannot do.
+% Option 1
+
+:-
+    action(Action),
+    obl(Action, Timestep),
+    not occurs(Action, Timestep).
+
+#program apia_options_obl_do_action_2.
+% Option 2
 
 :-
     action(Action),
@@ -95,27 +106,31 @@ abnormal(satisfy_obl(Action, Timestep)) :-
     apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))),
     action(Action).
 
+#program apia_options_obl_do_action_3.
+% Option 3
+% (do nothing)
+
 % ------------------------------------------------------------------------------
 
-% If we are unable to satisfy an obligation policy to abstain from an action while achieving the goal
+% If an activity fails to refrain a forbidden action while achieving a goal
 % then we either:
-%   - Consider the goal futile (cautious)
-%   - Consider the goal futile, unless it is the only way of achieving the goal (utilitarian)
-%   - Ignore the policy (insubordinate)
+%   - Consider the activity futile
+%   - Consider the activity futile, unless the goal can only be achieved by doing the action
+%   - Ignore the policy
 
 #program apia_options_obl_refrain_from_action_1.
 % Option 1
 :-
     obl(neg(Action), Timestep),
     action(Action),
-    not -occurs(Action, Timestep).
+    occurs(Action, Timestep).
 
 #program apia_options_obl_refrain_from_action_2.
 % Option 2
 :-
     obl(neg(Action), Timestep),
     action(Action),
-    not -occurs(Action, Timestep),
+    occurs(Action, Timestep),
     not abnormal(satisfy_obl(neg(Action), Timestep)).
 
 { apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))) } :-

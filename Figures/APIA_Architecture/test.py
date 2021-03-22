@@ -1,7 +1,7 @@
 #script(python)
 # See p. 74 of dissertation for AIA control loop
 
-from enum import IntEnum
+from enum import Enum, IntEnum
 from itertools import chain
 from typing import *
 
@@ -18,6 +18,56 @@ class AIALoopStep(IntEnum):
     INTENDED_ACTION = 2
     ATTEMPT_ACTION = 3
     OBSERVE_WORLD = 4
+
+
+class APIAAuthorizationSetting(Enum):
+    PARANOID = frozenset((
+        'apia_options_auth_weakly_compliant_1',
+        'apia_options_auth_non_compliant_1',
+    ))
+    CAUTIOUS = frozenset((
+        'apia_options_auth_weakly_compliant_2',
+        'apia_options_auth_non_compliant_1',
+    ))
+    SUBORDINATE = frozenset((
+        'apia_options_auth_weakly_compliant_3',
+        'apia_options_auth_non_compliant_1',
+    ))
+    BEST_EFFORT = frozenset((
+        'apia_options_auth_weakly_compliant_2',
+        'apia_options_auth_non_compliant_2',
+    ))
+    SUBORDINATE_WHEN_POSSIBLE = frozenset((
+        'apia_options_auth_weakly_compliant_3',
+        'apia_options_auth_non_compliant_2',
+    ))
+    UTILITARIAN = frozenset((
+        'apia_options_auth_weakly_compliant_3',
+        'apia_options_auth_non_compliant_3',
+    ))
+
+
+class APIAObligationSetting(Enum):
+    SUBORDINATE = frozenset((
+        'apia_options_obl_do_action_1',
+        'apia_options_obl_refrain_from_action_1',
+    ))
+    PERMIT_OMISSIONS = frozenset((
+        'apia_options_obl_do_action_2',
+        'apia_options_obl_refrain_from_action_1',
+    ))
+    PERMIT_COMISSIONS = frozenset((
+        'apia_options_obl_do_action_1',
+        'apia_options_obl_refrain_from_action_2',
+    ))
+    BEST_EFFORT = frozenset((
+        'apia_options_obl_do_action_2',
+        'apia_options_obl_refrain_from_action_2',
+    ))
+    UTILITARIAN = frozenset((
+        'apia_options_obl_do_action_3',
+        'apia_options_obl_refrain_from_action_3',
+    ))
 
 
 def str_format(template_str: clingo.Symbol, *arguments: clingo.Symbol) -> str:
