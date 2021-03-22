@@ -39,6 +39,8 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
     Person = "Alice",
     Actor = "Bob".
 
+% Increment timestep
+
 % "The agent always observes the truth value of his goal"
 % (p. 36) of dissertation
 -observed(greeted_by(Person, Actor), Timestep) :-
@@ -75,6 +77,8 @@ attempt(start(Activity), Timestep) :-
 happened(start(Activity), Timestep) :-
     Timestep = 1,
     Activity = 1.
+
+% Increment timestep
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 2,
@@ -115,6 +119,8 @@ happened(move_through(Actor, Door), Timestep) :-
     Timestep = 2,
     Actor = "Bob",
     Door = "d12".
+
+% Increment timestep
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 3,
@@ -161,6 +167,8 @@ happened(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d23".
 
+% Increment timestep
+
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 4,
     Person = "Bob",
@@ -205,6 +213,8 @@ happened(move_through(Actor, Door), Timestep) :-
     Timestep = 4,
     Actor = "Bob",
     Door = "d34".
+
+% Increment timestep
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
@@ -251,6 +261,8 @@ happened(greet(Actor, Person), Timestep) :-
     Actor = "Bob",
     Person = "Alice".
 
+% Increment timestep
+
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 6,
     Actor = "Bob",
@@ -288,6 +300,8 @@ happened(stop(Activity), Timestep) :-
     Timestep = 6,
     Activity = 1.
 
+% Increment timestep
+
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 7,
     Person = "Alice",
@@ -318,3 +332,5 @@ attempt(wait, Timestep) :-
 
 happened(wait, Timestep) :-
     Timestep = 7.
+
+% Increment timestep
