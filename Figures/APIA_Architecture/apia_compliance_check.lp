@@ -51,6 +51,7 @@ abnormal(require_permitted(Action, Timestep)) :-
 
 #program apia_options_auth_non_compliant_2.
 % Option 2
+% Implicitly maximizes obl compliance
 
 :-
     occurs(Action, Timestep),
@@ -70,23 +71,6 @@ abnormal(require_auth_compliance(Action, Timestep)) :-
 % Option 3
 % (do nothing)
 
-% ------------------------------------------------------------------------------
-
-% Either:
-%   - Maximize compliance with an authorization policy
-%   - Minimize activity length (within compliance threshold). See above options
-
-% Option 1
-#program apia_options_auth_optimization_1(minimize_priority).
-
-:~
-    -auth_compliance(strong).
-    [1@minimize_priority, -auth_compliance(weak)]
-
-:~
-    -auth_compliance(weak).
-    [2@minimize_priority, -auth_compliance(weak)]
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Obligation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % If an activity fails to do a required action while achieving a goal
@@ -105,6 +89,7 @@ abnormal(require_auth_compliance(Action, Timestep)) :-
 
 #program apia_options_obl_do_action_2.
 % Option 2
+% Implicitly maximizes obl compliance
 
 :-
     agent_action(Action),
@@ -142,6 +127,7 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 
 #program apia_options_obl_refrain_from_action_2.
 % Option 2
+% Implicitly maximizes obl compliance
 
 :-
     obl(neg(Action), Timestep),
@@ -160,12 +146,3 @@ abnormal(satisfy_obl(neg(Action), Timestep)) :-
 #program apia_options_obl_refrain_from_action_3.
 % Option 3
 % (do nothing)
-
-% ------------------------------------------------------------------------------
-
-#program apia_options_obl_optimization(minimize_priority).
-
-% Minimize violations with an obligation policy
-:~
-    -obl_compliant(Timestep).
-    [1@minimize_priority, obl_compliant(Timestep)]
