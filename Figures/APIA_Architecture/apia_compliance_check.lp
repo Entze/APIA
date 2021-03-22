@@ -99,7 +99,8 @@ abnormal(require_auth_compliance(Action, Timestep)) :-
 
 { apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))) } :-
     obl(Action, Timestep),
-    agent_action(Action).
+    agent_action(Action),
+    occurs(Action, Timestep).
 
 abnormal(satisfy_obl(Action, Timestep)) :-
     apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))),
@@ -137,7 +138,8 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 
 { apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))) } :-
     obl(neg(Action), Timestep),
-    agent_action(Action).
+    agent_action(Action),
+    occurs(Action, Timestep).
 
 abnormal(satisfy_obl(neg(Action), Timestep)) :-
     apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))),
