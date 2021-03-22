@@ -18,13 +18,18 @@
 
 :-
     not -auth_compliance(weak),  % We are weakly compliant
-    -auth_compliance(strong),
-    not abnormal(require_auth_compliance(strong)).
+    occurs(Action, Timestep),
+    agent_action(Action),
+    not permitted(Action, Timestep),  % We are not strongly compliant
+    not abnormal(require_permitted(Action, Timestep)).
 
-{ apply_cr_rule(abnormal(require_auth_compliance(strong))) }.
+{ apply_cr_rule(abnormal(require_permitted(Action, Timestep))) } :-
+    occurs(Action, Timestep),
+    agent_action(Action),
+    not permitted(Action, Timestep).
 
-abnormal(require_auth_compliance(strong)) :-
-    apply_cr_rule(abnormal(require_auth_compliance(strong))).
+abnormal(require_permitted(Action, Timestep)) :-
+    apply_cr_rule(abnormal(require_permitted(Action, Timestep))).
 
 #program apia_options_auth_weakly_compliant_3.
 % Option 3
@@ -48,13 +53,18 @@ abnormal(require_auth_compliance(strong)) :-
 % Option 2
 
 :-
-    -auth_compliance(weak),
-    not abnormal(require_auth_compliance(weak)).
+    occurs(Action, Timestep),
+    agent_action(Action),
+    -permitted(Action, Timestep),  % We are non-compliant
+    not abnormal(require_auth_compliance(Action, Timestep)).
 
-{ apply_cr_rule(require_auth_compliance(weak)) }.
+{ apply_cr_rule(abnormal(require_auth_compliance(Action, Timestep))) } :-
+    occurs(Action, Timestep),
+    agent_action(Action),
+    -permitted(Action, Timestep).
 
-abnormal(require_auth_compliance(weak)) :-
-    apply_cr_rule(require_auth_compliance(weak)).
+abnormal(require_auth_compliance(Action, Timestep)) :-
+    apply_cr_rule(abnormal(require_auth_compliance(Action, Timestep))).
 
 #program apia_options_auth_non_compliant_3.
 % Option 3
