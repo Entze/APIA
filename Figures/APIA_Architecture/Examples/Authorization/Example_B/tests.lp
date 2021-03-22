@@ -221,6 +221,10 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Room = "r4".
 
+observed(busy_working(Person), Timestep) :-
+    Timestep = 5,
+    Person = "Alice".
+
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 5,
     Person = "Alice",
@@ -234,23 +238,13 @@ observed(in_room(Person, Room), Timestep) :-
 %--- Iteration 6: Step 2 (Find intended action) ---%
 #program test_22.
 
-% Intended action should be greet("Bob", "Alice")
-%:-
-%    not intended_action(greet(Actor, Person), Timestep),
-%    Timestep = 5,
-%    Actor = "Bob",
-%    Person = "Alice".
+% Intended action should be stop(1)
 
 %--- Iteration 6: Step 3 (Attempt the intended action) ---%
 #program test_23.
 
 % Should be unsatisfiable until we observe happened/2.
 % See (p. 60) of dissertation
-
-attempt(greet(Actor, Person), Timestep) :-
-    Timestep = 5,
-    Actor = "Bob",
-    Person = "Alice".
 
 %--- Iteration 6: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
@@ -263,10 +257,10 @@ happened(greet(Actor, Person), Timestep) :-
 
 % Increment timestep
 
-observed(greeted_by(Person, Actor), Timestep) :-
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 6,
-    Actor = "Bob",
-    Person = "Alice".
+    Person = "Alice",
+    Actor = "Bob".
 
 
 
@@ -276,11 +270,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
 %--- Iteration 7: Step 2 (Find intended action) ---%
 #program test_26.
 
-% Intended action should be stop(1)
-%:-
-%    not intended_action(stop(Activity), Timestep),
-%    Timestep = 6,
-%    Activity = 1.
+% Intended action should be start(2)
 
 %--- Iteration 7: Step 3 (Attempt the intended action) ---%
 #program test_27.
@@ -288,21 +278,18 @@ observed(greeted_by(Person, Actor), Timestep) :-
 % Should be unsatisfiable until we observe happened/2.
 % See (p. 60) of dissertation
 
-attempt(stop(Activity), Timestep) :-
-    Timestep = 6,
-    Activity = 1.
-
 %--- Iteration 7: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_28.
 
-happened(stop(Activity), Timestep) :-
+happened(greet(Actor, Person), Timestep) :-
     Timestep = 6,
-    Activity = 1.
+    Actor = "Bob",
+    Person = "Alice".
 
 % Increment timestep
 
-observed(greeted_by(Person, Actor), Timestep) :-
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 7,
     Person = "Alice",
     Actor = "Bob".
@@ -315,22 +302,162 @@ observed(greeted_by(Person, Actor), Timestep) :-
 %--- Iteration 8: Step 2 (Find intended action) ---%
 #program test_30.
 
-% Intended action should be wait
-%:-
-%    not intended_action(wait, Timestep),
-%    Timestep = 7.
+% Intended action should be knock_on_door("Bob", "d34")
 
 %--- Iteration 8: Step 3 (Attempt the intended action) ---%
 #program test_31.
 
-attempt(wait, Timestep) :-
-    Timestep = 7.
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
 
 %--- Iteration 8: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
 #program test_32.
 
-happened(wait, Timestep) :-
+happened(greet(Actor, Person), Timestep) :-
+    Timestep = 7,
+    Actor = "Bob",
+    Person = "Alice".
+
+% Increment timestep
+
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 8,
+    Person = "Alice",
+    Actor = "Bob".
+
+
+
+%--- Iteration 9: Step 1 (Interpret observations) ---%
+#program test_33.
+
+%--- Iteration 9: Step 2 (Find intended action) ---%
+#program test_34.
+
+% Intended action should be greet("Bob", "Alice")
+
+%--- Iteration 9: Step 3 (Attempt the intended action) ---%
+#program test_35.
+
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
+
+%--- Iteration 9: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
+#program test_36.
+
+happened(greet(Actor, Person), Timestep) :-
+    Timestep = 8,
+    Actor = "Bob",
+    Person = "Alice".
+
+% Increment timestep
+
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 9,
+    Person = "Alice",
+    Actor = "Bob".
+
+
+
+%--- Iteration 10: Step 1 (Interpret observations) ---%
+#program test_37.
+
+%--- Iteration 10: Step 2 (Find intended action) ---%
+#program test_38.
+
+% Intended action should be greet("Bob", "Alice")
+
+%--- Iteration 10: Step 3 (Attempt the intended action) ---%
+#program test_39.
+
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
+
+attempt(greet(Actor, Person), Timestep) :-
+    Timestep = 5,
+    Actor = "Bob",
+    Person = "Alice".
+
+%--- Iteration 10: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
+#program test_40.
+
+happened(greet(Actor, Person), Timestep) :-
+    Timestep = 9,
+    Actor = "Bob",
+    Person = "Alice".
+
+% Increment timestep
+
+observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 10,
+    Actor = "Bob",
+    Person = "Alice".
+
+
+
+%--- Iteration 11: Step 1 (Interpret observations) ---%
+#program test_41.
+
+%--- Iteration 11: Step 2 (Find intended action) ---%
+#program test_42.
+
+% Intended action should be stop(1)
+%:-
+%    not intended_action(stop(Activity), Timestep),
+%    Timestep = 6,
+%    Activity = 1.
+
+%--- Iteration 11: Step 3 (Attempt the intended action) ---%
+#program test_43.
+
+% Should be unsatisfiable until we observe happened/2.
+% See (p. 60) of dissertation
+
+attempt(stop(Activity), Timestep) :-
+    Timestep = 6,
+    Activity = 1.
+
+%--- Iteration 11: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
+#program test_44.
+
+happened(stop(Activity), Timestep) :-
+    Timestep = 10,
+    Activity = 1.
+
+% Increment timestep
+
+observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 11,
+    Person = "Alice",
+    Actor = "Bob".
+
+
+
+%--- Iteration 12: Step 1 (Interpret observations) ---%
+#program test_45.
+
+%--- Iteration 12: Step 2 (Find intended action) ---%
+#program test_46.
+
+% Intended action should be wait
+%:-
+%    not intended_action(wait, Timestep),
+%    Timestep = 7.
+
+%--- Iteration 12: Step 3 (Attempt the intended action) ---%
+#program test_47.
+
+attempt(wait, Timestep) :-
     Timestep = 7.
+
+%--- Iteration 12: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
+% happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
+#program test_48.
+
+happened(wait, Timestep) :-
+    Timestep = 11.
 
 % Increment timestep
