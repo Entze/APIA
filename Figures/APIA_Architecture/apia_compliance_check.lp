@@ -85,7 +85,7 @@ abnormal(require_auth_compliance(weak)) :-
 % Option 1
 
 :-
-    action(Action),
+    agent_action(Action),
     obl(Action, Timestep),
     not occurs(Action, Timestep).
 
@@ -93,18 +93,18 @@ abnormal(require_auth_compliance(weak)) :-
 % Option 2
 
 :-
-    action(Action),
+    agent_action(Action),
     obl(Action, Timestep),
     not occurs(Action, Timestep),
     not abnormal(satisfy_obl(Action, Timestep)).
 
 { apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))) } :-
     obl(Action, Timestep),
-    action(Action).
+    agent_action(Action).
 
 abnormal(satisfy_obl(Action, Timestep)) :-
     apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))),
-    action(Action).
+    agent_action(Action).
 
 #program apia_options_obl_do_action_3.
 % Option 3
@@ -122,24 +122,24 @@ abnormal(satisfy_obl(Action, Timestep)) :-
 % Option 1
 :-
     obl(neg(Action), Timestep),
-    action(Action),
+    agent_action(Action),
     occurs(Action, Timestep).
 
 #program apia_options_obl_refrain_from_action_2.
 % Option 2
 :-
     obl(neg(Action), Timestep),
-    action(Action),
+    agent_action(Action),
     occurs(Action, Timestep),
     not abnormal(satisfy_obl(neg(Action), Timestep)).
 
 { apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))) } :-
     obl(neg(Action), Timestep),
-    action(Action).
+    agent_action(Action).
 
 abnormal(satisfy_obl(neg(Action), Timestep)) :-
     apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))),
-    action(Action).
+    agent_action(Action).
 
 #program apia_options_obl_refrain_from_action_3.
 % Option 3
