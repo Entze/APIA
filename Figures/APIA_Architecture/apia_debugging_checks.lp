@@ -213,6 +213,14 @@ obl_compliant(Happening, Timestep) :-
 invalid(obl(Action, Timestep), Reason) :-
     action(Action),
     obl(Action, Timestep),
+    impossible(Action, Timestep),
+    Reason = @str_format("obl({0}) when {0} is physically impossible", Action).
+
+% ------------------------------------------------------------------------------------------
+
+invalid(obl(Action, Timestep), Reason) :-
+    action(Action),
+    obl(Action, Timestep),
     -permitted(Action, Timestep),
     Reason = @str_format("obl({0}) contradicts -permitted({0})", Action).
 
