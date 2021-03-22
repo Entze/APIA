@@ -19,24 +19,17 @@
 % If [there exists obl(Action, Timestep), occurs(Action, Timestep) is not false],
 %     then we are not compliant.
 
--obl_compliant(Timestep) :-
+-obl_compliant :-
     obl(Action, Timestep),
     agent_action(Action),  % Note: Our modification
     not occurs(Action, Timestep).
 
--obl_compliant(Timestep) :-
+-obl_compliant :-
     obl(neg(Action), Timestep),
     agent_action(Action),
     not -occurs(Action, Timestep).
 
--obl_compliant :-
-    -obl_compliant(_).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-obl_compliant(Timestep) :-
-    step(Timestep),
-    not -obl_compliant(Timestep).
 
 obl_compliant :-
     not -obl_compliant.
