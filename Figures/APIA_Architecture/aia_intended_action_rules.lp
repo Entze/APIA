@@ -147,7 +147,7 @@ intended_action(Action, current_timestep) :-
 :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep),
-    not futile(Activity, current_timestep).
+    not futile_activity(Activity, current_timestep).
 
 % "however if there is no such answer set then the activity is futile"
 % (p. 67) of dissertation
@@ -155,7 +155,8 @@ intended_action(Action, current_timestep) :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep).
 
-futile(Activity, current_timestep) :-
+% Note: Originally, futile(Activity, current_timestep)
+futile_activity(Activity, current_timestep) :-
     apply_cr_rule(futile_activity(Activity, current_timestep)).
 
 % "the intended action of a history of category 3 is [to stop the activity
@@ -163,7 +164,7 @@ futile(Activity, current_timestep) :-
 % (p. 66-68) of dissertation
 intended_action(stop(Activity), current_timestep) :-
     category_3_history(Activity, current_timestep),
-    futile(Activity, current_timestep).
+    futile_activity(Activity, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                      (We need to start an activity)
@@ -232,7 +233,7 @@ impossible(start(OtherActivity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     occurs(start(Activity), current_timestep),
     -projected_success(Activity, current_timestep),
-    not futile(Goal, current_timestep).
+    not futile_goal(Goal, current_timestep).
 
 % "If none are left then the goal is futile"
 % (p. 70) of dissertation
@@ -241,13 +242,14 @@ impossible(start(OtherActivity), current_timestep) :-
     occurs(start(Activity), current_timestep),
     -projected_success(Activity, current_timestep).
 
-futile(Goal, current_timestep) :-
+% Note: Originally, futile(Goal, current_timestep)
+futile_goal(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
 % (p. 70) of dissertation
 intended_action(wait, current_timestep) :-
     category_4_history(Goal, current_timestep),
-    futile(Goal, current_timestep).
+    futile_goal(Goal, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating new candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
