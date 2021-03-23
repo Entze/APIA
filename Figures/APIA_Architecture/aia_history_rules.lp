@@ -278,6 +278,23 @@ observed_goal(Goal, Timestep) :-
 occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
 
+% Note: Our addition. Reduces number of possible worlds
+%
+% prefer(diagnosis(Action, NewerTimestep, current_timestep), diagnosis(Action, OlderTimestep, current_timestep))
+:~
+    physical_action(Action),
+    exogenous_action(Action),
+
+    NewerTimestep = 0..current_timestep,
+    OlderTimestep = 0..current_timestep,
+    OlderTimestep < NewerTimestep,
+
+    HigherPriorityCRRule = diagnosis(Action, NewerTimestep, current_timestep),
+    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep),
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+
 % ------------------------------------------------------------------------------------------
 
 % "The last two rules are for determining the value of the flag by simply
