@@ -51,7 +51,7 @@ abnormal(require_permitted(Action, Timestep)) :-
 
 #program apia_options_auth_non_compliant_2.
 % Option 2
-% Implicitly maximizes obl compliance
+% Implicitly maximizes authorization compliance
 
 :-
     occurs(Action, Timestep),
