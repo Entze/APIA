@@ -44,6 +44,7 @@ some_action_occurred(FutureTimestep) :-
     occurs(Action, FutureTimestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               (Idle state)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there are no activities or goals that are active in cm_n"
@@ -62,6 +63,7 @@ intended_action(wait, current_timestep) :-
     category_1_history(current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                          (Activity is complete)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
@@ -86,6 +88,7 @@ intended_action(stop(Activity), current_timestep) :-
     category_2_history(Activity, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         (Activity is in progress)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
@@ -163,6 +166,7 @@ intended_action(stop(Activity), current_timestep) :-
     futile(Activity, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      (We need to start an activity)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
