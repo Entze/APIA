@@ -1,13 +1,18 @@
 \documentclass[12pt, oneside]{book2}
 
 \newcommand{\documentTitle}{ARCHITECTURE FOR POLICY-AWARE INTENTIONAL AGENTS}
-\newcommand{\documentType}{Thesis Proposal}
-\newcommand{\documentAuthor}{John Meyer}
-\newcommand{\documentYear}{2020}
+\newcommand{\documentType}{Thesis}
+\newcommand{\documentAuthor}{John Maximilian Meyer}
+\newcommand{\documentYear}{2021}
 
 \newcommand{\thesisAdvisor}{Daniela Inclezan, Ph. D}
 \newcommand{\thesisFirstReader}{Alan Ferrenberg, Ph. D}
 \newcommand{\thesisSecondReader}{Matthew Stephan, Ph. D}
+
+% Adjust auto-generated headings
+\renewcommand\contentsname{\centering Table of Contents}
+\renewcommand\listfigurename{\centering List of Figures}
+\renewcommand\listtablename{\centering List of Tables}
 
 % Template imports
 \usepackage{amssymb}
@@ -25,6 +30,10 @@
 \usepackage{verbatim}
 
 % Custom imports
+
+% Set document font family
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
 
 % Enable \enquote{} command
 \usepackage{csquotes}
@@ -148,11 +157,11 @@
 
     \documentTitle
 
-    \vspace{1.5cm}
+    \vspace{\baselineskip}
 
     A \documentType \\
 
-    \vspace{0.5cm}
+    \vspace{\baselineskip}
 
     Submitted to the \\
     Faculty of Miami University \\
@@ -175,11 +184,11 @@
 
     \textcopyright \documentYear{ }\documentAuthor
 
-    \doclicenseLongText
-
-    \vspace{0.5cm}
-
-    \doclicenseImage
+    % \doclicenseLongText
+    %
+    % \vspace{0.5cm}
+    %
+    % \doclicenseImage
 
     \newpage
 

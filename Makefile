@@ -42,7 +42,7 @@ build-code-snippet: $(patsubst %.snippet.sh,%.snippet.txt,$(CODE_SNIPPET_FIGURES
 	timedatectl | grep 'Time zone' | sed -E 's/ *Time zone: (.*) \(.*\)/\1/' >> $@
 
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
-	latexmk -pdf $<
+	latexmk -pdfxe $<
 
 %.dot.pdf %.dot.svg %.dot.png: %.dot
 	dot -T$(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') -o $@ $^
