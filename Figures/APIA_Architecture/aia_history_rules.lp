@@ -151,6 +151,9 @@ occurs(Action, Timestep) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % (p. 59) of dissertation
+%
+% Note: Similar to (eq. 3.15) on (p. 30)
+%   and (eq. 3.16) on (p. 31)
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -168,6 +171,8 @@ impossible(select(Goal), Timestep) :-
     holds(active_activity(Activity), Timestep).
 
 % (p. 59) of dissertation
+%
+% Note: Similar to (eq. 3.16) on (p. 31)
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
