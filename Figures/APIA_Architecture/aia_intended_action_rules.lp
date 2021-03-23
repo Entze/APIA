@@ -233,7 +233,7 @@ impossible(start(OtherActivity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     occurs(start(Activity), current_timestep),
     -projected_success(Activity, current_timestep),
-    not futile(Goal, current_timestep).
+    not futile_goal(Goal, current_timestep).
 
 % "If none are left then the goal is futile"
 % (p. 70) of dissertation
@@ -242,13 +242,14 @@ impossible(start(OtherActivity), current_timestep) :-
     occurs(start(Activity), current_timestep),
     -projected_success(Activity, current_timestep).
 
-futile(Goal, current_timestep) :-
+% Note: Originally, futile(Goal, current_timestep)
+futile_goal(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
 % (p. 70) of dissertation
 intended_action(wait, current_timestep) :-
     category_4_history(Goal, current_timestep),
-    futile(Goal, current_timestep).
+    futile_goal(Goal, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating new candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
