@@ -81,6 +81,7 @@ fi
 echo "Stable models: ${NUM_MODELS}"
 cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 if [[ -n "${DEBUG}" ]]; then
+    sed -i -e 's/) /)\n/g' "${TEMP_DIR}/output"
     echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
 else
     rm -rf "${TEMP_DIR}"
