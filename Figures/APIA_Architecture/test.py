@@ -70,6 +70,11 @@ class APIAObligationSetting(Enum):
     ))
 
 
+class APIAConfiguration(NamedTuple):
+    authorization: APIAAuthorizationSetting
+    obligation: APIAObligationSetting
+
+
 def str_format(template_str: clingo.Symbol, *arguments: clingo.Symbol) -> str:
     template_str = template_str.string
     arguments = (symbol.string if symbol.type == clingo.SymbolType.String else symbol
@@ -81,7 +86,11 @@ def function_signature(symbol: clingo.Symbol) -> str:
     return f'{symbol.name}/{len(symbol.arguments)}'
 
 
-def _generate_aia_subprograms_to_ground(current_timestep: int, max_timestep: int, step_number: AIALoopStep):
+def _generate_aia_subprograms_to_ground(current_timestep: int,
+                                        max_timestep: int,
+                                        step_number: AIALoopStep,
+                                        configuration: APIAConfiguration,
+                                        ) -> Iterator[ASPSubprogramInstantiation]:
     # base
     yield ASPSubprogramInstantiation(name='base', arguments=())
 
@@ -106,6 +115,12 @@ def _generate_aia_subprograms_to_ground(current_timestep: int, max_timestep: int
     yield from (ASPSubprogramInstantiation(name='aopl_sanity_check', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
+    # apia_options
+    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=())
+                for subprogram_name in sorted(configuration.authorization.value))
+    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=())
+                for subprogram_name in sorted(configuration.obligation.value))
+
 
 def main(clingo_control: clingo.Control):
     max_test_number = clingo_control.get_const('test').number
@@ -113,7 +128,11 @@ def main(clingo_control: clingo.Control):
     max_timestep = clingo_control.get_const('max_timestep').number
     aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
 
-    aia_subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number)
+    configuration = APIAConfiguration(authorization=APIAAuthorizationSetting.UTILITARIAN,
+                                      obligation=APIAObligationSetting.UTILITARIAN)
+
+    aia_subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
+                                                                    configuration)
 
     # test_X
     subprograms_to_ground = tuple(chain(
