@@ -94,16 +94,11 @@ def _generate_aia_subprograms_to_ground(current_timestep: int, max_timestep: int
                 for timestep in range(max_timestep + 1))
 
     # aia_history_rules(timestep)
-    yield from (ASPSubprogramInstantiation(name='aia_history_rules', arguments=(timestep,))
-                for timestep in range(current_timestep))
     if step_number >= 1:
         yield ASPSubprogramInstantiation(name='aia_history_rules', arguments=(current_timestep,))
 
     # aia_intended_action_rules(timestep, max_activity_length)
-    # TODO: Ground for current timestep only
     max_activity_length = max_timestep
-    yield from (ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(timestep, max_activity_length))
-                for timestep in range(current_timestep))
     if step_number >= 2:
         yield ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(current_timestep, max_activity_length))
 
