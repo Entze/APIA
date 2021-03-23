@@ -53,28 +53,28 @@ fi
 clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 0 \
     > "${TEMP_DIR}/output"
 
-grep 'Grounding:' "${TEMP_DIR}/output" \
+grep '^Grounding:' "${TEMP_DIR}/output" \
     | sed -E 's/, (ASPSubprogramInstantiation)/,\n    \1/g' \
     | sed 's/,$//g' \
     | sed 's/)))$/))/g' \
     | sed 's/^Grounding: (/Grounding:\n    /g' \
     > "${TEMP_DIR}/subprograms"
 
-grep 'Answer:' -A1 "${TEMP_DIR}/output" \
+grep '^Answer:' -A1 "${TEMP_DIR}/output" \
     | tail -n 2 \
     | sed -n '2p' \
     | sed -e 's/) /)\n/g' \
     | sort \
     > "${TEMP_DIR}/predicates"
 
-if [[ "$(grep -c 'Answer: 1$' "${TEMP_DIR}/output")" -eq 1 ]]; then
+if [[ "$(grep -c '^Answer: 1$' "${TEMP_DIR}/output")" -eq 1 ]]; then
     # Normal output
     NUM_MODELS=$(grep -c 'Answer:' "${TEMP_DIR}/output")
 else
     # optN output (Ignore first 'Answer 1, 2, 3, ...' until Answer 1, 2, 3, ...)
-    NUM_MODELS=$(grep 'Answer:' "${TEMP_DIR}/output" \
+    NUM_MODELS=$(grep '^Answer:' "${TEMP_DIR}/output" \
         | tail -n +2 \
-        | sed -n '/Answer: 1$/,$p' \
+        | sed -n '/^Answer: 1$/,$p' \
         | wc -l )
 fi
 
