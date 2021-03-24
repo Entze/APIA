@@ -10,22 +10,24 @@
 % Option 1
 
 :-
-    not -auth_compliance(weak),  % We are weakly compliant
-    -auth_compliance(strong).
+    not -auth_compliance(future, weak),  % We are weakly compliant
+    -auth_compliance(future, strong).
 
 #program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
 
 :-
-    not -auth_compliance(weak),  % We are weakly compliant
+    not -auth_compliance(future, weak),  % We are weakly compliant
     occurs(Action, Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     not permitted(Action, Timestep),  % We are not strongly compliant
     not abnormal(require_permitted(Action, Timestep)).
 
 { apply_cr_rule(abnormal(require_permitted(Action, Timestep))) } :-
     occurs(Action, Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     not permitted(Action, Timestep).
 
 abnormal(require_permitted(Action, Timestep)) :-
@@ -47,7 +49,7 @@ abnormal(require_permitted(Action, Timestep)) :-
 % Option 1
 
 :-
-    -auth_compliance(weak).
+    -auth_compliance(future, weak).
 
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
@@ -56,12 +58,14 @@ abnormal(require_permitted(Action, Timestep)) :-
 :-
     occurs(Action, Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     -permitted(Action, Timestep),  % We are non-compliant
     not abnormal(require_auth_compliance(Action, Timestep)).
 
 { apply_cr_rule(abnormal(require_auth_compliance(Action, Timestep))) } :-
     occurs(Action, Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     -permitted(Action, Timestep).
 
 abnormal(require_auth_compliance(Action, Timestep)) :-
@@ -71,6 +75,8 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     step(NewerTimestep),
     step(OlderTimestep),
+    OlderTimestep >= current_timestep,
+    NewerTimestep >= current_timestep,
     NewerTimestep > OlderTimestep,
 
     % Condition for CR-rule 1
@@ -102,6 +108,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 :-
     agent_action(Action),
     obl(Action, Timestep),
+    Timestep >= current_timestep,
     not occurs(Action, Timestep).
 
 #program apia_options_obl_do_action_2(current_timestep).
@@ -111,12 +118,14 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 :-
     agent_action(Action),
     obl(Action, Timestep),
+    Timestep >= current_timestep,
     not occurs(Action, Timestep),
     not abnormal(satisfy_obl(Action, Timestep)).
 
 { apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))) } :-
     obl(Action, Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     occurs(Action, Timestep).
 
 abnormal(satisfy_obl(Action, Timestep)) :-
@@ -127,6 +136,8 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     step(NewerTimestep),
     step(OlderTimestep),
+    OlderTimestep >= current_timestep,
+    NewerTimestep >= current_timestep,
     NewerTimestep > OlderTimestep,
 
     % Condition for CR-rule 1
@@ -158,6 +169,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 :-
     obl(neg(Action), Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     occurs(Action, Timestep).
 
 #program apia_options_obl_refrain_from_action_2(current_timestep).
@@ -167,12 +179,14 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 :-
     obl(neg(Action), Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     occurs(Action, Timestep),
     not abnormal(satisfy_obl(neg(Action), Timestep)).
 
 { apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))) } :-
     obl(neg(Action), Timestep),
     agent_action(Action),
+    Timestep >= current_timestep,
     occurs(Action, Timestep).
 
 abnormal(satisfy_obl(neg(Action), Timestep)) :-
@@ -184,6 +198,8 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     step(NewerTimestep),
     step(OlderTimestep),
+    OlderTimestep >= current_timestep,
+    NewerTimestep >= current_timestep,
     NewerTimestep > OlderTimestep,
 
     % Condition for CR-rule 1
