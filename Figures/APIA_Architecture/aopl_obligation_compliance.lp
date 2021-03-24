@@ -18,21 +18,43 @@
 %     then we are not compliant.
 % If [there exists obl(Action, Timestep), occurs(Action, Timestep) is not false],
 %     then we are not compliant.
+%
+% Note: It is useful to differentiate between the compliance of past actions (i.e. our history)
+%   with the compliance of the projection of future actions (i.e. our activity).
+%   Without it, we cannot imagine being more compliant than our history.
 
--obl_compliant :-
+-obl_compliant(history) :-
     obl(Action, Timestep),
     agent_action(Action),  % Note: Our modification
+    Timestep < current_timestep,
     not occurs(Action, Timestep).
 
--obl_compliant :-
+-obl_compliant(future) :-
+    obl(Action, Timestep),
+    agent_action(Action),  % Note: Our modification
+    Timestep >= current_timestep,
+    not occurs(Action, Timestep).
+
+-obl_compliant(history) :-
     obl(neg(Action), Timestep),
     agent_action(Action),
+    Timestep < current_timestep,
+    not -occurs(Action, Timestep).
+
+-obl_compliant(future) :-
+    obl(neg(Action), Timestep),
+    agent_action(Action),
+    Timestep >= current_timestep,
     not -occurs(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-obl_compliant :-
-    not -obl_compliant.
+obl_compliant(Type) :-
+    Type = (
+        history;
+        future
+    ),
+    not -obl_compliant(Type).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aopl_sanity_check(timestep).
