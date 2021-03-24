@@ -10,9 +10,13 @@
 \newcommand{\thesisSecondReader}{Matthew Stephan, Ph. D}
 
 % Adjust auto-generated headings
-\renewcommand\contentsname{\centering Table of Contents}
-\renewcommand\listfigurename{\centering List of Figures}
-\renewcommand\listtablename{\centering List of Tables}
+\newcommand\contentsnamebase{Table of Contents}
+\newcommand\listfigurenamebase{List of Figures}
+\newcommand\listtablenamebase{List of Tables}
+
+\renewcommand\contentsname{\centering \large \contentsnamebase}
+\renewcommand\listfigurename{\centering \large \listfigurenamebase}
+\renewcommand\listtablename{\centering \large \listtablenamebase}
 
 % Template imports
 \usepackage{amssymb}
@@ -243,11 +247,11 @@
 \cleardoublepage
 % \phantomsection
 
-\addcontentsline{toc}{chapter}{\listtablename}
+\addcontentsline{toc}{chapter}{\listtablenamebase}
 \listoftables
 \cleardoublepage
 
-\addcontentsline{toc}{chapter}{\listfigurename}
+\addcontentsline{toc}{chapter}{\listfigurenamebase}
 \listoffigures
 
 \newpage
