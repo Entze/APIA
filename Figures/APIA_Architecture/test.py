@@ -123,9 +123,9 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
                 for timestep in range(max_timestep + 1))
 
     # apia_options
-    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=())
+    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=(current_timestep,))
                 for subprogram_name in sorted(configuration.authorization.value))
-    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=())
+    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=(current_timestep,))
                 for subprogram_name in sorted(configuration.obligation.value))
 
 

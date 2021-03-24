@@ -6,14 +6,14 @@
 %   - consider the activity futile unless it is the most compliant activity (prefers strong compliance)
 %   - continue the activity (prefers prior commitments over strong compliance)
 
-#program apia_options_auth_weakly_compliant_1.
+#program apia_options_auth_weakly_compliant_1(current_timestep).
 % Option 1
 
 :-
     not -auth_compliance(weak),  % We are weakly compliant
     -auth_compliance(strong).
 
-#program apia_options_auth_weakly_compliant_2.
+#program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
 
 :-
@@ -31,7 +31,7 @@
 abnormal(require_permitted(Action, Timestep)) :-
     apply_cr_rule(abnormal(require_permitted(Action, Timestep))).
 
-#program apia_options_auth_weakly_compliant_3.
+#program apia_options_auth_weakly_compliant_3(current_timestep).
 % Option 3
 % (do nothing)
 
@@ -43,13 +43,13 @@ abnormal(require_permitted(Action, Timestep)) :-
 %   - consider the activity futile unless it is the most compliant activity (prefers weak compliance)
 %   - continue the activity (ignores policy completely)
 
-#program apia_options_auth_non_compliant_1.
+#program apia_options_auth_non_compliant_1(current_timestep).
 % Option 1
 
 :-
     -auth_compliance(weak).
 
-#program apia_options_auth_non_compliant_2.
+#program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
 % Implicitly maximizes authorization compliance
 
@@ -84,7 +84,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     HigherPriorityCRRule = abnormal(require_auth_compliance(Action, NewerTimestep)),
     LowerPriorityCRRule = abnormal(require_auth_compliance(Action, OlderTimestep)).
 
-#program apia_options_auth_non_compliant_3.
+#program apia_options_auth_non_compliant_3(current_timestep).
 % Option 3
 % (do nothing)
 
@@ -96,7 +96,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 %   - Consider the activity futile, unless the goal cannnot be achieved by doing the action
 %   - Ignore the policy
 
-#program apia_options_obl_do_action_1.
+#program apia_options_obl_do_action_1(current_timestep).
 % Option 1
 
 :-
@@ -104,7 +104,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     obl(Action, Timestep),
     not occurs(Action, Timestep).
 
-#program apia_options_obl_do_action_2.
+#program apia_options_obl_do_action_2(current_timestep).
 % Option 2
 % Implicitly maximizes obl compliance
 
@@ -140,7 +140,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     HigherPriorityCRRule = abnormal(satisfy_obl(Action, NewerTimestep)),
     LowerPriorityCRRule = abnormal(satisfy_obl(Action, OlderTimestep)).
 
-#program apia_options_obl_do_action_3.
+#program apia_options_obl_do_action_3(current_timestep).
 % Option 3
 % (do nothing)
 
@@ -152,7 +152,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 %   - Consider the activity futile, unless the goal can only be achieved by doing the action
 %   - Ignore the policy
 
-#program apia_options_obl_refrain_from_action_1.
+#program apia_options_obl_refrain_from_action_1(current_timestep).
 % Option 1
 
 :-
@@ -160,7 +160,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     occurs(Action, Timestep).
 
-#program apia_options_obl_refrain_from_action_2.
+#program apia_options_obl_refrain_from_action_2(current_timestep).
 % Option 2
 % Implicitly maximizes obl compliance
 
@@ -197,6 +197,6 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     HigherPriorityCRRule = abnormal(satisfy_obl(neg(Action), NewerTimestep)),
     LowerPriorityCRRule = abnormal(satisfy_obl(neg(Action), OlderTimestep)).
 
-#program apia_options_obl_refrain_from_action_3.
+#program apia_options_obl_refrain_from_action_3(current_timestep).
 % Option 3
 % (do nothing)
