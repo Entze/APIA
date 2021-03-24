@@ -28,6 +28,7 @@ class APIAAuthorizationSetting(Enum):
     CAUTIOUS = frozenset((
         'apia_options_auth_weakly_compliant_2',
         'apia_options_auth_non_compliant_1',
+        'apia_options_misc_2',
     ))
     SUBORDINATE = frozenset((
         'apia_options_auth_weakly_compliant_3',
@@ -36,10 +37,12 @@ class APIAAuthorizationSetting(Enum):
     BEST_EFFORT = frozenset((
         'apia_options_auth_weakly_compliant_2',
         'apia_options_auth_non_compliant_2',
+        'apia_options_misc_2',
     ))
     SUBORDINATE_WHEN_POSSIBLE = frozenset((
         'apia_options_auth_weakly_compliant_3',
         'apia_options_auth_non_compliant_2',
+        'apia_options_misc_2',
     ))
     UTILITARIAN = frozenset((
         'apia_options_auth_weakly_compliant_3',
@@ -55,14 +58,17 @@ class APIAObligationSetting(Enum):
     PERMIT_OMISSIONS = frozenset((
         'apia_options_obl_do_action_2',
         'apia_options_obl_refrain_from_action_1',
+        'apia_options_misc_2',
     ))
     PERMIT_COMISSIONS = frozenset((
         'apia_options_obl_do_action_1',
         'apia_options_obl_refrain_from_action_2',
+        'apia_options_misc_2',
     ))
     BEST_EFFORT = frozenset((
         'apia_options_obl_do_action_2',
         'apia_options_obl_refrain_from_action_2',
+        'apia_options_misc_2',
     ))
     UTILITARIAN = frozenset((
         'apia_options_obl_do_action_3',

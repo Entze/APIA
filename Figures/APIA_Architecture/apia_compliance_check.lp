@@ -219,25 +219,6 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
 
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
-    agent_action(Action),
-    step(NewerTimestep),
-    step(OlderTimestep),
-    OlderTimestep >= current_timestep,
-    NewerTimestep >= current_timestep,
-    NewerTimestep > OlderTimestep,
-
-    % Condition for CR-rule 1
-    occurs(Action, NewerTimestep),
-    -permitted(Action, NewerTimestep),
-
-    % Condition for CR-rule 2
-    occurs(Action, OlderTimestep),
-    -permitted(Action, OlderTimestep),
-
-    HigherPriorityCRRule = abnormal(require_auth_compliance(Action, NewerTimestep)),
-    LowerPriorityCRRule = abnormal(require_auth_compliance(Action, OlderTimestep)).
-
 #program apia_options_auth_non_compliant_3(current_timestep).
 % Option 3
 % (do nothing)
@@ -291,25 +272,6 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     LowerPriorityCRRule = plan_new(PolicyAction, Timestep),
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
-    agent_action(Action),
-    step(NewerTimestep),
-    step(OlderTimestep),
-    OlderTimestep >= current_timestep,
-    NewerTimestep >= current_timestep,
-    NewerTimestep > OlderTimestep,
-
-    % Condition for CR-rule 1
-    obl(Action, NewerTimestep),
-    occurs(Action, NewerTimestep),
-
-    % Condition for CR-rule 2
-    obl(Action, OlderTimestep),
-    occurs(Action, OlderTimestep),
-
-    HigherPriorityCRRule = abnormal(satisfy_obl(Action, NewerTimestep)),
-    LowerPriorityCRRule = abnormal(satisfy_obl(Action, OlderTimestep)).
 
 #program apia_options_obl_do_action_3(current_timestep).
 % Option 3
@@ -365,26 +327,38 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
 
-% prefer(abnormal(satisfy_obl(neg(Action), NewerTimestep)), abnormal(satisfy_obl(neg(Action), OlderTimestep)))
+#program apia_options_obl_refrain_from_action_3(current_timestep).
+% Option 3
+% (do nothing)
+
+% ---------------------------------------------------------------------
+
+#program apia_options_misc_2(current_timestep).
+
+% prefer(plan_existing(PolicyAction, NewerTimestep), plan_existing(PolicyAction, OlderTimestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
-    agent_action(Action),
+    policy_action(PolicyAction),
     step(NewerTimestep),
     step(OlderTimestep),
     OlderTimestep >= current_timestep,
     NewerTimestep >= current_timestep,
     NewerTimestep > OlderTimestep,
 
-    % Condition for CR-rule 1
-    obl(neg(Action), NewerTimestep),
-    occurs(Action, NewerTimestep),
+    HigherPriorityCRRule = plan_existing(PolicyAction, NewerTimestep),
+    LowerPriorityCRRule = plan_existing(PolicyAction, OlderTimestep),
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
 
-    % Condition for CR-rule 2
-    obl(neg(Action), OlderTimestep),
-    occurs(Action, OlderTimestep),
+% prefer(plan_new(PolicyAction, NewerTimestep), plan_new(PolicyAction, OlderTimestep)).
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+    policy_action(PolicyAction),
+    step(NewerTimestep),
+    step(OlderTimestep),
+    OlderTimestep >= current_timestep,
+    NewerTimestep >= current_timestep,
+    NewerTimestep > OlderTimestep,
 
-    HigherPriorityCRRule = abnormal(satisfy_obl(neg(Action), NewerTimestep)),
-    LowerPriorityCRRule = abnormal(satisfy_obl(neg(Action), OlderTimestep)).
-
-#program apia_options_obl_refrain_from_action_3(current_timestep).
-% Option 3
-% (do nothing)
+    HigherPriorityCRRule = plan_new(PolicyAction, NewerTimestep),
+    LowerPriorityCRRule = plan_new(PolicyAction, OlderTimestep),
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
