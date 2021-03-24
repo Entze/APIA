@@ -33,6 +33,19 @@ invalid(action(Action), Reason) :-
     Action != wait,
     Reason = @str_format("Action ({}) is neither a physical action nor a mental action", Action).
 
+invalid(action(Action), Reason) :-
+    action(Action),
+    physical_action(Action),
+    mental_action(Action),
+    Reason = @str_format("Action ({}) is both a physical action and a mental action. You should not define mental actions", Action).
+
+% Note: Our assumption
+invalid(action(Action), Reason) :-
+    action(Action),
+    agent_action(Action),
+    exogenous_action(Action),
+    Reason = @str_format("Action ({}) is both an agent action and an exogenous action", Action).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Authorization (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(permitted(Action), Reason) :-
