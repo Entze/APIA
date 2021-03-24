@@ -116,7 +116,7 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
                 for timestep in range(max_timestep + 1))
 
     # aopl_compliance
-    yield ASPSubprogramInstantiation(name='aopl_compliance', arguments=())
+    yield ASPSubprogramInstantiation(name='aopl_compliance', arguments=(current_timestep,))
 
     # aopl_sanity_check(timestep)
     yield from (ASPSubprogramInstantiation(name='aopl_sanity_check', arguments=(timestep,))

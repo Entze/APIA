@@ -1,4 +1,4 @@
-#program aopl_compliance.
+#program aopl_compliance(current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Note: Our implementation based on formal defintion
