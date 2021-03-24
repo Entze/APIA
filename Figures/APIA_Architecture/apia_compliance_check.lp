@@ -67,8 +67,7 @@ abnormal(require_permitted(Action, Timestep)) :-
 abnormal(require_auth_compliance(Action, Timestep)) :-
     apply_cr_rule(abnormal(require_auth_compliance(Action, Timestep))).
 
-% prefer(abnormal(require_auth_compliance(Action, NewerTimestep)), abnormal(require_auth_compliance(Action, OlderTimestep)))
-:~
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     step(NewerTimestep),
     step(OlderTimestep),
@@ -83,10 +82,7 @@ abnormal(require_auth_compliance(Action, Timestep)) :-
     -permitted(Action, OlderTimestep),
 
     HigherPriorityCRRule = abnormal(require_auth_compliance(Action, NewerTimestep)),
-    LowerPriorityCRRule = abnormal(require_auth_compliance(Action, OlderTimestep)),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    LowerPriorityCRRule = abnormal(require_auth_compliance(Action, OlderTimestep)).
 
 #program apia_options_auth_non_compliant_3.
 % Option 3
@@ -127,8 +123,7 @@ abnormal(satisfy_obl(Action, Timestep)) :-
     apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))),
     agent_action(Action).
 
-% prefer(abnormal(satisfy_obl(Action, NewerTimestep)), abnormal(satisfy_obl(Action, OlderTimestep)))
-:~
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     step(NewerTimestep),
     step(OlderTimestep),
@@ -143,10 +138,7 @@ abnormal(satisfy_obl(Action, Timestep)) :-
     occurs(Action, OlderTimestep),
 
     HigherPriorityCRRule = abnormal(satisfy_obl(Action, NewerTimestep)),
-    LowerPriorityCRRule = abnormal(satisfy_obl(Action, OlderTimestep)),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    LowerPriorityCRRule = abnormal(satisfy_obl(Action, OlderTimestep)).
 
 #program apia_options_obl_do_action_3.
 % Option 3
@@ -188,7 +180,7 @@ abnormal(satisfy_obl(neg(Action), Timestep)) :-
     agent_action(Action).
 
 % prefer(abnormal(satisfy_obl(neg(Action), NewerTimestep)), abnormal(satisfy_obl(neg(Action), OlderTimestep)))
-:~
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
     step(NewerTimestep),
     step(OlderTimestep),
@@ -203,10 +195,7 @@ abnormal(satisfy_obl(neg(Action), Timestep)) :-
     occurs(Action, OlderTimestep),
 
     HigherPriorityCRRule = abnormal(satisfy_obl(neg(Action), NewerTimestep)),
-    LowerPriorityCRRule = abnormal(satisfy_obl(neg(Action), OlderTimestep)),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    LowerPriorityCRRule = abnormal(satisfy_obl(neg(Action), OlderTimestep)).
 
 #program apia_options_obl_refrain_from_action_3.
 % Option 3

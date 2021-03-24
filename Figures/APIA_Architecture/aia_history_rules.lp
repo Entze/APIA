@@ -286,7 +286,7 @@ occurs(Action, Timestep) :-
 % Note: Our addition. Reduces number of possible worlds
 %
 % prefer(diagnosis(Action, NewerTimestep, current_timestep), diagnosis(Action, OlderTimestep, current_timestep))
-:~
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     physical_action(Action),
     exogenous_action(Action),
 
@@ -295,10 +295,7 @@ occurs(Action, Timestep) :-
     OlderTimestep < NewerTimestep,
 
     HigherPriorityCRRule = diagnosis(Action, NewerTimestep, current_timestep),
-    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep).
 
 % ------------------------------------------------------------------------------------------
 
