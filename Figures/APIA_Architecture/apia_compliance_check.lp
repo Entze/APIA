@@ -127,9 +127,12 @@ agent_action(Action) :-
 #program apia_options_auth_weakly_compliant_1(current_timestep).
 % Option 1
 
-:-
-    not -auth_compliance(future, weak),  % We are weakly compliant
-    -auth_compliance(future, strong).
+% impossible ignore_permitted(Action)
+impossible(ignore_permitted(Action), Timestep) :-
+    step(Timestep),
+    current_timestep <= Timestep,
+    agent_action(Action),
+    physical_action(Action).
 
 #program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
@@ -166,8 +169,12 @@ abnormal(require_permitted(Action, Timestep)) :-
 #program apia_options_auth_non_compliant_1(current_timestep).
 % Option 1
 
-:-
-    -auth_compliance(future, weak).
+% impossible ignore_neg_permitted(Action)
+impossible(ignore_neg_permitted(Action), Timestep) :-
+    step(Timestep),
+    current_timestep <= Timestep,
+    agent_action(Action),
+    physical_action(Action).
 
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
@@ -223,11 +230,12 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_do_action_1(current_timestep).
 % Option 1
 
-:-
+% impossible ignore_obl(Action)
+impossible(ignore_obl(Action), Timestep) :-
+    step(Timestep),
+    current_timestep <= Timestep,
     agent_action(Action),
-    obl(Action, Timestep),
-    Timestep >= current_timestep,
-    not occurs(Action, Timestep).
+    physical_action(Action).
 
 #program apia_options_obl_do_action_2(current_timestep).
 % Option 2
@@ -284,11 +292,12 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_refrain_from_action_1(current_timestep).
 % Option 1
 
-:-
-    obl(neg(Action), Timestep),
+% impossible ignore_obl(neg(Action))
+impossible(ignore_obl(neg(Action)), Timestep) :-
+    step(Timestep),
+    current_timestep <= Timestep,
     agent_action(Action),
-    Timestep >= current_timestep,
-    occurs(Action, Timestep).
+    physical_action(Action).
 
 #program apia_options_obl_refrain_from_action_2(current_timestep).
 % Option 2
