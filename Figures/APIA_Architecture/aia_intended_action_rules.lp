@@ -6,7 +6,7 @@
 % See p. 63 of dissertation
 #program aia_intended_action_rules(current_timestep, max_activity_length).
 
-% Our addition
+% Note: Our addition
 % interpretation(ActionsNeeded, current_timestep) :-
 %     number_unobserved(UnobservedActions, current_timestep),
 %     ActionsNeeded = UnobservedActions.
