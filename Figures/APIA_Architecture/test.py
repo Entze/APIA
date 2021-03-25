@@ -128,6 +128,13 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
     yield from (ASPSubprogramInstantiation(name='aopl_sanity_check', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
+    # apia_action_description(timestep)
+    yield from (ASPSubprogramInstantiation(name='apia_action_description', arguments=(timestep,))
+                for timestep in range(current_timestep, max_timestep + 1))
+
+    # apia_axioms(current_timestep)
+    yield ASPSubprogramInstantiation(name='apia_axioms', arguments=(current_timestep,))
+
     # apia_options
     yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=(current_timestep,))
                 for subprogram_name in sorted(configuration.authorization.value))
