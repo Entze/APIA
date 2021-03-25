@@ -391,7 +391,7 @@ impossible(turn_off_object(Actor, Object), timestep) :-
     ObjectCount = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program action_description(timestep).
+#program policy_description(timestep).
 
 % "Everyone must take their ID badge with them when moving"
 %

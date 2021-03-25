@@ -29,4 +29,4 @@ higher_ranking_than(HigherPerson, LowerPerson) :-
 #program action_description(timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program action_description(timestep).
+#program policy_description(timestep).

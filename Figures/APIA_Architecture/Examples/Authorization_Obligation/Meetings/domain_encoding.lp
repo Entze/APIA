@@ -289,7 +289,7 @@ holds(impromptu_meeting(Meeting), timestep) :-
     location(Location).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program action_description(timestep).
+#program policy_description(timestep).
 
 % "Normally, no one is allowed to hold a meeting until all attendees are present"
 %

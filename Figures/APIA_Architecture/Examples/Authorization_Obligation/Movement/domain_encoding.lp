@@ -263,7 +263,7 @@ holds(time_business_hours, timestep) :-
     Hour < 5.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program action_description(timestep).
+#program policy_description(timestep).
 
 % "Normally, anyone is allowed to move from room to room"
 %

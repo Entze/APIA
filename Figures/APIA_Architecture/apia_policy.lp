@@ -1,5 +1,5 @@
 %%%% Authorization policy %%%%
-#program action_description(timestep).
+#program policy_description(timestep).
 
 % "An agent is always allowed to wait"
 %

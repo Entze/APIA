@@ -111,6 +111,10 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
     if step_number >= 2:
         yield ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(current_timestep, max_activity_length))
 
+    # policy_description(timestep)
+    yield from (ASPSubprogramInstantiation(name='policy_description', arguments=(timestep,))
+                for timestep in range(max_timestep + 1))
+
     # aopl_compliance
     yield ASPSubprogramInstantiation(name='aopl_compliance', arguments=())
 
