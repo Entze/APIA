@@ -26,6 +26,7 @@ fluent(inertial, active_goal(Goal)) :-
 
 % Note: Originally, status(Activity, ActivityIndex)
 fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+    Activity != (ir; ir + 1),  % Note: Our addition
     activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
