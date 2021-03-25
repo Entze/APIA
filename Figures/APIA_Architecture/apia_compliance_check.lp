@@ -89,6 +89,22 @@ holds(policy_compliant(Fluent), timestep) :-
     occurs(Action, timestep),
     not ignore_obl(neg(Action), timestep).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See p. 50 of dissertation
+#program apia_axioms(current_timestep).
+
+% Given a non-compliant past, we want to be able to plan for a compliant future
+% Hence, we treat past events as being compliant.
+
+observed(auth_compliance(ComplianceLevel), Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
+    policy_fluent(inertial, auth_compliance(ComplianceLevel)).
+
+observed(obl_compliance, Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
+    policy_fluent(inertial, obl_compliance).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
