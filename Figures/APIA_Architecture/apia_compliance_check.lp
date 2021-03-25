@@ -42,10 +42,12 @@ agent_action(Action) :-
 %
 % policy_compliant(Fluent) if
 %   Fluent
+%   physical_fluent(_, Fluent),
 %   auth_compliance(strong)
 %   obl_compliance
 holds(policy_compliant(Fluent), timestep) :-
     holds(Fluent, timestep),
+    physical_fluent(_, Fluent),
     holds(auth_compliance(strong), timestep),
     holds(obl_compliance, timestep).
 
@@ -57,9 +59,11 @@ holds(policy_compliant(Fluent), timestep) :-
 %   causes -auth_compliance(strong)
 %   if
 %     agent_action(Action)
+%     not policy_action(Action)
 %     not permitted(Action)
 -holds(auth_compliance(strong), timestep + 1) :-
     agent_action(Action),
+    not policy_action(Action),
     occurs(Action, timestep),
     not occurs(ignore_permitted(Action), timestep),
     not permitted(Action, timestep).
@@ -72,9 +76,11 @@ holds(policy_compliant(Fluent), timestep) :-
 %   causes -auth_compliance(weak)
 %   if
 %     agent_action(Action)
+%     not policy_action(Action)
 %     -permitted(Action)
 -holds(auth_compliance(weak), timestep + 1) :-
     agent_action(Action),
+    not policy_action(Action),
     occurs(Action, timestep),
     not occurs(ignore_neg_permitted(Action), timestep),
     -permitted(Action, timestep).
@@ -87,9 +93,11 @@ holds(policy_compliant(Fluent), timestep) :-
 %   causes -obl_compliant
 %   if
 %     agent_action(Action)
+%     not policy_action(Action)
 %     obl(Action)
 -holds(obl_compliant, timestep + 1) :-
     agent_action(Action),
+    not policy_action(Action),
     obl(Action, timestep),
     not occurs(Action, timestep),
     not ignore_obl(Action, timestep).
@@ -100,9 +108,11 @@ holds(policy_compliant(Fluent), timestep) :-
 %   causes -obl_compliant
 %   if
 %     agent_action(Action)
+%     not policy_action(Action)
 %     obl(neg(Action))
 -holds(obl_compliant, timestep + 1) :-
     agent_action(Action),
+    not policy_action(Action),
     obl(neg(Action), timestep),
     occurs(Action, timestep),
     not ignore_obl(neg(Action), timestep).
