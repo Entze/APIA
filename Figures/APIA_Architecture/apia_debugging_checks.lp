@@ -37,8 +37,9 @@ invalid(action(Action), Reason) :-
     action(Action),
     not physical_action(Action),
     not mental_action(Action),
+    not policy_action(Action),
     Action != wait,
-    Reason = @str_format("Action ({}) is neither a physical action nor a mental action", Action).
+    Reason = @str_format("Action ({}) is not a physical action, a mental action, or a policy action", Action).
 
 invalid(action(Action), Reason) :-
     action(Action),
