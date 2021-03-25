@@ -13,24 +13,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_locked(Door)
-fluent(inertial, door_locked(Door)) :-
+physical_fluent(inertial, door_locked(Door)) :-
     door(Door).
 
 % in_room(Person, Room)
-fluent(inertial, in_room(Person, Room)) :-
+physical_fluent(inertial, in_room(Person, Room)) :-
     person(Person),
     room(Room).
 
 % busy_working(Person)
-fluent(inertial, busy_working(Person)) :-
+physical_fluent(inertial, busy_working(Person)) :-
     person(Person).
 
 % knocked_on_door(Door)
-fluent(inertial, knocked_on_door(Door)) :-
+physical_fluent(inertial, knocked_on_door(Door)) :-
     door(Door).
 
 % greeted_by(Person, Actor)
-fluent(inertial, greeted_by(Person, Actor)) :-
+physical_fluent(inertial, greeted_by(Person, Actor)) :-
     person(Person),
     person(Actor),
     Person != Actor.

@@ -21,6 +21,10 @@ activity(Activity) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Note: We introduce physical_fluent/2
+fluent(Type, Fluent) :-
+    physical_fluent(Type, Fluent).
+
 % Note: We introduce mental_fluent/2
 fluent(Type, Fluent) :-
     mental_fluent(Type, Fluent).

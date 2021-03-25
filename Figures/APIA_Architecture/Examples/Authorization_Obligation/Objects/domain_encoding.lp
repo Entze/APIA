@@ -76,39 +76,39 @@ object_attribute(Object, cd_drive) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-fluent(inertial, person_holding_object(Person, Object, ObjectCount)) :-
+physical_fluent(inertial, person_holding_object(Person, Object, ObjectCount)) :-
     person(Person),
     object(Object),
     object_attribute(Object, holdable),
     max_object_count(Object, MaxCount),
     ObjectCount = 0..MaxCount.
 
-fluent(defined, person_holding_object(Person, Object)) :-
+physical_fluent(defined, person_holding_object(Person, Object)) :-
     person(Person),
     object(Object),
     object_attribute(Object, holdable).
 
-fluent(defined, person_holding_weight(Person, Weight)) :-
+physical_fluent(defined, person_holding_weight(Person, Weight)) :-
     person(Person),
     Weight = 0..3.
 
-fluent(inertial, person_sitting_on_object(Person, Object)) :-
+physical_fluent(inertial, person_sitting_on_object(Person, Object)) :-
     person(Person),
     object(Object),
     object_attribute(Object, sitable).
 
-fluent(defined, people_sitting_on_object_count((Location, Object), PeopleCount)) :-
+physical_fluent(defined, people_sitting_on_object_count((Location, Object), PeopleCount)) :-
     object(Object),
     object_attribute(Object, sitable),
     location(Location),
     PeopleCount = 0..5.
 
-fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
+physical_fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
     location(Location),
     object_attribute(Object, power),
     ObjectCount = 0..12.
 
-fluent(inertial, object_location(Object, Location, ObjectCount)) :-
+physical_fluent(inertial, object_location(Object, Location, ObjectCount)) :-
     object(Object),
     location(Location),
     ObjectCount = 0..12.
