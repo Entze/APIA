@@ -26,6 +26,8 @@ policy_action(PolicyAction) :-
 agent_action(Action) :-
     policy_action(Action).
 
+% policy_action(Action) is neither a physical action nor a mental action
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_action_description(timestep).
 % Only set timestep to current or future timesteps
