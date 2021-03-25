@@ -32,6 +32,8 @@ agent_action(Action) :-
 #program policy_action_description(timestep).
 % Only set timestep to current or future timesteps
 
+% (Valid AL)
+%
 % policy_compliant(Fluent) if
 %   Fluent
 %   auth_compliance(strong)
@@ -43,6 +45,8 @@ holds(policy_compliant(Fluent), timestep) :-
 
 % ----------------------------------------------
 
+% (AL-like rule)
+%
 % (Action, not ignore_permitted(Action))
 %   causes -auth_compliance(strong)
 %   if
@@ -56,6 +60,8 @@ holds(policy_compliant(Fluent), timestep) :-
 
 % ----------------------------------------------
 
+% (AL-like rule)
+%
 % (Action, not ignore_neg_permitted(Action))
 %   causes -auth_compliance(weak)
 %   if
@@ -69,6 +75,8 @@ holds(policy_compliant(Fluent), timestep) :-
 
 % ----------------------------------------------
 
+% (AL-like rule)
+%
 % (not Action, not ignore_obl(Action))
 %   causes -obl_compliant
 %   if
@@ -80,6 +88,8 @@ holds(policy_compliant(Fluent), timestep) :-
     not occurs(Action, timestep),
     not ignore_obl(Action, timestep).
 
+% (AL-like rule)
+%
 % (Action, not ignore_obl(neg(Action)))
 %   causes -obl_compliant
 %   if
@@ -119,6 +129,8 @@ observed(obl_compliance, Timestep) :-
 #program apia_options_auth_weakly_compliant_1(current_timestep).
 % Option 1
 
+% (Valid AL)
+%
 % impossible ignore_permitted(Action)
 impossible(ignore_permitted(Action), Timestep) :-
     step(Timestep),
@@ -172,6 +184,8 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_auth_non_compliant_1(current_timestep).
 % Option 1
 
+% (Valid AL)
+%
 % impossible ignore_neg_permitted(Action)
 impossible(ignore_neg_permitted(Action), Timestep) :-
     step(Timestep),
@@ -226,6 +240,8 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_do_action_1(current_timestep).
 % Option 1
 
+% (Valid AL)
+%
 % impossible ignore_obl(Action)
 impossible(ignore_obl(Action), Timestep) :-
     step(Timestep),
@@ -280,6 +296,8 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_refrain_from_action_1(current_timestep).
 % Option 1
 
+% (Valid AL)
+%
 % impossible ignore_obl(neg(Action))
 impossible(ignore_obl(neg(Action)), Timestep) :-
     step(Timestep),
