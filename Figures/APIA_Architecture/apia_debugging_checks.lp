@@ -17,6 +17,13 @@ invalid(occurs(Action, Timestep), Reason) :-
     not action(Action),
     Reason = @str_format("Action ({}) is not defined in action/1", Action).
 
+invalid(fluent(inertial, Fluent), Reason) :-
+    physical_fluent(inertial, Fluent),
+    Timestep = 0,
+    not observed(Fluent, Timestep),
+    not -observed(Fluent, Timestep),
+    Reason = "Warning: No initial observation of fluent".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(action(Action), Reason) :-
