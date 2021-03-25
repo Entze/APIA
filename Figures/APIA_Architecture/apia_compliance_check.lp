@@ -8,29 +8,6 @@ policy_fluent(inertial, auth_compliance(ComplianceLevel)) :-
 
 policy_fluent(inertial, obl_compliance).
 
-% Strong auth compliance
-%
-% require_permitted(Action)
-policy_fluent(defined_negative, require_permitted(Action)) :-
-    agent_action(Action),
-    physical_action(Action).
-
-% Weak auth compliance
-%
-% require_auth_compliance(Action)
-policy_fluent(defined_negative, require_auth_compliance(Action)) :-
-    agent_action(Action),
-    physical_action(Action).
-
-% satisfy_obl(Happening)
-policy_fluent(defined_negative, satisfy_obl(Happening)) :-
-    agent_action(Action),
-    physical_action(Action),
-    Happening = (
-        Action;
-        neg(Action)
-    ).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 policy_action(PolicyAction) :-
@@ -50,71 +27,54 @@ agent_action(Action) :-
 #program policy_action_description(timestep).
 % Only set timestep to current or future timesteps
 
-% Action
+% (Action, not ignore_permitted(Action))
 %   causes -auth_compliance(strong)
 %   if
 %     agent_action(Action)
 %     not permitted(Action)
-%     require_permitted(Action)
 -holds(auth_compliance(strong), timestep + 1) :-
     agent_action(Action),
     occurs(Action, timestep),
+    not occurs(ignore_permitted(Action), timestep),
     not permitted(Action, timestep).
-
-% ignore_permitted(Action)
-%   causes
-%     -require_permitted(Action)
--holds(require_permitted(Action), timestep + 1) :-
-    occurs(ignore_permitted(Action), timestep).
 
 % ----------------------------------------------
 
-% Action
+% (Action, not ignore_neg_permitted(Action))
 %   causes -auth_compliance(weak)
 %   if
 %     agent_action(Action)
 %     -permitted(Action)
-%     require_auth_compliance(Action)
 -holds(auth_compliance(weak), timestep + 1) :-
     agent_action(Action),
     occurs(Action, timestep),
+    not occurs(ignore_neg_permitted(Action), timestep),
     -permitted(Action, timestep).
-
-% ignore_neg_permitted(Action)
-%   causes
-%     -require_auth_compliance(Action)
--holds(require_auth_compliance(Action), timestep + 1) :-
-    occurs(ignore_neg_permitted(Action), timestep).
 
 % ----------------------------------------------
 
-% (not Action)
+% (not Action, not ignore_obl(Action))
 %   causes -obl_compliant
 %   if
 %     agent_action(Action)
 %     obl(Action)
-%     satisfy_obl(Action, timestep)
 -holds(obl_compliant, timestep + 1) :-
     agent_action(Action),
     obl(Action, timestep),
-    not occurs(Action, timestep).
+    not occurs(Action, timestep),
+    not ignore_obl(Action, timestep).
 
-% Action
+% (Action, not ignore_obl(neg(Action)))
 %   causes -obl_compliant
 %   if
 %     agent_action(Action)
 %     obl(neg(Action))
-%     satisfy_obl(neg(Action))
 -holds(obl_compliant, timestep + 1) :-
     agent_action(Action),
     obl(neg(Action), timestep),
-    occurs(Action, timestep).
+    occurs(Action, timestep),
+    not ignore_obl(neg(Action), timestep).
 
-% ignore_obl(Happening)
-%   causes
-%     -satisfy_obl(Happening, Timestep).
--holds(satisfy_obl(Happening), timestep + 1) :-
-    occurs(ignore_obl(Happening), timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
