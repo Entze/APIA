@@ -116,7 +116,7 @@ agent_action(Action) :-
 -holds(satisfy_obl(Happening), timestep + 1) :-
     occurs(ignore_obl(Happening), timestep).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % If our activity is weakly compliant,
 % either:
@@ -223,7 +223,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 % Option 3
 % (do nothing)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Obligation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Obligation settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % If an activity fails to do a required action while achieving a goal
 % then we either:
