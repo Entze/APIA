@@ -3,6 +3,9 @@
 fluent(Type, Fluent) :-
     policy_fluent(Type, Fluent).
 
+policy_fluent(defined, policy_compliant(Fluent)) :-
+    physical_fluent(_, Fluent).
+
 policy_fluent(inertial, auth_compliance(ComplianceLevel)) :-
     ComplianceLevel = (strong; weak).
 
@@ -26,6 +29,17 @@ agent_action(Action) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_action_description(timestep).
 % Only set timestep to current or future timesteps
+
+% policy_compliant(Fluent) if
+%   Fluent
+%   auth_compliance(strong)
+%   obl_compliance
+holds(policy_compliant(Fluent), timestep) :-
+    holds(Fluent, timestep),
+    holds(auth_compliance(strong), timestep),
+    holds(obl_compliance, timestep).
+
+% ----------------------------------------------
 
 % (Action, not ignore_permitted(Action))
 %   causes -auth_compliance(strong)
