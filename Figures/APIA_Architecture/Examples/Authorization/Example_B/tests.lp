@@ -13,6 +13,10 @@
 %--- Iteration 1: Step 2 (Find intended action) ---%
 #program test_2.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 0.
+
 % Intended action should be wait
 %:-
 %    not intended_action(wait, Timestep),
@@ -58,6 +62,10 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 %--- Iteration 2: Step 2 (Find intended action) ---%
 #program test_6.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 1.
+
 % Intended action should be start(1)
 
 %--- Iteration 2: Step 3 (Attempt the intended action) ---%
@@ -92,6 +100,10 @@ happened(start(Activity), Timestep) :-
 
 %--- Iteration 3: Step 2 (Find intended action) ---%
 #program test_10.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 2.
 
 % Intended action should be move_through("Bob", "d12")
 %:-
@@ -140,6 +152,10 @@ observed(in_room(Person, Room), Timestep) :-
 %--- Iteration 4: Step 2 (Find intended action) ---%
 #program test_14.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 3.
+
 % Intended action should be move_through("Bob", "d23")
 %:-
 %    not intended_action(move_through(Actor, Door), Timestep),
@@ -186,6 +202,10 @@ observed(in_room(Person, Room), Timestep) :-
 
 %--- Iteration 5: Step 2 (Find intended action) ---%
 #program test_18.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 4.
 
 % Intended action should be move_through("Bob", "d34")
 %:-
@@ -238,6 +258,10 @@ observed(busy_working(Person), Timestep) :-
 %--- Iteration 6: Step 2 (Find intended action) ---%
 #program test_22.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 5.
+
 % Intended action should be stop(1)
 
 %--- Iteration 6: Step 3 (Attempt the intended action) ---%
@@ -273,6 +297,10 @@ happened(stop(Activity), Timestep) :-
 %--- Iteration 7: Step 2 (Find intended action) ---%
 #program test_26.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 6.
+
 % Intended action should be start(2)
 
 %--- Iteration 7: Step 3 (Attempt the intended action) ---%
@@ -307,6 +335,10 @@ happened(start(Activity), Timestep) :-
 
 %--- Iteration 8: Step 2 (Find intended action) ---%
 #program test_30.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 7.
 
 % Intended action should be knock_on_door("Bob", "d34")
 
@@ -345,6 +377,10 @@ happened(knock_on_door(Actor, Door), Timestep) :-
 %--- Iteration 9: Step 2 (Find intended action) ---%
 #program test_34.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 8.
+
 % Intended action should be greet("Bob", "Alice")
 
 %--- Iteration 9: Step 3 (Attempt the intended action) ---%
@@ -382,6 +418,10 @@ happened(greet(Actor, Person), Timestep) :-
 %--- Iteration 10: Step 2 (Find intended action) ---%
 #program test_38.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 9.
+
 % Intended action should be stop(2)
 
 %--- Iteration 10: Step 3 (Attempt the intended action) ---%
@@ -416,6 +456,10 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 %--- Iteration 11: Step 2 (Find intended action) ---%
 #program test_42.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 10.
 
 % Intended action should be wait
 %:-
@@ -453,6 +497,10 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 %--- Iteration 12: Step 2 (Find intended action) ---%
 #program test_46.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 1,
+    Timestep = 11.
 
 % Intended action should be wait
 %:-
