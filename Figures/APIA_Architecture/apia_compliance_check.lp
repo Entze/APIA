@@ -23,7 +23,8 @@ policy_fluent(defined_negative, policy_compliant(Fluent)) :-
 policy_fluent(inertial, auth_compliance(ComplianceLevel)) :-
     ComplianceLevel = (strong; weak).
 
-policy_fluent(inertial, obl_compliant).
+policy_fluent(inertial, obl_compliant(Type)) :-
+    Type = (do_action; refrain_from_action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -63,12 +64,12 @@ agent_action(Action) :-
     -holds(auth_compliance(ComplianceLevel), timestep).
 
 % -policy_compliant(Fluent) if
-%   require_obl_compliance(_)
-%   -obl_compliant
+%   require_obl_compliance(Type)
+%   -obl_compliant(Type)
 -holds(policy_compliant(Fluent), timestep) :-
     physical_fluent(_, Fluent),
-    require_obl_compliance(_),
-    -holds(obl_compliant, timestep).
+    require_obl_compliance(Type),
+    -holds(obl_compliant(Type), timestep).
 
 % ----------------------------------------------
 
@@ -161,9 +162,10 @@ holds(auth_compliance(ComplianceLevel), Timestep) :-
     Timestep <= current_timestep,
     policy_fluent(inertial, auth_compliance(ComplianceLevel)).
 
-holds(obl_compliant, Timestep) :-
+holds(obl_compliant(Type), Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
+    Type = (do_action; refrain_from_action),
     policy_fluent(inertial, obl_compliant).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
