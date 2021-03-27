@@ -9,6 +9,9 @@ goal(policy_compliant(Goal)) :-
 % minimum_allowed_auth_compliance(ComplianceLevel)
 %   Compliance = (strong; weak)
 
+% require_obl_compliance(Type)
+%   Type (do_action; refrain_from_action)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fluent(Type, Fluent) :-
@@ -280,6 +283,9 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_do_action_1(current_timestep).
 % Option 1
 
+require_obl_compliance(Type) :-
+    Type = do_action.
+
 % (Valid AL)
 %
 % impossible ignore_obl(Action)
@@ -335,6 +341,9 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 
 #program apia_options_obl_refrain_from_action_1(current_timestep).
 % Option 1
+
+require_obl_compliance(Type) :-
+    Type = refrain_from_action.
 
 % (Valid AL)
 %
