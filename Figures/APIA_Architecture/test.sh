@@ -65,6 +65,7 @@ grep '^Answer:' -A1 "${TEMP_DIR}/output" \
     | tail -n 2 \
     | sed -n '2p' \
     | sed -e 's/) /)\n/g' \
+    | grep -v '^cr_prefer(' \
     | sort \
     > "${TEMP_DIR}/predicates"
 
