@@ -299,6 +299,7 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     occurs(Action, FutureTimestep),
+    current_timestep < FutureTimestep,  % Note: Our addition
     physical_action(Action),
     agent_action(Action).
 
