@@ -22,10 +22,10 @@
 %   Furthermore, the UnobservedActions value of interpretation/2 is never used
 %   (even in Blount's implementation) so interpretation/2 can be removed completely.
 %
-% :-
-%     number_unobserved(UnobservedActions, current_timestep),
-%     interpretation(Step1UnobservedActions, current_timestep),
-%     UnobservedActions != Step1UnobservedActions.
+:-
+    number_unobserved(UnobservedActions, current_timestep),
+    interpretation(Step1UnobservedActions, current_timestep),
+    UnobservedActions != Step1UnobservedActions.
 
 % ------------------------------------------------------------------------------------------
 
