@@ -205,7 +205,7 @@ observed(in_room(Person, Room), Timestep) :-
 
 interpretation(Step1UnobservedActions, Timestep) :-
     Step1UnobservedActions = 0,
-    Timestep = 5.
+    Timestep = 4.
 
 % Intended action should be move_through("Bob", "d34")
 %:-
@@ -256,7 +256,7 @@ observed(in_room(Person, Room), Timestep) :-
 
 interpretation(Step1UnobservedActions, Timestep) :-
     Step1UnobservedActions = 0,
-    Timestep = 6.
+    Timestep = 5.
 
 % Intended action should be greet("Bob", "Alice")
 %:-

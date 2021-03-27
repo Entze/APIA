@@ -1,11 +1,5 @@
 % See p. 57 of dissertation
 
-% fluent(inertial, Fluent)
-% fluent(defined, Fluent)
-% aciton(Action)
-% happened(Action, Timestep)
-% observed(Fluent, Timestep)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
