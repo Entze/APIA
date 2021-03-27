@@ -51,7 +51,7 @@ if [[ "${DEBUG}" == 'trace' ]]; then
 fi
 
 # TODO: Consider adding -t "$(nproc)"
-clingo -t "$(nproc)" --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 0 \
+clingo -t "$(nproc)" --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 10 \
     > "${TEMP_DIR}/output"
 
 grep '^Grounding:' "${TEMP_DIR}/output" \
