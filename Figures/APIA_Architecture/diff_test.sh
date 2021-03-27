@@ -23,8 +23,8 @@ else
     fi
 fi
 
-PREVIOUS_TEST_FILE=$(mktemp "test_${PREVIOUS_TEST_NUMBER}.XXXXXXXXXX")
-NEW_TEST_FILE=$(mktemp "test_${NEW_TEST_NUMBER}.XXXXXXXXXX")
+PREVIOUS_TEST_FILE=$(mktemp "/tmp/apia_test_${PREVIOUS_TEST_NUMBER}.XXXXXXXXXX")
+NEW_TEST_FILE=$(mktemp "/tmp/apia_test_${NEW_TEST_NUMBER}.XXXXXXXXXX")
 
 "${TEST_SCRIPT}" "${PREVIOUS_TEST_NUMBER}" | sed 's/^/  /' > "${PREVIOUS_TEST_FILE}"
 "${TEST_SCRIPT}" "${NEW_TEST_NUMBER}" | sed 's/^/  /' > "${NEW_TEST_FILE}"

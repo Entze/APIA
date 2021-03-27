@@ -39,7 +39,7 @@ for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
     FILES+=( "${RELATIVE_PATH}" )
 done
 
-TEMP_DIR=$(mktemp -d)
+TEMP_DIR=$(mktemp -d /tmp/apia_test.XXXXXXXXXX)
 
 if [[ -n "${DEBUG}" ]]; then
     echo "${TEMP_DIR}"
