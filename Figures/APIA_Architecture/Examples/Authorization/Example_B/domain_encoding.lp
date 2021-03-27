@@ -214,6 +214,29 @@ permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
+% "Anyone is permitted to lock a door"
+%
+% permitted(lock_door(Actor, Door))
+permitted(lock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% "Anyone is permitted to unlock a door"
+%
+% permitted(unlock_door(Actor, Door))
+permitted(unlock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% permitted(knock_on_door(Actor, Door))
+permitted(knock_on_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% permitted(begin_working(Actor))
+permitted(begin_working(Actor), timestep) :-
+    agent(Actor).
+
 % "Anyone is allowed to greet a coworker if the coworker is not busy working"
 %
 % permitted(greet(Actor, Person)) if
