@@ -23,25 +23,25 @@
 %   with the compliance of the projection of future actions (i.e. our activity).
 %   Without it, we cannot imagine being more compliant than our history.
 
--obl_compliant(history) :-
+-obl_compliant(history, do_action) :-
     obl(Action, Timestep),
     agent_action(Action),  % Note: Our modification
     Timestep < current_timestep,
     not occurs(Action, Timestep).
 
--obl_compliant(future) :-
+-obl_compliant(future, do_action) :-
     obl(Action, Timestep),
     agent_action(Action),  % Note: Our modification
     Timestep >= current_timestep,
     not occurs(Action, Timestep).
 
--obl_compliant(history) :-
+-obl_compliant(history, refrain_from_action) :-
     obl(neg(Action), Timestep),
     agent_action(Action),
     Timestep < current_timestep,
     not -occurs(Action, Timestep).
 
--obl_compliant(future) :-
+-obl_compliant(future, refrain_from_action) :-
     obl(neg(Action), Timestep),
     agent_action(Action),
     Timestep >= current_timestep,
@@ -49,12 +49,19 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-obl_compliant(Type) :-
+obl_compliant(Type, do_action) :-
     Type = (
         history;
         future
     ),
-    not -obl_compliant(Type).
+    not -obl_compliant(Type, do_action).
+
+obl_compliant(Type, refrain_from_action) :-
+    Type = (
+        history;
+        future
+    ),
+    not -obl_compliant(Type, refrain_from_action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aopl_sanity_check(timestep).
