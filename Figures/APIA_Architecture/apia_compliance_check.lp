@@ -122,14 +122,10 @@ holds(policy_compliant(Fluent), timestep) :-
 #program apia_axioms(current_timestep).
 
 observed(policy_compliant(Fluent), Timestep) :-
-    step(Timestep),
-    Timestep <= current_timestep,
     observed(Fluent, Timestep),
     physical_fluent(_, Fluent).
 
 -observed(policy_compliant(Fluent), Timestep) :-
-    step(Timestep),
-    Timestep <= current_timestep,
     -observed(Fluent, Timestep),
     physical_fluent(_, Fluent).
 
