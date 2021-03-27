@@ -25,6 +25,13 @@
     interpretation(Step1UnobservedActions, current_timestep),
     UnobservedActions != Step1UnobservedActions.
 
+% "[...] other than the [above constraint], the number x from the flag is not used
+%    and the presence of the flag is all that is needed"
+%  (p. 63) of dissertation
+%
+% Note: We remove interpretation/2 from the rules below since
+%   the conditional inclusion of this ASP subprogram has the same effect
+
 % ------------------------------------------------------------------------------------------
 
 % (p. 64) of dissertation
