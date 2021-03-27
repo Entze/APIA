@@ -23,13 +23,13 @@ else
     fi
 fi
 
-PREVIOUS_TEST_FILE=$(mktemp "test_${PREVIOUS_TEST_NUMBER}.XXXXXXXXXX")
-NEW_TEST_FILE=$(mktemp "test_${NEW_TEST_NUMBER}.XXXXXXXXXX")
+PREVIOUS_TEST_FILE=$(mktemp "/tmp/apia_test_${PREVIOUS_TEST_NUMBER}.XXXXXXXXXX")
+NEW_TEST_FILE=$(mktemp "/tmp/apia_test_${NEW_TEST_NUMBER}.XXXXXXXXXX")
 
 "${TEST_SCRIPT}" "${PREVIOUS_TEST_NUMBER}" | sed 's/^/  /' > "${PREVIOUS_TEST_FILE}"
 "${TEST_SCRIPT}" "${NEW_TEST_NUMBER}" | sed 's/^/  /' > "${NEW_TEST_FILE}"
 git --no-pager diff --unified=10 --no-index "${PREVIOUS_TEST_FILE}" "${NEW_TEST_FILE}"
 
-echo "Previous test: ${PREVIOUS_TEST_NUMBER}" >&2
-echo "New test: ${NEW_TEST_NUMBER}" >&2
+echo "Previous test: ${PREVIOUS_TEST_NUMBER} (Step $(( (PREVIOUS_TEST_NUMBER - 1) % 4 + 1)))" >&2
+echo "New test: ${NEW_TEST_NUMBER} (Step $(( (NEW_TEST_NUMBER - 1) % 4 + 1)))" >&2
 rm "${PREVIOUS_TEST_FILE}" "${NEW_TEST_FILE}"
