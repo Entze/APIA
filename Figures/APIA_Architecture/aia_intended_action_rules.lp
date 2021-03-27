@@ -14,14 +14,11 @@
 % "This constraint prevents the agent from assuming additional occurrences of exogenous actions."
 % (p. 63) of dissertation
 %
-% Note: There is no point in this rule since the controller is not allowed
-%   to assert an interpretation/2 such that this constraint would be violated.
-%   It's sole purpose is to differentiate between Step 1 and Step 2 of the AIA control loop.
-%   We already do this using ASP subprograms, so interpretation/2 is redundant.
-%
-%   Furthermore, the UnobservedActions value of interpretation/2 is never used
-%   (even in Blount's implementation) so interpretation/2 can be removed completely.
-%
+% Note: The point in this rule is to limit the inferred exogenous actions from the diagnosis program
+%   while the intended action program is running.
+%   Since the diagnosis program re-runs every time,
+%   interpretation(Step1UnobservedActions, current_timestep) ensures that it does not
+%   produce any more actions than what it would have on its own.
 :-
     number_unobserved(UnobservedActions, current_timestep),
     interpretation(Step1UnobservedActions, current_timestep),
