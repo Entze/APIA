@@ -44,7 +44,14 @@ observed(policy_compliant(Fluent), Timestep) :-
 #program apia_options_auth_weakly_compliant_1(current_timestep).
 % Option 1
 
-:-
+% -policy_compliant(Fluent) if
+%   not -auth_compliance(future, weak),  % We are weakly compliant
+%   -auth_compliance(future, strong),
+-holds(policy_compliant(Fluent), Timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    step(Timestep),
+    Timestep > current_timestep,
     not -auth_compliance(future, weak),  % We are weakly compliant
     -auth_compliance(future, strong).
 
@@ -83,8 +90,14 @@ abnormal(require_permitted(Action, Timestep)) :-
 #program apia_options_auth_non_compliant_1(current_timestep).
 % Option 1
 
-:-
-    -auth_compliance(future, weak).
+% -policy_compliant(Fluent) if
+%   -auth_compliance(future, weak)
+-holds(policy_compliant(Fluent), Timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    step(Timestep),
+    Timestep > current_timestep,
+    -auth_compliance(future, weak).  % We are non-complaint
 
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
@@ -140,11 +153,14 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_do_action_1(current_timestep).
 % Option 1
 
-:-
-    agent_action(Action),
-    obl(Action, Timestep),
-    Timestep >= current_timestep,
-    not occurs(Action, Timestep).
+% -policy_compliant(Fluent) if
+%   -obl_compliant(future, do_action).
+-holds(policy_compliant(Fluent), Timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    step(Timestep),
+    Timestep > current_timestep,
+    -obl_compliant(future, do_action).
 
 #program apia_options_obl_do_action_2(current_timestep).
 % Option 2
@@ -201,11 +217,14 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_obl_refrain_from_action_1(current_timestep).
 % Option 1
 
-:-
-    obl(neg(Action), Timestep),
-    agent_action(Action),
-    Timestep >= current_timestep,
-    occurs(Action, Timestep).
+% -policy_compliant(Fluent) if
+%   -obl_compliant(future, refrain_from_action).
+-holds(policy_compliant(Fluent), Timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    step(Timestep),
+    Timestep > current_timestep,
+    -obl_compliant(future, refrain_from_action).
 
 #program apia_options_obl_refrain_from_action_2(current_timestep).
 % Option 2
