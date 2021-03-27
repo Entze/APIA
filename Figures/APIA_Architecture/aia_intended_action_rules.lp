@@ -24,8 +24,8 @@
 %
 % :-
 %     number_unobserved(UnobservedActions, current_timestep),
-%     interpretation(ActionsNeeded, current_timestep),
-%     UnobservedActions != ActionsNeeded.
+%     interpretation(Step1UnobservedActions, current_timestep),
+%     UnobservedActions != Step1UnobservedActions.
 
 % ------------------------------------------------------------------------------------------
 
