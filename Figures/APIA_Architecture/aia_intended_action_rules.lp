@@ -7,25 +7,30 @@
 #program aia_intended_action_rules(current_timestep, max_activity_length).
 
 % Note: Our addition
-% interpretation(ActionsNeeded, current_timestep) :-
-%     number_unobserved(UnobservedActions, current_timestep),
-%     ActionsNeeded = UnobservedActions.
+%
+% Require interpretation/2.
+:-
+    not interpretation(_, current_timestep).
 
 % "This constraint prevents the agent from assuming additional occurrences of exogenous actions."
 % (p. 63) of dissertation
 %
-% Note: There is no point in this rule since the controller is not allowed
-%   to assert an interpretation/2 such that this constraint would be violated.
-%   It's sole purpose is to differentiate between Step 1 and Step 2 of the AIA control loop.
-%   We already do this using ASP subprograms, so interpretation/2 is redundant.
+% Note: The point in this rule is to limit the inferred exogenous actions from the diagnosis program
+%   while the intended action program is running.
+%   Since the diagnosis program re-runs every time,
+%   interpretation(Step1UnobservedActions, current_timestep) ensures that it does not
+%   produce any more actions than what it would have on its own.
+:-
+    number_unobserved(UnobservedActions, current_timestep),
+    interpretation(Step1UnobservedActions, current_timestep),
+    UnobservedActions != Step1UnobservedActions.
+
+% "[...] other than the [above constraint], the number x from the flag is not used
+%    and the presence of the flag is all that is needed"
+%  (p. 63) of dissertation
 %
-%   Furthermore, the UnobservedActions value of interpretation/2 is never used
-%   (even in Blount's implementation) so interpretation/2 can be removed completely.
-%
-% :-
-%     number_unobserved(UnobservedActions, current_timestep),
-%     interpretation(ActionsNeeded, current_timestep),
-%     UnobservedActions != ActionsNeeded.
+% Note: We remove interpretation/2 from the rules below since
+%   the conditional inclusion of this ASP subprogram has the same effect
 
 % ------------------------------------------------------------------------------------------
 
