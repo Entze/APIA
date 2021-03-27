@@ -127,6 +127,7 @@ holds(policy_compliant(Fluent), timestep) :-
 observed(policy_compliant(Fluent), Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
+    observed(Fluent, Timestep),
     physical_fluent(_, Fluent).
 
 observed(auth_compliance(ComplianceLevel), Timestep) :-
