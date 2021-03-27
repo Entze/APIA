@@ -1,3 +1,38 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+goal(policy_compliant(Goal)) :-
+    goal(Goal),
+    @function_signature(Goal) != "policy_compliant/1".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+fluent(defined_negative, policy_compliant(Fluent)) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program action_description(timestep).
+
+% -policy_compliant(Fluent) if
+%   -Fluent
+-holds(policy_compliant(Fluent), timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    -holds(Fluent, timestep).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
+
+observed(policy_compliant(Fluent), Timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    observed(Fluent, Timestep).
+
+-observed(policy_compliant(Fluent), Timestep) :-
+    fluent(_, Fluent),
+    @function_signature(Fluent) != "policy_compliant/1",
+    -observed(Fluent, Timestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % If our activity is weakly compliant,
