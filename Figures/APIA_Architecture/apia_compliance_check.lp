@@ -58,22 +58,21 @@ observed(policy_compliant(Fluent), Timestep) :-
 #program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
 
-:-
-    not -auth_compliance(future, weak),  % We are weakly compliant
+:~
+    interpretation(_, current_timestep),
     occurs(Action, Timestep),
-    agent_action(Action),
     Timestep >= current_timestep,
-    not permitted(Action, Timestep),  % We are not strongly compliant
-    not abnormal(require_permitted(Action, Timestep)).
+    agent_action(Action),
+    not permitted(Action, Timestep).  % We are weakly compliant
+    [1@2, prefer_strong, occurs(Action, Timestep)]
 
-{ apply_cr_rule(abnormal(require_permitted(Action, Timestep))) } :-
+#maximize{ Timestep, prefer_strong_now, Action :
+    interpretation(_, current_timestep),
     occurs(Action, Timestep),
-    agent_action(Action),
     Timestep >= current_timestep,
-    not permitted(Action, Timestep).
-
-abnormal(require_permitted(Action, Timestep)) :-
-    apply_cr_rule(abnormal(require_permitted(Action, Timestep))).
+    agent_action(Action),
+    not permitted(Action, Timestep)  % We are weakly compliant
+}.
 
 #program apia_options_auth_weakly_compliant_3(current_timestep).
 % Option 3
@@ -101,42 +100,23 @@ abnormal(require_permitted(Action, Timestep)) :-
 
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
-% Implicitly maximizes authorization compliance
+% Maximizes authorization compliance
 
-:-
+:~
+    interpretation(_, current_timestep),
     occurs(Action, Timestep),
-    agent_action(Action),
     Timestep >= current_timestep,
-    -permitted(Action, Timestep),  % We are non-compliant
-    not abnormal(require_auth_compliance(Action, Timestep)).
+    agent_action(Action),
+    -permitted(Action, Timestep).  % We are non-compliant
+    [1@1, prefer_weak, occurs(Action, Timestep)]
 
-{ apply_cr_rule(abnormal(require_auth_compliance(Action, Timestep))) } :-
+#maximize{ Timestep, prefer_weak_now, Action :
+    interpretation(_, current_timestep),
     occurs(Action, Timestep),
-    agent_action(Action),
     Timestep >= current_timestep,
-    -permitted(Action, Timestep).
-
-abnormal(require_auth_compliance(Action, Timestep)) :-
-    apply_cr_rule(abnormal(require_auth_compliance(Action, Timestep))).
-
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(Action),
-    step(NewerTimestep),
-    step(OlderTimestep),
-    OlderTimestep >= current_timestep,
-    NewerTimestep >= current_timestep,
-    NewerTimestep > OlderTimestep,
-
-    % Condition for CR-rule 1
-    occurs(Action, NewerTimestep),
-    -permitted(Action, NewerTimestep),
-
-    % Condition for CR-rule 2
-    occurs(Action, OlderTimestep),
-    -permitted(Action, OlderTimestep),
-
-    HigherPriorityCRRule = abnormal(require_auth_compliance(Action, NewerTimestep)),
-    LowerPriorityCRRule = abnormal(require_auth_compliance(Action, OlderTimestep)).
+    -permitted(Action, Timestep)  % We are non-compliant
+}.
 
 #program apia_options_auth_non_compliant_3(current_timestep).
 % Option 3
@@ -166,41 +146,21 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 % Option 2
 % Implicitly maximizes obl compliance
 
-:-
-    agent_action(Action),
-    obl(Action, Timestep),
-    Timestep >= current_timestep,
-    not occurs(Action, Timestep),
-    not abnormal(satisfy_obl(Action, Timestep)).
-
-{ apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))) } :-
+:~
+    interpretation(_, current_timestep),
     obl(Action, Timestep),
     agent_action(Action),
     Timestep >= current_timestep,
-    occurs(Action, Timestep).
+    not occurs(Action, Timestep).
+    [1@1, do_action, obl(Action, Timestep)]
 
-abnormal(satisfy_obl(Action, Timestep)) :-
-    apply_cr_rule(abnormal(satisfy_obl(Action, Timestep))),
-    agent_action(Action).
-
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+#maximize{ Timestep, do_action_now, Action :
+    interpretation(_, current_timestep),
+    obl(Action, Timestep),
     agent_action(Action),
-    step(NewerTimestep),
-    step(OlderTimestep),
-    OlderTimestep >= current_timestep,
-    NewerTimestep >= current_timestep,
-    NewerTimestep > OlderTimestep,
-
-    % Condition for CR-rule 1
-    obl(Action, NewerTimestep),
-    occurs(Action, NewerTimestep),
-
-    % Condition for CR-rule 2
-    obl(Action, OlderTimestep),
-    occurs(Action, OlderTimestep),
-
-    HigherPriorityCRRule = abnormal(satisfy_obl(Action, NewerTimestep)),
-    LowerPriorityCRRule = abnormal(satisfy_obl(Action, OlderTimestep)).
+    Timestep >= current_timestep,
+    not occurs(Action, Timestep)
+}.
 
 #program apia_options_obl_do_action_3(current_timestep).
 % Option 3
@@ -230,42 +190,21 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 % Option 2
 % Implicitly maximizes obl compliance
 
-:-
-    obl(neg(Action), Timestep),
-    agent_action(Action),
-    Timestep >= current_timestep,
-    occurs(Action, Timestep),
-    not abnormal(satisfy_obl(neg(Action), Timestep)).
-
-{ apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))) } :-
+:~
+    interpretation(_, current_timestep),
     obl(neg(Action), Timestep),
     agent_action(Action),
     Timestep >= current_timestep,
     occurs(Action, Timestep).
+    [1@2, refrain_from_action, obl(Action, Timestep)]
 
-abnormal(satisfy_obl(neg(Action), Timestep)) :-
-    apply_cr_rule(abnormal(satisfy_obl(neg(Action), Timestep))),
-    agent_action(Action).
-
-% prefer(abnormal(satisfy_obl(neg(Action), NewerTimestep)), abnormal(satisfy_obl(neg(Action), OlderTimestep)))
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+#maximize{ Timestep, refrain_from_action_now, Action :
+    interpretation(_, current_timestep),
+    obl(neg(Action), Timestep),
     agent_action(Action),
-    step(NewerTimestep),
-    step(OlderTimestep),
-    OlderTimestep >= current_timestep,
-    NewerTimestep >= current_timestep,
-    NewerTimestep > OlderTimestep,
-
-    % Condition for CR-rule 1
-    obl(neg(Action), NewerTimestep),
-    occurs(Action, NewerTimestep),
-
-    % Condition for CR-rule 2
-    obl(neg(Action), OlderTimestep),
-    occurs(Action, OlderTimestep),
-
-    HigherPriorityCRRule = abnormal(satisfy_obl(neg(Action), NewerTimestep)),
-    LowerPriorityCRRule = abnormal(satisfy_obl(neg(Action), OlderTimestep)).
+    Timestep >= current_timestep,
+    occurs(Action, Timestep)
+}.
 
 #program apia_options_obl_refrain_from_action_3(current_timestep).
 % Option 3
