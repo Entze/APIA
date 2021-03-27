@@ -132,6 +132,11 @@ observed(policy_compliant(Fluent), Timestep) :-
 % Given a non-compliant past, we want to be able to plan for a compliant future
 % Hence, we treat past events as being compliant.
 
+observed(policy_compliant(Fluent), Timestep) :-
+    step(Timestep),
+    Timestep <= current_timestep,
+    physical_fluent(_, Fluent).
+
 observed(auth_compliance(ComplianceLevel), Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
