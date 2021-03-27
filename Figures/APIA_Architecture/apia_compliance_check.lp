@@ -4,6 +4,8 @@ goal(policy_compliant(Goal)) :-
     goal(Goal),
     @function_signature(Goal) != "policy_compliant/1".
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fluent(Type, Fluent) :-
