@@ -7,9 +7,10 @@
 #program aia_intended_action_rules(current_timestep, max_activity_length).
 
 % Note: Our addition
-% interpretation(ActionsNeeded, current_timestep) :-
-%     number_unobserved(UnobservedActions, current_timestep),
-%     ActionsNeeded = UnobservedActions.
+%
+% Require interpretation/2.
+:-
+    not interpretation(_, current_timestep).
 
 % "This constraint prevents the agent from assuming additional occurrences of exogenous actions."
 % (p. 63) of dissertation
