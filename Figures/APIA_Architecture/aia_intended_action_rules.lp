@@ -294,11 +294,12 @@ occurs(Action, FutureTimestep) :-
 
 % "[this rule] creates component statements based on those occurrences"
 % (p. 71) of dissertation
-activity_component(Activity, PreviousTimestep - 1, Action) :-
+activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    occurs(Action, PreviousTimestep),
+    occurs(Action, FutureTimestep),
+    current_timestep < FutureTimestep,  % Note: Our addition
     physical_action(Action),
     agent_action(Action).
 
@@ -322,7 +323,7 @@ activity_length(Activity, ActivityLength) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    ActivityLength = #max{ ActivityIndex, ActivityComponent :
+    ActivityLength = #count{ ActivityIndex, ActivityComponent :
         activity_component(Activity, ActivityIndex, ActivityComponent)
     },
     ActivityLength > 0.
