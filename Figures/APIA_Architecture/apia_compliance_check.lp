@@ -6,6 +6,9 @@ goal(policy_compliant(Goal)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% minimum_allowed_auth_compliance(ComplianceLevel)
+%   Compliance = (strong; weak)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 fluent(Type, Fluent) :-
@@ -160,6 +163,9 @@ holds(obl_compliant, Timestep) :-
 #program apia_options_auth_weakly_compliant_1(current_timestep).
 % Option 1
 
+minimum_allowed_auth_compliance(ComplianceLevel) :-
+    ComplianceLevel = strong.
+
 % (Valid AL)
 %
 % impossible ignore_permitted(Action)
@@ -214,6 +220,9 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 
 #program apia_options_auth_non_compliant_1(current_timestep).
 % Option 1
+
+minimum_allowed_auth_compliance(ComplianceLevel) :-
+    ComplianceLevel = weak.
 
 % (Valid AL)
 %
