@@ -15,7 +15,7 @@ policy_fluent(defined, policy_compliant(Fluent)) :-
 policy_fluent(inertial, auth_compliance(ComplianceLevel)) :-
     ComplianceLevel = (strong; weak).
 
-policy_fluent(inertial, obl_compliance).
+policy_fluent(inertial, obl_compliant).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -44,12 +44,12 @@ agent_action(Action) :-
 %   Fluent
 %   physical_fluent(_, Fluent),
 %   auth_compliance(strong)
-%   obl_compliance
+%   obl_compliant
 holds(policy_compliant(Fluent), timestep) :-
     holds(Fluent, timestep),
     physical_fluent(_, Fluent),
     holds(auth_compliance(strong), timestep),
-    holds(obl_compliance, timestep).
+    holds(obl_compliant, timestep).
 
 % ----------------------------------------------
 
@@ -137,10 +137,10 @@ observed(auth_compliance(ComplianceLevel), Timestep) :-
     Timestep <= current_timestep,
     policy_fluent(inertial, auth_compliance(ComplianceLevel)).
 
-observed(obl_compliance, Timestep) :-
+observed(obl_compliant, Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
-    policy_fluent(inertial, obl_compliance).
+    policy_fluent(inertial, obl_compliant).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
