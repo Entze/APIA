@@ -121,14 +121,14 @@ holds(policy_compliant(Fluent), timestep) :-
 % See p. 50 of dissertation
 #program apia_axioms(current_timestep).
 
-% Given a non-compliant past, we want to be able to plan for a compliant future
-% Hence, we treat past events as being compliant.
-
 observed(policy_compliant(Fluent), Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
     observed(Fluent, Timestep),
     physical_fluent(_, Fluent).
+
+% Given a non-compliant past, we want to be able to plan for a compliant future
+% Hence, we treat past events as being compliant.
 
 observed(auth_compliance(ComplianceLevel), Timestep) :-
     step(Timestep),
