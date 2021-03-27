@@ -17,7 +17,7 @@ goal(policy_compliant(Goal)) :-
 fluent(Type, Fluent) :-
     policy_fluent(Type, Fluent).
 
-policy_fluent(defined, policy_compliant(Fluent)) :-
+policy_fluent(defined_negative, policy_compliant(Fluent)) :-
     physical_fluent(_, Fluent).
 
 policy_fluent(inertial, auth_compliance(ComplianceLevel)) :-
@@ -48,16 +48,27 @@ agent_action(Action) :-
 
 % (Valid AL)
 %
-% policy_compliant(Fluent) if
-%   Fluent
-%   physical_fluent(_, Fluent),
-%   auth_compliance(strong)
-%   obl_compliant
-holds(policy_compliant(Fluent), timestep) :-
-    holds(Fluent, timestep),
+% -policy_compliant(Fluent) if
+%   -Fluent
+-holds(policy_compliant(Fluent), timestep) :-
     physical_fluent(_, Fluent),
-    holds(auth_compliance(strong), timestep),
-    holds(obl_compliant, timestep).
+    -holds(Fluent, timestep).
+
+% -policy_compliant(Fluent) if
+%   minimum_allowed_auth_compliance(ComplianceLevel)
+%   -auth_compliance(ComplianceLevel)
+-holds(policy_compliant(Fluent), timestep) :-
+    physical_fluent(_, Fluent),
+    minimum_allowed_auth_compliance(ComplianceLevel),
+    -holds(auth_compliance(ComplianceLevel), timestep).
+
+% -policy_compliant(Fluent) if
+%   require_obl_compliance(_)
+%   -obl_compliant
+-holds(policy_compliant(Fluent), timestep) :-
+    physical_fluent(_, Fluent),
+    require_obl_compliance(_),
+    -holds(obl_compliant, timestep).
 
 % ----------------------------------------------
 
