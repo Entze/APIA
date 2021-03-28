@@ -44,7 +44,7 @@ agent_action(Action) :-
 % policy_action(Action) is neither a physical action nor a mental action
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program apia_action_description(timestep).
+#program apia_action_description(current_timestep).
 % Only set timestep to current or future timesteps
 
 % (Valid AL)
