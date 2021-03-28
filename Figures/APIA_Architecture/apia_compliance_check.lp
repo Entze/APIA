@@ -44,32 +44,36 @@ agent_action(Action) :-
 % policy_action(Action) is neither a physical action nor a mental action
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program apia_action_description(timestep).
+#program apia_action_description(current_timestep).
 % Only set timestep to current or future timesteps
 
 % (Valid AL)
 %
 % -policy_compliant(Fluent) if
 %   -Fluent
--holds(policy_compliant(Fluent), timestep) :-
+-holds(policy_compliant(Fluent), Timestep) :-
     physical_fluent(_, Fluent),
-    -holds(Fluent, timestep).
+    -holds(Fluent, Timestep).
 
 % -policy_compliant(Fluent) if
+%   Timestep > current_timestep,
 %   minimum_allowed_auth_compliance(ComplianceLevel)
 %   -auth_compliance(ComplianceLevel)
--holds(policy_compliant(Fluent), timestep) :-
+-holds(policy_compliant(Fluent), Timestep) :-
+    Timestep > current_timestep,
     physical_fluent(_, Fluent),
     minimum_allowed_auth_compliance(ComplianceLevel),
-    -holds(auth_compliance(ComplianceLevel), timestep).
+    -holds(auth_compliance(ComplianceLevel), Timestep).
 
 % -policy_compliant(Fluent) if
+%   Timestep > current_timestep,
 %   require_obl_compliance(Type)
 %   -obl_compliant(Type)
--holds(policy_compliant(Fluent), timestep) :-
+-holds(policy_compliant(Fluent), Timestep) :-
+    Timestep > current_timestep,
     physical_fluent(_, Fluent),
     require_obl_compliance(Type),
-    -holds(obl_compliant(Type), timestep).
+    -holds(obl_compliant(Type), Timestep).
 
 % ----------------------------------------------
 
@@ -78,15 +82,17 @@ agent_action(Action) :-
 % (Action, not ignore_permitted(Action))
 %   causes -auth_compliance(strong)
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     not permitted(Action)
--holds(auth_compliance(strong), timestep + 1) :-
+-holds(auth_compliance(strong), Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
-    occurs(Action, timestep),
-    not occurs(ignore_permitted(Action), timestep),
-    not permitted(Action, timestep).
+    occurs(Action, Timestep),
+    not occurs(ignore_permitted(Action), Timestep),
+    not permitted(Action, Timestep).
 
 % ----------------------------------------------
 
@@ -95,15 +101,17 @@ agent_action(Action) :-
 % (Action, not ignore_neg_permitted(Action))
 %   causes -auth_compliance(weak)
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     -permitted(Action)
--holds(auth_compliance(weak), timestep + 1) :-
+-holds(auth_compliance(weak), Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
-    occurs(Action, timestep),
-    not occurs(ignore_neg_permitted(Action), timestep),
-    -permitted(Action, timestep).
+    occurs(Action, Timestep),
+    not occurs(ignore_neg_permitted(Action), Timestep),
+    -permitted(Action, Timestep).
 
 % ----------------------------------------------
 
@@ -112,30 +120,34 @@ agent_action(Action) :-
 % (not Action, not ignore_obl(Action))
 %   causes -obl_compliant
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(Action)
--holds(obl_compliant, timestep + 1) :-
+-holds(obl_compliant, Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
-    obl(Action, timestep),
-    not occurs(Action, timestep),
-    not ignore_obl(Action, timestep).
+    obl(Action, Timestep),
+    not occurs(Action, Timestep),
+    not ignore_obl(Action, Timestep).
 
 % (AL-like rule)
 %
 % (Action, not ignore_obl(neg(Action)))
 %   causes -obl_compliant
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(neg(Action))
--holds(obl_compliant, timestep + 1) :-
+-holds(obl_compliant, Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
-    obl(neg(Action), timestep),
-    occurs(Action, timestep),
-    not ignore_obl(neg(Action), timestep).
+    obl(neg(Action), Timestep),
+    occurs(Action, Timestep),
+    not ignore_obl(neg(Action), Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation

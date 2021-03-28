@@ -129,8 +129,7 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
                 for timestep in range(max_timestep + 1))
 
     # apia_action_description(timestep)
-    yield from (ASPSubprogramInstantiation(name='apia_action_description', arguments=(timestep,))
-                for timestep in range(current_timestep, max_timestep + 1))
+    yield ASPSubprogramInstantiation(name='apia_action_description', arguments=(current_timestep,))
 
     # apia_axioms(current_timestep)
     yield ASPSubprogramInstantiation(name='apia_axioms', arguments=(current_timestep,))
