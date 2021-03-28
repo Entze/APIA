@@ -56,17 +56,21 @@ agent_action(Action) :-
     -holds(Fluent, Timestep).
 
 % -policy_compliant(Fluent) if
+%   Timestep > current_timestep,
 %   minimum_allowed_auth_compliance(ComplianceLevel)
 %   -auth_compliance(ComplianceLevel)
 -holds(policy_compliant(Fluent), Timestep) :-
+    Timestep > current_timestep,
     physical_fluent(_, Fluent),
     minimum_allowed_auth_compliance(ComplianceLevel),
     -holds(auth_compliance(ComplianceLevel), Timestep).
 
 % -policy_compliant(Fluent) if
+%   Timestep > current_timestep,
 %   require_obl_compliance(Type)
 %   -obl_compliant(Type)
 -holds(policy_compliant(Fluent), Timestep) :-
+    Timestep > current_timestep,
     physical_fluent(_, Fluent),
     require_obl_compliance(Type),
     -holds(obl_compliant(Type), Timestep).
@@ -78,10 +82,12 @@ agent_action(Action) :-
 % (Action, not ignore_permitted(Action))
 %   causes -auth_compliance(strong)
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     not permitted(Action)
 -holds(auth_compliance(strong), Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
     occurs(Action, Timestep),
@@ -95,10 +101,12 @@ agent_action(Action) :-
 % (Action, not ignore_neg_permitted(Action))
 %   causes -auth_compliance(weak)
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     -permitted(Action)
 -holds(auth_compliance(weak), Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
     occurs(Action, Timestep),
@@ -112,10 +120,12 @@ agent_action(Action) :-
 % (not Action, not ignore_obl(Action))
 %   causes -obl_compliant
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(Action)
 -holds(obl_compliant, Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
     obl(Action, Timestep),
@@ -127,10 +137,12 @@ agent_action(Action) :-
 % (Action, not ignore_obl(neg(Action)))
 %   causes -obl_compliant
 %   if
+%     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(neg(Action))
 -holds(obl_compliant, Timestep + 1) :-
+    Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
     obl(neg(Action), Timestep),
