@@ -118,13 +118,13 @@ agent_action(Action) :-
 % (AL-like rule)
 %
 % (not Action, not ignore_obl(Action))
-%   causes -obl_compliant
+%   causes -obl_compliant(do_action)
 %   if
 %     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(Action)
--holds(obl_compliant, Timestep + 1) :-
+-holds(obl_compliant(do_action), Timestep + 1) :-
     Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
@@ -135,13 +135,13 @@ agent_action(Action) :-
 % (AL-like rule)
 %
 % (Action, not ignore_obl(neg(Action)))
-%   causes -obl_compliant
+%   causes -obl_compliant(refrain_from_action)
 %   if
 %     Timestep >= current_timestep,
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(neg(Action))
--holds(obl_compliant, Timestep + 1) :-
+-holds(obl_compliant(refrain_from_action), Timestep + 1) :-
     Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
@@ -172,8 +172,7 @@ holds(auth_compliance(ComplianceLevel), Timestep) :-
 holds(obl_compliant(Type), Timestep) :-
     step(Timestep),
     Timestep <= current_timestep,
-    Type = (do_action; refrain_from_action),
-    policy_fluent(inertial, obl_compliant).
+    policy_fluent(inertial, obl_compliant(Type)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization settings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
