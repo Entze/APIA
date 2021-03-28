@@ -51,25 +51,25 @@ agent_action(Action) :-
 %
 % -policy_compliant(Fluent) if
 %   -Fluent
--holds(policy_compliant(Fluent), timestep) :-
+-holds(policy_compliant(Fluent), Timestep) :-
     physical_fluent(_, Fluent),
-    -holds(Fluent, timestep).
+    -holds(Fluent, Timestep).
 
 % -policy_compliant(Fluent) if
 %   minimum_allowed_auth_compliance(ComplianceLevel)
 %   -auth_compliance(ComplianceLevel)
--holds(policy_compliant(Fluent), timestep) :-
+-holds(policy_compliant(Fluent), Timestep) :-
     physical_fluent(_, Fluent),
     minimum_allowed_auth_compliance(ComplianceLevel),
-    -holds(auth_compliance(ComplianceLevel), timestep).
+    -holds(auth_compliance(ComplianceLevel), Timestep).
 
 % -policy_compliant(Fluent) if
 %   require_obl_compliance(Type)
 %   -obl_compliant(Type)
--holds(policy_compliant(Fluent), timestep) :-
+-holds(policy_compliant(Fluent), Timestep) :-
     physical_fluent(_, Fluent),
     require_obl_compliance(Type),
-    -holds(obl_compliant(Type), timestep).
+    -holds(obl_compliant(Type), Timestep).
 
 % ----------------------------------------------
 
@@ -81,12 +81,12 @@ agent_action(Action) :-
 %     agent_action(Action)
 %     not policy_action(Action)
 %     not permitted(Action)
--holds(auth_compliance(strong), timestep + 1) :-
+-holds(auth_compliance(strong), Timestep + 1) :-
     agent_action(Action),
     not policy_action(Action),
-    occurs(Action, timestep),
-    not occurs(ignore_permitted(Action), timestep),
-    not permitted(Action, timestep).
+    occurs(Action, Timestep),
+    not occurs(ignore_permitted(Action), Timestep),
+    not permitted(Action, Timestep).
 
 % ----------------------------------------------
 
@@ -98,12 +98,12 @@ agent_action(Action) :-
 %     agent_action(Action)
 %     not policy_action(Action)
 %     -permitted(Action)
--holds(auth_compliance(weak), timestep + 1) :-
+-holds(auth_compliance(weak), Timestep + 1) :-
     agent_action(Action),
     not policy_action(Action),
-    occurs(Action, timestep),
-    not occurs(ignore_neg_permitted(Action), timestep),
-    -permitted(Action, timestep).
+    occurs(Action, Timestep),
+    not occurs(ignore_neg_permitted(Action), Timestep),
+    -permitted(Action, Timestep).
 
 % ----------------------------------------------
 
@@ -115,12 +115,12 @@ agent_action(Action) :-
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(Action)
--holds(obl_compliant, timestep + 1) :-
+-holds(obl_compliant, Timestep + 1) :-
     agent_action(Action),
     not policy_action(Action),
-    obl(Action, timestep),
-    not occurs(Action, timestep),
-    not ignore_obl(Action, timestep).
+    obl(Action, Timestep),
+    not occurs(Action, Timestep),
+    not ignore_obl(Action, Timestep).
 
 % (AL-like rule)
 %
@@ -130,12 +130,12 @@ agent_action(Action) :-
 %     agent_action(Action)
 %     not policy_action(Action)
 %     obl(neg(Action))
--holds(obl_compliant, timestep + 1) :-
+-holds(obl_compliant, Timestep + 1) :-
     agent_action(Action),
     not policy_action(Action),
-    obl(neg(Action), timestep),
-    occurs(Action, timestep),
-    not ignore_obl(neg(Action), timestep).
+    obl(neg(Action), Timestep),
+    occurs(Action, Timestep),
+    not ignore_obl(neg(Action), Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
