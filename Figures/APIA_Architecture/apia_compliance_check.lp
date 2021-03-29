@@ -6,7 +6,7 @@ goal(policy_compliant(Goal)) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% minimum_allowed_auth_compliance(ComplianceLevel)
+% require_auth_compliance(ComplianceLevel)
 %   Compliance = (strong; weak)
 
 % require_obl_compliance(Type)
@@ -57,12 +57,12 @@ agent_action(Action) :-
 
 % -policy_compliant(Fluent) if
 %   Timestep > current_timestep,
-%   minimum_allowed_auth_compliance(ComplianceLevel)
+%   require_auth_compliance(ComplianceLevel)
 %   -auth_compliance(ComplianceLevel)
 -holds(policy_compliant(Fluent), Timestep) :-
     Timestep > current_timestep,
     physical_fluent(_, Fluent),
-    minimum_allowed_auth_compliance(ComplianceLevel),
+    require_auth_compliance(ComplianceLevel),
     -holds(auth_compliance(ComplianceLevel), Timestep).
 
 % -policy_compliant(Fluent) if
@@ -185,7 +185,7 @@ holds(obl_compliant(Type), Timestep) :-
 #program apia_options_auth_weakly_compliant_1(current_timestep).
 % Option 1
 
-minimum_allowed_auth_compliance(ComplianceLevel) :-
+require_auth_compliance(ComplianceLevel) :-
     ComplianceLevel = strong.
 
 % (Valid AL)
@@ -243,7 +243,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
 #program apia_options_auth_non_compliant_1(current_timestep).
 % Option 1
 
-minimum_allowed_auth_compliance(ComplianceLevel) :-
+require_auth_compliance(ComplianceLevel) :-
     ComplianceLevel = weak.
 
 % (Valid AL)
