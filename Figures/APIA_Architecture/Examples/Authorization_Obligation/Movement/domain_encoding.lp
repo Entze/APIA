@@ -204,11 +204,13 @@ holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep
 % Action
 %   causes door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft - 1)
 %   if
+%     physical_action(Action)
 %     door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
 %     TimestepsLeft > 0,
 %     not -door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft - 1)
 holds(door_autolock_countdown(FromLocation, ToLocation, NewTimestepsLeft), timestep) :-
-    occurs(_, timestep),
+    occurs(Action, timestep),
+    physical_action(Action),
     holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
     TimestepsLeft > 0,
     NewTimestepsLeft = TimestepsLeft - 1,
@@ -217,10 +219,12 @@ holds(door_autolock_countdown(FromLocation, ToLocation, NewTimestepsLeft), times
 % Action
 %   causes door_locked(FromLocation, ToLocation)
 %   if
+%     physical_action(Action)
 %     door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft),
 %     TimestempsLeft = 1
 holds(door_locked(FromLocation, ToLocation), timestep) :-
-    occurs(_, timestep),
+    occurs(Action, timestep),
+    physical_action(Action),
     holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
     TimestempsLeft = 1.
 
