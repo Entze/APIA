@@ -243,12 +243,14 @@ holds(door_locked(FromLocation, ToLocation), timestep) :-
 %     NewMinute = NewTime \ 60
 %     NewHour = (NewTime / 60) \ 24
 holds(time(NewHour, NewMinute), timestep + 1) :-
-    occurs(Action, timestep),
-    agent_action(Action),
-    action_duration(Action, Duration),
-    Duration > 0,
+    MaxDuration = #max{ Duration, Action :
+        occurs(Action, timestep),
+        agent_action(Action),
+        action_duration(Action, Duration)
+    },
+    MaxDuration > 0,
     holds(time(Hour, Minute), timestep),
-    NewTime = (Hour * 60 + Minute) + Duration,
+    NewTime = (Hour * 60 + Minute) + MaxDuration,
     NewMinute = NewTime \ 60,
     NewHour = (NewTime / 60) \ 24.
 
