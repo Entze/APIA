@@ -405,7 +405,7 @@ happened(greet(Actor, Person), Timestep) :-
 
 % Increment timestep
 
--observed(greeted_by(Person, Actor), Timestep) :-
+observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 9,
     Person = "Alice",
     Actor = "Bob".
