@@ -71,7 +71,7 @@ grep '^Answer:' -A1 "${TEMP_DIR}/output" \
 
 if [[ "$(grep -c '^Answer: 1$' "${TEMP_DIR}/output")" -eq 1 ]]; then
     # Normal output
-    NUM_MODELS=$(grep -c 'Answer:' "${TEMP_DIR}/output")
+    NUM_MODELS=$(grep -c '^Answer:' "${TEMP_DIR}/output")
 else
     # optN output (Ignore first 'Answer 1, 2, 3, ...' until Answer 1, 2, 3, ...)
     NUM_MODELS=$(grep '^Answer:' "${TEMP_DIR}/output" \
