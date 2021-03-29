@@ -233,6 +233,7 @@ holds(door_locked(FromLocation, ToLocation), timestep) :-
 % Action
 %   causes time(NewHour, NewMinute)
 %   if
+%     agent_action(Action)
 %     time(Hour, Minute),
 %     action_duration(Action, Duration)
 %     Duration > 0
@@ -241,6 +242,7 @@ holds(door_locked(FromLocation, ToLocation), timestep) :-
 %     NewHour = (NewTime / 60) \ 24
 holds(time(NewHour, NewMinute), timestep + 1) :-
     occurs(Action, timestep),
+    agent_action(Action),
     action_duration(Action, Duration),
     Duration > 0,
     holds(time(Hour, Minute), timestep),
