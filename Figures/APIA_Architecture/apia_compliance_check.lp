@@ -200,6 +200,9 @@ impossible(ignore_permitted(Action), Timestep) :-
 #program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
 
+require_auth_compliance(ComplianceLevel) :-
+    ComplianceLevel = strong.
+
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     step(Timestep),
@@ -258,6 +261,9 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
 % Implicitly maximizes authorization compliance
+
+require_auth_compliance(ComplianceLevel) :-
+    ComplianceLevel = weak.
 
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
@@ -318,6 +324,9 @@ impossible(ignore_obl(Action), Timestep) :-
 % Option 2
 % Implicitly maximizes obl compliance
 
+require_obl_compliance(Type) :-
+    Type = do_action.
+
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     step(Timestep),
@@ -376,6 +385,9 @@ impossible(ignore_obl(neg(Action)), Timestep) :-
 #program apia_options_obl_refrain_from_action_2(current_timestep).
 % Option 2
 % Implicitly maximizes obl compliance
+
+require_obl_compliance(Type) :-
+    Type = refrain_from_action.
 
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
