@@ -19,11 +19,11 @@ foo(A) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % bar(B)
-fluent(inertial, bar(B)) :-
+physical_fluent(inertial, bar(B)) :-
     b(B).
 
 % baz(C)
-fluent(defined, baz(C)) :-
+physical_fluent(defined, baz(C)) :-
     c(C).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,10 +79,34 @@ holds(baz(B), timestep) :-
 %   baz(C),
 %   A = B,
 %   B = C
--occurs(do_foo(A), timestep) | -occurs(do_bar(B), timestep) | -occurs(do_baz(C), timestep) :-
+%
+% Note: Create (N choose N - 1) rules
+impossible(do_foo(A), timestep) :-
     foo(A),
     holds(bar(B), timestep),
-    holds(baz(C), timestep).
+    holds(baz(C), timestep),
+    A = B,
+    B = C,
+    occurs(do_bar(B), timestep),
+    occurs(do_baz(C), timestep).
+
+impossible(do_bar(B), timestep) :-
+    foo(A),
+    holds(bar(B), timestep),
+    holds(baz(C), timestep),
+    A = B,
+    B = C,
+    occurs(do_foo(A), timestep),
+    occurs(do_baz(C), timestep).
+
+impossible(do_baz(C), timestep) :-
+    foo(A),
+    holds(bar(B), timestep),
+    holds(baz(C), timestep),
+    A = B,
+    B = C,
+    occurs(do_foo(A), timestep),
+    occurs(do_bar(B), timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

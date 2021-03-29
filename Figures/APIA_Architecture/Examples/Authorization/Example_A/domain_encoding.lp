@@ -3,6 +3,7 @@
 % room(Room)
 % door(Door)
 % person(Person)
+% agent(Agent)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -12,16 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_locked(Door)
-fluent(inertial, door_locked(Door)) :-
+physical_fluent(inertial, door_locked(Door)) :-
     door(Door).
 
 % in_room(Person, Room)
-fluent(inertial, in_room(Person, Room)) :-
+physical_fluent(inertial, in_room(Person, Room)) :-
     person(Person),
     room(Room).
 
 % greeted_by(Person, Actor)
-fluent(inertial, greeted_by(Person, Actor)) :-
+physical_fluent(inertial, greeted_by(Person, Actor)) :-
     person(Person),
     person(Actor),
     Person != Actor.
@@ -33,21 +34,53 @@ physical_action(move_through(Actor, Door)) :-
     person(Actor),
     door(Door).
 
+agent_action(move_through(Actor, Door)) :-
+    physical_action(move_through(Actor, Door)),
+    agent(Actor).
+
+exogenous_action(move_through(Actor, Door)) :-
+    physical_action(move_through(Actor, Door)),
+    not agent(Actor).
+
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
+
+agent_action(lock_door(Actor, Door)) :-
+    physical_action(lock_door(Actor, Door)),
+    agent(Actor).
+
+exogenous_action(lock_door(Actor, Door)) :-
+    physical_action(lock_door(Actor, Door)),
+    not agent(Actor).
 
 % unlock_door(Actor, Door)
 physical_action(unlock_door(Actor, Door)) :-
     person(Actor),
     door(Door).
 
+agent_action(unlock_door(Actor, Door)) :-
+    physical_action(unlock_door(Actor, Door)),
+    agent(Actor).
+
+exogenous_action(unlock_door(Actor, Door)) :-
+    physical_action(unlock_door(Actor, Door)),
+    not agent(Actor).
+
 % greet(Actor, Person)
 physical_action(greet(Actor, Person)) :-
     person(Actor),
     person(Person),
     Actor != Person.
+
+agent_action(greet(Actor, Person)) :-
+    physical_action(greet(Actor, Person)),
+    agent(Actor).
+
+exogenous_action(greet(Actor, Person)) :-
+    physical_action(greet(Actor, Person)),
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
@@ -75,7 +108,7 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
 % impossible move_through(Actor, Door) if
 %   in_room(Actor, Room),
 %   not door_connects(Door, Room)
--occurs(move_through(Actor, Door), timestep) :-
+impossible(move_through(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
@@ -88,7 +121,7 @@ holds(door_locked(Door), timestep + 1) :-
 % impossible lock_door(Actor, Door) if
 %   in_room(Actor, Room),
 %   not door_connects(Door, Room)
--occurs(lock_door(Actor, Door), timestep) :-
+impossible(lock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
@@ -101,7 +134,7 @@ holds(door_locked(Door), timestep + 1) :-
 % impossible unlock_door(Actor, Door) if
 %   in_room(Actor, Room),
 %   not door_connects(Door, Room)
--occurs(unlock_door(Actor, Door), timestep) :-
+impossible(unlock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
@@ -115,24 +148,40 @@ holds(greeted_by(Person, Actor), timestep + 1) :-
 %   in_room(Actor, ActorRoom),
 %   in_room(Person, PersonRoom),
 %   ActorRoom != PersonRoom.
--occurs(greet(Actor, Person), timestep) :-
+impossible(greet(Actor, Person), timestep) :-
     holds(in_room(Actor, ActorRoom), timestep),
     holds(in_room(Person, PersonRoom), timestep),
     ActorRoom != PersonRoom.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program policy_description(timestep).
 
 % "Anyone is allowed to move from any room to any room"
 %
 % permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
-    person(Actor),
+    agent(Actor),
     door(Door).
+
+% "Anyone is permitted to lock a door"
+%
+% permitted(lock_door(Actor, Door))
+permitted(lock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% "Anyone is permitted to unlock a door"
+%
+% permitted(unlock_door(Actor, Door))
+permitted(unlock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
 
 % "Anyone is allowed to greet a coworker"
 %
 % permitted(greet(Actor, Person))
 permitted(greet(Actor, Person), timestep) :-
-    person(Actor),
+    agent(Actor),
     person(Person),
     Actor != Person.

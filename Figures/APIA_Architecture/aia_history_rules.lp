@@ -1,11 +1,5 @@
 % See p. 57 of dissertation
 
-% fluent(inertial, Fluent)
-% fluent(defined, Fluent)
-% aciton(Action)
-% happened(Action, Timestep)
-% observed(Fluent, Timestep)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
@@ -70,19 +64,20 @@ holds(Fluent, Timestep) :-
 % ------------------------------------------------------------------------------------------
 
 % See p. 60 of dissertation
-%
-% TODO: Should these be observed() statements due to legality definition
-% on (p. 40) of dissertation?
 
 % (p. 60) of dissertation
-% Note: Originally occurs(...)
+%
+% Note: Originally occurs(...).
+%   Changed due to legality definition on (p. 40) of dissertation
 observed(activity_status(Activity, ActivityIndex), Timestep) :-
     activity(Activity),
     Timestep = 0,
     ActivityIndex = -1.
 
 % (p. 60) of dissertation
-% Note: Originally -occurs(...)
+%
+% Note: Originally occurs(...).
+%   Changed due to legality definition on (p. 40) of dissertation
 -observed(active_goal(Goal), Timestep) :-
     goal(Goal),
     Timestep = 0.
@@ -90,7 +85,9 @@ observed(activity_status(Activity, ActivityIndex), Timestep) :-
 % Determines the next ID for generated activities
 %
 % (p. 60) of dissertation
-% Note: Originally occurs(...)
+%
+% Note: Originally occurs(...).
+%   Changed due to legality definition on (p. 40) of dissertation
 observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     Activity = ir.
@@ -100,6 +97,14 @@ observed(next_name(Activity), Timestep) :-
     Timestep = 0,
     activity(Activity),
     Activity != ir.
+
+% ------------------------------------------------------------------------------------------
+
+% Note: Our addition
+observed(activity_status(Activity, ActivityIndex), Timestep) :-
+    Timestep = 0,
+    Activity = (ir; ir + 1),
+    ActivityIndex = -1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Occurrence-Awareness Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_history_rules(current_timestep).
@@ -123,8 +128,6 @@ occurs(Action, Timestep) :-
 % "The following two rules guarantee that an observation that an agent action did not occur
 %  is due to the violation of an executability condition for that action."
 % (p. 59) of dissertation
-%
-% TODO: Verify impossible/2 works as expected. (we don't transcode AL to ASP in this way)
 
 % (p. 59) of dissertation
 occurs(Action, Timestep) :-
@@ -141,9 +144,10 @@ occurs(Action, Timestep) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: Verify impossible/2 works as expected. (we don't transcode AL to ASP in this way)
-
 % (p. 59) of dissertation
+%
+% Note: Similar to (eq. 3.15) on (p. 30)
+%   and (eq. 3.16) on (p. 31)
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -161,6 +165,8 @@ impossible(select(Goal), Timestep) :-
     holds(active_activity(Activity), Timestep).
 
 % (p. 59) of dissertation
+%
+% Note: Similar to (eq. 3.16) on (p. 31)
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -229,7 +235,7 @@ need_to_observe_goal(ChildGoal, Timestep) :-
     goal(Goal),
     goal(ChildGoal),
     activity_goal(ChildActivity, ChildGoal),
-    holds(immediate_child_goal(ChildGoal, Goal), Timestep),  % TODO: Ensure this is defined as a fluent
+    holds(child_goal(ChildGoal, Goal), Timestep),
     holds(active_goal(Goal), Timestep).
 
 % (p. 61) of dissertation
@@ -271,6 +277,20 @@ observed_goal(Goal, Timestep) :-
 occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
 
+% Note: Our addition. Reduces number of possible worlds
+%
+% prefer(diagnosis(Action, NewerTimestep, current_timestep), diagnosis(Action, OlderTimestep, current_timestep))
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+    physical_action(Action),
+    exogenous_action(Action),
+
+    NewerTimestep = 0..current_timestep,
+    OlderTimestep = 0..current_timestep,
+    OlderTimestep < NewerTimestep,
+
+    HigherPriorityCRRule = diagnosis(Action, NewerTimestep, current_timestep),
+    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep).
+
 % ------------------------------------------------------------------------------------------
 
 % "The last two rules are for determining the value of the flag by simply
@@ -279,7 +299,7 @@ occurs(Action, Timestep) :-
 
 unobserved(Action, Timestep) :-
     Timestep < current_timestep,
-    physical_action(Action),  % TODO: In paper, but not AIA
+    physical_action(Action),  % Note: In paper, but not AIA
     exogenous_action(Action),
     occurs(Action, Timestep),
     not happened(Action, Timestep).

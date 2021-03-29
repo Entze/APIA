@@ -9,6 +9,9 @@ door(Door) :-
 person(Person) :-
     Person = ("Bob"; "Alice").
 
+agent(Agent) :-
+    Agent = "Bob".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 door_connects(Door, Room) :-
@@ -26,23 +29,143 @@ door_connects(Door, Room) :-
 door_has_lock(Door) :-
     Door = "d34".
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Starting fluent values %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--holds(door_locked(Door), Timestep) :-
+% Starting ID for generated activities
+#const ir = 3.
+
+goal(Goal) :-
+    Goal = greeted_by(Person, Actor),
+    Person = "Alice",
+    Actor = "Bob".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 1.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 1,
+    ActivityGoal = greeted_by(Person, Actor),
+    Person = "Alice",
+    Actor = "Bob".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 1,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 1,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d12".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d23".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 3,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 4,
+    Component = greet(Actor, Person),
+    Actor = "Bob",
+    Person = "Alice".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 2.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 2,
+    ActivityGoal = greeted_by(Person, Actor),
+    Person = "Alice",
+    Actor = "Bob".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 2,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 2,
+    ComponentIndex = 1,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d12".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 2,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d23".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 2,
+    ComponentIndex = 3,
+    Component = move_through(Actor, Door),
+    Actor = "Bob",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 2,
+    ComponentIndex = 4,
+    Component = knock_on_door(Actor, Door),
+    Actor = "Bob",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 2,
+    ComponentIndex = 5,
+    Component = greet(Actor, Person),
+    Actor = "Bob",
+    Person = "Alice".
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See p. 50 of dissertation
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
+    Door = "d12".
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 0,
+    Door = "d23".
+
+-observed(door_locked(Door), Timestep) :-
     Timestep = 0,
     Door = "d34".
 
-holds(in_room(Person, Room), Timestep) :-
+observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Bob",
     Room = "r1".
 
-holds(in_room(Person, Room), Timestep) :-
+observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Alice",
     Room = "r4".
 
--holds(greeted_by(Person, Actor), Timestep) :-
+-observed(busy_working(Person), Timestep) :-
+    Timestep = 0,
+    Person = ("Alice"; "Bob").
+
+-observed(knocked_on_door(Door), Timestep) :-
+    Timestep = 0,
+    door(Door).
+
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 0,
     person(Person),
     person(Actor),

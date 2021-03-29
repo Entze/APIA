@@ -9,7 +9,7 @@
 % goal(Goal)
 % activity(Activity)
 
-% TODO: Verify that this is correct (our addition).
+% Note: Our addition
 activity(Activity) :-
     Activity = (ir; ir + 1).
 
@@ -21,68 +21,74 @@ activity(Activity) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-fluent(inertial, active_goal(Goal)) :-
+% Note: We introduce physical_fluent/2
+fluent(Type, Fluent) :-
+    physical_fluent(Type, Fluent).
+
+% Note: We introduce mental_fluent/2
+fluent(Type, Fluent) :-
+    mental_fluent(Type, Fluent).
+
+mental_fluent(inertial, active_goal(Goal)) :-
     goal(Goal).
 
 % Note: Originally, status(Activity, ActivityIndex)
-fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+    Activity != (ir; ir + 1),  % Note: Our addition
     activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
-% TODO: Verify that this is correct (our addition).
-fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+% Note: Our addition
+mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     Activity = (ir; ir + 1),
     MaxActivityLength = 12,  % TODO: Parameterize this value
     ActivityIndex = -1..MaxActivityLength.
 
-% TODO: Move this
-observed(activity_status(Activity, ActivityIndex), Timestep) :-
-    Timestep = 0,
-    Activity = (ir; ir + 1),
-    ActivityIndex = -1.
-
 % Note: Originally, active(Activity)
-fluent(defined, active_activity(Activity)) :-
+mental_fluent(defined, active_activity(Activity)) :-
     activity(Activity).
 
 % Note: Originally, child(ChildActivity, Activity)
-fluent(defined, child_activity(ChildActivity, Activity)) :-
+%               or, immediate_child(ChildActivity, Activity)
+mental_fluent(defined, child_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
 
-fluent(defined, child_goal(ChildGoal, Goal)) :-
+% Note: Originally, child_goal(ChildActivity, Activity)
+%               or, immediate_child_goal(ChildActivity, Activity)
+mental_fluent(defined, child_goal(ChildGoal, Goal)) :-
     goal(Goal),
     goal(ChildGoal),
     ChildGoal != Goal.
 
 % Note: Originally, descendant(ChildActivity, Activity)
-fluent(defined, descendant_activity(ChildActivity, Activity)) :-
+mental_fluent(defined, descendant_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
 
 % Note: Originally, minor(Activity)
-fluent(defined, minor_activity(Activity)) :-
+mental_fluent(defined, minor_activity(Activity)) :-
     activity(Activity).
 
 % Note: Originally, minor(Goal)
-fluent(defined, minor_goal(Goal)) :-
+mental_fluent(defined, minor_goal(Goal)) :-
     goal(Goal).
 
 % Note: Originally, in_progress(Activity)
-fluent(defined, activity_in_progress(Activity)) :-
+mental_fluent(defined, activity_in_progress(Activity)) :-
     activity(Activity).
 
 % Note: Originally, in_progress(Goal)
-fluent(defined, goal_in_progress(Goal)) :-
+mental_fluent(defined, goal_in_progress(Goal)) :-
     goal(Goal).
 
-fluent(defined, next_action(Activity, Action)) :-
+mental_fluent(defined, next_action(Activity, Action)) :-
     activity(Activity),
     action(Action).
 
-fluent(inertial, next_name(Activity)) :-
+mental_fluent(inertial, next_name(Activity)) :-
     activity(Activity).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,7 +148,7 @@ action(wait).
 % (p. 29) of dissertation
 -holds(activity_status(Activity, OldActivityIndex), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
-    fluent(inertial, activity_status(Activity, OldActivityIndex)),
+    mental_fluent(inertial, activity_status(Activity, OldActivityIndex)),
     OldActivityIndex != ActivityIndex.
 
 % active_activity(Activity) if
@@ -170,14 +176,14 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 %   active_activity(Activity)
 %
 % (p. 29) of dissertation
--occurs(start(Activity), timestep) :-
+impossible(start(Activity), timestep) :-
     holds(active_activity(Activity), timestep).
 
 % impossible stop(Activity) if
 %   -active_activity(Activity)
 %
 % (p. 29) of dissertation
--occurs(stop(Activity), timestep) :-
+impossible(stop(Activity), timestep) :-
     -holds(active_activity(Activity), timestep).
 
 % If the agent performs a mental action, then it must be the only action it is performing at the timestep.
@@ -188,21 +194,32 @@ holds(activity_status(Activity, activity_index__non_active), timestep + 1) :-
 %   Action1 != Action2.
 %
 % (p. 29) of dissertation. Condensed
-%
-% TODO: Switch to impossible translation (p. 19)
--occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+impossible(Action1, timestep) :-
     mental_action(Action1),
     agent_action(Action1),
     agent_action(Action2),
-    Action1 != Action2.
+    Action1 != Action2,
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    agent_action(Action1),
+    agent_action(Action2),
+    Action1 != Action2,
+    occurs(Action1, timestep).
 
 % If the agent performs wait, then it must be the only action it is performing at the timestep.
 % impossible wait, Action if
 %   agent_action(Action).
 %
 % (p. 29) of dissertation
--occurs(wait, timestep) | -occurs(Action, timestep) :-
-    agent_action(Action).
+impossible(wait, timestep) :-
+    agent_action(Action),
+    occurs(Action, timestep).
+
+impossible(Action, timestep) :-
+    agent_action(Action),
+    occurs(wait, timestep).
 
 % child_activity(ChildActivity) if
 %   activity_component(Activity, Activity + 1, ChildActivity),
@@ -266,7 +283,7 @@ holds(active_goal(Goal), timestep + 1) :-
 %   active_goal(Goal)
 %
 % (p. 31) of dissertation
--occurs(select(Goal), timestep) :-
+impossible(select(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % abandon(Goal)
@@ -280,14 +297,14 @@ holds(active_goal(Goal), timestep + 1) :-
 %   -active_goal(Goal)
 %
 % (p. 31) of dissertation
--occurs(abandon(Goal), timestep) :-
+impossible(abandon(Goal), timestep) :-
     -holds(active_goal(Goal), timestep).
 
 % impossible abandon(Goal) if
 %   minor_goal(Goal)
 %
 % (p. 31) of dissertation
--occurs(abandon(Goal), timestep) :-
+impossible(abandon(Goal), timestep) :-
     holds(minor_goal(Goal), timestep).
 
 % "We assume that no physical action may occur concurrently with a special exogenous action"
@@ -298,10 +315,17 @@ holds(active_goal(Goal), timestep + 1) :-
 %   physical_action(Action2)
 %
 % (p. 31) of dissertation
--occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+impossible(Action1, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
-    physical_action(Action2).
+    physical_action(Action2),
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    special_exogenous_action(Action1),
+    physical_action(Action2),
+    occurs(Action1, timestep).
 
 % "We assume that no mental agent action may occur concurrently with a special exogenous action"
 %
@@ -312,11 +336,19 @@ holds(active_goal(Goal), timestep + 1) :-
 %   agent_action(Action2)
 %
 % (p. 31) of dissertation
--occurs(Action1, timestep) | -occurs(Action2, timestep) :-
+impossible(Action1, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
     mental_action(Action2),
-    agent_action(Action2).
+    agent_action(Action2),
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    special_exogenous_action(Action1),
+    mental_action(Action2),
+    agent_action(Action2),
+    occurs(Action1, timestep).
 
 % -active_goal(Goal) if
 %   -minor_goal(Goal),
@@ -554,7 +586,5 @@ holds(next_name(Activity + 1), timestep + 1) :-
 
 % Definition of impossible
 % (p. 98) of dissertation
-%
-% TODO: Consider what to do with this
 -occurs(Action, timestep) :-
     impossible(Action, timestep).

@@ -13,6 +13,10 @@
 %--- Iteration 1: Step 2 (Find intended action) ---%
 #program test_2.
 
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 0.
+
 % Intended action should be wait
 %:-
 %    not intended_action(wait, Timestep),
@@ -39,6 +43,8 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
     Person = "Alice",
     Actor = "Bob".
 
+% Increment timestep
+
 % "The agent always observes the truth value of his goal"
 % (p. 36) of dissertation
 -observed(greeted_by(Person, Actor), Timestep) :-
@@ -55,6 +61,10 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 
 %--- Iteration 2: Step 2 (Find intended action) ---%
 #program test_6.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 1.
 
 % Intended action should be start(1)
 
@@ -76,6 +86,8 @@ happened(start(Activity), Timestep) :-
     Timestep = 1,
     Activity = 1.
 
+% Increment timestep
+
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 2,
     Person = "Alice",
@@ -88,6 +100,10 @@ happened(start(Activity), Timestep) :-
 
 %--- Iteration 3: Step 2 (Find intended action) ---%
 #program test_10.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 2.
 
 % Intended action should be move_through("Bob", "d12")
 %:-
@@ -116,6 +132,8 @@ happened(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d12".
 
+% Increment timestep
+
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 3,
     Person = "Bob",
@@ -133,6 +151,10 @@ observed(in_room(Person, Room), Timestep) :-
 
 %--- Iteration 4: Step 2 (Find intended action) ---%
 #program test_14.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 3.
 
 % Intended action should be move_through("Bob", "d23")
 %:-
@@ -161,6 +183,8 @@ happened(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d23".
 
+% Increment timestep
+
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 4,
     Person = "Bob",
@@ -178,6 +202,10 @@ observed(in_room(Person, Room), Timestep) :-
 
 %--- Iteration 5: Step 2 (Find intended action) ---%
 #program test_18.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 4.
 
 % Intended action should be move_through("Bob", "d34")
 %:-
@@ -206,6 +234,8 @@ happened(move_through(Actor, Door), Timestep) :-
     Actor = "Bob",
     Door = "d34".
 
+% Increment timestep
+
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
     Person = "Bob",
@@ -223,6 +253,10 @@ observed(in_room(Person, Room), Timestep) :-
 
 %--- Iteration 6: Step 2 (Find intended action) ---%
 #program test_22.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 5.
 
 % Intended action should be greet("Bob", "Alice")
 %:-
@@ -251,6 +285,8 @@ happened(greet(Actor, Person), Timestep) :-
     Actor = "Bob",
     Person = "Alice".
 
+% Increment timestep
+
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 6,
     Actor = "Bob",
@@ -263,6 +299,10 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 %--- Iteration 7: Step 2 (Find intended action) ---%
 #program test_26.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 6.
 
 % Intended action should be stop(1)
 %:-
@@ -288,6 +328,8 @@ happened(stop(Activity), Timestep) :-
     Timestep = 6,
     Activity = 1.
 
+% Increment timestep
+
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 7,
     Person = "Alice",
@@ -300,6 +342,10 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 %--- Iteration 8: Step 2 (Find intended action) ---%
 #program test_30.
+
+interpretation(Step1UnobservedActions, Timestep) :-
+    Step1UnobservedActions = 0,
+    Timestep = 7.
 
 % Intended action should be wait
 %:-
@@ -318,3 +364,5 @@ attempt(wait, Timestep) :-
 
 happened(wait, Timestep) :-
     Timestep = 7.
+
+% Increment timestep

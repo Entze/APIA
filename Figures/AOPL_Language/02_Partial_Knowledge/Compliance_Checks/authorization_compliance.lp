@@ -1,4 +1,5 @@
 #include "util.lp".
+% TODO: Update this file using the original methodology
 
 % Strongly compliant if for all occurs(Action), permitted(Action) is true
 auth_compliant :-

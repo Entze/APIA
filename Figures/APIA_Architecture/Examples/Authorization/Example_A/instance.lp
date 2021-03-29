@@ -9,6 +9,9 @@ door(Door) :-
 person(Person) :-
     Person = ("Bob"; "Alice").
 
+agent(Agent) :-
+    Agent = "Bob".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 door_connects(Door, Room) :-
@@ -25,54 +28,6 @@ door_connects(Door, Room) :-
 
 door_has_lock(Door) :-
     Door = "d34".
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% move_through(Actor, Door)
-agent_action(move_through(Actor, Door)) :-
-    person(Actor),
-    door(Door),
-    Actor = "Bob".
-
-exogenous_action(move_through(Actor, Door)) :-
-    person(Actor),
-    door(Door),
-    Actor != "Bob".
-
-% lock_door(Actor, Door)
-agent_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door),
-    Actor = "Bob".
-
-exogenous_action(lock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door),
-    Actor != "Bob".
-
-% unlock_door(Actor, Door)
-agent_action(unlock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door),
-    Actor = "Bob".
-
-exogenous_action(unlock_door(Actor, Door)) :-
-    person(Actor),
-    door(Door),
-    Actor != "Bob".
-
-% greet(Actor, Person)
-agent_action(greet(Actor, Person)) :-
-    person(Actor),
-    person(Person),
-    Actor != Person,
-    Actor = "Bob".
-
-exogenous_action(greet(Actor, Person)) :-
-    person(Actor),
-    person(Person),
-    Actor != Person,
-    Actor != "Bob".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -135,10 +90,6 @@ activity_component(Activity, ComponentIndex, Component) :-
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,
     Door = "d23".
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d34".
 
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,
