@@ -21,65 +21,74 @@ activity(Activity) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-fluent(inertial, active_goal(Goal)) :-
+% Note: We introduce physical_fluent/2
+fluent(Type, Fluent) :-
+    physical_fluent(Type, Fluent).
+
+% Note: We introduce mental_fluent/2
+fluent(Type, Fluent) :-
+    mental_fluent(Type, Fluent).
+
+mental_fluent(inertial, active_goal(Goal)) :-
     goal(Goal).
 
 % Note: Originally, status(Activity, ActivityIndex)
-fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+    Activity != (ir; ir + 1),  % Note: Our addition
     activity_length(Activity, ActivityLength),
     ActivityIndex = -1..ActivityLength.
 
 % Note: Our addition
-fluent(inertial, activity_status(Activity, ActivityIndex)) :-
+mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     Activity = (ir; ir + 1),
     MaxActivityLength = 12,  % TODO: Parameterize this value
     ActivityIndex = -1..MaxActivityLength.
 
 % Note: Originally, active(Activity)
-fluent(defined, active_activity(Activity)) :-
+mental_fluent(defined, active_activity(Activity)) :-
     activity(Activity).
 
 % Note: Originally, child(ChildActivity, Activity)
 %               or, immediate_child(ChildActivity, Activity)
-fluent(defined, child_activity(ChildActivity, Activity)) :-
+mental_fluent(defined, child_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
 
 % Note: Originally, child_goal(ChildActivity, Activity)
 %               or, immediate_child_goal(ChildActivity, Activity)
-fluent(defined, child_goal(ChildGoal, Goal)) :-
+mental_fluent(defined, child_goal(ChildGoal, Goal)) :-
     goal(Goal),
     goal(ChildGoal),
     ChildGoal != Goal.
 
 % Note: Originally, descendant(ChildActivity, Activity)
-fluent(defined, descendant_activity(ChildActivity, Activity)) :-
+mental_fluent(defined, descendant_activity(ChildActivity, Activity)) :-
     activity(Activity),
     activity(ChildActivity),
     ChildActivity != Activity.
 
 % Note: Originally, minor(Activity)
-fluent(defined, minor_activity(Activity)) :-
+mental_fluent(defined, minor_activity(Activity)) :-
     activity(Activity).
 
 % Note: Originally, minor(Goal)
-fluent(defined, minor_goal(Goal)) :-
+mental_fluent(defined, minor_goal(Goal)) :-
     goal(Goal).
 
 % Note: Originally, in_progress(Activity)
-fluent(defined, activity_in_progress(Activity)) :-
+mental_fluent(defined, activity_in_progress(Activity)) :-
     activity(Activity).
 
 % Note: Originally, in_progress(Goal)
-fluent(defined, goal_in_progress(Goal)) :-
+mental_fluent(defined, goal_in_progress(Goal)) :-
     goal(Goal).
 
-fluent(defined, next_action(Activity, Action)) :-
+mental_fluent(defined, next_action(Activity, Action)) :-
     activity(Activity),
     action(Action).
 
-fluent(inertial, next_name(Activity)) :-
+mental_fluent(inertial, next_name(Activity)) :-
     activity(Activity).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,7 +148,7 @@ action(wait).
 % (p. 29) of dissertation
 -holds(activity_status(Activity, OldActivityIndex), timestep) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
-    fluent(inertial, activity_status(Activity, OldActivityIndex)),
+    mental_fluent(inertial, activity_status(Activity, OldActivityIndex)),
     OldActivityIndex != ActivityIndex.
 
 % active_activity(Activity) if

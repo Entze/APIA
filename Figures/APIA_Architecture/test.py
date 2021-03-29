@@ -28,6 +28,7 @@ class APIAAuthorizationSetting(Enum):
     CAUTIOUS = frozenset((
         'apia_options_auth_weakly_compliant_2',
         'apia_options_auth_non_compliant_1',
+        'apia_options_misc_2',
     ))
     SUBORDINATE = frozenset((
         'apia_options_auth_weakly_compliant_3',
@@ -36,10 +37,12 @@ class APIAAuthorizationSetting(Enum):
     BEST_EFFORT = frozenset((
         'apia_options_auth_weakly_compliant_2',
         'apia_options_auth_non_compliant_2',
+        'apia_options_misc_2',
     ))
     SUBORDINATE_WHEN_POSSIBLE = frozenset((
         'apia_options_auth_weakly_compliant_3',
         'apia_options_auth_non_compliant_2',
+        'apia_options_misc_2',
     ))
     UTILITARIAN = frozenset((
         'apia_options_auth_weakly_compliant_3',
@@ -55,14 +58,17 @@ class APIAObligationSetting(Enum):
     PERMIT_OMISSIONS = frozenset((
         'apia_options_obl_do_action_2',
         'apia_options_obl_refrain_from_action_1',
+        'apia_options_misc_2',
     ))
     PERMIT_COMISSIONS = frozenset((
         'apia_options_obl_do_action_1',
         'apia_options_obl_refrain_from_action_2',
+        'apia_options_misc_2',
     ))
     BEST_EFFORT = frozenset((
         'apia_options_obl_do_action_2',
         'apia_options_obl_refrain_from_action_2',
+        'apia_options_misc_2',
     ))
     UTILITARIAN = frozenset((
         'apia_options_obl_do_action_3',
@@ -116,16 +122,22 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
                 for timestep in range(max_timestep + 1))
 
     # aopl_compliance
-    yield ASPSubprogramInstantiation(name='aopl_compliance', arguments=())
+    yield ASPSubprogramInstantiation(name='aopl_compliance', arguments=(current_timestep,))
 
     # aopl_sanity_check(timestep)
     yield from (ASPSubprogramInstantiation(name='aopl_sanity_check', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
+    # apia_action_description(timestep)
+    yield ASPSubprogramInstantiation(name='apia_action_description', arguments=(current_timestep,))
+
+    # apia_axioms(current_timestep)
+    yield ASPSubprogramInstantiation(name='apia_axioms', arguments=(current_timestep,))
+
     # apia_options
-    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=())
+    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=(current_timestep,))
                 for subprogram_name in sorted(configuration.authorization.value))
-    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=())
+    yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=(current_timestep,))
                 for subprogram_name in sorted(configuration.obligation.value))
 
 
@@ -135,8 +147,8 @@ def main(clingo_control: clingo.Control):
     max_timestep = clingo_control.get_const('max_timestep').number
     aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
 
-    configuration = APIAConfiguration(authorization=APIAAuthorizationSetting.UTILITARIAN,
-                                      obligation=APIAObligationSetting.UTILITARIAN)
+    configuration = APIAConfiguration(authorization=APIAAuthorizationSetting.BEST_EFFORT,
+                                      obligation=APIAObligationSetting.BEST_EFFORT)
 
     aia_subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
                                                                     configuration)

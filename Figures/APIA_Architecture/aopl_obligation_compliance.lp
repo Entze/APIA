@@ -1,4 +1,4 @@
-#program aopl_compliance.
+#program aopl_compliance(current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Note: Our implementation based on formal defintion
@@ -18,21 +18,50 @@
 %     then we are not compliant.
 % If [there exists obl(Action, Timestep), occurs(Action, Timestep) is not false],
 %     then we are not compliant.
+%
+% Note: It is useful to differentiate between the compliance of past actions (i.e. our history)
+%   with the compliance of the projection of future actions (i.e. our activity).
+%   Without it, we cannot imagine being more compliant than our history.
 
--obl_compliant :-
+-obl_compliant(history, do_action) :-
     obl(Action, Timestep),
     agent_action(Action),  % Note: Our modification
+    Timestep < current_timestep,
     not occurs(Action, Timestep).
 
--obl_compliant :-
+-obl_compliant(future, do_action) :-
+    obl(Action, Timestep),
+    agent_action(Action),  % Note: Our modification
+    Timestep >= current_timestep,
+    not occurs(Action, Timestep).
+
+-obl_compliant(history, refrain_from_action) :-
     obl(neg(Action), Timestep),
     agent_action(Action),
+    Timestep < current_timestep,
+    not -occurs(Action, Timestep).
+
+-obl_compliant(future, refrain_from_action) :-
+    obl(neg(Action), Timestep),
+    agent_action(Action),
+    Timestep >= current_timestep,
     not -occurs(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-obl_compliant :-
-    not -obl_compliant.
+obl_compliant(Type, do_action) :-
+    Type = (
+        history;
+        future
+    ),
+    not -obl_compliant(Type, do_action).
+
+obl_compliant(Type, refrain_from_action) :-
+    Type = (
+        history;
+        future
+    ),
+    not -obl_compliant(Type, refrain_from_action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aopl_sanity_check(timestep).

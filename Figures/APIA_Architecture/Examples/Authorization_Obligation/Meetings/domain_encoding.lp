@@ -7,54 +7,54 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % busy_working(Person)
-fluent(inertial, busy_working(Person)) :-
+physical_fluent(inertial, busy_working(Person)) :-
     person(Person).
 
 % meeting_scheduled(Meeting)
-fluent(inertial, meeting_scheduled(Meeting)) :-
+physical_fluent(inertial, meeting_scheduled(Meeting)) :-
     meeting(Meeting).
 
 % meeting_classified(Meeting)
-fluent(inertial, meeting_classified(Meeting)) :-
+physical_fluent(inertial, meeting_classified(Meeting)) :-
     meeting(Meeting).
 
 % meeting_attendee(Meeting, Person)
-fluent(inertial, meeting_attendee(Meeting, Person)) :-
+physical_fluent(inertial, meeting_attendee(Meeting, Person)) :-
     meeting(Meeting),
     person(Person).
 
 % meeting_attendees_count(Meeting, AttendeeCount)
-fluent(defined, meeting_attendees_count(Meeting, AttendeeCount)) :-
+physical_fluent(defined, meeting_attendees_count(Meeting, AttendeeCount)) :-
     meeting(Meeting),
     AttendeeCount = 0..5.
 
 % meeting_all_attendees_present(Meeting)
-fluent(defined_negative, meeting_all_attendees_present(Meeting)) :-
+physical_fluent(defined_negative, meeting_all_attendees_present(Meeting)) :-
     meeting(Meeting).
 
 % meeting_all_attendees_not_busy(Meeting)
-fluent(defined_negative, meeting_all_attendees_not_busy(Meeting)) :-
+physical_fluent(defined_negative, meeting_all_attendees_not_busy(Meeting)) :-
     meeting(Meeting).
 
 % meeting_held(Meeting)
-fluent(inertial, meeting_held(Meeting)) :-
+physical_fluent(inertial, meeting_held(Meeting)) :-
     meeting(Meeting).
 
 % impromptu_meeting(Meeting)
-fluent(defined, impromptu_meeting(Meeting)) :-
+physical_fluent(defined, impromptu_meeting(Meeting)) :-
     meeting(Meeting).
 
 % meeting_location(Meeting, Location)
-fluent(inertial, meeting_location(Meeting, Location)) :-
+physical_fluent(inertial, meeting_location(Meeting, Location)) :-
     meeting(Meeting),
     location(Location).
 
 % current_meeting(Meeting)
-fluent(inertial, next_meeting(Meeting)) :-
+physical_fluent(inertial, next_meeting(Meeting)) :-
     meeting(Meeting).
 
 % next_meeting(Meeting)
-fluent(defined, next_meeting(Meeting)) :-
+physical_fluent(defined, next_meeting(Meeting)) :-
     meeting(Meeting).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,4 +1,4 @@
-#program aopl_compliance.
+#program aopl_compliance(current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -7,9 +7,20 @@
 %
 % Inverse: Iff [there exists occurs(Action, Timestep), permitted(Action, Timestep) is not true],
 %   then we are not strongly compliant
--auth_compliance(strong) :-
+%
+% Note: It is useful to differentiate between the compliance of past actions (i.e. our history)
+%   with the compliance of the projection of future actions (i.e. our activity).
+%   Without it, we cannot imagine being more compliant than our history.
+-auth_compliance(history, strong) :-
     occurs(Action, Timestep),
     agent_action(Action),  % Note: Our addition
+    Timestep < current_timestep,
+    not permitted(Action, Timestep).
+
+-auth_compliance(future, strong) :-
+    occurs(Action, Timestep),
+    agent_action(Action),  % Note: Our addition
+    Timestep >= current_timestep,
     not permitted(Action, Timestep).
 
 % Iff [for all occurs(Action, Timestep), permitted(Action, Timestep) is not false],
@@ -17,18 +28,35 @@
 %
 % Inverse: Iff [there exists occurs(Action, Timestep), permitted(Action, Timestep) is false],
 %   then we are not weakly compliant
--auth_compliance(weak) :-
+%
+% Distinguish between past and future compliance
+-auth_compliance(history, weak) :-
     occurs(Action, Timestep),
     agent_action(Action),  % Note: Our addition
+    Timestep < current_timestep,
+    -permitted(Action, Timestep).
+
+-auth_compliance(future, weak) :-
+    occurs(Action, Timestep),
+    agent_action(Action),  % Note: Our addition
+    Timestep >= current_timestep,
     -permitted(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Closed-world assumption %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-auth_compliance(strong) :-
-    not -auth_compliance(strong).
+auth_compliance(Type, weak) :-
+    Type = (
+        history;
+        future
+    ),
+    not -auth_compliance(Type, weak).
 
-auth_compliance(weak) :-
-    not -auth_compliance(weak).
+auth_compliance(Type, strong) :-
+    Type = (
+        history;
+        future
+    ),
+    not -auth_compliance(Type, strong).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Checks %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aopl_sanity_check(timestep).
