@@ -147,8 +147,8 @@ def main(clingo_control: clingo.Control):
     max_timestep = clingo_control.get_const('max_timestep').number
     aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
 
-    configuration = APIAConfiguration(authorization=APIAAuthorizationSetting.UTILITARIAN,
-                                      obligation=APIAObligationSetting.UTILITARIAN)
+    configuration = APIAConfiguration(authorization=APIAAuthorizationSetting.BEST_EFFORT,
+                                      obligation=APIAObligationSetting.BEST_EFFORT)
 
     aia_subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
                                                                     configuration)
