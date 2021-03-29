@@ -75,8 +75,8 @@ exogenous_action(move(Actor, ToLocation)) :-
 
 % unlock_door(Actor, FromLocation, ToLocation)
 physical_action(unlock_door(Actor, FromLocation, ToLocation)) :-
-    door_has_lock(FromLocation, ToLocation),
-    agent(Actor).
+    person(Actor),
+    door_has_lock(FromLocation, ToLocation).
 
 agent_action(unlock_door(Actor, FromLocation, ToLocation)) :-
     physical_action(unlock_door(Actor, FromLocation, ToLocation)),
