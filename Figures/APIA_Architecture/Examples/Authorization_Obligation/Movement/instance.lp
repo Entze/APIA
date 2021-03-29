@@ -108,10 +108,11 @@ room_classified(Room) :-
 
 % -----------------------------------------------------------------------
 
-% Doors are not necessarily two-way
+% Doors are normally, but not necessarily, two-way
 
 door(FromLocation, ToLocation) :-
-    door(ToLocation, FromLocation).
+    door(ToLocation, FromLocation),
+    not -door(FromLocation, ToLocation).
 
 % -----------------------------------------------------------------------
 % location_outside
