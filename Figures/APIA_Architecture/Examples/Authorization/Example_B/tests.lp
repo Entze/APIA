@@ -311,7 +311,7 @@ interpretation(Step1UnobservedActions, Timestep) :-
 
 attempt(start(Activity), Timestep) :-
     Timestep = 6,
-    Activity = 2.
+    Activity = 3.
 
 %--- Iteration 7: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
@@ -319,7 +319,7 @@ attempt(start(Activity), Timestep) :-
 
 happened(start(Activity), Timestep) :-
     Timestep = 6,
-    Activity = 2.
+    Activity = 3.
 
 % Increment timestep
 
@@ -432,7 +432,7 @@ interpretation(Step1UnobservedActions, Timestep) :-
 
 attempt(stop(Activity), Timestep) :-
     Timestep = 9,
-    Activity = 2.
+    Activity = 3.
 
 %--- Iteration 10: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
@@ -440,7 +440,7 @@ attempt(stop(Activity), Timestep) :-
 
 happened(stop(Activity), Timestep) :-
     Timestep = 9,
-    Activity = 2.
+    Activity = 3.
 
 % Increment timestep
 
