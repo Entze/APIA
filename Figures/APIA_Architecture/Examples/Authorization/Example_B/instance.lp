@@ -89,7 +89,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
-    ActivityGoal = greeted_by(Person, Actor),
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Alice",
     Actor = "Bob".
 
