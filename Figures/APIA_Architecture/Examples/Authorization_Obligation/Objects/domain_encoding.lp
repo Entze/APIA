@@ -152,17 +152,19 @@ exogenous_action(put_down_object(Actor, Object)) :-
 
 %-------------------------------------------------------
 
-% ask_to_put_down_object(Person, Object)
-%   - Ignore the specific actor who asked
-physical_action(ask_to_put_down_object(Person, Object)) :-
+% ask_to_put_down_object(Actor, Person, Object)
+physical_action(ask_to_put_down_object(Actor, Person, Object)) :-
+    person(Actor),
     person(Person),
     object(Object).
 
-agent_action(ask_to_put_down_object(Person, Object)) :-
-    physical_action(ask_to_put_down_object(Person, Object)).
+agent_action(ask_to_put_down_object(Actor, Person, Object)) :-
+    physical_action(ask_to_put_down_object(Actor, Person, Object)),
+    agent(Actor).
 
-exogenous_action(ask_to_put_down_object(Person, Object)) :-
-    physical_action(ask_to_put_down_object(Person, Object)).
+exogenous_action(ask_to_put_down_object(Actor, Person, Object)) :-
+    physical_action(ask_to_put_down_object(Actor, Person, Object)),
+    not agent(Actor).
 
 %-------------------------------------------------------
 
@@ -329,22 +331,23 @@ impossible(put_down_object(Actor, Object), timestep) :-
 
 % "Asking to put down decreases object count"
 %
-% ask_to_put_down_object(Person, Object)
+% ask_to_put_down_object(Actor, Person, Object)
 %   causes person_holding_object(Person, Object, ObjectCount - 1)
 %   if
 %     person_holding_object(Person, Object, ObjectCount)
 holds(person_holding_object(Person, Object, ObjectCount - 1), timestep + 1) :-
     person(Person),
     object(Object),
-    occurs(ask_to_put_down_object(Person, Object), timestep),
+    occurs(ask_to_put_down_object(Actor, Person, Object), timestep),
     person_holding_object(Person, Object, ObjectCount).
 
 % "Cannot put down when they aren't holding anything"
 %
-% impossible ask_to_put_down_object(Person, Object) if
+% impossible ask_to_put_down_object(Actor, Person, Object) if
 %   person_holding_object(Person, Object, ObjectCount)
 %   ObjectCount = 0
-impossible(ask_to_put_down_object(Person, Object), timestep) :-
+impossible(ask_to_put_down_object(Actor, Person, Object), timestep) :-
+    person(Actor),
     person(Person),
     object(Object),
     person_holding_object(Person, Object, ObjectCount),
