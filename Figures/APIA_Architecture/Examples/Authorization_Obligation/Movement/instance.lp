@@ -33,7 +33,7 @@ cubical(Location) :-
 private_office(Location) :-
     location(Location),
     Location = (
-        @str_format("location_private_office_{}", 1);
+        @str_format("location_private_office_{}", 1)
     ).
 
 % -----------------------------------------------------------------------
@@ -53,7 +53,7 @@ location_room(Location, Room) :-
     Location = (
         @str_format("location_office_space_{}", 1..11);
         @str_format("location_cubical_{}", 1..4);
-        @str_format("location_private_office_{}", 1);
+        @str_format("location_private_office_{}", 1)
     ),
     Room = "room_main".
 
@@ -79,7 +79,7 @@ location_room(Location, Room) :-
     room(Room),
     RoomNumber = 1,
     Location = (
-        @str_format("location_classified_conference_room_{}", RoomNumber);
+        @str_format("location_classified_conference_room_{}", RoomNumber)
     ),
     Room = @str_format("room_classified_conference_{}", RoomNumber).
 
