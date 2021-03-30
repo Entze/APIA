@@ -57,6 +57,10 @@ physical_fluent(inertial, person_location(Person, Location)) :-
     person(Person),
     location(Location).
 
+% door_open(FromLocation, ToLocation)
+physical_fluent(inertial, door_locked(FromLocation, ToLocation)) :-
+    door(FromLocation, ToLocation).
+
 % door_locked(FromLocation, ToLocation)
 physical_fluent(inertial, door_locked(FromLocation, ToLocation)) :-
     door_has_lock(FromLocation, ToLocation).
@@ -91,6 +95,32 @@ agent_action(move(Actor, ToLocation)) :-
 
 exogenous_action(move(Actor, ToLocation)) :-
     physical_action(move(Actor, ToLocation)),
+    not agent(Actor).
+
+% open_door(Actor, FromLocation, ToLocation)
+physical_action(open_door(Actor, FromLocation, ToLocation)) :-
+    person(Actor),
+    door_has_lock(FromLocation, ToLocation).
+
+agent_action(open_door(Actor, FromLocation, ToLocation)) :-
+    physical_action(open_door(Actor, FromLocation, ToLocation)),
+    agent(Actor).
+
+exogenous_action(open_door(Actor, FromLocation, ToLocation)) :-
+    physical_action(open_door(Actor, FromLocation, ToLocation)),
+    not agent(Actor).
+
+% close_door(Actor, FromLocation, ToLocation)
+physical_action(close_door(Actor, FromLocation, ToLocation)) :-
+    person(Actor),
+    door_has_lock(FromLocation, ToLocation).
+
+agent_action(close_door(Actor, FromLocation, ToLocation)) :-
+    physical_action(close_door(Actor, FromLocation, ToLocation)),
+    agent(Actor).
+
+exogenous_action(close_door(Actor, FromLocation, ToLocation)) :-
+    physical_action(close_door(Actor, FromLocation, ToLocation)),
     not agent(Actor).
 
 % unlock_door(Actor, FromLocation, ToLocation)
@@ -165,6 +195,48 @@ holds(object_location(Object, FromLocation, ObjectCount - 1), timestep + 1) :-
     holds(person_holding_object(Actor, Object), timestep),
     holds(person_location(Actor, FromLocation), timestep),
     holds(object_location(Object, FromLocation, ObjectCount), timestep).
+
+% -------------------------------------------------------------------
+
+% open_door(Actor, FromLocation, ToLocation)
+%   causes door_open(FromLocation, ToLocation)
+holds(door_open(FromLocation, ToLocation), timestep + 1) :-
+    occurs(open_door(Actor, FromLocation, ToLocation), timestep).
+
+% impossible open_door(Actor, FromLocation, ToLocation) if
+%   -person_location(Actor, FromLocation)
+impossible(open_door(Actor, FromLocation, ToLocation), timestep) :-
+    door(FromLocation, ToLocation),
+    -holds(person_location(Actor, FromLocation), timestep).
+
+% -------------------------------------------------------------------
+
+% close_door(Actor, FromLocation, ToLocation)
+%   causes -door_open(FromLocation, ToLocation)
+-holds(door_open(FromLocation, ToLocation), timestep + 1) :-
+    occurs(close_door(Actor, FromLocation, ToLocation), timestep).
+
+% impossible close_door(Actor, FromLocation, ToLocation) if
+%   -person_location(Actor, FromLocation)
+impossible(close_door(Actor, FromLocation, ToLocation), timestep) :-
+    door(FromLocation, ToLocation),
+    -holds(person_location(Actor, FromLocation), timestep).
+
+% -------------------------------------------------------------------
+
+% door_open(ToLocation, FromLocation) if
+%   door(ToLocation, FromLocation)
+%   door_open(FromLocation, ToLocation)
+holds(door_open(ToLocation, FromLocation), timestep) :-
+    door(ToLocation, FromLocation),
+    holds(door_open(FromLocation, ToLocation), timestep).
+
+% -door_open(ToLocation, FromLocation) if
+%   door(ToLocation, FromLocation)
+%   -door_open(FromLocation, ToLocation)
+-holds(door_open(ToLocation, FromLocation), timestep) :-
+    door(ToLocation, FromLocation),
+    -holds(door_open(FromLocation, ToLocation), timestep).
 
 % -------------------------------------------------------------------
 
