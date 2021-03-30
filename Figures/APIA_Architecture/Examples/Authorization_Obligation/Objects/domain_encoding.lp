@@ -43,7 +43,7 @@ object_weight(Object, Weight) :-
     ),
     Weight = 2.
 
-object_attribute(Object, sitable) :-
+object_attribute(Object, sittable) :-
     object(Object),
     Object = (
         chair
@@ -64,7 +64,7 @@ object_attribute(Object, electronic) :-
         cellphone
     ).
 
-object_attribute(Object, sitable) :-
+object_attribute(Object, sittable) :-
     object(Object),
     Object = (
         chair
@@ -132,11 +132,11 @@ physical_fluent(defined, person_holding_weight(Person, Weight)) :-
 physical_fluent(inertial, person_sitting_on_object(Person, Object)) :-
     person(Person),
     object(Object),
-    object_attribute(Object, sitable).
+    object_attribute(Object, sittable).
 
 physical_fluent(defined, people_sitting_on_object_count((Location, Object), PeopleCount)) :-
     object(Object),
-    object_attribute(Object, sitable),
+    object_attribute(Object, sittable),
     location(Location),
     PeopleCount = 0..5.
 
@@ -241,7 +241,7 @@ exogenous_action(turn_off_object(Actor, Object)) :-
 physical_action(sit_on_object(Actor, Object)) :-
     person(Actor),
     object(Object),
-    object_attribute(Object, sitable).
+    object_attribute(Object, sittable).
 
 agent_action(sit_on_object(Actor, Object)) :-
     physical_action(sit_on_object(Actor, Object)),
