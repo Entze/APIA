@@ -48,6 +48,10 @@ physical_fluent(inertial, meeting_scheduled(Meeting)) :-
 physical_fluent(inertial, meeting_classified(Meeting)) :-
     meeting(Meeting).
 
+% meeting_urgent(Meeting)
+physical_fluent(inertial, meeting_urgent(Meeting)) :-
+    meeting(Meeting).
+
 % meeting_attendee(Meeting, Person)
 physical_fluent(inertial, meeting_attendee(Meeting, Person)) :-
     meeting(Meeting),
@@ -126,6 +130,19 @@ agent_action(schedule_meeting(Actor, Meeting)) :-
 
 exogenous_action(schedule_meeting(Actor, Meeting)) :-
     physical_action(schedule_meeting(Actor, Meeting)),
+    not agent(Actor).
+
+% declare_meeting_urgent(Actor, Meeting)
+physical_action(declare_meeting_urgent(Actor, Meeting)) :-
+    agent(Actor),
+    meeting(Meeting).
+
+agent_action(declare_meeting_urgent(Actor, Meeting)) :-
+    physical_action(declare_meeting_urgent(Actor, Meeting)),
+    agent(Actor).
+
+exogenous_action(declare_meeting_urgent(Actor, Meeting)) :-
+    physical_action(declare_meeting_urgent(Actor, Meeting)),
     not agent(Actor).
 
 % classify_meeting(Actor, Meeting)
@@ -226,6 +243,19 @@ holds(next_meeting(Meeting + 1), timestep) :-
 -occurs(schedule_meeting(Actor, Meeting), timestep) :-
     person(Actor),
     -holds(next_meeting(Meeting), timestep).
+
+% -----------------------------------------------------------------------
+
+% declare_meeting_urgent(Actor, Meeting)
+%   causes meeting_urgent(Meeting)
+holds(meeting_urgent(Meeting), timestep + 1) :-
+    occurs(declare_meeting_urgent(Actor, Meeting), timestep).
+
+% impossible declare_meeting_urgent(Actor, Meeting) if
+%   meeting_urgent(Meeting)
+impossible(declare_meeting_urgent(Actor, Meeting), timestep) :-
+    person(Actor),
+    meeting_urgent(Meeting).
 
 % -----------------------------------------------------------------------
 
