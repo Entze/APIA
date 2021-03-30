@@ -4,6 +4,36 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = begin_working(Actor),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = stop_working(Actor),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = schedule_meeting(Actor, Meeting),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = classify_meeting(Actor, Meeting),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = invite_to_meeting(Actor, Meeting, Person),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = hold_meeting(Actor, Meeting),
+    Duration = 120.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % busy_working(Person)

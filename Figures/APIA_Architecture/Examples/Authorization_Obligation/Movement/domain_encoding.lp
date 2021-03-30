@@ -30,6 +30,21 @@ action_duration(Action, Duration) :-
     mental_action(Action),
     Duration = 0.
 
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = move(Actor, ToLocation),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = unlock_door(Actor, FromLocation, ToLocation),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = lock_door(Actor, FromLocation, ToLocation),
+    Duration = 15.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % person_location(Person, Location)

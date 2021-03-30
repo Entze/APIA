@@ -74,6 +74,43 @@ object_attribute(Object, cd_drive) :-
     object(Object),
     Object = computer.
 
+% ----------------------------------------------------------------
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = pick_up_object(Actor, Object),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = put_down_object(Actor, Object),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = ask_to_put_down_object(Actor, Person, Object),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = turn_on_object(Actor, Object),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = turn_off_object(Actor, Object),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = sit_on_object(Actor, Object),
+    Duration = 15.
+
+action_duration(Action, Duration) :-
+    agent_action(Action),
+    Action = stand_up(Actor),
+    Duration = 15.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 physical_fluent(inertial, person_holding_object(Person, Object, ObjectCount)) :-
