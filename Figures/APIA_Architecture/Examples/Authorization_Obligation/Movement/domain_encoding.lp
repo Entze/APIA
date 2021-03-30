@@ -77,7 +77,7 @@ physical_fluent(defined, time_business_hours).
 %
 % Requirements:
 %   - All user-defined actions must be physical actions
-%   - All user-defined actions must be either agent actions, exogenous actions, or both
+%   - All user-defined actions must be either agent actions or exogenous actions (we assume actions cannot be both)
 
 % move(Actor, ToLocation)
 physical_action(move(Actor, ToLocation)) :-

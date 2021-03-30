@@ -22,7 +22,7 @@ higher_ranking_than(HigherPerson, LowerPerson) :-
 %
 % Requirements:
 %   - All user-defined actions must be physical actions
-%   - All user-defined actions must be either agent actions, exogenous actions, or both
+%   - All user-defined actions must be either agent actions or exogenous actions (we assume actions cannot be both)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

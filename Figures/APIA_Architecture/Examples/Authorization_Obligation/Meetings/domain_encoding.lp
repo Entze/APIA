@@ -91,7 +91,7 @@ physical_fluent(defined, next_meeting(Meeting)) :-
 %
 % Requirements:
 %   - All user-defined actions must be physical actions
-%   - All user-defined actions must be either agent actions, exogenous actions, or both
+%   - All user-defined actions must be either agent actions or exogenous actions (we assume actions cannot be both)
 
 % begin_working(Actor)
 physical_action(begin_working(Actor)) :-
