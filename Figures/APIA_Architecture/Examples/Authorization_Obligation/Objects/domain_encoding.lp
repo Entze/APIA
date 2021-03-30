@@ -278,7 +278,7 @@ holds(person_holding_object(Actor, Object, ObjectCount + 1), timestep + 1) :-
     person(Actor),
     object(Object),
     occurs(pick_up_object(Actor, Object), timestep),
-    person_holding_object(Actor, Object, ObjectCount).
+    holds(person_holding_object(Actor, Object, ObjectCount), timestep).
 
 % "Only one object count can exist"
 %
@@ -351,7 +351,7 @@ holds(person_holding_object(Actor, Object, ObjectCount - 1), timestep + 1) :-
     person(Actor),
     object(Object),
     occurs(put_down_object(Actor, Object), timestep),
-    person_holding_object(Actor, Object, ObjectCount).
+    holds(person_holding_object(Actor, Object, ObjectCount), timestep).
 
 % "Cannot put down when we aren't holding anything"
 %
@@ -361,7 +361,7 @@ holds(person_holding_object(Actor, Object, ObjectCount - 1), timestep + 1) :-
 impossible(put_down_object(Actor, Object), timestep) :-
     person(Actor),
     object(Object),
-    person_holding_object(Actor, Object, ObjectCount),
+    holds(person_holding_object(Actor, Object, ObjectCount), timestep),
     ObjectCount = 0.
 
 % ---------------------------------------------------------------------
@@ -376,7 +376,7 @@ holds(person_holding_object(Person, Object, ObjectCount - 1), timestep + 1) :-
     person(Person),
     object(Object),
     occurs(ask_to_put_down_object(Actor, Person, Object), timestep),
-    person_holding_object(Person, Object, ObjectCount).
+    holds(person_holding_object(Person, Object, ObjectCount), timestep).
 
 % "Cannot put down when they aren't holding anything"
 %
@@ -387,7 +387,7 @@ impossible(ask_to_put_down_object(Actor, Person, Object), timestep) :-
     person(Actor),
     person(Person),
     object(Object),
-    person_holding_object(Person, Object, ObjectCount),
+    holds(person_holding_object(Person, Object, ObjectCount), timestep),
     ObjectCount = 0.
 
 % ---------------------------------------------------------------------
