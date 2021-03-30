@@ -5,6 +5,7 @@
 % person(Person)
 % agent(Person)
 % employee(Person)
+% has_security_clearance(Person)
 % department(Department)
 % department(Person, Department)
 % supervisor_to(Boss, Person)

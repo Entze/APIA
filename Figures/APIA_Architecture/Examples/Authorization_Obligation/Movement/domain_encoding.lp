@@ -6,6 +6,7 @@
 
 % cubical(Location)
 % private_office(Location)
+% personal_space(Location, Person)
 
 % room(Room)
 % main_room(Room)

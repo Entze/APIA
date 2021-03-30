@@ -36,6 +36,12 @@ private_office(Location) :-
         @str_format("location_private_office_{}", 1)
     ).
 
+personal_space(Location, Person) :-
+    Location = @str_format("location_private_office_{}", 1),
+    Person = "Bob".
+
+% TODO: Add more personal_space(Location, Person)
+
 % -----------------------------------------------------------------------
 
 room(Room) :-
