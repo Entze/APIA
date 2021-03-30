@@ -21,7 +21,8 @@
 % action_duration(Action, Duration)
 
 path(Location2, Location1) :-
-    path(Location1, Location2).
+    path(Location1, Location2)
+    not door(Location1, Location2).
 
 path(Location1, Location2) :-
     door(Location1, Location2).

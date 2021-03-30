@@ -433,13 +433,16 @@ impossible(turn_off_object(Actor, Object), timestep) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
 
+% TODO: Refactor policies to latest changes
+% TODO: Add agent_action(Action)
+
 % "Everyone must take their ID badge with them when moving"
 %
-% obl(pick_up_object(Object)) if
+% obl(pick_up_object(Actor, Object)) if
 %   Object = id_badge(Actor),
 %   -person_holding_object(Actor, Object),
 %   occurs(move(Actor, ToLocation))
-obl(pick_up_object(Object), timestep) :-
+obl(pick_up_object(Actor, Object), timestep) :-
     id_badge(Actor),
     Object = id_badge(Actor),
     occurs(move(Actor, ToLocation), timestep),
