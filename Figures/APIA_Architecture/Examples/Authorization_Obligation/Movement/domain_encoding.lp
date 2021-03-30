@@ -163,6 +163,13 @@ holds(person_location(Actor, ToLocation), timestep + 1) :-
 
 % impossible move(Actor, ToLocation) if
 %   person_location(Actor, FromLocation),
+%   -door_open(FromLocation, ToLocation)
+impossible(move(Actor, ToLocation), timestep) :-
+    holds(person_location(Actor, FromLocation), timestep),
+    -holds(door_open(FromLocation, ToLocation), timestep).
+
+% impossible move(Actor, ToLocation) if
+%   person_location(Actor, FromLocation),
 %   door_locked(FromLocation, ToLocation)
 impossible(move(Actor, ToLocation), timestep) :-
     holds(person_location(Actor, FromLocation), timestep),
