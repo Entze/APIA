@@ -31,6 +31,10 @@ action_duration(Action, Duration) :-
     Duration = 0.
 
 action_duration(Action, Duration) :-
+    policy_action(Action),
+    Duration = 0.
+
+action_duration(Action, Duration) :-
     agent_action(Action),
     Action = move(Actor, ToLocation),
     Duration = 15.
