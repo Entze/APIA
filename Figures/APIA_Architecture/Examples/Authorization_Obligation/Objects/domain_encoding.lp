@@ -433,6 +433,9 @@ impossible(turn_off_object(Actor, Object), timestep) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
 
+% TODO: Refactor policies to latest changes
+% TODO: Add agent_action(Action)
+
 % "Everyone must take their ID badge with them when moving"
 %
 % obl(pick_up_object(Actor, Object)) if
