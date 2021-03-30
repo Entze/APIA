@@ -351,7 +351,7 @@ permitted(hold_meeting(Actor, Meeting))  :-
     agent(Actor),
     -holds(meeting_scheduled(Meeting), timestep),
     -holds(meeting_all_attendees_not_busy(Meeting), timestep),
-    not abnormal(meeting_1(Actor, Meeting)),
+    not abnormal(meeting_1(Actor, Meeting), timestep),
     not -permitted(hold_meeting(Actor, Meeting)) .
 
 % "Normally, no one is allowed to invite a higher-ranking employee to an impromptu meeting if he is busy"
