@@ -43,12 +43,6 @@ object_weight(Object, Weight) :-
     ),
     Weight = 2.
 
-object_attribute(Object, sittable) :-
-    object(Object),
-    Object = (
-        chair
-    ).
-
 object_attribute(Object, power) :-
     object(Object),
     Object = (
