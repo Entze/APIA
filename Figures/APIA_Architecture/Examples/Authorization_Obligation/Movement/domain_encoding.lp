@@ -354,7 +354,7 @@ holds(time(NewHour, NewMinute), timestep + 1) :-
     NewMinute = NewTime \ 60,
     NewHour = (NewTime / 60) \ 24.
 
-% -time(OtherHour, Minute) if
+% -time(OtherHour, OtherMinute) if
 %   time(Hour, Minute)
 -holds(time(OtherHour, OtherMinute), timestep) :-
     holds(time(Hour, Minute), timestep),
