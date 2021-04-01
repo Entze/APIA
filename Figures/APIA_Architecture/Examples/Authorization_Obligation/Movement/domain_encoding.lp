@@ -381,7 +381,8 @@ holds(time_business_hours, timestep) :-
 permitted(move(Actor, ToLocation), timestep) :-
     agent(Actor),
     location(ToLocation),
-    not -permitted(move(Actor, ToLocation), timestep).
+    not -permitted(move(Actor, ToLocation), timestep),
+    not obl(neg(move(Actor, ToLocation)), timestep).  % Note: Our addition
 
 % "Normally, no one is allowed to sit down in someone's cubicle"
 %

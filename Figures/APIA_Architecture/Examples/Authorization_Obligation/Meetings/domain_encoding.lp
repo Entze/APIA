@@ -359,7 +359,8 @@ holds(impromptu_meeting(Meeting), timestep) :-
     agent(Actor),
     meeting(Meeting),
     -holds(meeting_all_attendees_present(Actor, Meeting), timestep),
-    not permitted(hold_meeting(Actor, Meeting), timestep).
+    not permitted(hold_meeting(Actor, Meeting), timestep),
+    not obl(hold_meeting(Actor, Meeting), timestep).  % Note: Our addition
 
 % "Normally, anyone is allowed to hold an impromptu meeting with a coworker if the coworker is not busy"
 %
@@ -370,7 +371,8 @@ permitted(hold_meeting(Actor, Meeting), timestep) :-
     agent(Actor),
     -holds(meeting_scheduled(Meeting), timestep),
     holds(meeting_all_attendees_not_busy(Meeting), timestep),
-    not -permitted(hold_meeting(Actor, Meeting), timestep).
+    not -permitted(hold_meeting(Actor, Meeting), timestep),
+    not obl(neg(hold_meeting(Actor, Meeting)), timestep).  % Note: Our addition
 
 % "Normally, no one is allowed to hold an impromptu meeting with a coworker if he is busy"
 %
@@ -382,7 +384,8 @@ permitted(hold_meeting(Actor, Meeting), timestep)  :-
     -holds(meeting_scheduled(Meeting), timestep),
     -holds(meeting_all_attendees_not_busy(Meeting), timestep),
     not abnormal(meeting_1(Actor, Meeting), timestep),
-    not -permitted(hold_meeting(Actor, Meeting), timestep) .
+    not -permitted(hold_meeting(Actor, Meeting), timestep),
+    not obl(neg(hold_meeting(Actor, Meeting)), timestep).  % Note: Our addition
 
 % "Normally, no one is allowed to invite a higher-ranking employee to an impromptu meeting if he is busy"
 %
@@ -396,7 +399,8 @@ permitted(hold_meeting(Actor, Meeting), timestep)  :-
     holds(higher_ranking_than(Person, Actor), timestep),
     holds(busy_working(Person), timestep),
     not abnormal(meeting_2(Actor, Meeting, Person), timestep),
-    not permitted(invite_to_meeting(Actor, Meeting, Person), timestep).
+    not permitted(invite_to_meeting(Actor, Meeting, Person), timestep),
+    not obl(invite_to_meeting(Actor, Meeting, Person), timestep).  % Note: Our addition
 
 % prefer(meeting_2(Actor, Meeting, Person), meeting_1(Actor, Meeting))
 abnormal(meeting_1(Actor, Meeting), timestep) :-
@@ -419,7 +423,8 @@ abnormal(meeting_1(Actor, Meeting), timestep) :-
     person_location(Actor, Location),
     locataion_room(Location, Room),
     conference_room(Room),
-    not permitted(hold_meeting(Actor, Meeting), timestep).
+    not permitted(hold_meeting(Actor, Meeting), timestep),
+    not obl(hold_meeting(Actor, Meeting), timestep).  % Note: Our addition
 
 % "Normally, no one is allowed to hold an impromptu meeting"
 %
@@ -428,7 +433,8 @@ abnormal(meeting_1(Actor, Meeting), timestep) :-
 -permitted(hold_meeting(Actor, Meeting), timestep) :-
     agent(Actor),
     -meeting_scheduled(Meeting),
-    not permitted(hold_meeting(Actor, Meeting), timestep).
+    not permitted(hold_meeting(Actor, Meeting), timestep),
+    not obl(hold_meeting(Actor, Meeting), timestep).  % Note: Our addition
 
 % "Normally, no one is allowed to hold a meeting with their supervisor unless they have first held a meeting with their co-workers"
 
