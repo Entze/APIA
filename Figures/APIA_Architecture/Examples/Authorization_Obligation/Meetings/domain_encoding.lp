@@ -84,7 +84,7 @@ physical_fluent(inertial, meeting_location(Meeting, Location)) :-
     location(Location).
 
 % current_meeting(Meeting)
-physical_fluent(inertial, next_meeting(Meeting)) :-
+physical_fluent(inertial, current_meeting(Meeting)) :-
     meeting(Meeting).
 
 % next_meeting(Meeting)
