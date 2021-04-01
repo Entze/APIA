@@ -307,3 +307,40 @@ path(FromLocation, ToLocation) :-
 door(FromLocation, ToLocation) :-
     FromLocation = @str_format("location_classified_office_space_{}", 4),
     ToLocation = @str_format("location_classified_conference_room_{}", 1).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See p. 50 of dissertation
+#program base.
+
+observed(person_location(Person, Location), Timestep) :-
+    Timestep = 0,
+    person(Person),
+    location(Location),
+    Person = "Bob",
+    Location = "location_outside_1".
+
+observed(person_location(Person, Location), Timestep) :-
+    Timestep = 0,
+    agent(Person),
+    location(Location),
+    Person = "Alice",
+    Location = @str_format("location_private_office_{}", 1).
+
+-observed(door_locked(FromLocation, ToLocation), Timestep) :-
+    Timestep = 0,
+    door(FromLocation, ToLocation),
+    not door_has_lock(FromLocation, ToLocation).
+
+observed(door_locked(FromLocation, ToLocation), Timestep) :-
+    Timestep = 0,
+    door_has_lock(FromLocation, ToLocation).
+
+observed(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), Timestep) :-
+    Timestep = 0,
+    door_has_lock(FromLocation, ToLocation),
+    TimestepsLeft = 0.
+
+observed(time(Hour, Minute), Timestep) :-
+    Timestep = 0,
+    Hour = 8,
+    Minute = 0.
