@@ -389,6 +389,16 @@ impossible(ask_to_put_down_object(Actor, Person, Object), timestep) :-
 
 % ---------------------------------------------------------------------
 
+% -object_turned_on(Location, Object, OtherObjectCount)
+%   if object_turned_on(Location, Object, ObjectCount)
+-holds(object_turned_on(Location, Object, OtherObjectCount), timestep) :-
+    holds(object_turned_on(Location, Object, ObjectCount), timestep),
+    max_object_count(MaxObjectCount),
+    OtherObjectCount = 0..MaxObjectCount,
+    OtherObjectCount != ObjectCount.
+
+% ---------------------------------------------------------------------
+
 % turn_on_object(Actor, Object)
 %   causes object_turned_on(Location, Object, ObjectCount + 1)
 %   if

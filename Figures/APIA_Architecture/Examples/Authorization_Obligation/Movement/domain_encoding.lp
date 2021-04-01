@@ -153,6 +153,15 @@ exogenous_action(lock_door(Actor, FromLocation, ToLocation)) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
+% -person_location(Actor, OtherLocation)
+%   if person_location(Actor, Location)
+-holds(person_location(Actor, OtherLocation), timestep) :-
+    holds(person_location(Actor, Location), timestep),
+    location(OtherLocation),
+    OtherLocation != Location.
+
+% ---------------------------------------------------------------------
+
 % move(Actor, ToLocation)
 %   causes person_location(Actor, ToLocation)
 holds(person_location(Actor, ToLocation), timestep + 1) :-
@@ -300,6 +309,16 @@ impossible(lock_door(Actor, FromLocation, ToLocation), timestep) :-
 holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep + 1) :-
     occurs(lock_door(Actor, FromLocation, ToLocation), timestep),
     TimestepsLeft = 0.
+
+% -------------------------------------------------------------------
+
+% -door_autolock_countdown(FromLocation, ToLocation, OtherTimestepsLeft)
+%   if door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
+-holds(door_autolock_countdown(FromLocation, ToLocation, OtherTimestepsLeft), timestep) :-
+    door_autolock_pause(FromLocation, ToLocation, Timesteps),
+    holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)),
+    fluent(_, door_autolock_countdown(FromLocation, ToLocation, OtherTimestepsLeft)),
+    OtherTimestepsLeft != TimestepsLeft.
 
 % -------------------------------------------------------------------
 
