@@ -2,6 +2,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% person_max_holding_weight(Person, MaxWeight)
+
 object(Object) :-
     Object = (
         id_badge;
@@ -121,7 +123,8 @@ physical_fluent(defined, person_holding_object(Person, Object)) :-
 
 physical_fluent(defined, person_holding_weight(Person, Weight)) :-
     person(Person),
-    Weight = 0..3.
+    person_max_holding_weight(Person, MaxWeight),
+    Weight = 0..MaxWeight.
 
 % physical_fluent(inertial, person_sitting_on_object(Person, Object)) :-
 %     person(Person),
@@ -314,8 +317,9 @@ impossible(pick_up_object(Actor, Object), timestep) :-
 % impossible pick_up_object(Actor, Object) if
 %   object_weight(Object, Weight)
 %   person_holding_weight(Person, CarryWeight)
+%   person_max_holding_weight(Person, MaxWeight)
 %   NewCarryWeight = Weight + CarryWeight,
-%   NewCarryWeight >= 2
+%   NewCarryWeight >= MaxWeight
 impossible(pick_up_object(Actor, Object), timestep) :-
     person(Actor),
     object_weight(Object, Weight),

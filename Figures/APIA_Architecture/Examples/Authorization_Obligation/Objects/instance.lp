@@ -2,6 +2,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+person_max_holding_weight(Person, MaxWeight) :-
+    person(Person),
+    MaxWeight = 2.
+
 computer(Computer) :-
     Computer = 1.
 
