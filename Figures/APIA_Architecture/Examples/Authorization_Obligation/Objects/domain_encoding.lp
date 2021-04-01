@@ -263,6 +263,19 @@ exogenous_action(stand_up(Actor)) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
+% "Only one object count can exist"
+%
+% -person_holding_object(Actor, Object, OtherObjectCount) if
+%   person_holding_object(Actor, Object, ObjectCount),
+%   OtherObjectCount != ObjectCount
+-holds(person_holding_object(Actor, Object, OtherObjectCount), timestep) :-
+    holds(person_holding_object(Actor, Object, ObjectCount), timestep),
+    max_object_count(Object, MaxCount),
+    OtherObjectCount = 0..MaxCount,
+    OtherObjectCount != ObjectCount.
+
+% ---------------------------------------------------------------------
+
 % "Picking up increases object count"
 %
 % pick_up_object(Actor, Object)
@@ -274,17 +287,6 @@ holds(person_holding_object(Actor, Object, ObjectCount + 1), timestep + 1) :-
     object(Object),
     occurs(pick_up_object(Actor, Object), timestep),
     holds(person_holding_object(Actor, Object, ObjectCount), timestep).
-
-% "Only one object count can exist"
-%
-% -person_holding_object(Actor, Object, OtherObjectCount) if
-%   person_holding_object(Actor, Object, ObjectCount),
-%   OtherObjectCount != ObjectCount
--holds(person_holding_object(Actor, Object, OtherObjectCount), timestep) :-
-    holds(person_holding_object(Actor, Object, ObjectCount), timestep),
-    max_object_count(Object, MaxCount),
-    OtherObjectCount = 0..MaxCount,
-    OtherObjectCount != ObjectCount.
 
 % impossible pick_up_object(Actor, Object) if
 %   not object_holdable(Object)
