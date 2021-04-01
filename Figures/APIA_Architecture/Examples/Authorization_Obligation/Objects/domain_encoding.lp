@@ -437,6 +437,7 @@ impossible(turn_off_object(Actor, Object), timestep) :-
 %   -person_holding_object(Actor, Object),
 %   occurs(move(Actor, ToLocation))
 obl(pick_up_object(Actor, Object), timestep) :-
+    agent(Actor),
     id_badge(Actor),
     Object = id_badge(Actor),
     occurs(move(Actor, ToLocation), timestep),
@@ -450,6 +451,7 @@ obl(pick_up_object(Actor, Object), timestep) :-
 %   person_holding_object(Actor, Object)
 %   object_attribute(Object, electronic)
 -permitted(move(Actor, ToLocation), timestep) :-
+    agent(Actor),
     location_room(ToLocation, Room),
     room_classified(Room),
     holds(person_holding_object(Actor, Object), timestep),
@@ -466,6 +468,7 @@ obl(pick_up_object(Actor, Object), timestep) :-
 %   object(Object),
 %   Object = light,
 obl(turn_off_object(Actor, Object), timestep) :-
+    agent(Actor),
     occurs(move(Actor, ToLocation), timestep),
     holds(person_location(Actor, FromLocation), timestep),
     location_room(ToLocation, NewRoom),
@@ -488,6 +491,7 @@ obl(turn_off_object(Actor, Object), timestep) :-
 %   object(Object),
 %   Object = light,
 obl(neg(turn_off_object(Actor, Object))) :-
+    agent(Actor),
     occurs(move(Actor, ToLocation), timestep),
     holds(person_location(Actor, FromLocation), timestep),
     location_room(ToLocation, NewRoom),
@@ -501,6 +505,7 @@ obl(neg(turn_off_object(Actor, Object))) :-
 
 % prefer(lights_2(Actor, Object), lights_1(Actor, Object))
 abnormal(lights_1(Actor, Object), timestep) :-
+    agent(Actor),
     % Condition of lights_2(Actor, Object)
     occurs(move(Actor, ToLocation), timestep),
     holds(person_location(Actor, FromLocation), timestep),
@@ -523,6 +528,7 @@ abnormal(lights_1(Actor, Object), timestep) :-
 %   object(Object),
 %   Object = light,
 obl(neg(turn_off_object(Actor, Object)), timestep) :-
+    agent(Actor),
     occurs(move(Actor, ToLocation), timestep),
     holds(person_location(Actor, FromLocation), timestep),
     location_room(ToLocation, NewRoom),
@@ -542,7 +548,7 @@ obl(neg(turn_off_object(Actor, Object)), timestep) :-
 %   object(Object),
 %   Object = light,
 obl(neg(turn_off_lights(Actor, Object)), timestep) :-
-    perston(Actor),
+    agent(Actor),
     holds(person_location(Person, Location), timestep),
     Person != Actor,
     object(Object),
