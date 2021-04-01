@@ -58,11 +58,11 @@ object_attribute(Object, electronic) :-
         cellphone
     ).
 
-object_attribute(Object, sittable) :-
-    object(Object),
-    Object = (
-        chair
-    ).
+% object_attribute(Object, sittable) :-
+%     object(Object),
+%     Object = (
+%         chair
+%     ).
 
 object_attribute(Object, cd_drive) :-
     object(Object),
@@ -95,10 +95,10 @@ action_duration(Action, Duration) :-
     Action = turn_off_object(Actor, Object),
     Duration = 15.
 
-action_duration(Action, Duration) :-
-    agent_action(Action),
-    Action = sit_on_object(Actor, Object),
-    Duration = 15.
+% action_duration(Action, Duration) :-
+%     agent_action(Action),
+%     Action = sit_on_object(Actor, Object),
+%     Duration = 15.
 
 action_duration(Action, Duration) :-
     agent_action(Action),
@@ -123,17 +123,17 @@ physical_fluent(defined, person_holding_weight(Person, Weight)) :-
     person(Person),
     Weight = 0..3.
 
-physical_fluent(inertial, person_sitting_on_object(Person, Object)) :-
-    person(Person),
-    object(Object),
-    object_attribute(Object, sittable).
+% physical_fluent(inertial, person_sitting_on_object(Person, Object)) :-
+%     person(Person),
+%     object(Object),
+%     object_attribute(Object, sittable).
 
-physical_fluent(defined, people_sitting_on_object_count((Location, Object), PeopleCount)) :-
-    object(Object),
-    object_attribute(Object, sittable),
-    location(Location),
-    MaxPeopleCount = #count{ Person : person(Person) },
-    PeopleCount = 0..MaxPeopleCount.
+% physical_fluent(defined, people_sitting_on_object_count((Location, Object), PeopleCount)) :-
+%     object(Object),
+%     object_attribute(Object, sittable),
+%     location(Location),
+%     MaxPeopleCount = #count{ Person : person(Person) },
+%     PeopleCount = 0..MaxPeopleCount.
 
 physical_fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
     location(Location),
@@ -232,19 +232,19 @@ exogenous_action(turn_off_object(Actor, Object)) :-
 
 %-------------------------------------------------------
 
-% sit_on_object(Actor, Object)
-physical_action(sit_on_object(Actor, Object)) :-
-    person(Actor),
-    object(Object),
-    object_attribute(Object, sittable).
-
-agent_action(sit_on_object(Actor, Object)) :-
-    physical_action(sit_on_object(Actor, Object)),
-    agent(Actor).
-
-exogenous_action(sit_on_object(Actor, Object)) :-
-    physical_action(sit_on_object(Actor, Object)),
-    not agent(Actor).
+% % sit_on_object(Actor, Object)
+% physical_action(sit_on_object(Actor, Object)) :-
+%     person(Actor),
+%     object(Object),
+%     object_attribute(Object, sittable).
+%
+% agent_action(sit_on_object(Actor, Object)) :-
+%     physical_action(sit_on_object(Actor, Object)),
+%     agent(Actor).
+%
+% exogenous_action(sit_on_object(Actor, Object)) :-
+%     physical_action(sit_on_object(Actor, Object)),
+%     not agent(Actor).
 
 %-------------------------------------------------------
 
