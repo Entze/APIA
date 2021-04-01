@@ -111,8 +111,8 @@ physical_fluent(inertial, person_holding_object(Person, Object, ObjectCount)) :-
     person(Person),
     object(Object),
     object_attribute(Object, holdable),
-    max_object_count(Object, MaxCount),
-    ObjectCount = 0..MaxCount.
+    max_object_count(Object, MaxObjectCount),
+    ObjectCount = 0..MaxObjectCount.
 
 physical_fluent(defined, person_holding_object(Person, Object)) :-
     person(Person),
@@ -270,8 +270,8 @@ exogenous_action(stand_up(Actor)) :-
 %   OtherObjectCount != ObjectCount
 -holds(person_holding_object(Actor, Object, OtherObjectCount), timestep) :-
     holds(person_holding_object(Actor, Object, ObjectCount), timestep),
-    max_object_count(Object, MaxCount),
-    OtherObjectCount = 0..MaxCount,
+    max_object_count(Object, MaxObjectCount),
+    OtherObjectCount = 0..MaxObjectCount,
     OtherObjectCount != ObjectCount.
 
 % ---------------------------------------------------------------------
