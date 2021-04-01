@@ -323,12 +323,12 @@ holds(door_autolock_countdown(FromLocation, ToLocation, NewTimestepsLeft), times
 %   if
 %     physical_action(Action)
 %     door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft),
-%     TimestempsLeft = 1
+%     TimestepsLeft = 1
 holds(door_locked(FromLocation, ToLocation), timestep) :-
     occurs(Action, timestep),
     physical_action(Action),
     holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
-    TimestempsLeft = 1.
+    TimestepsLeft = 1.
 
 % -------------------------------------------------------------------
 
