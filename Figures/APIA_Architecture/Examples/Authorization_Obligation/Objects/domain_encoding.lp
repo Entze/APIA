@@ -490,7 +490,7 @@ obl(turn_off_object(Actor, Object), timestep) :-
 %   main_room(NewRoom),
 %   object(Object),
 %   Object = light,
-obl(neg(turn_off_object(Actor, Object))) :-
+obl(neg(turn_off_object(Actor, Object)), timestep) :-
     agent(Actor),
     occurs(move(Actor, ToLocation), timestep),
     holds(person_location(Actor, FromLocation), timestep),

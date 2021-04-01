@@ -366,23 +366,23 @@ holds(impromptu_meeting(Meeting), timestep) :-
 % normally permitted(hold_meeting(Actor, Meeting)) if
 %   -meeting_scheduled(Meeting),
 %   meeting_all_attendees_not_busy(Meeting)
-permitted(hold_meeting(Actor, Meeting)) :-
+permitted(hold_meeting(Actor, Meeting), timestep) :-
     agent(Actor),
     -holds(meeting_scheduled(Meeting), timestep),
     holds(meeting_all_attendees_not_busy(Meeting), timestep),
-    not -permitted(hold_meeting(Actor, Meeting)).
+    not -permitted(hold_meeting(Actor, Meeting), timestep).
 
 % "Normally, no one is allowed to hold an impromptu meeting with a coworker if he is busy"
 %
 % meeting_1(Actor, Meeting): normally permitted(hold_meeting(Actor, Meeting)) if
 %   -meeting_scheduled(Meeting),
 %   -meeting_all_attendees_not_busy(Meeting)
-permitted(hold_meeting(Actor, Meeting))  :-
+permitted(hold_meeting(Actor, Meeting), timestep)  :-
     agent(Actor),
     -holds(meeting_scheduled(Meeting), timestep),
     -holds(meeting_all_attendees_not_busy(Meeting), timestep),
     not abnormal(meeting_1(Actor, Meeting), timestep),
-    not -permitted(hold_meeting(Actor, Meeting)) .
+    not -permitted(hold_meeting(Actor, Meeting), timestep) .
 
 % "Normally, no one is allowed to invite a higher-ranking employee to an impromptu meeting if he is busy"
 %
