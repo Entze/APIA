@@ -501,7 +501,7 @@ obl(neg(turn_off_object(Actor, Object)), timestep) :-
     object(Object),
     Object = light,
     not abnormal(lights_2(Actor, Object), timestep),
-    not -obl(turn_off_object(Actor, Object), timestep).
+    not -obl(neg(turn_off_object(Actor, Object)), timestep).
 
 % prefer(lights_2(Actor, Object), lights_1(Actor, Object))
 abnormal(lights_1(Actor, Object), timestep) :-
@@ -538,7 +538,7 @@ obl(neg(turn_off_object(Actor, Object)), timestep) :-
     object(Object),
     Object = light,
     not abnormal(lights_1(Actor, Object), timestep),
-    not -obl(turn_off_object(Actor, Object), timestep).
+    not -obl(neg(turn_off_object(Actor, Object)), timestep).
 
 % "Never turn off the lights when someone else is in the room"
 %
