@@ -3,6 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % person_max_holding_weight(Person, MaxWeight)
+% max_object_count(MaxObjectCount)
 
 object(Object) :-
     Object = (
@@ -113,7 +114,7 @@ physical_fluent(inertial, person_holding_object(Person, Object, ObjectCount)) :-
     person(Person),
     object(Object),
     object_attribute(Object, holdable),
-    max_object_count(Object, MaxObjectCount),
+    max_object_count(MaxObjectCount),
     ObjectCount = 0..MaxObjectCount.
 
 physical_fluent(defined, person_holding_object(Person, Object)) :-
@@ -141,12 +142,14 @@ physical_fluent(defined, person_holding_weight(Person, Weight)) :-
 physical_fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
     location(Location),
     object_attribute(Object, power),
-    ObjectCount = 0..12.
+    max_object_count(MaxObjectCount),
+    ObjectCount = 0..MaxObjectCount.
 
 physical_fluent(inertial, object_location(Object, Location, ObjectCount)) :-
     object(Object),
     location(Location),
-    ObjectCount = 0..12.
+    max_object_count(MaxObjectCount),
+    ObjectCount = 0..MaxObjectCount.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -273,7 +276,7 @@ exogenous_action(stand_up(Actor)) :-
 %   OtherObjectCount != ObjectCount
 -holds(person_holding_object(Actor, Object, OtherObjectCount), timestep) :-
     holds(person_holding_object(Actor, Object, ObjectCount), timestep),
-    max_object_count(Object, MaxObjectCount),
+    max_object_count(MaxObjectCount),
     OtherObjectCount = 0..MaxObjectCount,
     OtherObjectCount != ObjectCount.
 
