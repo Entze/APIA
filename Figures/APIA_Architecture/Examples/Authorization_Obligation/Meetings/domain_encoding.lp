@@ -60,7 +60,8 @@ physical_fluent(inertial, meeting_attendee(Meeting, Person)) :-
 % meeting_attendees_count(Meeting, AttendeeCount)
 physical_fluent(defined, meeting_attendees_count(Meeting, AttendeeCount)) :-
     meeting(Meeting),
-    AttendeeCount = 0..5.
+    MaxPeople = #count{ Person : person(Person) },
+    AttendeeCount = 0..MaxPeople.
 
 % meeting_all_attendees_present(Meeting)
 physical_fluent(defined_negative, meeting_all_attendees_present(Meeting)) :-

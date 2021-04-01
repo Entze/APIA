@@ -132,7 +132,8 @@ physical_fluent(defined, people_sitting_on_object_count((Location, Object), Peop
     object(Object),
     object_attribute(Object, sittable),
     location(Location),
-    PeopleCount = 0..5.
+    MaxPeopleCount = #count{ Person : person(Person) },
+    PeopleCount = 0..MaxPeopleCount.
 
 physical_fluent(inertial, object_turned_on(Location, Object, ObjectCount)) :-
     location(Location),
