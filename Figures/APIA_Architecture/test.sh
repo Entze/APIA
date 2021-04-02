@@ -55,7 +55,7 @@ clingo -t "$(nproc)" --opt-mode=optN --const test="${TEST_NUM}" --const max_time
     > "${TEMP_DIR}/output"
 
 grep '^Grounding:' "${TEMP_DIR}/output" \
-    | sed -E 's/, (ASPSubprogramInstantiation)/,\n    \1/g' \
+    | awk -f "${SCRIPT_DIR}/display_subprograms.awk" \
     | sed 's/,$//g' \
     | sed 's/)))$/))/g' \
     | sed 's/^Grounding: (/Grounding:\n    /g' \
