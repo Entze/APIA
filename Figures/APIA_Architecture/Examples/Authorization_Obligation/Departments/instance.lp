@@ -12,9 +12,9 @@ agent(Person) :-
     person(Person),
     Person = "Bob".
 
-employee(Person) :-
-    person(Person),
-    Person = "Bob".
+% employee(Person) :-
+%     person(Person),
+%     Person = "Bob".
 
 % department(Department) :-
 %     Department = 1.

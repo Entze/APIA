@@ -508,7 +508,7 @@ obl(turn_off_object(Actor, Object), timestep) :-
     Object = light,
     not abnormal(lights_1(Actor, Object), timestep),
     not -obl(turn_off_object(Actor, Object), timestep),
-    not permitted(turn_off_object(Actor, Object), timestep).  % Note: Our addition
+    not -permitted(turn_off_object(Actor, Object), timestep).  % Note: Our addition
 
 % "Normally, one must not turn off the lights when leaving the main room"
 %

@@ -42,6 +42,6 @@ meeting(Meeting) :-
     meeting(Meeting),
     location(Location).
 
-observed(next_meeting(Meeting), Timestep) :-
+observed(current_meeting(Meeting), Timestep) :-
     Timestep = 0,
     Meeting = 1.
