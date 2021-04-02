@@ -163,8 +163,8 @@ def _init_clingo(files: Iterable[str], clingo_args: Iterable[str], assertions: I
 def _extract_predicates(model: clingo.Model,
                         predicate_signatures: Collection[SymbolSignature],
                         current_timestep: int,
-                        debug=False) -> deque[clingo.Symbol]:
-    predicates: deque[clingo.Symbol] = deque()
+                        debug=False) -> Deque[clingo.Symbol]:
+    predicates: Deque[clingo.Symbol] = deque()
     for symbol in model.symbols(shown=True):
         # Predicate extraction
         if (symbol.name, len(symbol.arguments)) in predicate_signatures:
@@ -211,8 +211,8 @@ def _main():
     configuration = APIAConfiguration(authorization=args.authorization_mode,
                                       obligation=args.obligation_mode)
 
-    history: deque[clingo.Symbol] = deque()
-    observation_subprograms: deque[ASPSubprogramInstantiation] = deque()
+    history: Deque[clingo.Symbol] = deque()
+    observation_subprograms: Deque[ASPSubprogramInstantiation] = deque()
     for current_timestep in range(max_timestep + 1):
         # Step 1: Interpret Observations
         print(f'Step {current_timestep}.1: Interpret observations', file=sys.stderr)
@@ -265,7 +265,7 @@ def _main():
 
         # Solving
         print('  Solving...', file=sys.stderr)
-        step_3_intended_actions: deque[clingo.Symbol] = deque()
+        step_3_intended_actions: Deque[clingo.Symbol] = deque()
         solve_handle = clingo_control.solve(yield_=True, async_=True)
         for model in solve_handle:  # type: clingo.Model
             # Predicate extraction
