@@ -321,7 +321,7 @@ observed(person_location(Person, Location), Timestep) :-
 
 observed(person_location(Person, Location), Timestep) :-
     Timestep = 0,
-    agent(Person),
+    person(Person),
     location(Location),
     Person = "Alice",
     Location = @str_format("location_private_office_{}", 1).

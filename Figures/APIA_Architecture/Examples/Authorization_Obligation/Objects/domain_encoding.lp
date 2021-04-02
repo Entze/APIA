@@ -444,6 +444,16 @@ impossible(turn_off_object(Actor, Object), timestep) :-
     holds(object_turned_on(Location, Object, ObjectCount), timestep),
     ObjectCount = 0.
 
+% ---------------------------------------------------------------------
+
+% -object_location(Object, Location, OtherObjectCount)
+%   if object_location(Object, Location, ObjectCount)
+-holds(object_location(Object, Location, OtherObjectCount), timestep) :-
+    holds(object_location(Object, Location, ObjectCount), timestep),
+    max_object_count(MaxObjectCount),
+    OtherObjectCount = 0..MaxObjectCount,
+    OtherObjectCount != ObjectCount.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
 

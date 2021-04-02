@@ -315,8 +315,7 @@ holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep
 % -door_autolock_countdown(FromLocation, ToLocation, OtherTimestepsLeft)
 %   if door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
 -holds(door_autolock_countdown(FromLocation, ToLocation, OtherTimestepsLeft), timestep) :-
-    door_autolock_pause(FromLocation, ToLocation, Timesteps),
-    holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)),
+    holds(door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft), timestep),
     fluent(_, door_autolock_countdown(FromLocation, ToLocation, OtherTimestepsLeft)),
     OtherTimestepsLeft != TimestepsLeft.
 
