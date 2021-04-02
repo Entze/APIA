@@ -155,7 +155,7 @@ def _init_clingo(files: Iterable[str], clingo_args: Iterable[str], assertions: I
     for file in files:
         clingo_control.load(file)
 
-    clingo.add('base', (), '\n'.join(f'{predicate}.' for predicate in assertions))
+    clingo_control.add('base', (), '\n'.join(f'{predicate}.' for predicate in assertions))
 
     return clingo_control
 
@@ -220,7 +220,7 @@ def _main():
         # Set up
         clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=history)
         subprograms_to_ground = chain(
-            generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number, configuration),
+            generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(1), configuration),
             observation_subprograms)
 
         # Grounding
@@ -253,8 +253,8 @@ def _main():
         clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=chain(history, (
             clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
         )))
-        subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
-                                                                    configuration)
+        subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(2),
+                                                                   configuration)
         # Grounding
         print('  Grounding...', file=sys.stderr)
         if debug == True:
