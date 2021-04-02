@@ -64,7 +64,7 @@ grep '^Grounding:' "${TEMP_DIR}/output" \
 grep '^Answer:' -A1 "${TEMP_DIR}/output" \
     | tail -n 2 \
     | sed -n '2p' \
-    | awk -f "${SCRIPT_DIR}/display.awk" \
+    | awk -f "${SCRIPT_DIR}/display_predicates.awk" \
     | grep -v '^cr_prefer(' \
     | sort \
     > "${TEMP_DIR}/predicates"
@@ -85,7 +85,7 @@ cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 
 if [[ -n "${DEBUG}" ]]; then
     mv "${TEMP_DIR}/output" "${TEMP_DIR}/output.old"
-    awk -f "${SCRIPT_DIR}/display.awk" "${TEMP_DIR}/output.old" > "${TEMP_DIR}/output"
+    awk -f "${SCRIPT_DIR}/display_predicates.awk" "${TEMP_DIR}/output.old" > "${TEMP_DIR}/output"
     echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
 else
     rm -rf "${TEMP_DIR}"
