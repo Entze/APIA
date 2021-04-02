@@ -13,6 +13,11 @@ class ASPSubprogramInstantiation(NamedTuple):
     arguments: Sequence[Union[str, int]]
 
 
+class SymbolSignature(NamedTuple):
+    name: str
+    arity: int
+
+
 class AIALoopStep(IntEnum):
     INTERPRET_OBSERVATIONS = 1
     INTENDED_ACTION = 2

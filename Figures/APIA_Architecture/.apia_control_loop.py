@@ -22,11 +22,6 @@ class ASPSubprogramInstantiation(NamedTuple):
     arguments: Sequence[Union[SymbolValue, clingo.Symbol]]
 
 
-class SymbolSignature(NamedTuple):
-    name: str
-    arity: int
-
-
 class FunctionSymbol(NamedTuple):
     name: str
     arguments: Sequence[SymbolValue]
