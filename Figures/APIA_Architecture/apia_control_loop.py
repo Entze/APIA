@@ -293,3 +293,7 @@ def _main():
         observation_subprograms.append(ASPSubprogramInstantiation(name=f'observations_{current_timestep + 1}', arguments=()))
 
         print(file=sys.stderr)
+
+
+if __name__ == '__main__':
+    _main()
