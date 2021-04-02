@@ -5,6 +5,7 @@ import sys
 from collections import deque
 from enum import Enum, IntEnum
 from itertools import chain
+from pathlib import Path
 from typing import *
 
 import clingo
@@ -150,10 +151,10 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
                 for subprogram_name in sorted(configuration.obligation.value))
 
 
-def _init_clingo(files: Iterable[str], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
+def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
     clingo_control = clingo.Control(clingo_args)
     for file in files:
-        clingo_control.load(file)
+        clingo_control.load(str(file))
 
     clingo_control.add('base', (), '\n'.join(f'{predicate}.' for predicate in assertions))
 
@@ -180,7 +181,7 @@ def _extract_predicates(model: clingo.Model,
     return predicates
 
 
-def _main():
+def _main(script_dir: Path):
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -206,7 +207,19 @@ def _main():
     max_timestep: int = args.max_timestep
     debug: bool = args.debug
 
-    clingo_files: Sequence[str] = args.files
+    clingo_files: Sequence[Path] = (
+        script_dir / 'aaa_axioms.lp',
+        script_dir / 'aia_theory_of_intentions.lp',
+        script_dir / 'aia_history_rules.lp',
+        script_dir / 'aia_intended_action_rules.lp',
+        script_dir / 'aopl_authorization_compliance.lp',
+        script_dir / 'aopl_obligation_compliance.lp',
+        script_dir / 'general_axioms.lp',
+        script_dir / 'apia_cr_prolog.lp',
+        script_dir / 'apia_policy.lp',
+        script_dir / 'apia_compliance_check.lp',
+        *map(Path, args.files),
+    )
     clingo_args = (
         '--opt-mode=optN',
         '--parallel-mode', f'{os.cpu_count()}',
@@ -302,4 +315,5 @@ def _main():
 
 
 if __name__ == '__main__':
-    _main()
+    script_dir = Path(__file__).resolve().parent
+    _main(script_dir)
