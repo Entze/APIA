@@ -81,15 +81,17 @@ class APIAConfiguration(NamedTuple):
     obligation: APIAObligationSetting
 
 
-def str_format(template_str: clingo.Symbol, *arguments: clingo.Symbol) -> str:
-    template_str = template_str.string
-    arguments = (symbol.string if symbol.type == clingo.SymbolType.String else symbol
-                 for symbol in arguments)
-    return template_str.format(*arguments).replace(' ', '_')
+class GroundingContext:
+    @staticmethod
+    def str_format(template_str: clingo.Symbol, *arguments: clingo.Symbol) -> str:
+        template_str = template_str.string
+        arguments = (symbol.string if symbol.type == clingo.SymbolType.String else symbol
+                     for symbol in arguments)
+        return template_str.format(*arguments).replace(' ', '_')
 
-
-def function_signature(symbol: clingo.Symbol) -> str:
-    return f'{symbol.name}/{len(symbol.arguments)}'
+    @staticmethod
+    def function_signature(symbol: clingo.Symbol) -> str:
+        return f'{symbol.name}/{len(symbol.arguments)}'
 
 
 def _generate_aia_subprograms_to_ground(current_timestep: int,
@@ -162,7 +164,7 @@ def main(clingo_control: clingo.Control):
     clingo_control.add('base', (), '\n'.join(f'step({timestep}).'
                                              for timestep in range(max_timestep + 1)))
     print(f'Grounding: {subprograms_to_ground!r}')
-    clingo_control.ground(subprograms_to_ground)
+    clingo_control.ground(subprograms_to_ground, GroundingContext)
     clingo_control.solve()
 
 #end.
