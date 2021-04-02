@@ -203,9 +203,10 @@ def _main():
     args = parser.parse_args()
     args.authorization_mode = getattr(APIAAuthorizationSetting, args.authorization_mode.upper())
     args.obligation_mode = getattr(APIAObligationSetting, args.obligation_mode.upper())
-    files: Sequence[str] = args.files
     max_timestep: int = args.max_timestep
     debug: bool = args.debug
+
+    clingo_files: Sequence[str] = args.files
     clingo_args = (
         '--opt-mode=optN',
         '--parallel-mode', f'{os.cpu_count()}',
@@ -223,7 +224,7 @@ def _main():
         print(f'Step {current_timestep}.1: Interpret observations', file=sys.stderr)
 
         # Set up
-        clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=history)
+        clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=history)
         subprograms_to_ground = chain(
             generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(1), configuration),
             observation_subprograms)
@@ -255,7 +256,7 @@ def _main():
         print(f'Step {current_timestep}.2: Find intended action', file.sys.stderr)
 
         # Set up
-        clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=chain(history, (
+        clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=chain(history, (
             clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
         )))
         subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(2),
