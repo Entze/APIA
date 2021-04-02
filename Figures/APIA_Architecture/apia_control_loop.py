@@ -253,7 +253,7 @@ def _main():
 
         # Step 2: Find intended action
         print(file=sys.stderr)
-        print(f'Step {current_timestep}.2: Find intended action', file.sys.stderr)
+        print(f'Step {current_timestep}.2: Find intended action', file=sys.stderr)
 
         # Set up
         clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=chain(history, (
