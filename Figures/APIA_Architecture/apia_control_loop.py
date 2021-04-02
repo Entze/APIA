@@ -204,7 +204,7 @@ def _main():
     debug: bool = args.debug
     clingo_args = (
         '--opt-mode=optN',
-        f'-t={os.cpu_count()}',
+        '--parallel-mode', f'{os.cpu_count()}',
         '1',
     )
 
