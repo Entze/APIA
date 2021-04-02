@@ -1,6 +1,3 @@
-#script(python)
-# See p. 74 of dissertation for AIA control loop
-
 import os
 import sys
 from collections import deque
@@ -102,7 +99,7 @@ class GroundingContext:
         return f'{symbol.name}/{len(symbol.arguments)}'
 
 
-def _generate_aia_subprograms_to_ground(current_timestep: int,
+def generate_aia_subprograms_to_ground(current_timestep: int,
                                         max_timestep: int,
                                         step_number: AIALoopStep,
                                         configuration: APIAConfiguration,
@@ -221,7 +218,7 @@ def _main():
         # Set up
         clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=history)
         subprograms_to_ground = chain(
-            _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number, configuration),
+            generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number, configuration),
             observation_subprograms)
 
         # Grounding
@@ -254,7 +251,7 @@ def _main():
         clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=chain(history, (
             clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
         )))
-        subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
+        subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
                                                                     configuration)
         # Grounding
         print('  Grounding...', file=sys.stderr)
@@ -294,28 +291,3 @@ def _main():
         observation_subprograms.append(ASPSubprogramInstantiation(name=f'observations_{current_timestep + 1}', arguments=()))
 
         print(file=sys.stderr)
-
-
-def main(clingo_control: clingo.Control):
-    max_test_number = clingo_control.get_const('test').number
-    current_timestep = (max_test_number - 1) // 4
-    max_timestep = clingo_control.get_const('max_timestep').number
-    aia_step_number = AIALoopStep(((max_test_number - 1) % 4) + 1)
-
-    configuration = APIAConfiguration(authorization=APIAAuthorizationSetting.BEST_EFFORT,
-                                      obligation=APIAObligationSetting.BEST_EFFORT)
-
-    aia_subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
-                                                                    configuration)
-
-    # test_X
-    subprograms_to_ground = tuple(chain(
-        aia_subprograms_to_ground,
-        (ASPSubprogramInstantiation(name=f'test_{test_number}', arguments=())
-         for test_number in range(1, max_test_number + 1)),
-    ))
-    print(f'Grounding: {subprograms_to_ground!r}')
-    clingo_control.ground(subprograms_to_ground, GroundingContext)
-    clingo_control.solve()
-
-#end.
