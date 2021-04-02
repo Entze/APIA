@@ -214,6 +214,7 @@ def _main():
 
     configuration = APIAConfiguration(authorization=args.authorization_mode,
                                       obligation=args.obligation_mode)
+    print('Running with configuration:', configuration, file=sys.stderr)
 
     history: Deque[clingo.Symbol] = deque()
     observation_subprograms: Deque[ASPSubprogramInstantiation] = deque()
