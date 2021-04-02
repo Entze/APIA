@@ -1,6 +1,9 @@
 #script(python)
 # See p. 74 of dissertation for AIA control loop
 
+import os
+import sys
+from collections import deque
 from enum import Enum, IntEnum
 from itertools import chain
 from typing import *
@@ -146,6 +149,151 @@ def _generate_aia_subprograms_to_ground(current_timestep: int,
                 for subprogram_name in sorted(configuration.authorization.value))
     yield from (ASPSubprogramInstantiation(name=subprogram_name, arguments=(current_timestep,))
                 for subprogram_name in sorted(configuration.obligation.value))
+
+
+def _init_clingo(files: Iterable[str], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
+    clingo_control = clingo.Control(clingo_args)
+    for file in files:
+        clingo_control.load(file)
+
+    clingo.add('base', (), '\n'.join(f'{predicate}.' for predicate in assertions))
+
+    return clingo_control
+
+
+def _extract_predicates(model: clingo.Model,
+                        predicate_signatures: Collection[SymbolSignature],
+                        current_timestep: int,
+                        debug=False) -> deque[clingo.Symbol]:
+    predicates: deque[clingo.Symbol] = deque()
+    for symbol in model.symbols(shown=True):
+        # Predicate extraction
+        if (symbol.name, len(symbol.arguments)) in predicate_signatures:
+            *other_arguments, timestep = symbol.arguments
+            if timestep == current_timestep:
+                predicates.append(symbol)
+
+    if debug == True:
+        print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
+        for symbol in model.symbols(atoms=True):
+            print(f'      {symbol}', file=sys.stderr)
+
+    return predicates
+
+
+def _main():
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('files', nargs='+',
+                        help='ASP files')
+    parser.add_argument('--max-timestep',
+                        type=int, required=True,
+                        help='Authorization policy seting')
+    parser.add_argument('--authorization-mode',
+                        type=APIAAuthorizationSetting, choices=tuple(APIAAuthorizationSetting),
+                        help='Authorization policy seting')
+    parser.add_argument('--obligation-mode',
+                        type=APIAObligationSetting, choices=tuple(APIAObligationSetting),
+                        help='Obligation policy seting')
+    parser.add_argument('--debug', type=bool,
+                        help='Enable extra debugging output')
+
+    args = parser.parse_args()
+    files: Sequence[str] = args.files
+    max_timestep: int = args.max_timestep
+    debug: bool = args.debug
+    clingo_args = (
+        '--opt-mode=optN',
+        f'-t={os.cpu_count()}',
+        '1',
+    )
+
+    configuration = APIAConfiguration(authorization=args.authorization_mode,
+                                      obligation=args.obligation_mode)
+
+    history: deque[clingo.Symbol] = deque()
+    observation_subprograms: deque[ASPSubprogramInstantiation] = deque()
+    for current_timestep in range(max_timestep + 1):
+        # Step 1: Interpret Observations
+        print(f'Step {current_timestep}.1: Interpret observations', file=sys.stderr)
+
+        # Set up
+        clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=history)
+        subprograms_to_ground = chain(
+            _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number, configuration),
+            observation_subprograms)
+
+        # Grounding
+        print('  Grounding...', file=sys.stderr)
+        if debug == True:
+            subprograms_to_ground = tuple(subprograms_to_ground)
+            for subprogram in subprograms_to_ground:
+                print(f'    {subprogram!r}', file=sys.stderr)
+        clingo_control.ground(subprograms_to_ground, GroundingContext)
+
+        # Solving
+        print('  Solving...', file=sys.stderr)
+        solve_handle = clingo_control.solve(yield_=True, async_=True)
+        for model in solve_handle:  # type: clingo.Model
+            # Predicate extraction
+            if model.number == 1:  # Either first or first optimal
+                symbol, = _extract_predicates(model=model, current_timestep=current_timestep, debug=debug, predicate_signatures=(
+                    SymbolSignature(name='number_unobserved', arity=2),
+                ))
+                step_2_unobserved_actions, _ = symbol.arguments
+        solve_result = solve_handle.get()
+        if not solve_result.satisfiable:
+            raise RuntimeError('Solve is unsatisfiable')
+
+        # Step 2: Find intended action
+        print(file=sys.stderr)
+        print(f'Step {current_timestep}.2: Find intended action', file.sys.stderr)
+
+        # Set up
+        clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=chain(history, (
+            clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
+        )))
+        subprograms_to_ground = _generate_aia_subprograms_to_ground(current_timestep, max_timestep, aia_step_number,
+                                                                    configuration)
+        # Grounding
+        print('  Grounding...', file=sys.stderr)
+        if debug == True:
+            subprograms_to_ground = tuple(subprograms_to_ground)
+            for subprogram in subprograms_to_ground:
+                print(f'    {subprogram!r}', file=sys.stderr)
+        clingo_control.ground(subprograms_to_ground, GroundingContext)
+
+        # Solving
+        print('  Solving...', file=sys.stderr)
+        step_3_intended_actions: deque[clingo.Symbol] = deque()
+        solve_handle = clingo_control.solve(yield_=True, async_=True)
+        for model in solve_handle:  # type: clingo.Model
+            # Predicate extraction
+            if model.number == 1:  # Either first or first optimal
+                symbols = _extract_predicates(model=model, current_timestep=current_timestep, debug=debug, predicate_signatures=(
+                    SymbolSignature(name='intended_action', arity=2),
+                ))
+                step_3_intended_actions.extend(symbol.arguments[0]
+                                               for symbol in symbols)
+        solve_result = solve_handle.get()
+        if not solve_result.satisfiable:
+            raise RuntimeError('Solve is unsatisfiable')
+
+        # Step 3: Perform intended action
+        print(file=sys.stderr)
+        print(f'Step {current_timestep}.3: Do intended action', file=sys.stderr)
+        for intended_action in step_3_intended_actions:
+            print(f'  Doing {intended_action}', file=sys.stderr)
+            history.append(clingo.Function('attempt', (intended_action, current_timestep)))
+
+        # Step 4: Observe world
+        print(file=sys.stderr)
+        print(f'Step {current_timestep}.4: Observe world', file=sys.stderr)
+        print(f'  Getting observations from #program observations_{current_timestep + 1}.', file=sys.stderr)
+        observation_subprograms.append(ASPSubprogramInstantiation(name=f'observations_{current_timestep + 1}', arguments=()))
+
+        print(file=sys.stderr)
 
 
 def main(clingo_control: clingo.Control):
