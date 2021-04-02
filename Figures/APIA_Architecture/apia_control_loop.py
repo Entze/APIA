@@ -190,15 +190,19 @@ def _main():
                         type=int, required=True,
                         help='Authorization policy seting')
     parser.add_argument('--authorization-mode',
-                        type=APIAAuthorizationSetting, choices=tuple(APIAAuthorizationSetting),
+                        type=lambda s: s.lower(), choices=tuple(setting.name.lower() for setting in APIAAuthorizationSetting),
+                        required=True,
                         help='Authorization policy seting')
     parser.add_argument('--obligation-mode',
-                        type=APIAObligationSetting, choices=tuple(APIAObligationSetting),
+                        type=lambda s: s.lower(), choices=tuple(setting.name.lower() for setting in APIAObligationSetting),
+                        required=True,
                         help='Obligation policy seting')
     parser.add_argument('--debug', type=bool,
                         help='Enable extra debugging output')
 
     args = parser.parse_args()
+    args.authorization_mode = getattr(APIAAuthorizationSetting, args.authorization_mode.upper())
+    args.obligation_mode = getattr(APIAObligationSetting, args.obligation_mode.upper())
     files: Sequence[str] = args.files
     max_timestep: int = args.max_timestep
     debug: bool = args.debug
