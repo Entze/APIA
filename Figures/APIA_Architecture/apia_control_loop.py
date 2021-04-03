@@ -3,8 +3,10 @@
 import os
 import sys
 from collections import deque
+from decimal import Decimal
 from enum import Enum, IntEnum
 from itertools import chain
+from math import inf
 from pathlib import Path
 from typing import *
 
@@ -19,6 +21,15 @@ class ASPSubprogramInstantiation(NamedTuple):
 class SymbolSignature(NamedTuple):
     name: str
     arity: int
+
+
+SymbolValue = Union[str, int, Decimal]
+
+
+class FunctionSymbol(NamedTuple):
+    name: str
+    arguments: Sequence[SymbolValue]
+    positivity: Optional[bool]
 
 
 class AIALoopStep(IntEnum):
@@ -151,6 +162,33 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
                 for subprogram_name in sorted(configuration.obligation.value))
 
 
+def _parse_symbol(clingo_symbol: clingo.Symbol) -> SymbolValue:
+    """
+    Converts a clingo Symbol object into an equivalent native Python object
+    """
+    if clingo_symbol.type == clingo.SymbolType.Number:
+        return clingo_symbol.number
+    elif clingo_symbol.type == clingo.SymbolType.Infimum:
+        return inf
+    elif clingo_symbol.type == clingo.SymbolType.Supremum:
+        return -inf
+    elif clingo_symbol.type == clingo.SymbolType.Function:
+        if clingo_symbol.name:
+            return FunctionSymbol(name=clingo_symbol.name,
+                                  arguments=tuple(_parse_symbol(clingo_symbol.argument) for argument in clingo_symbol.arguments),
+                                  positivity=True if clingo_symbol.positive else (False if clingo_symbol.negative else None))
+        else:
+            return tuple(_parse_symbol(clingo_symbol.argument) for argument in clingo_symbol.arguments)
+    elif clingo_symbol.type == clingo.SymbolType.String:
+        try:
+            decimal = Decimal(clingo_symbol.string)
+            return decimal
+        except ValueError:
+            return clingo_symbol.string
+    else:
+        raise ValueError(f"Can't parse type {clingo_symbol.type!r} of symbol {clingo_symbol!r}")
+
+
 def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
     clingo_control = clingo.Control(clingo_args)
     for file in files:
@@ -169,7 +207,7 @@ def _extract_predicates(model: clingo.Model,
     for symbol in model.symbols(shown=True):
         # Predicate extraction
         if (symbol.name, len(symbol.arguments)) in predicate_signatures:
-            *_, timestep = symbol.arguments
+            *_, timestep = map(_parse_symbol, symbol.arguments)
             if timestep == current_timestep:
                 predicates.append(symbol)
 
