@@ -211,6 +211,11 @@ def _extract_predicates(model: clingo.Model,
                         predicate_signatures: Collection[SymbolSignature],
                         current_timestep: int,
                         debug=False) -> deque[clingo.Symbol]:
+    if debug == True:
+        print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
+        for symbol in model.symbols(atoms=True):
+            print(f'      {symbol}', file=sys.stderr)
+
     predicates: deque[clingo.Symbol] = deque()
     for symbol in model.symbols(shown=True):
         # Predicate extraction
@@ -218,11 +223,6 @@ def _extract_predicates(model: clingo.Model,
             *_, timestep = map(_parse_symbol, symbol.arguments)
             if timestep == current_timestep:
                 predicates.append(symbol)
-
-    if debug == True:
-        print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
-        for symbol in model.symbols(atoms=True):
-            print(f'      {symbol}', file=sys.stderr)
 
     return predicates
 
