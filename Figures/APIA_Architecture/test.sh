@@ -51,13 +51,10 @@ if [[ "${DEBUG}" == 'trace' ]]; then
 fi
 
 clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
-    --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
-    "${FILES[@]}" 10 \
-    > "${TEMP_DIR}/output"
-
-awk -f "${SCRIPT_DIR}/display.awk" \
-    -v temp_dir="${TEMP_DIR}" \
-    "${TEMP_DIR}/output"
+        --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
+        "${FILES[@]}" 10 \
+    | awk -f "${SCRIPT_DIR}/display.awk" \
+        -v temp_dir="${TEMP_DIR}"
 
 if [[ -n "${DEBUG}" ]]; then
     echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
