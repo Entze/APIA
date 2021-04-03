@@ -162,10 +162,18 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
                 for subprogram_name in sorted(configuration.obligation.value))
 
 
-def _parse_symbol(clingo_symbol: clingo.Symbol) -> SymbolValue:
+def _parse_symbol(clingo_symbol: Union[clingo.Symbol, Iterable[clingo.Symbol]]) -> SymbolValue:
     """
     Converts a clingo Symbol object into an equivalent native Python object
     """
+    if not isinstance(clingo_symbol, clingo.Symbol):
+        try:
+            iterable = iter(clingo_symbol)
+        except TypeError:
+            return clingo_symbol
+        else:
+            return tuple(_parse_symbol(elem) for elem in iterable)
+
     if clingo_symbol.type == clingo.SymbolType.Number:
         return clingo_symbol.number
     elif clingo_symbol.type == clingo.SymbolType.Infimum:
