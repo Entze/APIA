@@ -297,7 +297,8 @@ def _main(script_dir: Path):
         solve_handle = clingo_control.solve(yield_=True, async_=True)
         for model in solve_handle:  # type: clingo.Model
             # Predicate extraction
-            if model.number == 1:  # Either first or first optimal
+            if model.number == 1:
+                # Either first or first optimal
                 symbol, = _extract_predicates(model=model, current_timestep=current_timestep, debug=debug, predicate_signatures=(
                     SymbolSignature(name='number_unobserved', arity=2),
                 ))
@@ -330,7 +331,8 @@ def _main(script_dir: Path):
         solve_handle = clingo_control.solve(yield_=True, async_=True)
         for model in solve_handle:  # type: clingo.Model
             # Predicate extraction
-            if model.number == 1:  # Either first or first optimal
+            if model.number == 1:
+                # Either first or first optimal
                 symbols = _extract_predicates(model=model, current_timestep=current_timestep, debug=debug, predicate_signatures=(
                     SymbolSignature(name='intended_action', arity=2),
                 ))
