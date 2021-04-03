@@ -114,10 +114,10 @@ class GroundingContext:
 
 
 def generate_aia_subprograms_to_ground(current_timestep: int,
-                                        max_timestep: int,
-                                        step_number: AIALoopStep,
-                                        configuration: APIAConfiguration,
-                                        ) -> Iterator[ASPSubprogramInstantiation]:
+                                       max_timestep: int,
+                                       step_number: AIALoopStep,
+                                       configuration: APIAConfiguration,
+                                       ) -> Iterator[ASPSubprogramInstantiation]:
     # base
     yield ASPSubprogramInstantiation(name='base', arguments=())
 
