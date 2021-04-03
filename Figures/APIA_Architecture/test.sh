@@ -50,7 +50,9 @@ if [[ "${DEBUG}" == 'trace' ]]; then
         | tee "${TEMP_DIR}/ground_program"
 fi
 
-clingo -t "$(nproc)" --opt-mode=optN --outf=3 --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 10 \
+clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
+    --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
+    "${FILES[@]}" 10 \
     > "${TEMP_DIR}/output"
 
 grep '^Grounding:' "${TEMP_DIR}/output" \
