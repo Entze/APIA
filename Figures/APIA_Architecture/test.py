@@ -161,7 +161,9 @@ def main(clingo_control: clingo.Control):
     ))
     clingo_control.add('base', (), '\n'.join(f'step({timestep}).'
                                              for timestep in range(max_timestep + 1)))
-    print(f'Grounding: {subprograms_to_ground!r}')
+    print('Grounding:')
+    for subprogram in subprograms_to_ground:
+        print(f'    {subprogram!r}')
     clingo_control.ground(subprograms_to_ground)
     clingo_control.solve()
 
