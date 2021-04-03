@@ -316,8 +316,9 @@ def _main(script_dir: Path):
         clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=chain(history, (
             clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
         )))
-        subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(2),
-                                                                   configuration)
+        subprograms_to_ground = chain(
+            generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(2), configuration),
+            observation_subprograms)
         # Grounding
         print('    Grounding...', file=sys.stderr)
         if debug == True:
