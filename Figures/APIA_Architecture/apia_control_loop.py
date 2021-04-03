@@ -169,7 +169,7 @@ def _extract_predicates(model: clingo.Model,
     for symbol in model.symbols(shown=True):
         # Predicate extraction
         if (symbol.name, len(symbol.arguments)) in predicate_signatures:
-            *other_arguments, timestep = symbol.arguments
+            *_, timestep = symbol.arguments
             if timestep == current_timestep:
                 predicates.append(symbol)
 
