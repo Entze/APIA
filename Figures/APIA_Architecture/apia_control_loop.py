@@ -359,6 +359,36 @@ def _main(script_dir: Path):
         print(f'    Getting observations from #program observations_{current_timestep + 1}.', file=sys.stderr)
         observation_subprograms.append(ASPSubprogramInstantiation(name=f'observations_{current_timestep + 1}', arguments=()))
 
+        if debug:
+            # Set up
+            clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=chain(history, (
+                clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
+            )))
+            subprograms_to_ground = chain(
+                generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(4), configuration),
+                observation_subprograms)
+
+            # Grounding
+            print('    Grounding...', file=sys.stderr)
+            subprograms_to_ground = tuple(subprograms_to_ground)
+            for subprogram in subprograms_to_ground:
+                print(f'      {subprogram!r}', file=sys.stderr)
+            clingo_control.ground(subprograms_to_ground, GroundingContext)
+
+            # Solving
+            print('    Solving...', file=sys.stderr)
+            solve_handle = clingo_control.solve(yield_=True, async_=True)
+            for model in solve_handle:  # type: clingo.Model
+                # Predicate extraction
+                if model.number == 1:
+                    # Either first or first optimal
+                    print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
+                    for symbol in model.symbols(atoms=True):
+                        print(f'      {symbol}', file=sys.stderr)
+            solve_result = solve_handle.get()
+            if not solve_result.satisfiable:
+                raise RuntimeError('Solve is unsatisfiable')
+
         print(file=sys.stderr)
 
 
