@@ -183,10 +183,10 @@ def _parse_symbol(clingo_symbol: Union[clingo.Symbol, Iterable[clingo.Symbol]]) 
     elif clingo_symbol.type == clingo.SymbolType.Function:
         if clingo_symbol.name:
             return FunctionSymbol(name=clingo_symbol.name,
-                                  arguments=tuple(_parse_symbol(clingo_symbol.argument) for argument in clingo_symbol.arguments),
+                                  arguments=tuple(_parse_symbol(clingo_symbol.arguments) for argument in clingo_symbol.arguments),
                                   positivity=True if clingo_symbol.positive else (False if clingo_symbol.negative else None))
         else:
-            return tuple(_parse_symbol(clingo_symbol.argument) for argument in clingo_symbol.arguments)
+            return tuple(_parse_symbol(clingo_symbol.arguments) for argument in clingo_symbol.arguments)
     elif clingo_symbol.type == clingo.SymbolType.String:
         try:
             decimal = Decimal(clingo_symbol.string)
