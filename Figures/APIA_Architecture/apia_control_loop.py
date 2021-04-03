@@ -273,8 +273,10 @@ def _main(script_dir: Path):
     history: Deque[clingo.Symbol] = deque()
     observation_subprograms: Deque[ASPSubprogramInstantiation] = deque()
     for current_timestep in range(max_timestep + 1):
+        print(f'Iteration {current_timestep}', file=sys.stderr)
+
         # Step 1: Interpret Observations
-        print(f'Step {current_timestep}.1: Interpret observations', file=sys.stderr)
+        print('  Step 1: Interpret observations', file=sys.stderr)
 
         # Set up
         clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=history)
@@ -283,15 +285,15 @@ def _main(script_dir: Path):
             observation_subprograms)
 
         # Grounding
-        print('  Grounding...', file=sys.stderr)
+        print('    Grounding...', file=sys.stderr)
         if debug == True:
             subprograms_to_ground = tuple(subprograms_to_ground)
             for subprogram in subprograms_to_ground:
-                print(f'    {subprogram!r}', file=sys.stderr)
+                print(f'      {subprogram!r}', file=sys.stderr)
         clingo_control.ground(subprograms_to_ground, GroundingContext)
 
         # Solving
-        print('  Solving...', file=sys.stderr)
+        print('    Solving...', file=sys.stderr)
         solve_handle = clingo_control.solve(yield_=True, async_=True)
         for model in solve_handle:  # type: clingo.Model
             # Predicate extraction
@@ -306,7 +308,7 @@ def _main(script_dir: Path):
 
         # Step 2: Find intended action
         print(file=sys.stderr)
-        print(f'Step {current_timestep}.2: Find intended action', file=sys.stderr)
+        print('  Step 2: Find intended action', file=sys.stderr)
 
         # Set up
         clingo_control = _init_clingo(files=clingo_files, clingo_args=clingo_args, assertions=chain(history, (
@@ -315,15 +317,15 @@ def _main(script_dir: Path):
         subprograms_to_ground = generate_aia_subprograms_to_ground(current_timestep, max_timestep, AIALoopStep(2),
                                                                    configuration)
         # Grounding
-        print('  Grounding...', file=sys.stderr)
+        print('    Grounding...', file=sys.stderr)
         if debug == True:
             subprograms_to_ground = tuple(subprograms_to_ground)
             for subprogram in subprograms_to_ground:
-                print(f'    {subprogram!r}', file=sys.stderr)
+                print(f'      {subprogram!r}', file=sys.stderr)
         clingo_control.ground(subprograms_to_ground, GroundingContext)
 
         # Solving
-        print('  Solving...', file=sys.stderr)
+        print('    Solving...', file=sys.stderr)
         step_3_intended_actions: Deque[clingo.Symbol] = deque()
         solve_handle = clingo_control.solve(yield_=True, async_=True)
         for model in solve_handle:  # type: clingo.Model
@@ -340,15 +342,15 @@ def _main(script_dir: Path):
 
         # Step 3: Perform intended action
         print(file=sys.stderr)
-        print(f'Step {current_timestep}.3: Do intended action', file=sys.stderr)
+        print('  Step 3: Do intended action', file=sys.stderr)
         for intended_action in step_3_intended_actions:
-            print(f'  Doing {intended_action}', file=sys.stderr)
+            print(f'    Doing {intended_action}', file=sys.stderr)
             history.append(clingo.Function('attempt', (intended_action, current_timestep)))
 
         # Step 4: Observe world
         print(file=sys.stderr)
-        print(f'Step {current_timestep}.4: Observe world', file=sys.stderr)
-        print(f'  Getting observations from #program observations_{current_timestep + 1}.', file=sys.stderr)
+        print('  Step 4: Observe world', file=sys.stderr)
+        print(f'    Getting observations from #program observations_{current_timestep + 1}.', file=sys.stderr)
         observation_subprograms.append(ASPSubprogramInstantiation(name=f'observations_{current_timestep + 1}', arguments=()))
 
         print(file=sys.stderr)
