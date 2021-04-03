@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.9
 
 import os
 import sys
@@ -202,8 +202,8 @@ def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: 
 def _extract_predicates(model: clingo.Model,
                         predicate_signatures: Collection[SymbolSignature],
                         current_timestep: int,
-                        debug=False) -> Deque[clingo.Symbol]:
-    predicates: Deque[clingo.Symbol] = deque()
+                        debug=False) -> deque[clingo.Symbol]:
+    predicates: deque[clingo.Symbol] = deque()
     for symbol in model.symbols(shown=True):
         # Predicate extraction
         if (symbol.name, len(symbol.arguments)) in predicate_signatures:
@@ -270,8 +270,8 @@ def _main(script_dir: Path):
                                       obligation=args.obligation_mode)
     print('Running with configuration:', configuration, file=sys.stderr)
 
-    history: Deque[clingo.Symbol] = deque()
-    observation_subprograms: Deque[ASPSubprogramInstantiation] = deque()
+    history: deque[clingo.Symbol] = deque()
+    observation_subprograms: deque[ASPSubprogramInstantiation] = deque()
     for current_timestep in range(max_timestep + 1):
         print(f'Iteration {current_timestep}', file=sys.stderr)
 
