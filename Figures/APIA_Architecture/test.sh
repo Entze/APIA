@@ -53,41 +53,13 @@ if [[ "${DEBUG}" == 'trace' ]]; then
         | tee "${TEMP_DIR}/ground_program"
 fi
 
-# TODO: Consider adding -t "$(nproc)"
-clingo -t "$(nproc)" --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 10 \
-    > "${TEMP_DIR}/output"
-
-grep '^Grounding:' "${TEMP_DIR}/output" \
-    | sed -E 's/, (ASPSubprogramInstantiation)/,\n    \1/g' \
-    | sed 's/,$//g' \
-    | sed 's/)))$/))/g' \
-    | sed 's/^Grounding: (/Grounding:\n    /g' \
-    > "${TEMP_DIR}/subprograms"
-
-grep '^Answer:' -A1 "${TEMP_DIR}/output" \
-    | tail -n 2 \
-    | sed -n '2p' \
-    | sed -e 's/) /)\n/g' \
-    | grep -v '^cr_prefer(' \
-    | sort \
-    > "${TEMP_DIR}/predicates"
-
-if [[ "$(grep -c '^Answer: 1$' "${TEMP_DIR}/output")" -eq 1 ]]; then
-    # Normal output
-    NUM_MODELS=$(grep -c 'Answer:' "${TEMP_DIR}/output")
-else
-    # optN output (Ignore first 'Answer 1, 2, 3, ...' until Answer 1, 2, 3, ...)
-    NUM_MODELS=$(grep '^Answer:' "${TEMP_DIR}/output" \
-        | tail -n +2 \
-        | sed -n '/^Answer: 1$/,$p' \
-        | wc -l )
-fi
-
-echo "Stable models: ${NUM_MODELS}"
-cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
+clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
+        --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
+        "${FILES[@]}" 10 \
+    | awk -f "${SCRIPT_DIR}/display.awk" \
+        -v temp_dir="${TEMP_DIR}"
 
 if [[ -n "${DEBUG}" ]]; then
-    sed -i -e 's/) /)\n/g' "${TEMP_DIR}/output"
     echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
 else
     rm -rf "${TEMP_DIR}"

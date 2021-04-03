@@ -33,8 +33,30 @@ def main(clingo_control: clingo.Control):
         (ASPSubprogramInstantiation(name=f'test_{test_number}', arguments=())
          for test_number in range(1, max_test_number + 1)),
     ))
-    print(f'Grounding: {subprograms_to_ground!r}')
+    print('Grounding:')
+    for subprogram in subprograms_to_ground:
+        print(f'    {subprogram!r}')
     clingo_control.ground(subprograms_to_ground, GroundingContext)
-    clingo_control.solve()
+    solve_handle = clingo_control.solve(yield_=True, async_=True)
+
+    stable_models = 0
+    optimal_stable_models = 0
+    for model in solve_handle:
+        print()
+        print(f'Answer: {model.number} (Optimal: {model.optimality_proven})')
+        if model.optimality_proven == True:
+            optimal_stable_models += 1
+        else:
+            stable_models += 1
+        for symbol in model.symbols(shown=True):
+            print(symbol)
+
+    solve_result = solve_handle.get()
+    print()
+    print('Summary:')
+    print(f'Solve result: {solve_result}')
+    print(f'Enumerated models: {stable_models + optimal_stable_models}')
+    print(f'  Normal models: {stable_models}')
+    print(f'  Optimal models: {optimal_stable_models}')
 
 #end.
