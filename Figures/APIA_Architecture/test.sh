@@ -10,7 +10,7 @@ fi
 TEST_NUM=$1
 MAX_TIMESTEP=$2
 shift 2
-FILES=( "$@" )
+USER_FILES=( "$@" )
 
 # Set DEBUG to '', 'debug', or 'trace'
 
@@ -34,10 +34,13 @@ else
     GLOBAL_FILES+=( show.lp )
 fi
 
-for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
-    RELATIVE_PATH=$(realpath --relative-to . "${SCRIPT_DIR}/${GLOBAL_FILE}")
+FILES=( "${GLOBAL_FILES[@]}" )
+for FILE in "${USER_FILES[@]}"; do
+    RELATIVE_PATH=$(realpath --relative-to "${SCRIPT_DIR}" "${FILE}")
     FILES+=( "${RELATIVE_PATH}" )
 done
+
+cd "${SCRIPT_DIR}" || exit 1
 
 TEMP_DIR=$(mktemp -d /tmp/apia_test.XXXXXXXXXX)
 
