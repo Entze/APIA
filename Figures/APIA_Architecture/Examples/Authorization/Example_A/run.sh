@@ -2,7 +2,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-MAX_TIMESTEP=12
+MAX_TIMESTEP=7
 
 cd "${SCRIPT_DIR}" || exit 2
 
