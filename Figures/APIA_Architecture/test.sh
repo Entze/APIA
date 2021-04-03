@@ -31,7 +31,7 @@ GLOBAL_FILES=(
 if [[ -n "${DEBUG}" ]]; then
     GLOBAL_FILES+=( apia_debugging_checks.lp )
 else
-    GLOBAL_FILES+=( show.lp )
+    GLOBAL_FILES+=( test_show.lp )
 fi
 
 FILES=( "${GLOBAL_FILES[@]}" )
