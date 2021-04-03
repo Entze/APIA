@@ -236,7 +236,8 @@ def _main(script_dir: Path):
                         type=lambda s: s.lower(), choices=tuple(setting.name.lower() for setting in APIAObligationSetting),
                         required=True,
                         help='Obligation policy seting')
-    parser.add_argument('--debug', type=bool,
+    parser.add_argument('--debug',
+                        action='store_true',
                         help='Enable extra debugging output')
 
     args = parser.parse_args()
