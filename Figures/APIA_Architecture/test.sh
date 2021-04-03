@@ -10,7 +10,7 @@ fi
 TEST_NUM=$1
 MAX_TIMESTEP=$2
 shift 2
-FILES=( "$@" )
+USER_FILES=( "$@" )
 
 # Set DEBUG to '', 'debug', or 'trace'
 
@@ -31,13 +31,16 @@ GLOBAL_FILES=(
 if [[ -n "${DEBUG}" ]]; then
     GLOBAL_FILES+=( apia_debugging_checks.lp )
 else
-    GLOBAL_FILES+=( show.lp )
+    GLOBAL_FILES+=( test_show.lp )
 fi
 
-for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
-    RELATIVE_PATH=$(realpath --relative-to . "${SCRIPT_DIR}/${GLOBAL_FILE}")
+FILES=( "${GLOBAL_FILES[@]}" )
+for FILE in "${USER_FILES[@]}"; do
+    RELATIVE_PATH=$(realpath --relative-to "${SCRIPT_DIR}" "${FILE}")
     FILES+=( "${RELATIVE_PATH}" )
 done
+
+cd "${SCRIPT_DIR}" || exit 1
 
 TEMP_DIR=$(mktemp -d /tmp/apia_test.XXXXXXXXXX)
 
@@ -54,7 +57,7 @@ clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
         --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
         "${FILES[@]}" 10 \
     | grep -v '^cr_prefer(' \
-    | awk -f "${SCRIPT_DIR}/display.awk" \
+    | awk -f "${SCRIPT_DIR}/test_display.awk" \
         -v temp_dir="${TEMP_DIR}"
 
 if [[ -n "${DEBUG}" ]]; then
