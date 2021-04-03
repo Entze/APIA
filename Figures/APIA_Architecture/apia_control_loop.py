@@ -261,6 +261,7 @@ def _main(script_dir: Path):
     clingo_args = (
         '--opt-mode=optN',
         '--parallel-mode', f'{os.cpu_count()}',
+        '--warn=no-atom-undefined',
         '1',
     )
 
