@@ -57,7 +57,7 @@ clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
         --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
         "${FILES[@]}" 10 \
     | grep -v '^cr_prefer(' \
-    | awk -f "${SCRIPT_DIR}/display.awk" \
+    | awk -f "${SCRIPT_DIR}/test_display.awk" \
         -v temp_dir="${TEMP_DIR}"
 
 if [[ -n "${DEBUG}" ]]; then
