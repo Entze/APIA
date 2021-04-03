@@ -216,6 +216,9 @@ def _extract_predicates(model: clingo.Model,
         for symbol in model.symbols(atoms=True):
             print(f'      {symbol}', file=sys.stderr)
 
+    if len(predicate_signatures) == 0:
+        return deque()
+
     predicates: deque[clingo.Symbol] = deque()
     for symbol in model.symbols(shown=True):
         # Predicate extraction
