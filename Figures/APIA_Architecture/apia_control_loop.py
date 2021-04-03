@@ -3,7 +3,7 @@
 import os
 import sys
 from collections import deque
-from decimal import Decimal
+from decimal import Decimal, DecimalException
 from enum import Enum, IntEnum
 from itertools import chain
 from math import inf
@@ -191,7 +191,7 @@ def _parse_symbol(clingo_symbol: Union[clingo.Symbol, Iterable[clingo.Symbol]]) 
         try:
             decimal = Decimal(clingo_symbol.string)
             return decimal
-        except ValueError:
+        except (ValueError, DecimalException):
             return clingo_symbol.string
     else:
         raise ValueError(f"Can't parse type {clingo_symbol.type!r} of symbol {clingo_symbol!r}")
