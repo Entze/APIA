@@ -176,7 +176,7 @@ def main(clingo_control: clingo.Control):
             optimal_stable_models += 1
         else:
             stable_models += 1
-        for symbol in model.symbols(shown=True):
+        for symbol in sorted(model.symbols(shown=True)):
             print(symbol)
 
     solve_result = solve_handle.get()
