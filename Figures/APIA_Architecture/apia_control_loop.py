@@ -306,6 +306,7 @@ def _main(script_dir: Path):
         solve_result = solve_handle.get()
         if not solve_result.satisfiable:
             raise RuntimeError('Solve is unsatisfiable')
+        print(f'    Unobserved actions: {step_2_unobserved_actions}', file=sys.stderr)
 
         # Step 2: Find intended action
         print(file=sys.stderr)
@@ -341,6 +342,8 @@ def _main(script_dir: Path):
         solve_result = solve_handle.get()
         if not solve_result.satisfiable:
             raise RuntimeError('Solve is unsatisfiable')
+        for intended_action in step_3_intended_actions:
+            print(f'    Intended action: {intended_action}', file=sys.stderr)
 
         # Step 3: Perform intended action
         print(file=sys.stderr)
