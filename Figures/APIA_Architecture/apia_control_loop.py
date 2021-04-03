@@ -209,13 +209,7 @@ def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: 
 
 def _extract_predicates(model: clingo.Model,
                         predicate_signatures: Collection[SymbolSignature],
-                        current_timestep: int,
-                        debug=False) -> deque[clingo.Symbol]:
-    if debug == True:
-        print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
-        for symbol in model.symbols(atoms=True):
-            print(f'      {symbol}', file=sys.stderr)
-
+                        current_timestep: int) -> deque[clingo.Symbol]:
     if len(predicate_signatures) == 0:
         return deque()
 
@@ -264,14 +258,19 @@ def _run_clingo(files: Iterable[Path],
     solve_handle = clingo_control.solve(yield_=True, async_=True)
     symbols = ()
     for model in solve_handle:  # type: clingo.Model
+        if debug == True:
+            print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
+            for symbol in model.symbols(atoms=True):
+                print(f'      {symbol}', file=sys.stderr)
+
         # Predicate extraction
         if model.number == 1:
             # Either first or first optimal
             symbols = _extract_predicates(
                 model=model,
                 current_timestep=current_timestep,
-                debug=debug,
                 predicate_signatures=output_predicates)
+
     solve_result = solve_handle.get()
     if not solve_result.satisfiable:
         raise RuntimeError('Solve is unsatisfiable')
