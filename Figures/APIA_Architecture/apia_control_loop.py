@@ -260,7 +260,7 @@ def _run_clingo(files: Iterable[Path],
     for model in solve_handle:  # type: clingo.Model
         if debug == True:
             print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
-            for symbol in model.symbols(atoms=True):
+            for symbol in sorted(model.symbols(atoms=True)):
                 print(f'      {symbol}', file=sys.stderr)
 
         # Predicate extraction
