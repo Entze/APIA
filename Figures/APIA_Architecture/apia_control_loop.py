@@ -326,7 +326,7 @@ def _main(script_dir: Path):
 
         # Solving
         print('    Solving...', file=sys.stderr)
-        step_3_intended_actions: Deque[clingo.Symbol] = deque()
+        step_3_intended_actions: Sequence[clingo.Symbol] = ()
         solve_handle = clingo_control.solve(yield_=True, async_=True)
         for model in solve_handle:  # type: clingo.Model
             # Predicate extraction
@@ -334,8 +334,8 @@ def _main(script_dir: Path):
                 symbols = _extract_predicates(model=model, current_timestep=current_timestep, debug=debug, predicate_signatures=(
                     SymbolSignature(name='intended_action', arity=2),
                 ))
-                step_3_intended_actions.extend(symbol.arguments[0]
-                                               for symbol in symbols)
+                step_3_intended_actions = tuple(symbol.arguments[0]
+                                                for symbol in symbols)
         solve_result = solve_handle.get()
         if not solve_result.satisfiable:
             raise RuntimeError('Solve is unsatisfiable')
