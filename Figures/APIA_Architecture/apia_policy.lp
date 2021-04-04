@@ -4,8 +4,7 @@
 % "An agent is always allowed to wait"
 %
 % permitted(wait)
-permitted(Action, timestep) :-
-    Action = wait.
+permitted(wait, timestep).
 
 % "An agent is always allowed to perform mental actions"
 %
