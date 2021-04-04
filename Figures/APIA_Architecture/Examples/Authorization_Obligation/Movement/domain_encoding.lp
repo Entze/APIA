@@ -33,26 +33,26 @@ action_duration(Action, Duration) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % person_location(Person, Location)
-fluent(inertial, person_location(Person, Location)) :-
+physical_fluent(inertial, person_location(Person, Location)) :-
     person(Person),
     location(Location).
 
 % door_locked(FromLocation, ToLocation)
-fluent(inertial, door_locked(FromLocation, ToLocation)) :-
+physical_fluent(inertial, door_locked(FromLocation, ToLocation)) :-
     door_has_lock(FromLocation, ToLocation).
 
 % door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
-fluent(inertial, door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)) :-
+physical_fluent(inertial, door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)) :-
     door_has_lock(FromLocation, ToLocation),
     TimestepsLeft = 0..3.
 
 % time(Hour, Minute)
-fluent(inertial, time(Hour, Minute)) :-
+physical_fluent(inertial, time(Hour, Minute)) :-
     Hour = 0..23,
     Minute = (0; 15; 30; 45).
 
 % time_business_hours
-fluent(defined, time_business_hours).
+physical_fluent(defined, time_business_hours).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -248,7 +248,7 @@ holds(time(NewHour, NewMinute), timestep + 1) :-
 %   time(Hour, Minute)
 -holds(time(OtherHour, OtherMinute), timestep) :-
     holds(time(Hour, Minute), timestep),
-    fluent(inertial, time(OtherHour, OtherMinute)),
+    physical_fluent(inertial, time(OtherHour, OtherMinute)),
     (Hour, Minute) != (OtherHour, OtherMinute).
 
 % -------------------------------------------------------------------
@@ -263,7 +263,7 @@ holds(time_business_hours, timestep) :-
     Hour < 5.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL Policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program action_description(timestep).
+#program policy_description(timestep).
 
 % "Normally, anyone is allowed to move from room to room"
 %

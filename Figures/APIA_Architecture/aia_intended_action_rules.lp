@@ -6,26 +6,31 @@
 % See p. 63 of dissertation
 #program aia_intended_action_rules(current_timestep, max_activity_length).
 
-% Our addition
-% interpretation(ActionsNeeded, current_timestep) :-
-%     number_unobserved(UnobservedActions, current_timestep),
-%     ActionsNeeded = UnobservedActions.
+% Note: Our addition
+%
+% Require interpretation/2.
+:-
+    not interpretation(_, current_timestep).
 
 % "This constraint prevents the agent from assuming additional occurrences of exogenous actions."
 % (p. 63) of dissertation
 %
-% Note: There is no point in this rule since the controller is not allowed
-%   to assert an interpretation/2 such that this constraint would be violated.
-%   It's sole purpose is to differentiate between Step 1 and Step 2 of the AIA control loop.
-%   We already do this using ASP subprograms, so interpretation/2 is redundant.
+% Note: The point in this rule is to limit the inferred exogenous actions from the diagnosis program
+%   while the intended action program is running.
+%   Since the diagnosis program re-runs every time,
+%   interpretation(Step1UnobservedActions, current_timestep) ensures that it does not
+%   produce any more actions than what it would have on its own.
+:-
+    number_unobserved(UnobservedActions, current_timestep),
+    interpretation(Step1UnobservedActions, current_timestep),
+    UnobservedActions != Step1UnobservedActions.
+
+% "[...] other than the [above constraint], the number x from the flag is not used
+%    and the presence of the flag is all that is needed"
+%  (p. 63) of dissertation
 %
-%   Furthermore, the UnobservedActions value of interpretation/2 is never used
-%   (even in Blount's implementation) so interpretation/2 can be removed completely.
-%
-% :-
-%     number_unobserved(UnobservedActions, current_timestep),
-%     interpretation(ActionsNeeded, current_timestep),
-%     UnobservedActions != ActionsNeeded.
+% Note: We remove interpretation/2 from the rules below since
+%   the conditional inclusion of this ASP subprogram has the same effect
 
 % ------------------------------------------------------------------------------------------
 
@@ -44,6 +49,7 @@ some_action_occurred(FutureTimestep) :-
     occurs(Action, FutureTimestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                               (Idle state)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there are no activities or goals that are active in cm_n"
@@ -62,6 +68,7 @@ intended_action(wait, current_timestep) :-
     category_1_history(current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                          (Activity is complete)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m is top-level and active in cm_n but its goal g is no longer active in cm_n"
@@ -86,6 +93,7 @@ intended_action(stop(Activity), current_timestep) :-
     category_2_history(Activity, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         (Activity is in progress)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is an activity m such that m and its goal g are both top-level and active and a is the next action of m in cm_n"
@@ -144,7 +152,7 @@ intended_action(Action, current_timestep) :-
 :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep),
-    not futile(Activity, current_timestep).
+    not futile_activity(Activity, current_timestep).
 
 % "however if there is no such answer set then the activity is futile"
 % (p. 67) of dissertation
@@ -152,7 +160,8 @@ intended_action(Action, current_timestep) :-
     category_3_history(Activity, current_timestep),
     -projected_success(Activity, current_timestep).
 
-futile(Activity, current_timestep) :-
+% Note: Originally, futile(Activity, current_timestep)
+futile_activity(Activity, current_timestep) :-
     apply_cr_rule(futile_activity(Activity, current_timestep)).
 
 % "the intended action of a history of category 3 is [to stop the activity
@@ -160,9 +169,10 @@ futile(Activity, current_timestep) :-
 % (p. 66-68) of dissertation
 intended_action(stop(Activity), current_timestep) :-
     category_3_history(Activity, current_timestep),
-    futile(Activity, current_timestep).
+    futile_activity(Activity, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      (We need to start an activity)
 %
 % "Let cm_n be the current mental state of history \tau_n"
 % "there is a goal g that is active in cm_n but no activity with goal g is active in cm_n"
@@ -228,7 +238,7 @@ impossible(start(OtherActivity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     occurs(start(Activity), current_timestep),
     -projected_success(Activity, current_timestep),
-    not futile(Goal, current_timestep).
+    not futile_goal(Goal, current_timestep).
 
 % "If none are left then the goal is futile"
 % (p. 70) of dissertation
@@ -237,13 +247,14 @@ impossible(start(OtherActivity), current_timestep) :-
     occurs(start(Activity), current_timestep),
     -projected_success(Activity, current_timestep).
 
-futile(Goal, current_timestep) :-
+% Note: Originally, futile(Goal, current_timestep)
+futile_goal(Goal, current_timestep) :-
     apply_cr_rule(futile_goal(Goal, current_timestep)).
 
 % (p. 70) of dissertation
 intended_action(wait, current_timestep) :-
     category_4_history(Goal, current_timestep),
-    futile(Goal, current_timestep).
+    futile_goal(Goal, current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating new candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -283,11 +294,12 @@ occurs(Action, FutureTimestep) :-
 
 % "[this rule] creates component statements based on those occurrences"
 % (p. 71) of dissertation
-activity_component(Activity, PreviousTimestep - 1, Action) :-
+activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    occurs(Action, PreviousTimestep),
+    occurs(Action, FutureTimestep),
+    current_timestep < FutureTimestep,  % Note: Our addition
     physical_action(Action),
     agent_action(Action).
 
@@ -311,7 +323,7 @@ activity_length(Activity, ActivityLength) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    ActivityLength = #max{ ActivityIndex, ActivityComponent :
+    ActivityLength = #count{ ActivityIndex, ActivityComponent :
         activity_component(Activity, ActivityIndex, ActivityComponent)
     },
     ActivityLength > 0.
@@ -370,21 +382,19 @@ intended_action(start(Activity), current_timestep) :-
 % (p. 74) of dissertation
 
 % prefer(plan_new(Action, Timestep1), futile_goal(Goal, Timestep2)).
-:~
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     action(Action),
     step(Timestep1),
+    step(Timestep2),
+    goal(Goal),
     HigherPriorityCRRule = plan_new(Action, Timestep1),
-    LowerPriorityCRRule = futile_goal(Goal, Timestep2),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    LowerPriorityCRRule = futile_goal(Goal, Timestep2).
 
 % prefer(plan_existing(Action, Timestep1), futile_goal(Goal, Timestep2)).
-:~
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     action(Action),
     step(Timestep1),
+    step(Timestep2),
+    goal(Goal),
     HigherPriorityCRRule = plan_existing(Action, Timestep1),
-    LowerPriorityCRRule = futile_goal(Goal, Timestep2),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    LowerPriorityCRRule = futile_goal(Goal, Timestep2).

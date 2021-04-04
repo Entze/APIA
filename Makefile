@@ -75,8 +75,8 @@ build-code-snippet: $(patsubst %.snippet.sh,%.snippet.txt,$(CODE_SNIPPET_FIGURES
 	yarn run mmdc -i $< -o $@
 
 %.pdf %.svg %.png: %.drawio
-	docker run --rm -v "$(shell pwd)/$<:/pwd/$<" -v "$(shell pwd)/$(@D)/export:/pwd/$(@D)/export" -w /pwd rlespinasse/drawio-export:3.4.0 --fileext $(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') --folder export
-	docker run --rm -v "$(shell pwd):/pwd" alpine find /pwd -user root -exec chown $(UID):$(GID) '{}' \;
+	docker run --rm -v "$(shell pwd)/$<:/pwd/$<" -v "$(shell pwd)/$(@D)/export:/pwd/$(@D)/export" -w /pwd --cap-drop ALL --cap-add DAC_OVERRIDE rlespinasse/drawio-export:3.4.0 --fileext $(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') --folder export
+	docker run --rm -v "$(shell pwd):/pwd" --cap-drop ALL --cap-add CHOWN alpine find /pwd -user root -exec chown $(UID):$(GID) '{}' \;
 	./organize-drawio-exports.sh
 
 %.pdf: %.svg

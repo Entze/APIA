@@ -17,6 +17,13 @@ invalid(occurs(Action, Timestep), Reason) :-
     not action(Action),
     Reason = @str_format("Action ({}) is not defined in action/1", Action).
 
+invalid(fluent(inertial, Fluent), Reason) :-
+    physical_fluent(inertial, Fluent),
+    Timestep = 0,
+    not observed(Fluent, Timestep),
+    not -observed(Fluent, Timestep),
+    Reason = "Warning: No initial observation of fluent".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(action(Action), Reason) :-
@@ -30,8 +37,22 @@ invalid(action(Action), Reason) :-
     action(Action),
     not physical_action(Action),
     not mental_action(Action),
+    not policy_action(Action),
     Action != wait,
-    Reason = @str_format("Action ({}) is neither a physical action nor a mental action", Action).
+    Reason = @str_format("Action ({}) is not a physical action, a mental action, or a policy action", Action).
+
+invalid(action(Action), Reason) :-
+    action(Action),
+    physical_action(Action),
+    mental_action(Action),
+    Reason = @str_format("Action ({}) is both a physical action and a mental action. You should not define mental actions", Action).
+
+% Note: Our assumption
+invalid(action(Action), Reason) :-
+    action(Action),
+    agent_action(Action),
+    exogenous_action(Action),
+    Reason = @str_format("Action ({}) is both an agent action and an exogenous action", Action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Authorization (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -207,6 +228,14 @@ invalid(obl(Action, Timestep), Reason) :-
 obl_compliant(Happening, Timestep) :-
     obl(Happening, Timestep),
     not -obl_compliant(Happening, Timestep).
+
+% ------------------------------------------------------------------------------------------
+
+invalid(obl(Action, Timestep), Reason) :-
+    action(Action),
+    obl(Action, Timestep),
+    impossible(Action, Timestep),
+    Reason = @str_format("obl({0}) when {0} is physically impossible", Action).
 
 % ------------------------------------------------------------------------------------------
 

@@ -10,7 +10,7 @@ fi
 TEST_NUM=$1
 MAX_TIMESTEP=$2
 shift 2
-FILES=( "$@" )
+USER_FILES=( "$@" )
 
 # Set DEBUG to '', 'debug', or 'trace'
 
@@ -31,15 +31,18 @@ GLOBAL_FILES=(
 if [[ -n "${DEBUG}" ]]; then
     GLOBAL_FILES+=( apia_debugging_checks.lp )
 else
-    GLOBAL_FILES+=( show.lp )
+    GLOBAL_FILES+=( test_show.lp )
 fi
 
-for GLOBAL_FILE in "${GLOBAL_FILES[@]}"; do
-    RELATIVE_PATH=$(realpath --relative-to . "${SCRIPT_DIR}/${GLOBAL_FILE}")
+FILES=( "${GLOBAL_FILES[@]}" )
+for FILE in "${USER_FILES[@]}"; do
+    RELATIVE_PATH=$(realpath --relative-to "${SCRIPT_DIR}" "${FILE}")
     FILES+=( "${RELATIVE_PATH}" )
 done
 
-TEMP_DIR=$(mktemp -d)
+cd "${SCRIPT_DIR}" || exit 1
+
+TEMP_DIR=$(mktemp -d /tmp/apia_test.XXXXXXXXXX)
 
 if [[ -n "${DEBUG}" ]]; then
     echo "${TEMP_DIR}"
@@ -50,36 +53,13 @@ if [[ "${DEBUG}" == 'trace' ]]; then
         | tee "${TEMP_DIR}/ground_program"
 fi
 
-clingo --opt-mode=optN --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" --warn=no-atom-undefined "${FILES[@]}" 0 \
-    > "${TEMP_DIR}/output"
+clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
+        --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
+        "${FILES[@]}" 10 \
+    | grep -v '^cr_prefer(' \
+    | awk -f "${SCRIPT_DIR}/test_display.awk" \
+        -v temp_dir="${TEMP_DIR}"
 
-grep 'Grounding:' "${TEMP_DIR}/output" \
-    | sed -E 's/, (ASPSubprogramInstantiation)/,\n    \1/g' \
-    | sed 's/,$//g' \
-    | sed 's/)))$/))/g' \
-    | sed 's/^Grounding: (/Grounding:\n    /g' \
-    > "${TEMP_DIR}/subprograms"
-
-grep 'Answer:' -A1 "${TEMP_DIR}/output" \
-    | tail -n 2 \
-    | sed -n '2p' \
-    | sed -e 's/) /)\n/g' \
-    | sort \
-    > "${TEMP_DIR}/predicates"
-
-if [[ "$(grep -c 'Answer: 1$' "${TEMP_DIR}/output")" -eq 1 ]]; then
-    # Normal output
-    NUM_MODELS=$(grep -c 'Answer:' "${TEMP_DIR}/output")
-else
-    # optN output (Ignore first 'Answer 1, 2, 3, ...' until Answer 1, 2, 3, ...)
-    NUM_MODELS=$(grep 'Answer:' "${TEMP_DIR}/output" \
-        | tail -n +2 \
-        | sed -n '/Answer: 1$/,$p' \
-        | wc -l )
-fi
-
-echo "Stable models: ${NUM_MODELS}"
-cat "${TEMP_DIR}/subprograms" "${TEMP_DIR}/predicates"
 if [[ -n "${DEBUG}" ]]; then
     echo "Not deleting ${TEMP_DIR}. Remember to clean it up when finished debugging" >&2
 else

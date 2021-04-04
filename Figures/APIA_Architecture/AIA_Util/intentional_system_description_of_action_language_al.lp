@@ -19,11 +19,11 @@ foo(A) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % bar(B)
-fluent(inertial, bar(B)) :-
+physical_fluent(inertial, bar(B)) :-
     b(B).
 
 % baz(C)
-fluent(defined, baz(C)) :-
+physical_fluent(defined, baz(C)) :-
     c(C).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

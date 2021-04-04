@@ -1,11 +1,5 @@
 % See p. 57 of dissertation
 
-% fluent(inertial, Fluent)
-% fluent(defined, Fluent)
-% aciton(Action)
-% happened(Action, Timestep)
-% observed(Fluent, Timestep)
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
@@ -151,6 +145,9 @@ occurs(Action, Timestep) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % (p. 59) of dissertation
+%
+% Note: Similar to (eq. 3.15) on (p. 30)
+%   and (eq. 3.16) on (p. 31)
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -168,6 +165,8 @@ impossible(select(Goal), Timestep) :-
     holds(active_activity(Activity), Timestep).
 
 % (p. 59) of dissertation
+%
+% Note: Similar to (eq. 3.16) on (p. 31)
 impossible(select(Goal), Timestep) :-
     step(Timestep),
     Timestep < current_timestep,
@@ -277,6 +276,20 @@ observed_goal(Goal, Timestep) :-
 
 occurs(Action, Timestep) :-
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
+
+% Note: Our addition. Reduces number of possible worlds
+%
+% prefer(diagnosis(Action, NewerTimestep, current_timestep), diagnosis(Action, OlderTimestep, current_timestep))
+cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+    physical_action(Action),
+    exogenous_action(Action),
+
+    NewerTimestep = 0..current_timestep,
+    OlderTimestep = 0..current_timestep,
+    OlderTimestep < NewerTimestep,
+
+    HigherPriorityCRRule = diagnosis(Action, NewerTimestep, current_timestep),
+    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep).
 
 % ------------------------------------------------------------------------------------------
 

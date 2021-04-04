@@ -32,3 +32,8 @@ holds(Fluent, timestep) :-
 -occurs(Action, timestep) :-
     action(Action),
     not occurs(Action, timestep).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Timestep %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program axioms(timestep).
+
+step(timestep).

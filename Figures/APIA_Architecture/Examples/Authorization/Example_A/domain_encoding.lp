@@ -13,16 +13,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % door_locked(Door)
-fluent(inertial, door_locked(Door)) :-
+physical_fluent(inertial, door_locked(Door)) :-
     door(Door).
 
 % in_room(Person, Room)
-fluent(inertial, in_room(Person, Room)) :-
+physical_fluent(inertial, in_room(Person, Room)) :-
     person(Person),
     room(Room).
 
 % greeted_by(Person, Actor)
-fluent(inertial, greeted_by(Person, Actor)) :-
+physical_fluent(inertial, greeted_by(Person, Actor)) :-
     person(Person),
     person(Actor),
     Person != Actor.
@@ -154,7 +154,7 @@ impossible(greet(Actor, Person), timestep) :-
     ActorRoom != PersonRoom.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program action_description(timestep).
+#program policy_description(timestep).
 
 % "Anyone is allowed to move from any room to any room"
 %
@@ -162,6 +162,21 @@ impossible(greet(Actor, Person), timestep) :-
 permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
+
+% "Anyone is permitted to lock a door"
+%
+% permitted(lock_door(Actor, Door))
+permitted(lock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% "Anyone is permitted to unlock a door"
+%
+% permitted(unlock_door(Actor, Door))
+permitted(unlock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
 
 % "Anyone is allowed to greet a coworker"
 %

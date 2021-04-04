@@ -1,5 +1,5 @@
 terminal:
-  image: ubuntu:20.04
+  image: blang/latex:ctanfull
 
   variables:
     RAILS_ENV: test
