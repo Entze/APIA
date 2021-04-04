@@ -2,18 +2,31 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-computer(Computer) :-
-    Computer = 1.
+person_max_holding_weight(Person, MaxWeight) :-
+    person(Person),
+    MaxWeight = 2.
 
-cellphone(Cellphone) :-
-    Cellphone = 1.
+max_object_count(MaxObjectCount) :-
+    MaxObjectCount = 12.
 
-computer_has(Computer, cd_drive) :-
-    computer(Computer).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% See p. 50 of dissertation
 
-location(computer(Computer), location(Location)) :-
+% TODO: Add objects at locations
+observed(object_location(Object, Location, ObjectCount), Timestep) :-
+    Timestep = 0,
+    object(Object),
     location(Location),
-    computer(Computer),
-    Computer = 1,
-    Location = 2.
+    ObjectCount = 0.
 
+observed(person_holding_object(Person, Object, ObjectCount), Timestep) :-
+    Timestep = 0,
+    person(Person),
+    object_attribute(Object, holdable),
+    ObjectCount = 0.
+
+observed(object_turned_on(Location, Object, ObjectCount), Timestep) :-
+    Timestep = 0,
+    location(Location),
+    object_attribute(Object, power),
+    ObjectCount = 0.

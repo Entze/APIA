@@ -24,6 +24,22 @@ invalid(fluent(inertial, Fluent), Reason) :-
     not -observed(Fluent, Timestep),
     Reason = "Warning: No initial observation of fluent".
 
+invalid(holds(Fluent), Reason) :-
+    holds(Fluent),
+    Reason = "Missing timestep in holds(Fluent, Timestep)".
+
+invalid(holds(Fluent), Reason) :-
+    -holds(Fluent),
+    Reason = "Missing timestep in -holds(Fluent, Timestep)".
+
+invalid(occurs(Action), Reason) :-
+    occurs(Action),
+    Reason = "Missing timestep in occurs(Action, Timestep)".
+
+invalid(occurs(Action), Reason) :-
+    -occurs(Action),
+    Reason = "Missing timestep in -occurs(Action, Timestep)".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(action(Action), Reason) :-
@@ -67,6 +83,14 @@ invalid(permitted(Action), Reason) :-
     Reason = @str_format("Action ({}) is not defined in action/1", Action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Authorization (with timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+invalid(permitted(Action), Reason) :-
+    permitted(Action),
+    Reason = "Missing timestep in permitted(Action, Timestep)".
+
+invalid(permitted(Action), Reason) :-
+    -permitted(Action),
+    Reason = "Missing timestep in permitted(Action, Timestep)".
 
 invalid(permitted(Action, Timestep), Reason) :-
     permitted(Action, Timestep),
@@ -144,6 +168,13 @@ invalid(neg(obl(neg(neg(Action)))), Reason) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Obligation (with timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+invalid(obl(Action), Reason) :-
+    obl(Action),
+    Reason = "Missing timestep in obl(Action, Timestep)".
+
+invalid(obl(Action), Reason) :-
+    -obl(Action),
+    Reason = "Missing timestep in obl(Action, Timestep)".
 
 invalid(obl(Action, Timestep), Reason) :-
     obl(Action, Timestep),

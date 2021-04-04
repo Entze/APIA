@@ -30,7 +30,7 @@ physical_fluent(defined, baz(C)) :-
 %
 % Requirements:
 %   - All user-defined actions must be physical actions
-%   - All user-defined actions must be either agent actions, exogenous actions, or both
+%   - All user-defined actions must be either agent actions or exogenous actions (we assume actions cannot be both)
 
 % do_foo(A)
 physical_action(do_foo(A)) :-

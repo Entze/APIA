@@ -262,4 +262,5 @@ permitted(greet(Actor, Person), timestep) :-
     holds(in_room(Person, Room), timestep),
     door_connects(Door, Room),
     holds(knocked_on_door(Door), timestep),
-    not -permitted(greet(Actor, Person), timestep).
+    not -permitted(greet(Actor, Person), timestep),
+    not obl(neg(greet(Actor, Person)), timestep).  % Note: Our addition

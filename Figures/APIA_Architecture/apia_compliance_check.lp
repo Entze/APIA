@@ -45,7 +45,6 @@ agent_action(Action) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program apia_action_description(current_timestep).
-% Only set timestep to current or future timesteps
 
 % (Valid AL)
 %
