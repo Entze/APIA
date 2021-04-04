@@ -3,7 +3,7 @@
 
 % "An agent is always allowed to wait"
 %
-% permitted(MentalAction)
+% permitted(wait)
 permitted(Action, timestep) :-
     Action = wait.
 
