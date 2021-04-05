@@ -15,7 +15,108 @@
 %
 % \section{Sub-Topic 3}
 
-\section{Configuration}
+In this chapter, we present the $\mathcal{APIA}$ architecture.
+The Architecture for Policy-Aware Intentional Agents ($\mathcal{APIA}$) is an agent architecture heavily inspired by the $\mathcal{AIA}$ agent architecture that reasons over $\mathcal{AOPL}$ policies.
+Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires a transition system S=<> and shares its applicability conditions.
+
+\section{Overview}
+
+The $\mathcal{APIA}$ architecture takes the $\mathcal{AIA}$ architecture as a basis.
+To reason over policy compliance, we invent a series of fluents and action descriptions.
+These action descriptions encode the effect of future agent actions on policy compliance and provide a means by which the $\mathcal{AIA}$ control loop can determine non-compliant activities to be futile and execute compliant ones in their place.
+For example, consider a static law such as the following:
+
+\begin{gather}
+    a \textbf{ causes } \neg auth\_compliance(strong) \textbf{ if not } permitted(a) \\
+    a \textbf{ causes } \neg auth\_compliance(weak) \textbf{ if } \neg permitted(a)
+\end{gather}
+
+Given inertial fluents $auth\_compliance(weak)$ and $auth\_compliance(strong)$, rules XX-YY correspond to the definition of authorization compliance of $\mathcal{AOPL}$ given in XX.
+Should there exist an action $a$ where $permitted(a)$ is not true, then the scenario ceases to be strongly compliant (i.e it becomes weakly compliant).
+Since no action can make $auth\_compliance(strong)$ true again, the rest of the scenario remains weakly compliant by inertia.
+Likewise, should there exist an action $a$ where $permitted(a)$ is false, then the scenario ceases to be weakly compliant (i.e. it becomes non-compliant) and remains in this state by inertia.
+
+To inform the $\mathcal{AIA}$ control loop to achieve its goal in a policy-compliant manner, we utilize defined fluents.
+Since an agent in the $\mathcal{AIA}$ architecture can only select a single fluent as a goal, defined fluents serve as a way to combine fluents together using logical ANDs and logical ORs.
+For example:
+
+\begin{gather}
+    c \textbf{ if } a, b \\
+    d \textbf{ if } a \\
+    d \textbf{ if } b
+\end{gather}
+
+$c$ is equivalent to $(a \land b)$ and $d$ is equivalent to $(a \lor b)$.
+Using this mechanism, we introduce a defined fluent $policy\_compliant(F)$, where $F$ is every other fluent.
+$policy\_compliant(F)$ is true iff $F$ is true and $auth\_compliance(L)$ is true, for some minimum compliance threshold $L$.
+Thus, when $policy\_compliant(F)$ is an agent's goal, activities below $L$-compliance are deemed as futile and the agent achieves the $F$ fluent subject to this constraint.
+
+To allow for the case when no activities that achieve $F$ are $L$-compliant, we introduce actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$, where $a$ is every other action.
+By concurrently executing these actions with action $a$, our agent ignores the effect the event $<s, \{a\}>$ has on weak compliance or non-compliance, respectively.
+These allow our agent to decide when it will obey its policy or disregard it.
+
+One can imagine that agents could use this capability in multiple ways.
+Some agents could strictly adhere to their policy (and hence, never use these actions) while others could be more utilitarian (and use them more liberally).
+To this end, we have parameterized the agent's adherence to its policy (See Table X).
+
+One option for this parameter causes the agent to strictly adhere to its policy such that it never performs $ignore\_neg\_permitted(a)$.
+This causes all non-compliant actions to indirectly cause $policy\_compliant(F)$ to be false.
+Hence, only activities with weakly or strongly compliant actions are considered.
+Since this mode never dares to become non-compliant, it is called \textit{subordinate}.
+
+A similar option causes the agent to never perform $ignore\_not\_permitted(a)$.
+This causes all weak and non-compliant actions to indirectly cause $policy\_compliant(F)$ to be false.
+Hence, only activities with strongly compliant actions are considered.
+Since weakly compliant actions are actions for which the policy compliance is unknown, this mode is called \textit{paranoid} as it treats weakly compliant actions as if they are non-compliant.
+
+Another option allows unrestricted access to the $ignore\_neg\_permitted(a)$ and $ignore\_not\_permitted(a)$ actions.
+This mode is called \textit{utilitarian} because it reduces the behavior of $\mathcal{APIA}$ to that of $\mathcal{AIA}$, where policies are not considered at all.
+
+An interesting feature of the $ignore\_neg\_permitted(a)$ and $ignore\_not\_permitted(a)$ actions is the ability to optimize compliance.
+Using CR prefer rules, we can require the $\mathcal{AIA}$ control loop to prefer other actions over the use of $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$.
+Hence, if it is possible to execute an activity that is strongly complaint, the agent will prefer it over a weakly or non-complaint activity (since the use of these actions is required to allow $policy\_compliant(F)$ to be true).
+Under this condition, $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$ are only used when it is impossible to achieve the fluent $F$ in a strongly or weakly compliant manner, respectively.
+
+The combination of compliance optimization with our previously discussed options allows for more possible configurations.
+For example, adding optimization to the \textit{subordinate} option makes a \textit{cautious} mode.
+In this mode, the agent will try to mimic the behavior of the \textit{paranoid} mode (all strongly compliant actions), but ultimately it will reduce to \textit{subordinate} (all weakly compliant actions) in the worst case.
+Likewise, adding optimization to the \textit{utilitarian} mode adds two options: \textit{best effort} and \textit{subordinate when possible}.
+\textit{Best effort} prefers strong compliance over weak compliance and weak compliance over non-compliance, but ultimately permits non-compliance when no better alternatives exist.
+\textit{Subordinate when possible} prefers weak compliance over non-compliance but does not optimize from weak compliance to strong compliance.
+
+A new feature of this approach to optimization is the ability to optimize within the weakly and non-compliant categories.
+Consider two weakly compliant activities 1 and 2.
+While they are weakly compliant as a whole, one may mostly consist of strongly compliant actions.
+Suppose activity 1 has more weakly compliant actions than activity 2.
+Since, weakly compliant actions do require a concurrent $ignore\_not\_permitted(a)$ action, activity 1 will have more $ignore\_not\_permitted(a)$ actions than activity 2.
+Hence, activity 2 will be preferred to activity 1, even though they both fall in the weakly compliant category.
+XX do not consider such a feature.
+
+Our discussion thus far has focused on authorization policies induced by an $\mathcal{AOPL}$ policy.
+To address obligation policies, we introduce fluents $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ with actions $ignore\_obl(a)$ and $ignore\_obl(neg(a))$, where $a$ is another action.
+(For configurability, we consider obligation policies to do actions and to refrain from actions separately).
+We extend the definition of $policy\_compliant(F)$ to require both $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ to be true.
+Like with authorization compliance, if $obl(a)$ is true but action a does not occur, then $obl\_compliant(do\_action)$ becomes false and remains false by inertia.
+Likewise for $obl\_compliant(refrain\_from\_action)$.
+If $ignore\_obl(a)$ or $ignore\_obl(neg(a))$ are performed, then these effects on the $obl\_complaint$ fluents are temporarily waived.
+
+There are five different configurations an agent in the $\mathcal{APIA}$ architecture can have regarding its obligation policy.
+When in \textit{subordinate} mode, the agent will never use either $ignore\_obl(a)$ and $ignore\_obl(neg(a))$ actions.
+Hence, all activities that achieve $policy\_compliant(F)$ will be compliant with both aspects of its obligation policy.
+When in \textit{best effort} mode, the agent prefers using other actions over these policy actions.
+Hence, activities will be compliant if possible but may include non-compliant elements when no other goal-achieving activities exist.
+The \textit{permit omissions where necessary} and \textit{permit commissions where necessary} options are variations of these modes.
+\textit{permit omissions where necessary} is like \textit{best effort} with regards to $obl(a)$ policy statements, but like \textit{subordinate} with regards to $obl(\neg a)$ policy statements.
+Likewise, \textit{permit commissions where necessary} is like \textit{subordinate} with regards to $obl(a)$ policy statements but like \textit{best effort} regarding $obl(\neg a)$ statements.
+\textit{Utilitarian} mode, like with authorization policies, reduces the behavior of an $\mathcal{APIA}$ agent with respect to its obligation policy to that of an $\mathcal{AIA}$ agent.
+
+---
+
+For convenience, we differentiate fluents by category.
+There exist physical fluents (which are those that describe the physical world), mental fluents (those introduced in the Theory of Intentions), and policy fluents (those that we introduce to reason over policy compliance).
+Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions (these will be discussed later).
+
+In this chapter, we extend the $\mathcal{AIA}$ architecture with XXX's approach to $\mathcal{AOPL}$ compliance.
 
 \begin{table}[h]
     \begin{tabular}{ c c c }
