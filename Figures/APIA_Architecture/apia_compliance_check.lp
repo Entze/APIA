@@ -32,7 +32,7 @@ policy_action(PolicyAction) :-
     agent_action(Action),
     physical_action(Action),
     PolicyAction = (
-        ignore_permitted(Action);
+        ignore_not_permitted(Action);
         ignore_neg_permitted(Action);
         ignore_obl(Action);
         ignore_obl(neg(Action))
@@ -78,7 +78,7 @@ agent_action(Action) :-
 
 % (AL-like rule)
 %
-% (Action, not ignore_permitted(Action))
+% (Action, not ignore_not_permitted(Action))
 %   causes -auth_compliance(strong)
 %   if
 %     Timestep >= current_timestep,
@@ -90,7 +90,7 @@ agent_action(Action) :-
     agent_action(Action),
     not policy_action(Action),
     occurs(Action, Timestep),
-    not occurs(ignore_permitted(Action), Timestep),
+    not occurs(ignore_not_permitted(Action), Timestep),
     not permitted(Action, Timestep).
 
 % impossible ignore_not_permitted(Action) if
@@ -204,8 +204,8 @@ require_auth_compliance(ComplianceLevel) :-
 
 % (Valid AL)
 %
-% impossible ignore_permitted(Action)
-impossible(ignore_permitted(Action), Timestep) :-
+% impossible ignore_not_permitted(Action)
+impossible(ignore_not_permitted(Action), Timestep) :-
     step(Timestep),
     current_timestep <= Timestep,
     agent_action(Action),
@@ -224,7 +224,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
-    PolicyAction = ignore_permitted(Action),
+    PolicyAction = ignore_not_permitted(Action),
     agent_action(Action),
     HigherPriorityCRRule = plan_existing(AgentAction, Timestep),
     LowerPriorityCRRule = plan_existing(PolicyAction, Timestep),
@@ -238,7 +238,7 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
-    PolicyAction = ignore_permitted(Action),
+    PolicyAction = ignore_not_permitted(Action),
     agent_action(Action),
     HigherPriorityCRRule = plan_new(AgentAction, Timestep),
     LowerPriorityCRRule = plan_new(PolicyAction, Timestep),
