@@ -1,8 +1,8 @@
-[`Figures/APIA_Architecture`]: Figures/APIA_Architecture
+[`Figures/APIA_Architecture/Implementation`]: Figures/APIA_Architecture/Implementation
 
 # John Meyer's Thesis
 
-See [`Figures/APIA_Architecture`] for the implementation of the APIA architecture.
+See [`Figures/APIA_Architecture/Implementation`] for the implementation of the APIA architecture.
 
 ## Prerequisites
 
