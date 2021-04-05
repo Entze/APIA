@@ -93,6 +93,13 @@ agent_action(Action) :-
     not occurs(ignore_not_permitted(Action), Timestep),
     not permitted(Action, Timestep).
 
+% impossible ignore_not_permitted(Action) if
+%   permitted(Action)
+impossible(ignore_not_permitted(Action), Timestep) :-
+    Timestep >= current_timestep,
+    agent_action(Action),
+    permitted(Action, Timestep).
+
 % ----------------------------------------------
 
 % (AL-like rule)
@@ -111,6 +118,14 @@ agent_action(Action) :-
     occurs(Action, Timestep),
     not occurs(ignore_neg_permitted(Action), Timestep),
     -permitted(Action, Timestep).
+
+% impossible ignore_neg_permitted(Action) if
+%   not -permitted(Action)
+impossible(ignore_neg_permitted(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    not -permitted(Action, Timestep).
 
 % ----------------------------------------------
 
