@@ -161,6 +161,68 @@ Note, to allow for defeasible policy statements to work correctly, we do not wri
     \dots
 \end{gather}
 
+We also extend the translation of defeasible policy statements to ASP.
+Suppose we have the following policy:
+\begin{gather}
+    \textbf{ normally } permitted(a) \\
+    obl(\neg a) \textbf{ if } cond
+\end{gather}
+Using the approach proposed by XXX, the corresponding ASP translation would be
+\begin{gather}
+    permitted(a, I) \leftarrow \textbf{ not } \neg permitted(a, I). \\
+    obl(neg(a), I) \leftarrow F.
+\end{gather}
+
+Given $cond$, at a given timestep we have $permitted(a)$ and $obl(\neg a)$.
+This violates the non-contradiction axioms we introduced above.
+So, we extend their approach by using the following encoding for the defeasible statement:
+\begin{equation}
+\begin{split}
+    permitted(a, I) \leftarrow \
+        & \textbf{ not } \neg permitted(a, I), \\
+        & \textbf{ not } obl(neg(a), I).
+\end{split}
+\end{equation}
+This allows the presence of $obl(\neg a)$ to be an exceptional case to the defeasible rule.
+
+In general, we propose the following encodings for the following defeasible statements, respectively:
+\begin{gather}
+    d: \textbf{ normally } permitted(a) \textbf{ if } cond \\
+    d: \textbf{ normally } \neg permitted(a) \textbf{ if } cond \\
+    d: \textbf{ normally } obl(a) \textbf{ if } cond \\
+    d: \textbf{ normally } obl(\neg a) \textbf{ if } cond
+\end{gather}
+\begin{gather}
+\begin{split}
+    permitted(a, I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } \neg permitted(a, I), \\
+        & \textbf{ not } obl(neg(a), I).
+\end{split} \\
+\begin{split}
+    \neg permitted(a, I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } permitted(a, I), \\
+        & \textbf{ not } obl(a, I).
+\end{split} \\
+\begin{split}
+    obl(a, I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } \neg obl(a, I), \\
+        & \textbf{ not } \neg permitted(a, I).
+\end{split} \\
+\begin{split}
+    obl(neg(a), I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } obl(neg(a), I), \\
+        & \textbf{ not } permitted(a, I).
+\end{split}
+\end{gather}
+
 \begin{table}[h]
     \begin{tabular}{ c c c }
         cell1 & cell2 & cell3 \\
