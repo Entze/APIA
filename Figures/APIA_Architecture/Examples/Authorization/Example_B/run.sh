@@ -12,4 +12,4 @@ FILES=(
     run_observations.lp
 )
 
-../../../apia_control_loop.py --max-timestep "${MAX_TIMESTEP}" "${FILES[@]}" "$@"
+../../../Implementation/apia_control_loop.py --max-timestep "${MAX_TIMESTEP}" "${FILES[@]}" "$@"

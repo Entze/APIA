@@ -36,4 +36,4 @@ FILES=(
     Objects/instance.lp
 )
 
-../../test.sh "${TEST_NUM}" "${MAX_TIMESTEP:-12}" "${FILES[@]}"
+../../Implementation/test.sh "${TEST_NUM}" "${MAX_TIMESTEP:-12}" "${FILES[@]}"
