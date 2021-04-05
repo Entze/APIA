@@ -1,3 +1,4 @@
+% TODO: Delete first half of file
 #program aopl_compliance(current_timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Definition %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
