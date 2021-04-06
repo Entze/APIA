@@ -229,7 +229,7 @@ Likewise, adding optimization to the \textit{utilitarian} mode adds two options:
 
 A new feature of this approach to optimization is the ability to optimize within the weakly and non-compliant categories.
 Consider two weakly compliant activities 1 and 2.
-While they are weakly compliant as a whole, one may mostly consist of strongly compliant actions.
+While they are both weakly compliant as a whole, one may mostly consist of strongly compliant actions.
 Suppose activity 1 has more weakly compliant actions than activity 2.
 Since, weakly compliant actions do require a concurrent $ignore\_not\_permitted(a)$ action, activity 1 will have more $ignore\_not\_permitted(a)$ actions than activity 2.
 Hence, activity 2 will be preferred to activity 1, even though they both fall in the weakly compliant category.
@@ -253,6 +253,8 @@ The \textit{permit omissions where necessary} and \textit{permit commissions whe
 Likewise, \textit{permit commissions where necessary} is like \textit{subordinate} with regards to $obl(a)$ policy statements but like \textit{best effort} regarding $obl(\neg a)$ statements.
 \textit{Utilitarian} mode, like with authorization policies, reduces the behavior of an $\mathcal{APIA}$ agent with respect to its obligation policy to that of an $\mathcal{AIA}$ agent.
 
+An agent's combined authorization and obligation policy configuration can be represented by a 2-tuple $(A, O)$, where $A$ is the authorization mode and $O$ is the obligation mode.
+
 \begin{table}[h]
     \centering
     \begin{tabular}{ | c | c | c | }
@@ -268,3 +270,60 @@ Likewise, \textit{permit commissions where necessary} is like \textit{subordinat
 \end{table}
 
 \section{Examples}
+
+To demonstrate the operations of an agent in the $\mathcal{APIA}$ architecture, we will introduce a series of examples.
+
+To begin with a simple case, suppose that two agents exist in an office space.
+In this office space, there are four rooms with doors in between them.
+Room 1 is connected by door $d_{12}$ to Room 2.
+Room 2 is connected by door $d_{23}$ to Room 3 and so on.
+Door $d_{34}$ has a lock and is currently in the unlocked position.
+Suppose our agent, Alice, wants to greet another agent, Bob.
+
+This scenario can be represented by the following fluents
+\begin{equation}
+    \dots
+\end{equation}
+Actions:
+\begin{equation}
+    \dots
+\end{equation}
+and the following action description.
+\begin{equation}
+    \dots
+\end{equation}
+Alice is given the following policy:
+\begin{equation}
+    \dots
+\end{equation}
+The following activities are in Alice's library.
+\begin{equation}
+    \dots
+\end{equation}
+
+At timestep 0, the first iteration of the $\mathcal{AIA}$ control loop begins.
+In this first step, Alice observes that she is in Room 1, Bob is in room 4, the door d34 is unlocked, and that she has not yet greeted Bob today.
+Then, Alice analyzes these observations and interprets unexpected observations using undetected exogenous actions.
+None of these observations are unexpected.
+Alice then intends to wait at timestep 0.
+Alice attempts wait.
+Alice observes that her wait action was successful and that, in the meantime, the $select(policy\_compliant(greeted\_by(Alice, Bob)))$ action happened.
+The timestep is incremented and Alice does not observe any fluents.
+
+
+The second iteration of the $\mathcal{AIA}$ control loop begins.
+Alice analyzes her observation of $select(policy\_compliant(greeted\_by(Alice, Bob)))$ and determines that $active\_goal(policy\_compliant(greeted\_by(Alice, Bob)))$ is true.
+Alice then starts planning to achieve $policy\_compliant(greeted\_by(Alice, Bob))$ and determines that she intends to start activity 1.
+Since each action in activity 1 is strongly compliant, no policy actions are needed.
+
+The rest of the example is very straight forward and is almost identical to scenarios discussed by \citet{blount_architecture_2013,blount_towards_2014} in the $\mathcal{AIA}$ architecture.
+However, let us transition from this serendipitous example to one where a strongly compliant activity becomes weakly compliant due to an unexpected environmental observation.
+
+In the same scenario, suppose Alice has the following policy:
+
+\begin{equation}
+    \dots
+\end{equation}
+
+Before the $\mathcal{AIA}$ loop begins, Alice observes that Bob is not busy working.
+In the $(paranoid, paranoid)$ mode
