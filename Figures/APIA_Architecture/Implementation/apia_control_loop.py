@@ -246,7 +246,7 @@ def _run_clingo(files: Iterable[Path],
         observation_subprograms)
 
     # Grounding
-    print('    Grounding...', file=sys.stderr)
+    print('    Grounding...')
     if debug == True:
         subprograms_to_ground = tuple(subprograms_to_ground)
         for subprogram in subprograms_to_ground:
@@ -254,7 +254,7 @@ def _run_clingo(files: Iterable[Path],
     clingo_control.ground(subprograms_to_ground, GroundingContext)
 
     # Solving
-    print('    Solving...', file=sys.stderr)
+    print('    Solving...')
     solve_handle = clingo_control.solve(yield_=True, async_=True)
     symbols = ()
     for model in solve_handle:  # type: clingo.Model
@@ -328,15 +328,15 @@ def _main(script_dir: Path):
 
     configuration = APIAConfiguration(authorization=args.authorization_mode,
                                       obligation=args.obligation_mode)
-    print('Running with configuration:', configuration, file=sys.stderr)
+    print('Running with configuration:', configuration)
 
     history: deque[clingo.Symbol] = deque()
     observation_subprograms: deque[ASPSubprogramInstantiation] = deque()
     for current_timestep in range(max_timestep + 1):
-        print(f'Iteration {current_timestep}', file=sys.stderr)
+        print(f'Iteration {current_timestep}')
 
         # Step 1: Interpret Observations
-        print('  Step 1: Interpret observations', file=sys.stderr)
+        print('  Step 1: Interpret observations')
         symbol, = _run_clingo(
             files=clingo_files,
             clingo_args=clingo_args,
@@ -352,11 +352,11 @@ def _main(script_dir: Path):
             debug=debug,
         )
         step_2_unobserved_actions, _ = symbol.arguments
-        print(f'    Unobserved actions: {step_2_unobserved_actions}', file=sys.stderr)
+        print(f'    Unobserved actions: {step_2_unobserved_actions}')
 
         # Step 2: Find intended action
-        print(file=sys.stderr)
-        print('  Step 2: Find intended action', file=sys.stderr)
+        print()
+        print('  Step 2: Find intended action')
         symbols = _run_clingo(
             files=clingo_files,
             clingo_args=clingo_args,
@@ -376,19 +376,19 @@ def _main(script_dir: Path):
         step_3_intended_actions = tuple(symbol.arguments[0]
                                         for symbol in symbols)
         for intended_action in step_3_intended_actions:
-            print(f'    Intended action: {intended_action}', file=sys.stderr)
+            print(f'    Intended action: {intended_action}')
 
         # Step 3: Perform intended action
-        print(file=sys.stderr)
-        print('  Step 3: Do intended action', file=sys.stderr)
+        print()
+        print('  Step 3: Do intended action')
         for intended_action in step_3_intended_actions:
-            print(f'    Doing {intended_action}', file=sys.stderr)
+            print(f'    Doing {intended_action}')
             history.append(clingo.Function('attempt', (intended_action, current_timestep)))
 
         # Step 4: Observe world
-        print(file=sys.stderr)
-        print('  Step 4: Observe world', file=sys.stderr)
-        print(f'    Getting observations from #program observations_{current_timestep + 1}.', file=sys.stderr)
+        print()
+        print('  Step 4: Observe world')
+        print(f'    Getting observations from #program observations_{current_timestep + 1}.')
         observation_subprograms.append(ASPSubprogramInstantiation(name=f'observations_{current_timestep + 1}', arguments=()))
         if debug:
             _run_clingo(
@@ -406,7 +406,7 @@ def _main(script_dir: Path):
                 debug=debug,
             )
 
-        print(file=sys.stderr)
+        print()
 
 
 if __name__ == '__main__':
