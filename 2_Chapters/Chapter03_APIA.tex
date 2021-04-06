@@ -22,6 +22,11 @@ Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture require
 \section{Overview}
 
 The $\mathcal{APIA}$ architecture takes the $\mathcal{AIA}$ architecture as a basis.
+
+For convenience, we differentiate fluents by category.
+There exist physical fluents (which are those that describe the physical world), mental fluents (those introduced in the Theory of Intentions), and policy fluents (those that we introduce to reason over policy compliance).
+Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions (these will be discussed later).
+
 To reason over policy compliance, we invent a series of fluents and action descriptions.
 These action descriptions encode the effect of future agent actions on policy compliance and provide a means by which the $\mathcal{AIA}$ control loop can determine non-compliant activities to be futile and execute compliant ones in their place.
 For example, consider a static law such as the following:
@@ -109,12 +114,6 @@ The \textit{permit omissions where necessary} and \textit{permit commissions whe
 \textit{permit omissions where necessary} is like \textit{best effort} with regards to $obl(a)$ policy statements, but like \textit{subordinate} with regards to $obl(\neg a)$ policy statements.
 Likewise, \textit{permit commissions where necessary} is like \textit{subordinate} with regards to $obl(a)$ policy statements but like \textit{best effort} regarding $obl(\neg a)$ statements.
 \textit{Utilitarian} mode, like with authorization policies, reduces the behavior of an $\mathcal{APIA}$ agent with respect to its obligation policy to that of an $\mathcal{AIA}$ agent.
-
----
-
-For convenience, we differentiate fluents by category.
-There exist physical fluents (which are those that describe the physical world), mental fluents (those introduced in the Theory of Intentions), and policy fluents (those that we introduce to reason over policy compliance).
-Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions (these will be discussed later).
 
 \section{Re-envisioning AOPL policies in an agent-centered architecture}
 
