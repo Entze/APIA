@@ -10,11 +10,11 @@ meeting(Meeting) :-
 
 -observed(busy_working(Person), Timestep) :-
     Timestep = 0,
-    Person = "Bob".
+    Person = "Alice".
 
 -observed(busy_working(Person), Timestep) :-
     Timestep = 0,
-    Person = "Alice".
+    Person = "Bob".
 
 -observed(meeting_scheduled(Meeting), Timestep) :-
     Timestep = 0,

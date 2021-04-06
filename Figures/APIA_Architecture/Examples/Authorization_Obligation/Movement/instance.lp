@@ -38,7 +38,7 @@ private_office(Location) :-
 
 personal_space(Location, Person) :-
     Location = @str_format("location_private_office_{}", 1),
-    Person = "Bob".
+    Person = "Alice".
 
 % TODO: Add more personal_space(Location, Person)
 
@@ -316,14 +316,14 @@ observed(person_location(Person, Location), Timestep) :-
     Timestep = 0,
     person(Person),
     location(Location),
-    Person = "Bob",
+    Person = "Alice",
     Location = "location_outside_1".
 
 observed(person_location(Person, Location), Timestep) :-
     Timestep = 0,
     person(Person),
     location(Location),
-    Person = "Alice",
+    Person = "Bob",
     Location = @str_format("location_private_office_{}", 1).
 
 -observed(door_locked(FromLocation, ToLocation), Timestep) :-
