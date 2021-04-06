@@ -17,7 +17,7 @@
 
 In this chapter, we present the $\mathcal{APIA}$ architecture.
 The Architecture for Policy-Aware Intentional Agents ($\mathcal{APIA}$) is an agent architecture heavily inspired by the $\mathcal{AIA}$ agent architecture that reasons over $\mathcal{AOPL}$ policies.
-Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires a transition system S=<> and shares its applicability conditions.
+Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires a transition system S=<> representing the environment in which the agent acts and it shares $\mathcal{AIA}$'s applicability conditions.
 
 \section{Re-envisioning AOPL policies in an agent-centered architecture}
 
@@ -32,7 +32,7 @@ This differs from AIA in the following ways:
 These differences prevent AOPL policies from interoperating with the AIA agent architecture out of the box.
 To address the first issue, we require AOPL policies to describe only agent actions (the set of agent actions and exogenous actions is disjoint).
 We enforce this rule using a constraint.
-For the second issue, we adjust our policy compliance rules such that only future actions effect the compliance of the world.
+For the second issue, we adjust our policy compliance rules such that only future actions affect the compliance of the world.
 Since the focus of AIA is planning, past actions are always considered ``compliant'' although they might not have been at the time.
 For an agent that previously had no choice but a non-compliant action, this allows the agent to conceive of ``turning a new leaf'' and seeking policy-compliant actions in the future.
 Without this provision, it would be impossible for such an agent to achieve $policy\_compliant(F)$ and a single non-compliant action would be non-recoverable.
@@ -126,44 +126,47 @@ In general, we propose the following encodings for the following defeasible stat
 \end{split}
 \end{gather}
 
-\section{Overview}
+\section{Policy-Aware Agent Behavior}
 
 The $\mathcal{APIA}$ architecture takes the $\mathcal{AIA}$ architecture as a basis.
 
+$\mathcal{AIA}$ describes the transition system in terms of fluents, actions, and axioms (i.e.~action descriptions).
 For convenience, we differentiate fluents by category.
 There exist physical fluents (which are those that describe the physical world), mental fluents (those introduced in the Theory of Intentions), and policy fluents (those that we introduce to reason over policy compliance).
-Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions (these will be discussed later).
+Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions.
 
-To reason over policy compliance, we invent a series of fluents and action descriptions.
-These action descriptions encode the effect of future agent actions on policy compliance and provide a means by which the $\mathcal{AIA}$ control loop can determine non-compliant activities to be futile and execute compliant ones in their place.
-For example, consider a static law such as the following:
+To reason over policy compliance, we invent a series of policy fluents, policy actions, and action descriptions.
+These new action descriptions encode the effect of future agent actions on policy compliance and provide a means by which the $\mathcal{AIA}$ control loop can determine non-compliant activities to be futile and execute compliant ones in their place.
+For example, consider dynamic causal laws such as the following:
 
 \begin{gather}
-    a \textbf{ causes } \neg auth\_compliance(strong) \textbf{ if not } permitted(a) \\
+    a \textbf{ causes } \neg auth\_compliance(strong) \textbf{ if not } permitted(a)
+        \label{eq:apia_auth_compliance_strong} \\
     a \textbf{ causes } \neg auth\_compliance(weak) \textbf{ if } \neg permitted(a)
+        \label{eq:apia_auth_compliance_weak}
 \end{gather}
 
-Given inertial fluents $auth\_compliance(weak)$ and $auth\_compliance(strong)$, rules XX-YY correspond to the definition of authorization compliance of $\mathcal{AOPL}$ given in XX.
-Should there exist an action $a$ where $permitted(a)$ is not true, then the scenario ceases to be strongly compliant (i.e it becomes weakly compliant).
+Given inertial policy fluents $auth\_compliance(weak)$ and $auth\_compliance(strong)$, \cref{eq:apia_auth_compliance_strong,eq:apia_auth_compliance_weak} correspond to the definition of authorization compliance of $\mathcal{AOPL}$ given in XX.
+Should there exist an action $a$ where $permitted(a)$ is not known to be true, then the scenario ceases to be strongly compliant (i.e~it becomes weakly compliant).
 Since no action can make $auth\_compliance(strong)$ true again, the rest of the scenario remains weakly compliant by inertia.
 Likewise, should there exist an action $a$ where $permitted(a)$ is false, then the scenario ceases to be weakly compliant (i.e.~it becomes non-compliant) and remains in this state by inertia.
+Similar rules to \cref{eq:apia_auth_compliance_strong,eq:apia_auth_compliance_weak} are added for every physical action $a$ of the transition system.
 
-To inform the $\mathcal{AIA}$ control loop to achieve its goal in a policy-compliant manner, we utilize defined fluents.
+To inform the $\mathcal{AIA}$ control loop to achieve the agent's goal in a policy-compliant manner, we utilize defined fluents.
 Since an agent in the $\mathcal{AIA}$ architecture can only select a single fluent as a goal, defined fluents serve as a way to combine fluents together using logical ANDs and logical ORs.
 For example:
-
 \begin{gather}
     c \textbf{ if } a, b \\
     d \textbf{ if } a \\
     d \textbf{ if } b
 \end{gather}
 
-$c$ is equivalent to $(a \land b)$ and $d$ is equivalent to $(a \lor b)$.
-Using this mechanism, we introduce a defined fluent $policy\_compliant(F)$, where $F$ is every other fluent.
-$policy\_compliant(F)$ is true iff $F$ is true and $auth\_compliance(L)$ is true, for some minimum compliance threshold $L$.
-Thus, when $policy\_compliant(F)$ is an agent's goal, activities below $L$-compliance are deemed as futile and the agent achieves the $F$ fluent subject to this constraint.
+Fluent $c$ is equivalent to $(a \land b)$ and $d$ is equivalent to $(a \lor b)$.
+Using this mechanism, we introduce a defined policy fluent $policy\_compliant(F)$, where $F$ is a physical fluent
+The policy fluent $policy\_compliant(F)$ is true iff $F$ is true and $auth\_compliance(L)$ is true, for some minimum compliance threshold $L$.
+Thus, when $policy\_compliant(F)$ is an agent's goal, activities below $L$-compliance are deemed as futile and the agent works to achieves fluent $F$ subject $L$-compliance.
 
-To allow for the case when no activities that achieve $F$ are $L$-compliant, we introduce actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$, where $a$ is every other action.
+To allow for the case when no activities that achieve $F$ are $L$-compliant or for when an agent deliberately chooses act without $L$-compliance, we introduce policy actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$, where $a$ is a physical action.
 By concurrently executing these actions with action $a$, our agent ignores the effect the event $<s, \{a\}>$ has on weak compliance or non-compliance, respectively.
 These allow our agent to decide when it will obey its policy or disregard it.
 
@@ -185,9 +188,9 @@ Another option allows unrestricted access to the $ignore\_neg\_permitted(a)$ and
 This mode is called \textit{utilitarian} because it reduces the behavior of $\mathcal{APIA}$ to that of $\mathcal{AIA}$, where policies are not considered at all.
 
 An interesting feature of the $ignore\_neg\_permitted(a)$ and $ignore\_not\_permitted(a)$ actions is the ability to optimize compliance.
-Using CR prefer rules, we can require the $\mathcal{AIA}$ control loop to prefer other actions over the use of $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$.
+Using preference statements in ASP, we can require the $\mathcal{AIA}$ control loop to prefer other actions over the use of $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$.
 Hence, if it is possible to execute an activity that is strongly complaint, the agent will prefer it over a weakly or non-complaint activity (since the use of these actions is required to allow $policy\_compliant(F)$ to be true).
-Under this condition, $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$ are only used when it is impossible to achieve the fluent $F$ in a strongly or weakly compliant manner, respectively.
+Under this condition, the policy actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$ are only used when it is impossible to achieve the fluent $F$ in a strongly or weakly compliant manner, respectively.
 
 The combination of compliance optimization with our previously discussed options allows for more possible configurations.
 For example, adding optimization to the \textit{subordinate} option makes a \textit{cautious} mode.
@@ -205,7 +208,7 @@ Hence, activity 2 will be preferred to activity 1, even though they both fall in
 XX do not consider such a feature.
 
 Our discussion thus far has focused on authorization policies induced by an $\mathcal{AOPL}$ policy.
-To address obligation policies, we introduce fluents $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ with actions $ignore\_obl(a)$ and $ignore\_obl(neg(a))$, where $a$ is another action.
+To address obligation policies, we introduce policy fluents $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ with policy actions $ignore\_obl(a)$ and $ignore\_obl(neg(a))$, where $a$ is another action.
 (For configurability, we consider obligation policies to do actions and to refrain from actions separately).
 We extend the definition of $policy\_compliant(F)$ to require both $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ to be true.
 Like with authorization compliance, if $obl(a)$ is true but action $a$ does not occur, then $obl\_compliant(do\_action)$ becomes false and remains false by inertia.
