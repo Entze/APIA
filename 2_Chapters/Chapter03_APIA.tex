@@ -135,7 +135,7 @@ For convenience, we differentiate fluents by category.
 There exist physical fluents (which are those that describe the physical world), mental fluents (those introduced in the Theory of Intentions), and policy fluents (those that we introduce to reason over policy compliance).
 Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions.
 
-To reason over policy compliance, we invent a series of policy fluents, policy actions, and action descriptions.
+To reason over policy compliance, we invent a series of policy fluents, policy actions, and action descriptions (See \cref{fig:apia_list_policy_fluents_actions}).
 These new action descriptions encode the effect of future agent actions on policy compliance and provide a means by which the $\mathcal{AIA}$ control loop can determine non-compliant activities to be futile and execute compliant ones in their place.
 For example, consider dynamic causal laws such as the following:
 
@@ -151,6 +151,34 @@ Should there exist an action $a$ where $permitted(a)$ is not known to be true, t
 Since no action can make $auth\_compliance(strong)$ true again, the rest of the scenario remains weakly compliant by inertia.
 Likewise, should there exist an action $a$ where $permitted(a)$ is false, then the scenario ceases to be weakly compliant (i.e.~it becomes non-compliant) and remains in this state by inertia.
 Similar rules to \cref{eq:apia_auth_compliance_strong,eq:apia_auth_compliance_weak} are added for every physical action $a$ of the transition system.
+
+\begin{figure}[p]
+    \begin{framed}
+        Inertial Policy Fluents:
+        \begin{itemize}
+            \item $auth\_compliance(strong)$
+            \item $auth\_compliance(weak)$
+            \item $obl\_compliant(do\_action)$
+            \item $obl\_compliant(refrain\_from\_action)$
+        \end{itemize}
+
+        Defined Policy Fluents:
+        \begin{itemize}
+            \item $policy\_compliant(f)$, for all physical fluents $f$
+        \end{itemize}
+
+        Policy actions:
+        \begin{itemize}
+            \item $ignore\_not\_permitted(a)$
+            \item $ignore\_neg\_permitted(a)$
+            \item $ignore\_obl(a)$
+            \item $ignore\_obl(neg(a))$
+        \end{itemize}
+        for all physical actions $a$
+    \end{framed}
+    \caption{List of policy fluent and actions in the $\mathcal{APIA}$ architecture}
+    \label{fig:apia_list_policy_fluents_actions}
+\end{figure}
 
 To inform the $\mathcal{AIA}$ control loop to achieve the agent's goal in a policy-compliant manner, we utilize defined fluents.
 Since an agent in the $\mathcal{AIA}$ architecture can only select a single fluent as a goal, defined fluents serve as a way to combine fluents together using logical ANDs and logical ORs.
