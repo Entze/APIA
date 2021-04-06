@@ -34,7 +34,7 @@ For example, consider a static law such as the following:
 Given inertial fluents $auth\_compliance(weak)$ and $auth\_compliance(strong)$, rules XX-YY correspond to the definition of authorization compliance of $\mathcal{AOPL}$ given in XX.
 Should there exist an action $a$ where $permitted(a)$ is not true, then the scenario ceases to be strongly compliant (i.e it becomes weakly compliant).
 Since no action can make $auth\_compliance(strong)$ true again, the rest of the scenario remains weakly compliant by inertia.
-Likewise, should there exist an action $a$ where $permitted(a)$ is false, then the scenario ceases to be weakly compliant (i.e. it becomes non-compliant) and remains in this state by inertia.
+Likewise, should there exist an action $a$ where $permitted(a)$ is false, then the scenario ceases to be weakly compliant (i.e.~it becomes non-compliant) and remains in this state by inertia.
 
 To inform the $\mathcal{AIA}$ control loop to achieve its goal in a policy-compliant manner, we utilize defined fluents.
 Since an agent in the $\mathcal{AIA}$ architecture can only select a single fluent as a goal, defined fluents serve as a way to combine fluents together using logical ANDs and logical ORs.
