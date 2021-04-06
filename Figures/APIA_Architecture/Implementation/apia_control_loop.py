@@ -79,7 +79,7 @@ class APIAObligationSetting(Enum):
         'apia_options_obl_refrain_from_action_1',
         'apia_options_misc_2',
     ))
-    PERMIT_COMISSIONS = frozenset((
+    PERMIT_COMMISSIONS = frozenset((
         'apia_options_obl_do_action_1',
         'apia_options_obl_refrain_from_action_2',
         'apia_options_misc_2',
