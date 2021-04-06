@@ -320,7 +320,7 @@ This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_exa
             \item $in\_room(P, R)$
             \item $greeted\_by(P, A)$, where person $P$ is greeted by person $A$
         \end{itemize}
-        where and $R$ is a room, $D$ is a door, $P$ is a person.
+        where $R$ is a room, $D$ is a door, $P$ is a person.
 
         Actions:
         \begin{itemize}
@@ -344,8 +344,8 @@ This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_exa
         \begin{split}
             <1, [
                 & move\_through(alice, d12), \\
-                & move\_through(alice, d12), \\
-                & move\_through(alice, d12), \\
+                & move\_through(alice, d23), \\
+                & move\_through(alice, d34), \\
                 & greet(alice, bob) \\
             ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
         \end{split}
@@ -355,7 +355,7 @@ This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_exa
     \label{fig:apia_example_a_description}
 \end{figure}
 
-Before the AIA control loop begins, Alice observes that she is in Room 1, Bob is in room 4, the door d34 is unlocked, and that she has not yet greeted Bob.
+Before the $\mathcal{AIA}$ control loop begins, Alice observes that she is in Room 1, Bob is in room 4, the door d34 is unlocked, and that she has not yet greeted Bob.
 
 At timestep 0, the first iteration of the $\mathcal{AIA}$ control loop begins.
 In this first step, Alice analyzes her observations and interprets unexpected observations by assuming undetected exogenous actions occurred.
@@ -377,19 +377,60 @@ However, let us transition from this serendipitous example to one where a strong
 
 In the same scenario, suppose we modify Alice's policy such that regarding $greet(A, P)$ we have:
 
-\begin{equation}
+\begin{gather}
     permitted(greet(A, P)) \textbf{ if }
-        \neg busy\_working(P)
-\end{equation}
-\begin{equation}
-\begin{split}
-permitted(greet(A, P)) \textbf{ if }
-    & busy\_working(P), \\
-    & in\_room(P, R), \\
-    & door\_connects(D, R), \\
-    & knocked\_on\_door(D)
-\end{split}
-\end{equation}
+        \neg busy\_working(P) \\
+    \begin{split}
+        permitted(greet(A, P)) \textbf{ if }
+            & busy\_working(P), \\
+            & in\_room(P, R), \\
+            & door\_connects(D, R), \\
+            & knocked\_on\_door(D)
+    \end{split}
+\end{gather}
 
-Before the $\mathcal{AIA}$ control loop begins, Alice observes that Bob is not busy working.
-In the $(paranoid, subordinate)$ mode
+\begin{figure}[h]
+    \begin{framed}
+        Fluents:
+        \begin{itemize}
+            \item $busy\_working(P)$
+            \item $knocked\_on\_door(D)$
+        \end{itemize}
+        where $D$ is a door, $P$ is a person.
+
+        Actions:
+        \begin{itemize}
+            \item $begin\_working(A)$
+            \item $knock\_on\_door(A, D)$
+        \end{itemize}
+        where $A$ is the person doing the action, $D$ is a door.
+
+        Activities:
+        \begin{gather}
+        \begin{split}
+            <2, [
+                & move\_through(alice, d12), \\
+                & move\_through(alice, d23), \\
+                & move\_through(alice, d34), \\
+                & knock\_on\_door(alice, d34), \\
+                & greet(alice, bob) \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+        \end{split} \\
+        \begin{split}
+            <3, [
+                & knock\_on\_door(alice, d34), \\
+                & greet(alice, bob) \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+        \end{split}
+        \end{gather}
+    \end{framed}
+    \caption{New elements of Example B}
+    \label{fig:apia_example_b_description}
+\end{figure}
+
+Before the $\mathcal{AIA}$ control loop begins, Alice also observes that Bob is not busy working (that is, in addition to her initial observations of Example A).
+At timestep 0, the first iteration of the control loop begins.
+During the second iteration of the control loop (at timestep 1), Alice plans to achieve the $policy\_compliant(greeted\_by(Alice, Bob))$ goal.
+Since she believes Bob is not busy working, activity 1 is still strongly compliant.
+
+She then executes activity 1 like in Example A until she enters Room 3, at which points she observes that Bob is busy working.
