@@ -3,6 +3,8 @@
 *.snippet.out.txt
 *.docx
 *.svg
+*.diff
+*.gitdiff
 
 #### TeX ####
 ## Core latex/pdflatex auxiliary files:
