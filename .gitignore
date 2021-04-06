@@ -5,6 +5,7 @@
 *.svg
 *.diff
 *.gitdiff
+*.vsix
 
 #### TeX ####
 ## Core latex/pdflatex auxiliary files:
