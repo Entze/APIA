@@ -294,6 +294,8 @@ For reference, the $\mathcal{APIA}$ modes are summarized in \cref{table:apia_aut
 
 To demonstrate the operations of an agent in the $\mathcal{APIA}$ architecture, we will introduce a series of examples.
 
+\subsection{Example A}
+
 To begin with a simple case, suppose that two agents exist in an office space.
 In this office space, there are four rooms with doors in between them.
 Room 1 is connected by door $d_{12}$ to Room 2.
@@ -301,26 +303,57 @@ Room 2 is connected by door $d_{23}$ to Room 3 and so on.
 Door $d_{34}$ has a lock and is currently in the unlocked position.
 Suppose our agent, Alice, wants to greet another agent, Bob.
 
-This scenario can be represented by the following fluents
-\begin{equation}
-    \dots
-\end{equation}
-Actions:
-\begin{equation}
-    \dots
-\end{equation}
-and the following action description.
-\begin{equation}
-    \dots
-\end{equation}
-Alice is given the following policy:
-\begin{equation}
-    \dots
-\end{equation}
-The following activities are in Alice's library.
-\begin{equation}
-    \dots
-\end{equation}
+This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_example_a_description}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/AIA_Architecture/Example_1}
+    \caption{Visual depiction of Example A}
+    \label{fig:apia_example_a_visual}
+\end{figure}
+
+\begin{figure}[h]
+    \begin{framed}
+        Fluents:
+        \begin{itemize}
+            \item $door\_locked(D)$, for each door $D$
+            \item $in\_room(P, R)$
+            \item $greeted\_by(P, A)$, where person $P$ is greeted by person $A$
+        \end{itemize}
+        where and $R$ is a room, $D$ is a door, $P$ is a person.
+
+        Actions:
+        \begin{itemize}
+            \item $move\_through(A, D)$
+            \item $lock\_door(A, D)$
+            \item $unlock\_door(A, D)$
+            \item $greet(A, P)$
+        \end{itemize}
+        where $A$ is the person doing the action, $D$ is a door, and $P$ a person (the direct object of the action).
+
+        Alice is given the following policy:
+        \begin{itemize}
+            \item $permitted(move\_through(A, D))$
+            \item $permitted(lock\_door(A, D))$
+            \item $permitted(unlock\_door(A, d))$
+            \item $permitted(greet(A, P))$
+        \end{itemize}
+
+        The following activities are in Alice's library.
+        \begin{equation}
+        \begin{split}
+            <1, [
+                & move\_through(alice, d12), \\
+                & move\_through(alice, d12), \\
+                & move\_through(alice, d12), \\
+                & greet(alice, bob) \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+        \end{split}
+        \end{equation}
+    \end{framed}
+    \caption{Description of Example A}
+    \label{fig:apia_example_a_description}
+\end{figure}
 
 At timestep 0, the first iteration of the $\mathcal{AIA}$ control loop begins.
 In this first step, Alice observes that she is in Room 1, Bob is in room 4, the door $d_{34}$ is unlocked, and that she has not yet greeted Bob today.
@@ -340,10 +373,22 @@ Since each action in activity 1 is strongly compliant, no policy actions are nee
 The rest of the example is very straight forward and is almost identical to scenarios discussed by \citet{blount_architecture_2013,blount_towards_2014} in the $\mathcal{AIA}$ architecture.
 However, let us transition from this serendipitous example to one where a strongly compliant activity becomes weakly compliant due to an unexpected environmental observation.
 
-In the same scenario, suppose Alice has the following policy:
+\subsection{Example B}
+
+In the same scenario, suppose we modify Alice's policy such that regarding $greet(A, P)$ we have:
 
 \begin{equation}
-    \dots
+    permitted(greet(A, P)) \textbf{ if }
+        \neg busy\_working(P)
+\end{equation}
+\begin{equation}
+\begin{split}
+permitted(greet(A, P)) \textbf{ if }
+    & busy\_working(P), \\
+    & in\_room(P, R), \\
+    & door\_connects(D, R), \\
+    & knocked\_on\_door(D)
+\end{split}
 \end{equation}
 
 Before the $\mathcal{AIA}$ loop begins, Alice observes that Bob is not busy working.
