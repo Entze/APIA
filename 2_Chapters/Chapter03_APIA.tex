@@ -355,15 +355,15 @@ This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_exa
     \label{fig:apia_example_a_description}
 \end{figure}
 
+Before the AIA control loop begins, Alice observes that she is in Room 1, Bob is in room 4, the door d34 is unlocked, and that she has not yet greeted Bob.
+
 At timestep 0, the first iteration of the $\mathcal{AIA}$ control loop begins.
-In this first step, Alice observes that she is in Room 1, Bob is in room 4, the door $d_{34}$ is unlocked, and that she has not yet greeted Bob today.
-Then, Alice analyzes these observations and interprets unexpected observations using undetected exogenous actions.
-None of these observations are unexpected.
+In this first step, Alice analyzes her observations and interprets unexpected observations by assuming undetected exogenous actions occurred.
+None of her observations are unexpected, so no exogenous actions are assumed to occur.
 Alice then intends to wait at timestep 0.
 Alice attempts wait.
 Alice observes that her wait action was successful and that, in the meantime, the $select(policy\_compliant(greeted\_by(Alice, Bob)))$ action happened.
 The timestep is incremented and Alice does not observe any fluents.
-
 
 The second iteration of the $\mathcal{AIA}$ control loop begins.
 Alice analyzes her observation of $select(policy\_compliant(greeted\_by(Alice, Bob)))$ and determines that $active\_goal(policy\_compliant(greeted\_by(Alice, Bob)))$ is true.
@@ -391,5 +391,5 @@ permitted(greet(A, P)) \textbf{ if }
 \end{split}
 \end{equation}
 
-Before the $\mathcal{AIA}$ loop begins, Alice observes that Bob is not busy working.
-In the $(paranoid, paranoid)$ mode
+Before the $\mathcal{AIA}$ control loop begins, Alice observes that Bob is not busy working.
+In the $(paranoid, subordinate)$ mode
