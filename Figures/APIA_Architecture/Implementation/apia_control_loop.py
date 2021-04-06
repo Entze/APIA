@@ -351,8 +351,8 @@ def _main(script_dir: Path):
             ),
             debug=debug,
         )
-        step_2_unobserved_actions, _ = symbol.arguments
-        print(f'    Unobserved actions: {step_2_unobserved_actions}')
+        step_2_unobserved_actions_count, _ = symbol.arguments
+        print(f'    Unobserved actions: {step_2_unobserved_actions_count}')
 
         # Step 2: Find intended action
         print()
@@ -361,7 +361,7 @@ def _main(script_dir: Path):
             files=clingo_files,
             clingo_args=clingo_args,
             assertions=chain(history, (
-                clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
+                clingo.Function('interpretation', (step_2_unobserved_actions_count, current_timestep)),
             )),
             observation_subprograms=observation_subprograms,
             current_timestep=current_timestep,
@@ -395,7 +395,7 @@ def _main(script_dir: Path):
                 files=clingo_files,
                 clingo_args=clingo_args,
                 assertions=chain(history, (
-                    clingo.Function('interpretation', (step_2_unobserved_actions, current_timestep)),
+                    clingo.Function('interpretation', (step_2_unobserved_actions_count, current_timestep)),
                 )),
                 observation_subprograms=observation_subprograms,
                 current_timestep=current_timestep,
