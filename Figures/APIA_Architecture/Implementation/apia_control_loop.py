@@ -2,7 +2,7 @@
 
 import os
 import sys
-from collections import deque
+from collections import deque, defaultdict
 from decimal import Decimal, DecimalException
 from enum import Enum, IntEnum
 from itertools import chain
@@ -340,7 +340,7 @@ def _main(script_dir: Path):
 
         # Step 1: Interpret Observations
         print('  Step 1: Interpret observations')
-        symbol, = _run_clingo(
+        symbols = _run_clingo(
             files=clingo_files,
             clingo_args=clingo_args,
             assertions=history,
@@ -351,11 +351,25 @@ def _main(script_dir: Path):
             step_number=AIALoopStep(1),
             output_predicates=(
                 SymbolSignature(name='number_unobserved', arity=2),
+                SymbolSignature(name='diagnosis', arity=3),
             ),
             debug=debug,
         )
-        step_2_unobserved_actions_count, _ = symbol.arguments
+        step_2_unobserved_actions: dict[int, deque] = defaultdict(deque)
+        step_2_unobserved_actions_count = None
+        for symbol in symbols:
+            if symbol.name == 'number_unobserved' and len(symbol.arguments) == 2:
+                step_2_unobserved_actions_count, _ = symbol.arguments
+            elif symbol.name == 'diagnosis' and len(symbol.arguments) == 3:
+                action, timestep, _ = symbol.arguments
+                step_2_unobserved_actions[timestep].append(action)
+            else:
+                raise ValueError(f"I don't know how to display this symbol: {symbol}")
+        assert step_2_unobserved_actions_count is not None, 'number_unobserved(x, n) is not present'
         print(f'    Unobserved actions: {step_2_unobserved_actions_count}')
+        for timestep in sorted(step_2_unobserved_actions.keys()):
+            for action in sorted(step_2_unobserved_actions[timestep]):
+                print(f'      {clingo.Function("occurs", (action, timestep))}')
 
         # Step 2: Find intended action
         print()
