@@ -96,7 +96,7 @@ Our discussion thus far has focused on authorization policies induced by an $\ma
 To address obligation policies, we introduce fluents $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ with actions $ignore\_obl(a)$ and $ignore\_obl(neg(a))$, where $a$ is another action.
 (For configurability, we consider obligation policies to do actions and to refrain from actions separately).
 We extend the definition of $policy\_compliant(F)$ to require both $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ to be true.
-Like with authorization compliance, if $obl(a)$ is true but action a does not occur, then $obl\_compliant(do\_action)$ becomes false and remains false by inertia.
+Like with authorization compliance, if $obl(a)$ is true but action $a$ does not occur, then $obl\_compliant(do\_action)$ becomes false and remains false by inertia.
 Likewise for $obl\_compliant(refrain\_from\_action)$.
 If $ignore\_obl(a)$ or $ignore\_obl(neg(a))$ are performed, then these effects on the $obl\_complaint$ fluents are temporarily waived.
 
