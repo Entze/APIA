@@ -30,7 +30,7 @@ This differs from AIA in the following ways:
 \end{itemize}
 
 These differences prevent AOPL policies from interoperating with the AIA agent architecture out of the box.
-To address the first issue, we require AOPL policies to describe only agent actions (the set of agent actions and exogenous actions is disjoint).
+To address the first issue, we require AOPL policies to describe only agent actions (the sets of agent actions and exogenous actions are disjoint).
 We enforce this rule using a constraint.
 For the second issue, we adjust our policy compliance rules such that only future actions affect the compliance of the world.
 Since the focus of AIA is planning, past actions are always considered ``compliant'' although they might not have been at the time.
@@ -73,7 +73,7 @@ Suppose we have the following policy:
 Using the approach proposed by XXX, the corresponding ASP translation would be
 \begin{gather}
     permitted(a, I) \leftarrow \textbf{ not } \neg permitted(a, I). \\
-    obl(neg(a), I) \leftarrow F.
+    obl(neg(a), I) \leftarrow lp(cond).
 \end{gather}
 
 Given $cond$, at a given timestep we have $permitted(a)$ and $obl(\neg a)$.
@@ -192,9 +192,9 @@ For example:
 Fluent $c$ is equivalent to $(a \land b)$ and $d$ is equivalent to $(a \lor b)$.
 Using this mechanism, we introduce a defined policy fluent $policy\_compliant(F)$, where $F$ is a physical fluent
 The policy fluent $policy\_compliant(F)$ is true iff $F$ is true and $auth\_compliance(L)$ is true, for some minimum compliance threshold $L$.
-Thus, when $policy\_compliant(F)$ is an agent's goal, activities below $L$-compliance are deemed as futile and the agent works to achieves fluent $F$ subject $L$-compliance.
+Thus, when $policy\_compliant(F)$ is an agent's goal, activities below $L$-compliance are deemed as futile and the agent works to achieve fluent $F$ subject $L$-compliance.
 
-To allow for the case when no activities that achieve $F$ are $L$-compliant or for when an agent deliberately chooses act without $L$-compliance, we introduce policy actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$, where $a$ is a physical action.
+To allow for the case when no activities that achieve $F$ are $L$-compliant or for when an agent deliberately chooses to act without $L$-compliance, we introduce policy actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$, where $a$ is a physical action.
 By concurrently executing these actions with action $a$, our agent ignores the effect the event $<s, \{a\}>$ has on weak compliance or non-compliance, respectively.
 These allow our agent to decide when it will obey its policy or disregard it.
 
@@ -303,7 +303,7 @@ Room 2 is connected by door $d_{23}$ to Room 3 and so on.
 Door $d_{34}$ has a lock and is currently in the unlocked position.
 Suppose our agent, Alice, wants to greet another agent, Bob.
 
-This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_example_a_description}
+This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_example_a_description}.
 
 \begin{figure}[h]
     \centering
@@ -355,7 +355,7 @@ This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_exa
     \label{fig:apia_example_a_description}
 \end{figure}
 
-Before the $\mathcal{AIA}$ control loop begins, Alice observes that she is in Room 1, Bob is in room 4, the door d34 is unlocked, and that she has not yet greeted Bob.
+Before the $\mathcal{AIA}$ control loop begins, Alice observes that she is in Room 1, Bob is in room 4, the door $d_{34}$ is unlocked, and that she has not yet greeted Bob.
 
 At timestep 0, the first iteration of the $\mathcal{AIA}$ control loop begins.
 In this first step, Alice analyzes her observations and interprets unexpected observations by assuming undetected exogenous actions occurred.
