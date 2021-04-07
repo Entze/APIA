@@ -11,7 +11,7 @@ run_test() {
     # Machine info
     uname -s -r -m -o >&2
     lsb_release -a >&2
-    grep 'model name' /proc/cpuinfo | uniq | head -n 1 >&2
+    lscpu | grep 'Model name' | uniq | head -n 1 >&2
     grep 'MemTotal' /proc/meminfo | uniq | head -n 1 >&2
 
     TRIALS=100
