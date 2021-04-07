@@ -78,10 +78,10 @@ Since this control loop is also the basis for our $\mathcal{APIA}$ implementatio
 
 \section{$\mathcal{APIA}$}
 
-\subsection{$\mathcal{AIA}$}
+\subsection{$\mathcal{AIA}$ Logic Program}
 
-For our implementation of the $\mathcal{APIA}$ architecture, we re-implement the $\mathcal{AIA}$ architecture in ASP using only the description of the architecture presented by Blount and the CR-Prolog to ASP-Core-2 approach we propose in the previous section.
-While the majority of our ASP rules are almost identical to his as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
+For our implementation of the $\mathcal{APIA}$ architecture, we re­implement the $\mathcal{AIA}$ logic program in ASP using only the description of the architecture presented by Blount and our approach to CR­Prolog translation that we propose in the previous section.
+While the majority of our ASP rules are almost identical to Blount's implementation as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
 
 One such set of changes concerns rules about agent histories and the interpretation of unexpected exogenous actions.
 We introduce a cr-prefer statement so that, in the case of multiple possible explanations for an unexpected observation, the agent prefers explanations with recent occurrences of exogenous actions.
@@ -92,21 +92,38 @@ Since the latter typically requires a smaller change to the agent's knowledge ba
 This has an added benefit of making the $\mathcal{AIA}$ control loop deterministic.
 
 We also restructure the collection of ASP rules into ASP subprograms.
-This allows future work to easily investigate the applying incremental grounding to the $\mathcal{AIA}$ control loop.
+This allows future work to easily investigate applying incremental grounding to the $\mathcal{AIA}$ control loop.
 This change also simplifies the $\mathcal{AIA}$ intended action rules since the presence of the interpretation(x, n) predicate is no longer needed to differentiate step 1 and step 2 of the control loop.
 
-We also add grounding context methods.
+We also make minor modifications to $\mathcal{AIA}$ as a whole.
+First, we refactor the arrangement of ASP rules into multiple files according to their purpose in the $\mathcal{AIA}$ architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Gamma_n)$, or $IA(n)$)
+Second, we refactor the names of mental fluents in the Theory of Intentions so that their names are more descriptive and self-documenting.
+Thirdly, we extensively add inline comments to each ASP rule with reference quotations and page numbers from Blount.
+Lastly, we make minor modifications to rules in Π(Γn) so that they are valid according to the mathematical definitions proposed by Blount.
 
-For example, we update rules in $\Pi(\Gamma_n)$ so that are valid according to the mathematical definitions proposed by Blount.
-We also add cr-prefer rules such that, given an, the agent prefers recent explanations over more distant ones.
+\subsection{Python Component}
 
-For example, we also refactor the names of mental fluents in the Theory of Intentions and we add prefer statements
+We provide an implementation of the $\mathcal{AIA}$ control loop for the $\mathcal{APIA}$ architecture.
+The $\mathcal{AIA}$ control loop is implemented using Python 3.9.0 and clingo 5.4.1 using clingo's Python API.
+We provide two modes: an automatic mode and a manual mode.
+The automatic mode is intended to be used for normal execution while the manual mode is intended to aid in debugging unexpected output in answer sets.
 
-For example, we refactor the arrangement the ASP rules into multiple files according to their purpose in the $\mathcal{AIA}$ architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Gamma_n)$, or $IA(n)$).
+The automatic mode uses a command-line interface to specify the ASP files of the input domain, the observations of the agent, and the $\mathcal{APIA}$ mode the agent should use.
+The control loop then provides human-readable output as to what happens at each control loop step:
 
-Secondly, we extensively add inline comments to each ASP rule with reference quotation and page numbers from Blount.
+% TODO: Add Example_B snippet
 
-\subsection{Control Loop}
+In the case of unexpected output, the manual mode allows one to examine the answer set at each step of the control loop.
+It also provides scripts to highlight differences between answer sets of different timesteps in a visual manner and to step through the control loop like one would do in a traditional debugger.
 
-We provide an implementation of the $\mathcal{APIA}$ architecture.
-$\mathcal{APIA}$ is implemented in two components Python 3.9.0 with clingo 5.4.1.
+Manual mode also assists in catching particular programming mistakes by introducing invalid(P, R) predicates, where P is an invalid predicate and R is a human-readable explanation as to why.
+For example, it can detect some cases of typos in action descriptions by looking for a holds(F, I) predicate where F is not defined as a fluent.
+Similarly, with occurs(A, I).
+
+It also addresses certain violations of $\mathcal{AIA}$ and $\mathcal{AOPL}$ underlying assumptions.
+For example, it generates an invalid predicate when there exists an action that is neither a physical, mental, or policy action.
+Likewise when an action is neither an agent action nor an exogenous action.
+In addition, it generates an invalid predicate when an $\mathcal{AOPL}$ policy statement describes an action that is not registered as an action.
+
+These rules have been very useful in debugging the implementation of the $\mathcal{APIA}$ architecture and they will aid future end-users who encode and execute scenarios using this architecture.
+Since these rules are intended during debugging, they are not executed during the automatic mode.
