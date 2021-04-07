@@ -15,7 +15,8 @@ find . -type f -name '*.tex' \
     -exec perl -i -pe 's/\.\.\./\\dots/g' '{}' \; \
     -exec perl -i -pe 's/\\ldots/\\dots/g' '{}' \; \
     -exec perl -i -pe 's/–/--/g' '{}' \; \
-    -exec perl -i -pe 's/•\t/    \\item /g' '{}' \;
+    -exec perl -i -pe 's/•\t/    \\item /g' '{}' \; \
+    -exec perl -i -pe 's/(?<!\$\\mathcal{)(AIA|APL|AOPL|APIA)(?!}\$)/\$\\mathcal{\1}\$/g' '{}' \;
     # -exec perl -i -pe 's/(etc\.)\n/\1 /g' '{}' \; \
 
 clear
