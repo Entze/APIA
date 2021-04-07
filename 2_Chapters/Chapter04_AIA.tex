@@ -111,7 +111,12 @@ The automatic mode is intended to be used for normal execution while the manual 
 The automatic mode uses a command-line interface to specify the ASP files of the input domain, the observations of the agent, and the $\mathcal{APIA}$ mode the agent should use.
 The control loop then provides human-readable output as to what happens at each control loop step:
 
-% TODO: Add Example_B snippet
+\begin{figure}[h]
+    \centering
+    \lstinputlisting[basicstyle=\scriptsize]{Figures/APIA_Architecture/Examples/Authorization/Example_B/run_paranoid_subordinate.snippet.txt}
+    \caption{Execution of Example B in automatic mode using configuration $(paranoid, subordinate)$}
+    \label{fig:apia_example_b_execution_paraniod_subordinate}
+\end{figure}
 
 In the case of unexpected output, the manual mode allows one to examine the answer set at each step of the control loop.
 It also provides scripts to highlight differences between answer sets of different timesteps in a visual manner and to step through the control loop like one would do in a traditional debugger.
