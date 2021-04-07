@@ -9,8 +9,8 @@
 
 \subsection{CR-Prolog to ASP-Core-2}
 
-Since APIA takes AIA as a basis, we first update the dependencies of Blount's AIA implementation such that it requires a state-of-the-art solver.
-Specifically, we update his AIA implementation from CRModels2 (version 2.0.15) to clingo 5.4.1.
+Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dependencies of Blount's $\mathcal{AIA}$ implementation such that it requires a state-of-the-art solver.
+Specifically, we update his $\mathcal{AIA}$ implementation from CRModels2 (version 2.0.15) to clingo 5.4.1.
 This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while clingo uses a standardized version of ASP called ASP-Core-2.
 
 Consistency-restoring prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
@@ -64,23 +64,23 @@ In order to configure clingo to optimize, we pass the --opt-mode=optN commandlin
 
 \subsection{Control Loop}
 
-In addition to upgrading the AIA logic program, we also refactor the AIA control loop.
-In his dissertation, Blount introduced the AIA Agent Manager.
+In addition to upgrading the $\mathcal{AIA}$ logic program, we also refactor the $\mathcal{AIA}$ control loop.
+In his dissertation, Blount introduced the $\mathcal{AIA}$ Agent Manager.
 This is an interactive Java program that allows an end-user to assign values to agent observations in a graphical interface for each control loop iteration.
 Since this requires manual input, it does not easily lend itself to automation and reproducibility of execution, which are required for performance benchmarking.
 
-Furthermore, the AIA Agent Manager is structured around interacting with an underlying solver using subprocesses and process pipes.
-While the AIA Agent Manager could conceivably invoke clingo as a subprocess, clingo 5 provides a unique opportunity for more advanced integrations using its Python API.
+Furthermore, the $\mathcal{AIA}$ Agent Manager is structured around interacting with an underlying solver using subprocesses and process pipes.
+While the $\mathcal{AIA}$ Agent Manager could conceivably invoke clingo as a subprocess, clingo 5 provides a unique opportunity for more advanced integrations using its Python API.
 
-Because of these two points, we replace the AIA Agent Manager with a new implementation of the AIA control loop written in Python 3.9.0.
+Because of these two points, we replace the $\mathcal{AIA}$ Agent Manager with a new implementation of the $\mathcal{AIA}$ control loop written in Python 3.9.0.
 This new implementation uses a command-line interface and allows for reproducible execution through ASP input files.
-Since this control loop is also the basis for our APIA implementation, we will discuss it more in Section XX.
+Since this control loop is also the basis for our $\mathcal{APIA}$ implementation, we will discuss it more in Section XX.
 
 \section{$\mathcal{APIA}$}
 
-\subsection{AIA}
+\subsection{$\mathcal{AIA}$}
 
-For our implementation of the APIA architecture, we re-implement the AIA architecture in ASP using only the description of the architecture presented by Blount and the CR-Prolog to ASP-Core-2 approach we propose in the previous section.
+For our implementation of the $\mathcal{APIA}$ architecture, we re-implement the $\mathcal{AIA}$ architecture in ASP using only the description of the architecture presented by Blount and the CR-Prolog to ASP-Core-2 approach we propose in the previous section.
 While the majority of our ASP rules are almost identical to his as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
 
 One such set of changes concerns rules about agent histories and the interpretation of unexpected exogenous actions.
@@ -89,11 +89,11 @@ This is because the occurrence of an exogenous action changes what the agent bel
 For example, if an exogenous action is thought to have occurred at timestep 0, then its effect will be propagated to every subsequent timestep by inertia.
 On the other hand, a recent exogenous action leaves most of our agent's prior knowledge unchanged and primarily affects current and future values of fluents.
 Since the latter typically requires a smaller change to the agent's knowledge base, such an explanation is preferred.
-This has an added benefit of making the AIA control loop deterministic.
+This has an added benefit of making the $\mathcal{AIA}$ control loop deterministic.
 
 We also restructure the collection of ASP rules into ASP subprograms.
-This allows future work to easily investigate the applying incremental grounding to the AIA control loop.
-This change also simplifies the AIA intended action rules since the presence of the interpretation(x, n) predicate is no longer needed to differentiate step 1 and step 2 of the control loop.
+This allows future work to easily investigate the applying incremental grounding to the $\mathcal{AIA}$ control loop.
+This change also simplifies the $\mathcal{AIA}$ intended action rules since the presence of the interpretation(x, n) predicate is no longer needed to differentiate step 1 and step 2 of the control loop.
 
 We also add grounding context methods.
 
@@ -102,11 +102,11 @@ We also add cr-prefer rules such that, given an, the agent prefers recent explan
 
 For example, we also refactor the names of mental fluents in the Theory of Intentions and we add prefer statements
 
-For example, we refactor the arrangement the ASP rules into multiple files according to their purpose in the AIA architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Gamma_n)$, or $IA(n)$).
+For example, we refactor the arrangement the ASP rules into multiple files according to their purpose in the $\mathcal{AIA}$ architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Gamma_n)$, or $IA(n)$).
 
 Secondly, we extensively add inline comments to each ASP rule with reference quotation and page numbers from Blount.
 
 \subsection{Control Loop}
 
-We provide an implementation of the APIA architecture.
-APIA is implemented in two components Python 3.9.0 with clingo 5.4.1.
+We provide an implementation of the $\mathcal{APIA}$ architecture.
+$\mathcal{APIA}$ is implemented in two components Python 3.9.0 with clingo 5.4.1.

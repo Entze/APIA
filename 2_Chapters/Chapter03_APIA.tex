@@ -19,26 +19,26 @@ In this chapter, we present the $\mathcal{APIA}$ architecture.
 The Architecture for Policy-Aware Intentional Agents ($\mathcal{APIA}$) is an agent architecture heavily inspired by the $\mathcal{AIA}$ agent architecture that reasons over $\mathcal{AOPL}$ policies.
 Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires a transition system S=<> representing the environment in which the agent acts and it shares $\mathcal{AIA}$'s applicability conditions.
 
-\section{Re-envisioning AOPL policies in an agent-centered architecture}
+\section{Re-envisioning $\mathcal{AOPL}$ policies in an agent-centered architecture}
 
-XXX conceived AOPL as a means to evaluate the history of the world at the end of the day.
-This differs from AIA in the following ways:
+XXX conceived $\mathcal{AOPL}$ as a means to evaluate the history of the world at the end of the day.
+This differs from $\mathcal{AIA}$ in the following ways:
 
 \begin{itemize}
-    \item AOPL evaluates histories of actions from the perspective of the world whereas AIA distinguishes between agent actions and exogenous actions.
-    \item AOPL evaluates histories at ``the end of the day'' whereas the AIA architecture, while it does reason over past actions in diagnosis, places an emphasis on planning future actions to achieve a future state.
+    \item $\mathcal{AOPL}$ evaluates histories of actions from the perspective of the world whereas $\mathcal{AIA}$ distinguishes between agent actions and exogenous actions.
+    \item $\mathcal{AOPL}$ evaluates histories at ``the end of the day'' whereas the $\mathcal{AIA}$ architecture, while it does reason over past actions in diagnosis, places an emphasis on planning future actions to achieve a future state.
 \end{itemize}
 
-These differences prevent AOPL policies from interoperating with the AIA agent architecture out of the box.
-To address the first issue, we require AOPL policies to describe only agent actions (the sets of agent actions and exogenous actions are disjoint).
+These differences prevent $\mathcal{AOPL}$ policies from interoperating with the $\mathcal{AIA}$ agent architecture out of the box.
+To address the first issue, we require $\mathcal{AOPL}$ policies to describe only agent actions (the sets of agent actions and exogenous actions are disjoint).
 We enforce this rule using a constraint.
 For the second issue, we adjust our policy compliance rules such that only future actions affect the compliance of the world.
-Since the focus of AIA is planning, past actions are always considered ``compliant'' although they might not have been at the time.
+Since the focus of $\mathcal{AIA}$ is planning, past actions are always considered ``compliant'' although they might not have been at the time.
 For an agent that previously had no choice but a non-compliant action, this allows the agent to conceive of ``turning a new leaf'' and seeking policy-compliant actions in the future.
 Without this provision, it would be impossible for such an agent to achieve $policy\_compliant(F)$ and a single non-compliant action would be non-recoverable.
 
-Also, XXX's discussion AOPL does not include how authorization policy statements interact with obligation policy statements.
-For example, consider the following AOPL policy:
+Also, XXX's discussion $\mathcal{AOPL}$ does not include how authorization policy statements interact with obligation policy statements.
+For example, consider the following $\mathcal{AOPL}$ policy:
 \begin{gather}
     permitted(a) \\
     obl(\neg a)
