@@ -33,10 +33,10 @@ Given a cr-rule:
 \end{equation}
 We translate this into ASP-Core-2 by writing:
 \begin{gather}
-    apply_cr_rule(r) :- body. \\
-    head :- apply_cr_rule(r). \\
-    :~ apply_cr_rule(r).
-    [1@cr_1, apply_cr_rule(r)]
+    apply\_cr\_rule(r) :- body. \\
+    head :- apply\_cr\_rule(r). \\
+    :~ apply\_cr\_rule(r).
+    [1@cr_1, apply\_cr\_rule(r)]
 \end{gather}
 
 The last rule XX is a weak constraint.
@@ -50,9 +50,9 @@ Likewise for prefer predicates, we translate the following CR-Prolog
 \end{equation}
 Into the following ASP-Core-2 syntax
 \begin{gather}
-    cr_prefer(r_1, r_2) :- body. \\
-    :~ cr_prefer(r_1, r_2), apply_cr_rule(r_2), not apply_cr_rule(r_1).
-    [1@cr_2, apply_cr_rule(r_2), apply_cr_rule(r_1)]
+    cr\_prefer(r_1, r_2) :- body. \\
+    :\~ cr\_prefer(r_1, r_2), apply\_cr\_rule(r_2), not apply\_cr\_rule(r_1). \\
+    [1@cr_2, apply\_cr\_rule(r_2), apply\_cr\_rule(r_1)]
 \end{gather}
 
 This weak constraint informs the solver that applying cr-rule $r_2$ over cr-rule $r_1$ incurs a cost of 1 (since $r_1$ is preferred over $r_2$).
