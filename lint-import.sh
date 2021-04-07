@@ -1,30 +1,26 @@
 #!/usr/bin/env bash
 
-clear
-echo 'Next: Adding vertical space between sentences'
-read -r -p "Press [Enter] to view continue"
-codemod --extensions tex '\. +' '.\n'
-codemod --extensions tex '(i\.e\.)\n' '\1'
-codemod --extensions tex '(e\.g\.)\n' '\1'
-codemod --extensions tex '(etc\.)\n' '\1'
-codemod --extensions tex '(i\.e\.) +' '\1~'
-codemod --extensions tex '(e\.g\.) +' '\1~'
-
-clear
-echo 'Next: Converting smart quotes'
-read -r -p "Press [Enter] to view continue"
-codemod --extensions tex '“' '``'
-codemod --extensions tex '”' "''"
-codemod --extensions tex '‘' '`'
-codemod --extensions tex '’' "'"
-codemod --extensions tex '…' "..."
-codemod --extensions tex '\.\.\.' "\dots"
-codemod --extensions tex '\\ldots' "\dots"
+find . -type f -name '*.tex' \
+    -exec perl -i -pe 's/\. +/.\n/g' '{}' \; \
+    -exec perl -i -pe 's/(i\.e\.)\n/\1 /g' '{}' \; \
+    -exec perl -i -pe 's/(e\.g\.)\n/\1 /g' '{}' \; \
+    -exec perl -i -pe 's/(i\.e\.) +/\1~/g' '{}' \; \
+    -exec perl -i -pe 's/(e\.g\.) +/\1~/g' '{}' \; \
+    -exec perl -i -pe 's/(etc\.) +/\1~/g' '{}' \; \
+    -exec perl -i -pe 's/“/``/g' '{}' \; \
+    -exec perl -i -pe "s/”/''/g" '{}' \; \
+    -exec perl -i -pe 's/‘/`/g' '{}' \; \
+    -exec perl -i -pe "s/’/'/g" '{}' \; \
+    -exec perl -i -pe 's/…/.../g' '{}' \; \
+    -exec perl -i -pe 's/\.\.\./\\dots/g' '{}' \; \
+    -exec perl -i -pe 's/\\ldots/\\dots/g' '{}' \; \
+    -exec perl -i -pe 's/–/--/g' '{}' \; \
+    -exec perl -i -pe 's/•\t/    \\item /g' '{}' \;
+    # -exec perl -i -pe 's/(etc\.)\n/\1 /g' '{}' \; \
 
 clear
 echo 'Next: Converting Word lists'
 read -r -p "Press [Enter] to view continue"
-codemod --extensions tex '•\t' '    \\item '
 codemod --extensions tex '\t'
 
 clear
