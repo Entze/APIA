@@ -1,16 +1,112 @@
-\chapter{Update to $\mathcal{AIA}$}
+\chapter{Implementations}
 
 % Use this chapter to discuss the main content of your thesis contributions.
 %
 % You may have several of these chapters depending on your thesis - work with your advisor to determine chapter layouts.
 % Remove or add as necessary.
-%
-% \section{Sub-Topic 1}
-%
-% \subsection{Sub-Sub-Topic I}
-%
-% \subsection{Sub-Sub-Topic II}
-%
-% \section{Sub-Topic 2}
-%
-% \section{Sub-Topic 3}
+
+\section{Update to $\mathcal{AIA}$}
+
+\subsection{CR-Prolog to ASP-Core-2}
+
+Since APIA takes AIA as a basis, we first update the dependencies of Blount's AIA implementation such that it requires a state-of-the-art solver.
+Specifically, we update his AIA implementation from CRModels2 (version 2.0.15) to clingo 5.4.1.
+This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while clingo uses a standardized version of ASP called ASP-Core-2.
+
+Consistency-restoring prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
+A CR-rule
+\begin{equation}
+    r: head <+- body.
+\end{equation}
+Works like a normal ASP rule except that, given the body, the head is only generated when it is absolutely necessary (i.e. when the logic program would be unsatisfiable without it and there are no other non-cr-rule alternatives).
+Hence, the application of this rule \textit{restores} consistency to the logic program.
+
+CR-Prolog also assigns a special meaning to the $prefer(r_1, r_2)$ predicate.
+Given $prefer(r_1, r_2)$ the application of cr-rule $r_1$ will be preferred to the application of cr-rule $r_2$, though either might restore consistency.
+
+While the translation of CR-Prolog into ASP has been addressed before by Yang, 2018, their approach is long and complex.
+We introduce a much simpler approach that achieves the same effect.
+Given a cr-rule:
+
+\begin{equation}
+    r: head <+- body.
+\end{equation}
+We translate this into ASP-Core-2 by writing:
+\begin{gather}
+    apply_cr_rule(r) :- body. \\
+    head :- apply_cr_rule(r). \\
+    :~ apply_cr_rule(r).
+    [1@cr_1, apply_cr_rule(r)]
+\end{gather}
+
+The last rule XX is a weak constraint.
+It informs the ASP solver that applying cr-rule $r$ incurs a cost of 1.
+Should there exist another answer set where this rule is not applied, the use of the cr-rule makes the answer set suboptimal and an optimizing solver will not choose it.
+
+Likewise for prefer predicates, we translate the following CR-Prolog
+
+\begin{equation}
+    prefer(r_1, r_2) :- body.
+\end{equation}
+Into the following ASP-Core-2 syntax
+\begin{gather}
+    cr_prefer(r_1, r_2) :- body. \\
+    :~ cr_prefer(r_1, r_2), apply_cr_rule(r_2), not apply_cr_rule(r_1).
+    [1@cr_2, apply_cr_rule(r_2), apply_cr_rule(r_1)]
+\end{gather}
+
+This weak constraint informs the solver that applying cr-rule $r_2$ over cr-rule $r_1$ incurs a cost of 1 (since $r_1$ is preferred over $r_2$).
+Should another answer set exist where this preference is honored, then this answer set is suboptimal and an optimizing solver will not choose it.
+
+Since the semantics of prefer takes precedence over the semantics of cr-rules, our weak constraints have priorities $cr_2$ and $cr_1$ where $cr_2$ > $cr_1$.
+
+In order to configure clingo to optimize, we pass the --opt-mode=optN commandline parameter.
+
+\subsection{Control Loop}
+
+In addition to upgrading the AIA logic program, we also refactor the AIA control loop.
+In his dissertation, Blount introduced the AIA Agent Manager.
+This is an interactive Java program that allows an end-user to assign values to agent observations in a graphical interface for each control loop iteration.
+Since this requires manual input, it does not easily lend itself to automation and reproducibility of execution, which are required for performance benchmarking.
+
+Furthermore, the AIA Agent Manager is structured around interacting with an underlying solver using subprocesses and process pipes.
+While the AIA Agent Manager could conceivably invoke clingo as a subprocess, clingo 5 provides a unique opportunity for more advanced integrations using its Python API.
+
+Because of these two points, we replace the AIA Agent Manager with a new implementation of the AIA control loop written in Python 3.9.0.
+This new implementation uses a command-line interface and allows for reproducible execution through ASP input files.
+Since this control loop is also the basis for our APIA implementation, we will discuss it more in Section XX.
+
+\section{$\mathcal{APIA}$}
+
+\subsection{AIA}
+
+For our implementation of the APIA architecture, we re-implement the AIA architecture in ASP using only the description of the architecture presented by Blount and the CR-Prolog to ASP-Core-2 approach we propose in the previous section.
+While the majority of our ASP rules are almost identical to his as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
+
+One such set of changes concerns rules about agent histories and the interpretation of unexpected exogenous actions.
+We introduce a cr-prefer statement so that, in the case of multiple possible explanations for an unexpected observation, the agent prefers explanations with recent occurrences of exogenous actions.
+This is because the occurrence of an exogenous action changes what the agent believes to be true at each timestep.
+For example, if an exogenous action is thought to have occurred at timestep 0, then its effect will be propagated to every subsequent timestep by inertia.
+On the other hand, a recent exogenous action leaves most of our agent's prior knowledge unchanged and primarily affects current and future values of fluents.
+Since the latter typically requires a smaller change to the agent's knowledge base, such an explanation is preferred.
+This has an added benefit of making the AIA control loop deterministic.
+
+We also restructure the collection of ASP rules into ASP subprograms.
+This allows future work to easily investigate the applying incremental grounding to the AIA control loop.
+This change also simplifies the AIA intended action rules since the presence of the interpretation(x, n) predicate is no longer needed to differentiate step 1 and step 2 of the control loop.
+
+We also add grounding context methods.
+
+For example, we update rules in $\Pi(\Tau_N)$ so that are valid according to the mathematical definitions proposed by Blount.
+We also add cr-prefer rules such that, given an, the agent prefers recent explanations over more distant ones.
+
+For example, we also refactor the names of mental fluents in the Theory of Intentions and we add prefer statements
+
+For example, we refactor the arrangement the ASP rules into multiple files according to their purpose in the AIA architecture (e.g. whether they are part of $\Pi(D)$, $\Pi(\Tau_N)$, or $IA(n)$).
+
+Secondly, we extensively add inline comments to each ASP rule with reference quotation and page numbers from Blount.
+
+\subsection{Control Loop}
+
+We provide an implementation of the APIA architecture.
+APIA is implemented in two components Python 3.9.0 with clingo 5.4.1.

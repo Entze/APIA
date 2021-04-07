@@ -235,6 +235,10 @@ Since, weakly compliant actions do require a concurrent $ignore\_not\_permitted(
 Hence, activity 2 will be preferred to activity 1, even though they both fall in the weakly compliant category.
 XX do not consider such a feature.
 
+In the case use of a policy action is required, we also optimize to postpone its use to a later timestep.
+This comes from the hope that unexpected exogenous events could change future policy compliance such that actions have a higher level of compliance than what they have currently.
+In handling such a case, our optimization resembles a notion of least commitment planning regarding lower-compliance actions.
+
 Our discussion thus far has focused on authorization policies induced by an $\mathcal{AOPL}$ policy.
 To address obligation policies, we introduce policy fluents $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ with policy actions $ignore\_obl(a)$ and $ignore\_obl(neg(a))$, where $a$ is another action.
 (For configurability, we consider obligation policies to do actions and to refrain from actions separately).
