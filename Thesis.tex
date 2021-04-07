@@ -58,6 +58,7 @@
 \usepackage{xcolor}
 
 \usepackage{listings}
+\usepackage{minted}
 
 % \usepackage{rotating}
 \usepackage{pdflscape}
@@ -122,6 +123,14 @@
     stringstyle=\color{magenta},       % string literal style
     tabsize=2,                       % sets default tabsize to 2 spaces
     title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+% See https://mirrors.rit.edu/CTAN/macros/latex/contrib/minted/minted.pdf
+\setminted{
+    linenos=true,
+    samepage=true
+}
+\setminted[python]{
+    python3=true
 }
 
 \onehalfspacing
