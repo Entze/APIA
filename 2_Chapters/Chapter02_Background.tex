@@ -808,7 +808,7 @@ Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its under
 $\mathcal{AOPL}$ adds an $obl(a)$ statement to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
-Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
+Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e.~it is free to choose to execute $a$ or to not execute $a$).
 Likewise, for $\neg obl(\neg a)$.
 
 \begin{definition}
@@ -949,7 +949,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
         \item Object constants
         \item $f(t_1, t_2, \dots, t_n)$, if $t_1, t_2, \dots, t_n$ are terms and $f$ is a function symbol with arity $n$
     \end{itemize}
-    For simplicity, we use infix notation for arithmetic expressions (e.g. $1+2$ instead of $+(1, 2)$).
+    For simplicity, we use infix notation for arithmetic expressions (e.g.~$1+2$ instead of $+(1, 2)$).
 \end{definition}
 
 % \begin{definition}
@@ -985,7 +985,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
     An \textit{answer set} or \textit{model} of a program $\Pi$ is a collection of the consequences of $\Pi$ under ASP semantics~\citep{balduccini_asp_2011}.
     More formally,
 
-    \textbf{Case 1:} Program $\Pi$ consists only of rules without default negation~\citep{blount_architecture_2013}, e.g. those of the form:
+    \textbf{Case 1:} Program $\Pi$ consists only of rules without default negation~\citep{blount_architecture_2013}, e.g.~those of the form:
     \begin{equation}
         h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m
     \end{equation}
@@ -993,7 +993,7 @@ For a more thorough definition, we direct the reader to \citet{calimeri_asp-core
     An answer set of $\Pi$ is a consistent set S of ground literals such that~\citep{blount_architecture_2013}:
     \begin{itemize}
         \item ``$S$ satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
-        \item ``$S$ is minimal, i.e. there is no proper subset of $S$ which satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
+        \item ``$S$ is minimal, i.e.~there is no proper subset of $S$ which satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
     \end{itemize}
 
     \textbf{Case 2:} $\Pi$ is an arbitrary program.
@@ -1020,7 +1020,7 @@ For example, the following program:
     p. \\
     \leftarrow p. \label{eq:asp_constraint_example}
 \end{gather}
-is inconsistent since the literals of constraint \ref{eq:asp_constraint_example} are satisfied (i.e. $p$ is true).
+is inconsistent since the literals of constraint \ref{eq:asp_constraint_example} are satisfied (i.e.~$p$ is true).
 
 In order to simplify the expression of alternatives for which multiple answer sets can be created, ASP also supports choice rules~\citep{calimeri_asp-core-2_2020,balduccini_asp_2011}.
 
@@ -1072,7 +1072,7 @@ A developer can only define domain for variable values, by inserting or removing
 \section{Related Work}
 
 A survey of the literature shows that there have been many other attempts to enable agents to reason over various kinds of policies.
-Most involve reasoning over access control policies (e.g. \citet{ferraiolo_role-based_1995,alves_graph-based_2017,barker_logical_2012,sabri_temporal_2016}) and a few utilize ASP as a reasoning tool (e.g. \citet{barker_reasoning_2014,barker_logical_2012}).
+Most involve reasoning over access control policies (e.g.~\citet{ferraiolo_role-based_1995,alves_graph-based_2017,barker_logical_2012,sabri_temporal_2016}) and a few utilize ASP as a reasoning tool (e.g.~\citet{barker_reasoning_2014,barker_logical_2012}).
 Access control policies are more restrictive than the kinds of policies an agent using $\mathcal{AOPL}$ can reason over.
 Hence, the work by \citet{liao_extended_2006} is the most relevant for discussion in this thesis.
 

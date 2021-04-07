@@ -18,7 +18,7 @@ A CR-rule
 \begin{equation}
     r: head <+- body.
 \end{equation}
-Works like a normal ASP rule except that, given the body, the head is only generated when it is absolutely necessary (i.e. when the logic program would be unsatisfiable without it and there are no other non-cr-rule alternatives).
+Works like a normal ASP rule except that, given the body, the head is only generated when it is absolutely necessary (i.e.~when the logic program would be unsatisfiable without it and there are no other non-cr-rule alternatives).
 Hence, the application of this rule \textit{restores} consistency to the logic program.
 
 CR-Prolog also assigns a special meaning to the $prefer(r_1, r_2)$ predicate.
@@ -102,7 +102,7 @@ We also add cr-prefer rules such that, given an, the agent prefers recent explan
 
 For example, we also refactor the names of mental fluents in the Theory of Intentions and we add prefer statements
 
-For example, we refactor the arrangement the ASP rules into multiple files according to their purpose in the AIA architecture (e.g. whether they are part of $\Pi(D)$, $\Pi(\Tau_N)$, or $IA(n)$).
+For example, we refactor the arrangement the ASP rules into multiple files according to their purpose in the AIA architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Tau_N)$, or $IA(n)$).
 
 Secondly, we extensively add inline comments to each ASP rule with reference quotation and page numbers from Blount.
 

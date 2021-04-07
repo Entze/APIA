@@ -214,7 +214,7 @@ Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a)
 
 \subsection{Checking Compliance with Partial Knowledge of State}
 
-It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
+It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e.~the value of all fluents in $s$).
 \citet{gelfond_authorization_2008} show that checking policy compliance is also possible when an agent only knows the value of a subset of fluents in $s$.
 Let $\boldsymbol{F_{lim}} \subseteq \boldsymbol{F}$ be the subset of fluents for which the agent knows $V(f, s)$ where $f \in \boldsymbol{F_{lim}}$.
 Let $V_{lim} = \{V(f, s) | f \in \boldsymbol{F_{lim}}\}$.
@@ -274,7 +274,8 @@ Let $D = \{lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n) | f
     \end{itemize}
 \end{definition}
 
-Continuing the running example, suppose an agent did not know that $c_1$ is a colonel. Then:
+Continuing the running example, suppose an agent did not know that $c_1$ is a colonel.
+Then:
 \begin{gather}
     \boldsymbol{F_{lim}} = \{ authorized(c_1, m1), commands(c_1, m_1), observer(c_1) \} \\
     V_{lim} = \{ V(authorized(c_1, m1), s) = t, V(commands(c_1, m_1), s) = t, V(observer(c_1), s) = t \}
@@ -432,7 +433,8 @@ The logic encoding $lp(H_1)$ would be as follows\footnotemark:
 \footnotetext{
     It is worth noting that the syntax \citet{gelfond_authorization_2008} provide for $lp(H_1)$ is very similar to that introduced in \citet{blount_towards_2014}.
     Whereas \citet{blount_towards_2014} would write $obs(FluentName, FluentValue, TimeStep)$ and $hpd(ActionName, TimeStep)$,\citet{gelfond_authorization_2008} write $val(FluentName, FluentValue, TimeStep)$ and $occurs(ActionName, TimeStep)$, respectively.
-    % TODO: Review distinction between obs and holds, hpd and occurs. See section 10.5 of "Knowledge Representation, Reasoning, and the Design of Intelligent Agents: The Answer-Set Programming Approach" by Gelfond and Kahl, 2014
+    % TODO: Review distinction between obs and holds, hpd and occurs.
+    %   See section 10.5 of "Knowledge Representation, Reasoning, and the Design of Intelligent Agents: The Answer-Set Programming Approach" by Gelfond and Kahl, 2014
 }
 
 \lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Hn.lp}
