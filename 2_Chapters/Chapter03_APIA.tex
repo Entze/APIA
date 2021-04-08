@@ -54,15 +54,43 @@ Appealing to common sense, if an agent is obligated to refrain from an action, o
 Likewise, it makes sense to say that if an agent is obligated to do an action, then it must be permitted.
 Thus, we take these intuitions and create the following non-contradiction axioms:
 \begin{gather}
-    \dots \\
-    \dots
+    \begin{split}
+        \leftarrow \
+            & action(A), \\
+            & obl(A, I), \\
+            & \neg permitted(A, I).
+    \end{split} \\
+    \begin{split}
+        \leftarrow \
+            & action(A), \\
+            & obl(neg(A), I), \\
+            & permitted(A, I).
+    \end{split}
 \end{gather}
 These enforce that, at the very least, the authorization and obligation policies do not contradict each other.
 See \cref{table:apia_non_contradiction}.
 Note, to allow for defeasible policy statements to work correctly, we do not write:
 \begin{gather}
-    \dots \\
-    \dots
+    \begin{split}
+        permitted(A, I) \leftarrow \
+            & action(A), \\
+            & obl(A, I).
+    \end{split} \\
+    \begin{split}
+        \neg permitted(A, I) \leftarrow \
+            & action(A), \\
+            & obl(neg(A), I).
+    \end{split} \\
+    \begin{split}
+        \neg obl(A, I) \leftarrow \
+            & action(A), \\
+            & \neg permitted(A, I).
+    \end{split} \\
+    \begin{split}
+        \neg obl(neg(A), I) \leftarrow \
+            & action(A), \\
+            & permitted(A, I).
+    \end{split}
 \end{gather}
 
 \begin{table}[h]
