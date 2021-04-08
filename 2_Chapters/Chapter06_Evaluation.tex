@@ -32,15 +32,15 @@
 
 Since our work on policy fluents and actions operate behind the scenes during the execution of an $\mathcal{APIA}$ agent, the conciseness and expressivity of user-defined encodings for this architecture are determined by the conciseness and expressivity of its underlying user-facing components: Action Language $\mathcal{AL}$ and Language $\mathcal{AOPL}$.
 
-Action Language $\mathcal{AL}$ is very concise method to represent complex transition systems.
+Action Language $\mathcal{AL}$ is a very concise method to represent complex transition systems.
 To contrast, manually specifying a transition system would require enumerating all possible states and denoting which actions transition the world from each state to another state.
 For example, our simplest example (Example A) has $309$ fluents and $71$ actions.
 Though only $13$ are physical fluents and $20$ are physical actions, the user would have to enumerate $2^{13}$ states and then repeat them $2^{(309-13)}$ times for each possible mental and policy fluent value, leading to a grand total of $2^{309}$ states with $|\mathcal{P}(71)|=2^{71}$ compound actions to connect to each state.
 
-In contrast, Example A utilizes $55$ rules $\mathcal{AL}$ rules, only $9$ of which are user-defined (there are $37$ rules in the Theory of Intentions and $9$ in our policy compliance component).
+In contrast, Example A utilizes $55$$\mathcal{AL}$ rules, only $9$ of which are user-defined (there are $37$ rules in the Theory of Intentions and $9$ in our policy compliance component).
 
 A similar problem exists for $\mathcal{AOPL}$ policies.
-Recall that an action can be permitted, not permitted, or not mentioned in an authorization policy and as well as obligated to perform, obligated not to perform, or not mentioned in an obligation policy.
+Recall that an action can be permitted, not permitted, or not mentioned in an authorization policy as well as obligated to perform, obligated not to perform, or not mentioned in an obligation policy.
 Given the non-contradiction axioms, there are $7$ valid combinations of $\mathcal{AOPL}$ policy statements (see \cref{table:apia_non_contradiction}).
 Since $\mathcal{AOPL}$ compliance depends on the value of fluents within a state, each of the $2^{309}$ states must be annotated with the $\mathcal{AOPL}$ compliance value of all $71$ elementary actions.
 
@@ -50,8 +50,7 @@ In contrast, Example A utilizes $4$ $\mathcal{AOPL}$ policy statements.
 
 Action language $\mathcal{AL}$ is also very expressive.
 With the addition of a few words, an entire $\mathcal{AL}$ rule can be spoken in English.
-For example, a dynamic causal law
-
+For example, a dynamic causal law:
 \begin{equation}
 \begin{split}
     & move\_through(A, D) \textbf{ causes } in\_room(A, R_{2}) \textbf{ if} \\
@@ -70,7 +69,6 @@ Then, using the template:
 So, this rule can be read as ``When actor A performs move\_through D, it causes A to be in\_room R if A is in\_room $R_{1}$ and D connects $R_{2}$ and $R_{2}$ is not $R_{1}$.''
 
 Likewise for static laws such as:
-
 \begin{equation}
 \begin{split}
     \neg in\_room(A, R_{2}) \textbf{ if } \
@@ -78,8 +76,7 @@ Likewise for static laws such as:
         & R_{2} \neq R_{1}
 \end{split}
 \end{equation}
-
-We can use the following template:
+we can use the following template:
 
 ``If <first argument of condition> is <condition name> < remaining arguments of condition>, then <first argument of fluent> is not <fluent name> <remaining arguments of fluent>''.
 
@@ -90,13 +87,11 @@ So, this static law would be read:
 Executability conditions have a similar reading.
 
 In the case of $\mathcal{AOPL}$ policy statements:
-
 \begin{equation}
     permitted(greet(A, P)) \textbf{ if }
         \neg busy\_working(P)
 \end{equation}
-
-Is read ``The agent A is permitted to greet P if P is not busy working''
+is read ``The agent A is permitted to greet P if P is not busy working''
 
 Defeasible statements are prefixed with ``normally''.
 
@@ -117,7 +112,7 @@ Since both $\mathcal{AL}$ and $\mathcal{AOPL}$ statements have straightforward t
 
 \section{Difficulty of Construction}
 
-The difficulty of constructing the $\mathcal{APIA}$ architecture can be evaluated in three different areas: our reconstruction of the $\mathcal{AIA}$ architecture, our implementation $\mathcal{AOPL}$ compliance, and our integration of $\mathcal{AOPL}$ into the $\mathcal{AIA}$ architecture.
+The difficulty of constructing the $\mathcal{APIA}$ architecture can be evaluated in three different areas: our reconstruction of the $\mathcal{AIA}$ architecture, our implementation of $\mathcal{AOPL}$ compliance, and our integration of $\mathcal{AOPL}$ into the $\mathcal{AIA}$ architecture.
 
 The implementation of $\mathcal{AOPL}$ compliance was very trivial but correctly constructing the logic program of the $\mathcal{AIA}$ architecture was very difficult.
 Although copying the $\mathcal{AIA}$ ASP rules was straightforward, identifying transcription errors and typos (both on our end and in Blount's dissertation) was very time consuming.
