@@ -124,7 +124,7 @@ The control loop then provides human-readable output as to what happens at each 
 \end{figure}
 
 In the case of unexpected output, the manual mode allows one to examine the answer set at each step of the control loop.
-It also provides scripts to highlight differences between answer sets of different timesteps in a visual manner and to step through the control loop like one would do in a traditional debugger.
+It also provides scripts to highlight differences between answer sets of different timesteps in a visual manner (see \cref{fig:apia_diff_test}) and to step through the control loop like one would do in a traditional debugger.
 
 Manual mode also assists in catching particular programming mistakes by introducing invalid(P, R) predicates, where P is an invalid predicate and R is a human-readable explanation as to why.
 For example, it can detect some cases of typos in action descriptions by looking for a holds(F, I) predicate where F is not defined as a fluent.
