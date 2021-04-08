@@ -32,7 +32,7 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 3.
+#const ir = 4.
 
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
@@ -46,7 +46,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = greeted_by(Person, Actor),
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
 
@@ -89,7 +89,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
-    ActivityGoal = greeted_by(Person, Actor),
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
 
@@ -128,6 +128,35 @@ activity_component(Activity, ComponentIndex, Component) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 5,
+    Component = greet(Actor, Person),
+    Actor = "Alice",
+    Person = "Bob".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 3.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 3,
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
+    Person = "Bob",
+    Actor = "Alice".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 3,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 1,
+    Component = knock_on_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 2,
     Component = greet(Actor, Person),
     Actor = "Alice",
     Person = "Bob".
