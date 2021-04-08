@@ -132,7 +132,8 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
     holds(in_room(Actor, FromRoom), timestep).
 
 % -in_room(Actor, FromRoom) if
-%   in_room(Actor, ToRoom)
+%   in_room(Actor, ToRoom),
+%   FromRoom != ToRoom
 -holds(in_room(Actor, FromRoom), timestep) :-
     room(FromRoom),
     holds(in_room(Actor, ToRoom), timestep),
