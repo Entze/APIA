@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode paranoid --obligation-mode permit_commissions
+./run.sh run_paranoid_permit_commissions_observations.lp --authorization-mode paranoid --obligation-mode permit_commissions

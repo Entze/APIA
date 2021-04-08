@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode subordinate --obligation-mode best_effort
+./run.sh run_subordinate_best_effort_observations.lp --authorization-mode subordinate --obligation-mode best_effort

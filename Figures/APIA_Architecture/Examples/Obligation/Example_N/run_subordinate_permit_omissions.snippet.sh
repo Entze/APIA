@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode subordinate --obligation-mode permit_omissions
+./run.sh run_subordinate_permit_omissions_observations.lp --authorization-mode subordinate --obligation-mode permit_omissions

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode paranoid --obligation-mode subordinate
+./run.sh run_paranoid_subordinate_observations.lp --authorization-mode paranoid --obligation-mode subordinate

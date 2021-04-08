@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode cautious --obligation-mode subordinate
+./run.sh run_cautious_subordinate_observations.lp --authorization-mode cautious --obligation-mode subordinate

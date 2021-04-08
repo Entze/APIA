@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode cautious --obligation-mode utilitarian
+./run.sh run_cautious_utilitarian_observations.lp --authorization-mode cautious --obligation-mode utilitarian

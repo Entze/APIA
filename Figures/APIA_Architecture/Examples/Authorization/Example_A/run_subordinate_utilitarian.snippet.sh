@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode subordinate --obligation-mode utilitarian
+./run.sh run_subordinate_utilitarian_observations.lp --authorization-mode subordinate --obligation-mode utilitarian

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode cautious --obligation-mode best_effort
+./run.sh run_cautious_best_effort_observations.lp --authorization-mode cautious --obligation-mode best_effort

@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./run.sh --authorization-mode best_effort --obligation-mode best_effort
+./run.sh run_best_effort_best_effort_observations.lp --authorization-mode best_effort --obligation-mode best_effort
