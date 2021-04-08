@@ -26,4 +26,4 @@ FILES=(
     ../Objects/instance.lp
 )
 
-../../../Implementation/apia_control_loop.py --max-timestep "${MAX_TIMESTEP}" "${FILES[@]}" "$@"
+"${SCRIPT_DIR}/../../../Implementation/apia_control_loop.py" --max-timestep "${MAX_TIMESTEP}" "${FILES[@]}" "$@"
