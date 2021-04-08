@@ -14,7 +14,7 @@
 
 % door_locked(Door)
 physical_fluent(inertial, door_locked(Door)) :-
-    door(Door).
+    door_has_lock(Door).
 
 % in_room(Person, Room)
 physical_fluent(inertial, in_room(Person, Room)) :-
@@ -53,7 +53,7 @@ exogenous_action(move_through(Actor, Door)) :-
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 agent_action(lock_door(Actor, Door)) :-
     physical_action(lock_door(Actor, Door)),
@@ -66,7 +66,7 @@ exogenous_action(lock_door(Actor, Door)) :-
 % unlock_door(Actor, Door)
 physical_action(unlock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 agent_action(unlock_door(Actor, Door)) :-
     physical_action(unlock_door(Actor, Door)),
@@ -132,7 +132,8 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
     holds(in_room(Actor, FromRoom), timestep).
 
 % -in_room(Actor, FromRoom) if
-%   in_room(Actor, ToRoom)
+%   in_room(Actor, ToRoom),
+%   FromRoom != ToRoom
 -holds(in_room(Actor, FromRoom), timestep) :-
     room(FromRoom),
     holds(in_room(Actor, ToRoom), timestep),
@@ -240,11 +241,11 @@ permitted(begin_working(Actor), timestep) :-
 % "Anyone is allowed to greet a coworker if the coworker is not busy working"
 %
 % permitted(greet(Actor, Person)) if
-%   not busy_working(Person)
+%   busy_working(Person)
 permitted(greet(Actor, Person), timestep) :-
     agent(Actor),
     person(Person),
-    not holds(busy_working(Person), timestep),
+    -holds(busy_working(Person), timestep),
     Actor != Person.
 
 % "Normally, anyone is allowed to greet a coworker if the coworker is busy working but he/she has knocked on the door (to the room they are in)"

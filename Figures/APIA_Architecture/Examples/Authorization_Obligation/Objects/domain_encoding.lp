@@ -491,7 +491,7 @@ obl(pick_up_object(Actor, Object), timestep) :-
 %
 % lights_1(Actor, Object): normally obl(turn_off_object(Actor, Object)) if
 %   occurs(move(Actor, ToLocation), timestep),
-%   holds(person_location(Actor, FromLocation), timestep),
+%   person_location(Actor, FromLocation),
 %   location_room(ToLocation, NewRoom),
 %   location_room(FromLocation, OldRoom),
 %   NewRoom != OldRoom,
@@ -514,7 +514,7 @@ obl(turn_off_object(Actor, Object), timestep) :-
 %
 % lights_2(Actor, Object): normally obl(-turn_off_object(Actor, Object)) if
 %   occurs(move(Actor, ToLocation), timestep),
-%   holds(person_location(Actor, FromLocation), timestep),
+%   person_location(Actor, FromLocation),
 %   location_room(ToLocation, NewRoom),
 %   location_room(FromLocation, OldRoom),
 %   NewRoom != OldRoom,
@@ -552,7 +552,7 @@ abnormal(lights_1(Actor, Object), timestep) :-
 %
 % normally obl(-turn_off_object(Actor, Object)) if
 %   occurs(move(Actor, ToLocation), timestep),
-%   holds(person_location(Actor, FromLocation), timestep),
+%   person_location(Actor, FromLocation),
 %   location_room(ToLocation, NewRoom),
 %   location_room(FromLocation, OldRoom),
 %   NewRoom != OldRoom,
@@ -576,7 +576,7 @@ obl(neg(turn_off_object(Actor, Object)), timestep) :-
 % "Never turn off the lights when someone else is in the room"
 %
 % obl(-turn_off_lights(Actor, Object)) if
-%   holds(person_location(Person, Location), timestep),
+%   person_location(Person, Location),
 %   Person != Actor,
 %   object(Object),
 %   Object = light,
@@ -586,3 +586,131 @@ obl(neg(turn_off_lights(Actor, Object)), timestep) :-
     Person != Actor,
     object(Object),
     Object = light.
+
+% "Normally, no one is allowed to sit down in someone's cubicle"
+%
+% sit_down_cubical_1(Actor, Object): -permitted(sit_on_object(Actor, Object)) if
+%   object_attribute(Object, sittable)
+%   person_location(Actor, Location)
+%   cubical(Location)
+%   personal_space(Location, Person)
+%   Person != Actor
+-permitted(sit_on_object(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    cubical(Location),
+    personal_space(Location, Person),
+    Person != Actor,
+    not abnormal(sit_down_cubical_1(Actor, Object), timestep),
+    not permitted(sit_on_object(Actor, Object), timestep).
+
+% "Normally, one is allowed to sit down in someone's cubicle if the owner of the cubicle is there"
+%
+% sit_down_cubical_2(Actor, Object) : permitted(sit_on_object(Actor, Object)) if
+%   object_attribute(Object, sittable)
+%   person_location(Actor, Location)
+%   cubical(Location)
+%   personal_space(Location, Person)
+%   Person != Actor
+%   person_location(Person, Location)
+permitted(sit_on_object(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    cubical(Location),
+    personal_space(Location, Person),
+    Person != Actor,
+    holds(person_location(Person, Location), timestep),
+    not abnormal(sit_down_cubical_2(Actor, Object), timestep),
+    not permitted(sit_on_object(Actor, Object), timestep).
+
+% prefer(sit_down_cubical_2, sit_down_cubical_1)
+abnormal(sit_down_cubical_1(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    cubical(Location),
+    personal_space(Location, Person),
+    Person != Actor,
+    holds(person_location(Person, Location), timestep).
+
+% "You are allowed to sit down in your own cubicle"
+%
+% permitted(sit_on_object(Actor, Object)) if
+%   object_attribute(Object, sittable)
+%   person_location(Actor, Location)
+%   cubical(Location)
+%   personal_space(Location, Person)
+%   Person = Actor
+permitted(sit_on_object(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    cubical(Location),
+    personal_space(Location, Person),
+    Person = Actor.
+
+% "Normally, no one is allowed to sit down in someone's private office"
+%
+% sit_down_private_office_1(Actor, Object): -permitted(sit_on_object(Actor, Object)) if
+%   object_attribute(Object, sittable)
+%   person_location(Actor, Location)
+%   private_office(Location)
+%   personal_space(Location, Person)
+%   Person != Actor
+-permitted(sit_on_object(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    private_office(Location),
+    personal_space(Location, Person),
+    Person != Actor,
+    not abnormal(sit_down_private_office_1(Actor, Object), timestep),
+    not permitted(sit_on_object(Actor, Object), timestep).
+
+% "Normally, one is allowed to sit down in someone's private office if the owner of the office is there"
+%
+% sit_down_private_office_2(Actor, Object) : permitted(sit_on_object(Actor, Object)) if
+%   object_attribute(Object, sittable)
+%   person_location(Actor, Location)
+%   private_office(Location)
+%   personal_space(Location, Person)
+%   Person != Actor
+%   person_location(Person, Location)
+permitted(sit_on_object(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    private_office(Location),
+    personal_space(Location, Person),
+    Person != Actor,
+    holds(person_location(Person, Location), timestep),
+    not abnormal(sit_down_private_office_2(Actor, Object), timestep),
+    not permitted(sit_on_object(Actor, Object), timestep).
+
+% prefer(sit_down_private_office_2, sit_down_private_office_1)
+abnormal(sit_down_private_office_1(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    private_office(Location),
+    personal_space(Location, Person),
+    Person != Actor,
+    holds(person_location(Person, Location), timestep).
+
+% "You are allowed to sit down in your own private office"
+%
+% permitted(sit_on_object(Actor, Object)) if
+%   object_attribute(Object, sittable)
+%   person_location(Actor, Location)
+%   private_office(Location)
+%   personal_space(Location, Person)
+%   Person = Actor
+permitted(sit_on_object(Actor, Object), timestep) :-
+    agent(Actor),
+    object_attribute(Object, sittable),
+    holds(person_location(Actor, Location), timestep),
+    private_office(Location),
+    personal_space(Location, Person),
+    Person = Actor.

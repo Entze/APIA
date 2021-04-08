@@ -22,7 +22,7 @@ build: Thesis.pdf
 
 build-figures: build-graphviz build-plantuml build-svg build-drawio build-mermaid build-code-snippet
 
-build-graphviz: $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%-$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES)))
+build-graphviz: $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(patsubst %.dot,%.$(GRAPHVIZ_FILTER).pdf,$(GRAPHVIZ_FIGURES)))
 
 build-plantuml: $(patsubst %.plantuml,%.pdf,$(PLANTUML_FIGURES))
 
@@ -42,7 +42,7 @@ build-code-snippet: $(patsubst %.snippet.sh,%.snippet.txt,$(CODE_SNIPPET_FIGURES
 	timedatectl | grep 'Time zone' | sed -E 's/ *Time zone: (.*) \(.*\)/\1/' >> $@
 
 %.pdf: %.tex $(LATEX_SOURCES) $(LATEX_RESOURCES) $(REMOTE_RESOURCES)
-	latexmk -pdf $<
+	latexmk -pdfxe $<
 
 %.dot.pdf %.dot.svg %.dot.png: %.dot
 	dot -T$(shell echo '$@' | perl -ne 'if (/.*\.([^.]+?)$$/) { print $$1 . "\n" }') -o $@ $^
@@ -87,6 +87,12 @@ ifeq ($(INKSCAPE_VERSION), 0)
 	inkscape --without-gui --export-pdf=$@ $<
 endif
 
+%.pdf: %.figure.R
+	./$<
+
+%.pdf: %.figure.py
+	./$<
+
 %.snippet.out.txt: %.snippet.sh
 	-mkdir -p $(@D)
 	cd $(@D) && (./$(notdir $<) > $(notdir $@)); test $$? -le 32
@@ -100,16 +106,23 @@ endif
 clean-latex:
 	latexmk -C
 
-clean-other:
+clean-code-snippet:
 	find Figures/ -name '*.snippet.txt' -exec rm '{}' \;
 	find Figures/ -name '*.snippet.out.txt' -exec rm '{}' \;
-	$(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,$(shell find Figures/ -name '*.$(GRAPHVIZ_FILTER).$(EXT)' -exec rm '{}' \;)))
+
+clean-graphviz:
+	find Figures/ '(' -false $(foreach GRAPHVIZ_FILTER,$(GRAPHVIZ_FILTERS),$(foreach EXT,pdf svg png,-or -name '*.$(GRAPHVIZ_FILTER).$(EXT)')) ')' -exec rm '{}' \;
+
+clean-pdf:
 	find Figures/ -name '*.pdf' -exec rm '{}' \;
+
+clean-image:
 	find Figures/ -name '*.svg' -exec rm '{}' \;
 	find Figures/ -name '*.png' -exec rm '{}' \;
 
-clean: clean-latex clean-other
+clean-figures: clean-code-snippet clean-graphviz clean-pdf clean-image
+clean: clean-latex clean-figures
 
-.PHONY: build build-graphviz build-plantuml build-svg build-code-snippet clean clean-latex clean-other
+.PHONY: build build-graphviz build-plantuml build-svg build-code-snippet clean clean-figures clean-latex clean-code-snippet clean-graphviz clean-pdf clean-image
 .SECONDARY:
 .PRECIOUS: %.snippet.txt

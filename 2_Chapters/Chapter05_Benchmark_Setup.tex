@@ -1,0 +1,23 @@
+\chapter{Runtime Performance Experiment}
+
+% Use this chapter to discuss the main content of your thesis contributions.
+%
+% You may have several of these chapters depending on your thesis - work with your advisor to determine chapter layouts.
+% Remove or add as necessary.
+
+In this chapter, we detail our performance benchmark between our update to Blount's $\mathcal{AIA}$ implementation and our $\mathcal{APIA}$ implementation.
+The purpose of this experiment is to show the computational overhead reasoning over policies incurs over the $\mathcal{AIA}$ architecture.
+We answer the question: ``Is there a statistically significant difference between the elapsed time or CPU time of the $\mathcal{AIA}$ architecture and the $\mathcal{APIA}$ architecture?''
+
+The design of the experiment is as follows.
+Over many repeated trials, we run the $\mathcal{APIA}$ control loop implementation using our update to Blount's $\mathcal{AIA}$ files in the context of Example S.
+Likewise, over many trials, we run the $\mathcal{APIA}$ control loop using our $\mathcal{APIA}$ files in the context of Example S.
+We record the elapsed time and CPU time for each trial.
+
+If the $\mathcal{AIA}$ agent achieves the goal in fewer timesteps than our $\mathcal{APIA}$ agent (since the $\mathcal{AIA}$ agent is acting in a utilitarian manner), we will continue running the agent until an equal number of timesteps have occurred.
+In this case, the $\mathcal{AIA}$ agent is put into a busy loop where it interprets its observations, intends to wait, waits, repeats and so on.
+
+After all trials are complete, we compute T-statistics to see whether $\mathcal{APIA}$ has a statistically significance increase from $\mathcal{AIA}$ in elapsed time or CPU time.
+
+The experiment is run on a dedicated machine running Ubuntu 20.04.1 LTS with Linux kernel 5.4.0-58-generic.
+The machine has an Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz and 8055748 kB (7.6 GB) of usable RAM.

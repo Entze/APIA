@@ -5,7 +5,7 @@ watch() {
 }
 
 while true; do
-    make
+    make -j "$(nproc)"
     watch
-    sleep 2
+    # sleep 2
 done

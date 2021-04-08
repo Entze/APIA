@@ -1,0 +1,448 @@
+\chapter{The $\mathcal{APIA}$ Architecture}
+
+% Use this chapter to discuss the main content of your thesis contributions.
+%
+% You may have several of these chapters depending on your thesis - work with your advisor to determine chapter layouts.
+% Remove or add as necessary.
+%
+% \section{Sub-Topic 1}
+%
+% \subsection{Sub-Sub-Topic I}
+%
+% \subsection{Sub-Sub-Topic II}
+%
+% \section{Sub-Topic 2}
+%
+% \section{Sub-Topic 3}
+
+In this chapter, we present the $\mathcal{APIA}$ architecture.
+The Architecture for Policy-Aware Intentional Agents ($\mathcal{APIA}$) is an agent architecture heavily inspired by the $\mathcal{AIA}$ agent architecture that reasons over $\mathcal{AOPL}$ policies.
+Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires a transition system S=<> representing the environment in which the agent acts and it shares $\mathcal{AIA}$'s applicability conditions.
+
+\section{Re-envisioning $\mathcal{AOPL}$ policies in an agent-centered architecture}
+
+XXX conceived $\mathcal{AOPL}$ as a means to evaluate the history of the world at the end of the day.
+This differs from $\mathcal{AIA}$ in the following ways:
+
+\begin{itemize}
+    \item $\mathcal{AOPL}$ evaluates histories of actions from the perspective of the world whereas $\mathcal{AIA}$ distinguishes between agent actions and exogenous actions.
+    \item $\mathcal{AOPL}$ evaluates histories at ``the end of the day'' whereas the $\mathcal{AIA}$ architecture, while it does reason over past actions in diagnosis, places an emphasis on planning future actions to achieve a future state.
+\end{itemize}
+
+These differences prevent $\mathcal{AOPL}$ policies from interoperating with the $\mathcal{AIA}$ agent architecture out of the box.
+To address the first issue, we require $\mathcal{AOPL}$ policies to describe only agent actions (the sets of agent actions and exogenous actions are disjoint).
+We enforce this rule using a constraint.
+For the second issue, we adjust our policy compliance rules such that only future actions affect the compliance of the world.
+Since the focus of $\mathcal{AIA}$ is planning, past actions are always considered ``compliant'' although they might not have been at the time.
+For an agent that previously had no choice but a non-compliant action, this allows the agent to conceive of ``turning a new leaf'' and seeking policy-compliant actions in the future.
+Without this provision, it would be impossible for such an agent to achieve $policy\_compliant(F)$ and a single non-compliant action would be non-recoverable.
+
+Also, XXX's discussion $\mathcal{AOPL}$ does not include how authorization policy statements interact with obligation policy statements.
+For example, consider the following $\mathcal{AOPL}$ policy:
+\begin{gather}
+    permitted(a) \\
+    obl(\neg a)
+\end{gather}
+and
+\begin{gather}
+    \neg permitted(a) \\
+    obl(a)
+\end{gather}
+such policies seem to be contradictory.
+In the first case, an agent is permitted to perform action $a$ but at the same time is obligated to refrain from it.
+Appealing to common sense, if an agent is obligated to refrain from an action, one would conclude that the action is not permitted.
+Likewise, it makes sense to say that if an agent is obligated to do an action, then it must be permitted.
+Thus, we take these intuitions and create the following non-contradiction axioms:
+\begin{gather}
+    \begin{split}
+        \leftarrow \
+            & action(A), \\
+            & obl(A, I), \\
+            & \neg permitted(A, I).
+    \end{split} \\
+    \begin{split}
+        \leftarrow \
+            & action(A), \\
+            & obl(neg(A), I), \\
+            & permitted(A, I).
+    \end{split}
+\end{gather}
+These enforce that, at the very least, the authorization and obligation policies do not contradict each other.
+See \cref{table:apia_non_contradiction}.
+Note, to allow for defeasible policy statements to work correctly, we do not write:
+\begin{gather}
+    \begin{split}
+        permitted(A, I) \leftarrow \
+            & action(A), \\
+            & obl(A, I).
+    \end{split} \\
+    \begin{split}
+        \neg permitted(A, I) \leftarrow \
+            & action(A), \\
+            & obl(neg(A), I).
+    \end{split} \\
+    \begin{split}
+        \neg obl(A, I) \leftarrow \
+            & action(A), \\
+            & \neg permitted(A, I).
+    \end{split} \\
+    \begin{split}
+        \neg obl(neg(A), I) \leftarrow \
+            & action(A), \\
+            & permitted(A, I).
+    \end{split}
+\end{gather}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | l | c | c | c | }
+        \hline
+        & $permitted(a)$ & $\neg permitted(a)$ & (none) \\
+        \hline
+        $obl(a)$ & Valid & \sout{(Contradictory)} & Valid \\
+        \hline
+        $obl(\neg a)$ & \sout{(Contradictory)} & Valid & Valid \\
+        \hline
+        (none) & Valid & Valid & Valid \\
+        \hline
+    \end{tabular}
+    \caption{Non-contradictory combinations of $\mathcal{AOPL}$ policy statements}
+    \label{table:apia_non_contradiction}
+\end{table}
+
+We also extend the translation of defeasible policy statements to ASP.
+Suppose we have the following policy:
+\begin{gather}
+    \textbf{ normally } permitted(a) \\
+    obl(\neg a) \textbf{ if } cond
+\end{gather}
+Using the approach proposed by XXX, the corresponding ASP translation would be
+\begin{gather}
+    permitted(a, I) \leftarrow \textbf{ not } \neg permitted(a, I). \\
+    obl(neg(a), I) \leftarrow lp(cond).
+\end{gather}
+
+Given $cond$, at a given timestep we have $permitted(a)$ and $obl(\neg a)$.
+This violates the non-contradiction axioms we introduced above.
+So, we extend their approach by using the following encoding for the defeasible statement:
+\begin{equation}
+\begin{split}
+    permitted(a, I) \leftarrow \
+        & \textbf{ not } \neg permitted(a, I), \\
+        & \textbf{ not } obl(neg(a), I).
+\end{split}
+\end{equation}
+This allows the presence of $obl(\neg a)$ to be an exceptional case to the defeasible rule.
+
+In general, we propose the following encodings for the following defeasible statements, respectively:
+\begin{gather}
+    d: \textbf{ normally } permitted(a) \textbf{ if } cond \\
+    d: \textbf{ normally } \neg permitted(a) \textbf{ if } cond \\
+    d: \textbf{ normally } obl(a) \textbf{ if } cond \\
+    d: \textbf{ normally } obl(\neg a) \textbf{ if } cond
+\end{gather}
+\begin{gather}
+\begin{split}
+    permitted(a, I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } \neg permitted(a, I), \\
+        & \textbf{ not } obl(neg(a), I).
+\end{split} \\
+\begin{split}
+    \neg permitted(a, I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } permitted(a, I), \\
+        & \textbf{ not } obl(a, I).
+\end{split} \\
+\begin{split}
+    obl(a, I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } \neg obl(a, I), \\
+        & \textbf{ not } \neg permitted(a, I).
+\end{split} \\
+\begin{split}
+    obl(neg(a), I) \leftarrow \
+        & lp(cond), \\
+        & \textbf{ not } abnormal(d, I), \\
+        & \textbf{ not } obl(neg(a), I), \\
+        & \textbf{ not } permitted(a, I).
+\end{split}
+\end{gather}
+
+\section{Policy-Aware Agent Behavior}
+
+The $\mathcal{APIA}$ architecture takes the $\mathcal{AIA}$ architecture as a basis.
+
+$\mathcal{AIA}$ describes the transition system in terms of fluents, actions, and axioms (i.e.~action descriptions).
+For convenience, we differentiate fluents by category.
+There exist physical fluents (which are those that describe the physical world), mental fluents (those introduced in the Theory of Intentions), and policy fluents (those that we introduce to reason over policy compliance).
+Likewise, we extend Blount's distinction of physical actions and mental actions by adding a third category: policy actions.
+
+To reason over policy compliance, we invent a series of policy fluents, policy actions, and action descriptions (See \cref{fig:apia_list_policy_fluents_actions}).
+These new action descriptions encode the effect of future agent actions on policy compliance and provide a means by which the $\mathcal{AIA}$ control loop can determine non-compliant activities to be futile and execute compliant ones in their place.
+For example, consider dynamic causal laws such as the following:
+
+\begin{gather}
+    a \textbf{ causes } \neg auth\_compliance(strong) \textbf{ if not } permitted(a)
+        \label{eq:apia_auth_compliance_strong} \\
+    a \textbf{ causes } \neg auth\_compliance(weak) \textbf{ if } \neg permitted(a)
+        \label{eq:apia_auth_compliance_weak}
+\end{gather}
+
+Given inertial policy fluents $auth\_compliance(weak)$ and $auth\_compliance(strong)$, \cref{eq:apia_auth_compliance_strong,eq:apia_auth_compliance_weak} correspond to the definition of authorization compliance of $\mathcal{AOPL}$ given in XX.
+Should there exist an action $a$ where $permitted(a)$ is not known to be true, then the scenario ceases to be strongly compliant (i.e~it becomes weakly compliant).
+Since no action can make $auth\_compliance(strong)$ true again, the rest of the scenario remains weakly compliant by inertia.
+Likewise, should there exist an action $a$ where $permitted(a)$ is false, then the scenario ceases to be weakly compliant (i.e.~it becomes non-compliant) and remains in this state by inertia.
+Similar rules to \cref{eq:apia_auth_compliance_strong,eq:apia_auth_compliance_weak} are added for every physical action $a$ of the transition system.
+
+\begin{figure}[p]
+    \begin{framed}
+        Inertial Policy Fluents:
+        \begin{itemize}
+            \item $auth\_compliance(strong)$
+            \item $auth\_compliance(weak)$
+            \item $obl\_compliant(do\_action)$
+            \item $obl\_compliant(refrain\_from\_action)$
+        \end{itemize}
+
+        Defined Policy Fluents:
+        \begin{itemize}
+            \item $policy\_compliant(f)$, for all physical fluents $f$
+        \end{itemize}
+
+        Policy actions:
+        \begin{itemize}
+            \item $ignore\_not\_permitted(a)$
+            \item $ignore\_neg\_permitted(a)$
+            \item $ignore\_obl(a)$
+            \item $ignore\_obl(neg(a))$
+        \end{itemize}
+        for all physical actions $a$
+    \end{framed}
+    \caption{List of policy fluent and actions in the $\mathcal{APIA}$ architecture}
+    \label{fig:apia_list_policy_fluents_actions}
+\end{figure}
+
+To inform the $\mathcal{AIA}$ control loop to achieve the agent's goal in a policy-compliant manner, we utilize defined fluents.
+Since an agent in the $\mathcal{AIA}$ architecture can only select a single fluent as a goal, defined fluents serve as a way to combine fluents together using logical ANDs and logical ORs.
+For example:
+\begin{gather}
+    c \textbf{ if } a, b \\
+    d \textbf{ if } a \\
+    d \textbf{ if } b
+\end{gather}
+
+Fluent $c$ is equivalent to $(a \land b)$ and $d$ is equivalent to $(a \lor b)$.
+Using this mechanism, we introduce a defined policy fluent $policy\_compliant(F)$, where $F$ is a physical fluent
+The policy fluent $policy\_compliant(F)$ is true iff $F$ is true and $auth\_compliance(L)$ is true, for some minimum compliance threshold $L$.
+Thus, when $policy\_compliant(F)$ is an agent's goal, activities below $L$-compliance are deemed as futile and the agent works to achieve fluent $F$ subject $L$-compliance.
+
+To allow for the case when no activities that achieve $F$ are $L$-compliant or for when an agent deliberately chooses to act without $L$-compliance, we introduce policy actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$, where $a$ is a physical action.
+By concurrently executing these actions with action $a$, our agent ignores the effect the event $<s, \{a\}>$ has on weak compliance or non-compliance, respectively.
+These allow our agent to decide when it will obey its policy or disregard it.
+
+One can imagine that agents could use this capability in multiple ways.
+Some agents could strictly adhere to their policy (and hence, never use these actions) while others could be more utilitarian (and use them more liberally).
+To this end, we have parameterized the agent's adherence to its policy (See Table X).
+
+One option for this parameter causes the agent to strictly adhere to its policy such that it never performs $ignore\_neg\_permitted(a)$.
+This causes all non-compliant actions to indirectly cause $policy\_compliant(F)$ to be false.
+Hence, only activities with weakly or strongly compliant actions are considered.
+Since this mode never dares to become non-compliant, it is called \textit{subordinate}.
+
+A similar option causes the agent to never perform $ignore\_not\_permitted(a)$.
+This causes all weak and non-compliant actions to indirectly cause $policy\_compliant(F)$ to be false.
+Hence, only activities with strongly compliant actions are considered.
+Since weakly compliant actions are actions for which the policy compliance is unknown, this mode is called \textit{paranoid} as it treats weakly compliant actions as if they are non-compliant.
+
+Another option allows unrestricted access to the $ignore\_neg\_permitted(a)$ and $ignore\_not\_permitted(a)$ actions.
+This mode is called \textit{utilitarian} because it reduces the behavior of $\mathcal{APIA}$ to that of $\mathcal{AIA}$, where policies are not considered at all.
+
+An interesting feature of the $ignore\_neg\_permitted(a)$ and $ignore\_not\_permitted(a)$ actions is the ability to optimize compliance.
+Using preference statements in ASP, we can require the $\mathcal{AIA}$ control loop to prefer other actions over the use of $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$.
+Hence, if it is possible to execute an activity that is strongly complaint, the agent will prefer it over a weakly or non-complaint activity (since the use of these actions is required to allow $policy\_compliant(F)$ to be true).
+Under this condition, the policy actions $ignore\_not\_permitted(a)$ and $ignore\_neg\_permitted(a)$ are only used when it is impossible to achieve the fluent $F$ in a strongly or weakly compliant manner, respectively.
+
+The combination of compliance optimization with our previously discussed options allows for more possible configurations.
+For example, adding optimization to the \textit{subordinate} option makes a \textit{cautious} mode.
+In this mode, the agent will try to mimic the behavior of the \textit{paranoid} mode (all strongly compliant actions), but ultimately it will reduce to \textit{subordinate} (all weakly compliant actions) in the worst case.
+Likewise, adding optimization to the \textit{utilitarian} mode adds two options: \textit{best effort} and \textit{subordinate when possible}.
+\textit{Best effort} prefers strong compliance over weak compliance and weak compliance over non-compliance, but ultimately permits non-compliance when no better alternatives exist.
+\textit{Subordinate when possible} prefers weak compliance over non-compliance but does not optimize from weak compliance to strong compliance.
+
+A new feature of this approach to optimization is the ability to optimize within the weakly and non-compliant categories.
+Consider two weakly compliant activities 1 and 2.
+While they are both weakly compliant as a whole, one may mostly consist of strongly compliant actions.
+Suppose activity 1 has more weakly compliant actions than activity 2.
+Since, weakly compliant actions do require a concurrent $ignore\_not\_permitted(a)$ action, activity 1 will have more $ignore\_not\_permitted(a)$ actions than activity 2.
+Hence, activity 2 will be preferred to activity 1, even though they both fall in the weakly compliant category.
+XX do not consider such a feature.
+
+In the case use of a policy action is required, we also optimize to postpone its use to a later timestep.
+This comes from the hope that unexpected exogenous events could change future policy compliance such that actions have a higher level of compliance than what they have currently.
+In handling such a case, our optimization resembles a notion of least commitment planning regarding lower-compliance actions.
+
+Our discussion thus far has focused on authorization policies induced by an $\mathcal{AOPL}$ policy.
+To address obligation policies, we introduce policy fluents $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ with policy actions $ignore\_obl(a)$ and $ignore\_obl(neg(a))$, where $a$ is another action.
+(For configurability, we consider obligation policies to do actions and to refrain from actions separately).
+We extend the definition of $policy\_compliant(F)$ to require both $obl\_compliant(do\_action)$ and $obl\_compliant(refrain\_from\_action)$ to be true.
+Like with authorization compliance, if $obl(a)$ is true but action $a$ does not occur, then $obl\_compliant(do\_action)$ becomes false and remains false by inertia.
+Likewise for $obl\_compliant(refrain\_from\_action)$.
+If $ignore\_obl(a)$ or $ignore\_obl(neg(a))$ are performed, then these effects on the $obl\_complaint$ fluents are temporarily waived.
+
+There are five different configurations an agent in the $\mathcal{APIA}$ architecture can have regarding its obligation policy.
+When in \textit{subordinate} mode, the agent will never use either $ignore\_obl(a)$ and $ignore\_obl(neg(a))$ actions.
+Hence, all activities that achieve $policy\_compliant(F)$ will be compliant with both aspects of its obligation policy.
+When in \textit{best effort} mode, the agent prefers using other actions over these policy actions.
+Hence, activities will be compliant if possible but may include non-compliant elements when no other goal-achieving activities exist.
+The \textit{permit omissions where necessary} and \textit{permit commissions where necessary} options are variations of these modes.
+\textit{permit omissions where necessary} is like \textit{best effort} with regards to $obl(a)$ policy statements, but like \textit{subordinate} with regards to $obl(\neg a)$ policy statements.
+Likewise, \textit{permit commissions where necessary} is like \textit{subordinate} with regards to $obl(a)$ policy statements but like \textit{best effort} regarding $obl(\neg a)$ statements.
+\textit{Utilitarian} mode, like with authorization policies, reduces the behavior of an $\mathcal{APIA}$ agent with respect to its obligation policy to that of an $\mathcal{AIA}$ agent.
+
+An agent's combined authorization and obligation policy configuration can be represented by a 2-tuple $(A, O)$, where $A$ is the authorization mode and $O$ is the obligation mode.
+For reference, the $\mathcal{APIA}$ modes are summarized in \cref{table:apia_authorization_modes,table:apia_obligation_modes}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | l | c | c | c | }
+        \hline
+        & Require weak & Prefer weak over non-compl. & Ok with non-compl. \\
+        \hline
+        Require strong & Paranoid & \sout{(Invalid)} & \sout{(Invalid)} \\
+        \hline
+        Prefer strong over weak & Cautious & Best effort & \sout{(Invalid)} \\
+        \hline
+        Ok with weak & Subordinate & Subordinate when possible & Utilitarian \\
+        \hline
+    \end{tabular}
+    \caption{$\mathcal{APIA}$ authorization policy modes}
+    \label{table:apia_authorization_modes}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{ | X | X | X | X | }
+        \hline
+        & Require obl(-a) & Prefer obl(-a) if possible & Ignore obl(-a) \\
+        \hline
+        Require obl(a) & Subordinate & Permit commissions where necessary & \sout{(Not reasonable)} \\
+        \hline
+        Prefer obl(a) if possible & Permit omissions where necessary & Best effort & \sout{(Not reasonable)} \\
+        \hline
+        Ignore obl(a) & \sout{(Not reasonable)} & \sout{(Not reasonable)} & Utilitarian \\
+        \hline
+    \end{tabularx}
+    \caption{$\mathcal{APIA}$ obligation policy modes}
+    \label{table:apia_obligation_modes}
+\end{table}
+
+\section{Examples}
+
+To demonstrate the operations of an agent in the $\mathcal{APIA}$ architecture, we will introduce a series of examples.
+
+\subsection{Example A}
+
+To begin with a simple case, suppose that two agents exist in an office space.
+In this office space, there are four rooms with doors in between them.
+Room 1 is connected by door $d_{12}$ to Room 2.
+Room 2 is connected by door $d_{23}$ to Room 3 and so on.
+Door $d_{34}$ has a lock and is currently in the unlocked position.
+Suppose our agent, Alice, wants to greet another agent, Bob.
+
+This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_example_a_description}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/AIA_Architecture/Example_1}
+    \caption{Visual depiction of Example A}
+    \label{fig:apia_example_a_visual}
+\end{figure}
+
+\begin{figure}[h]
+    \begin{framed}
+        Fluents:
+        \begin{itemize}
+            \item $door\_locked(D)$, for each door $D$
+            \item $in\_room(P, R)$
+            \item $greeted\_by(P, A)$, where person $P$ is greeted by person $A$
+        \end{itemize}
+        where $R$ is a room, $D$ is a door, $P$ is a person.
+
+        Actions:
+        \begin{itemize}
+            \item $move\_through(A, D)$
+            \item $lock\_door(A, D)$
+            \item $unlock\_door(A, D)$
+            \item $greet(A, P)$
+        \end{itemize}
+        where $A$ is the person doing the action, $D$ is a door, and $P$ a person (the direct object of the action).
+
+        Alice is given the following policy:
+        \begin{itemize}
+            \item $permitted(move\_through(A, D))$
+            \item $permitted(lock\_door(A, D))$
+            \item $permitted(unlock\_door(A, d))$
+            \item $permitted(greet(A, P))$
+        \end{itemize}
+
+        The following activities are in Alice's library.
+        \begin{equation}
+        \begin{split}
+            <1, [
+                & move\_through(alice, d12), \\
+                & move\_through(alice, d23), \\
+                & move\_through(alice, d34), \\
+                & greet(alice, bob) \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+        \end{split}
+        \end{equation}
+    \end{framed}
+    \caption{Description of Example A}
+    \label{fig:apia_example_a_description}
+\end{figure}
+
+Before the $\mathcal{AIA}$ control loop begins, Alice observes that she is in Room 1, Bob is in room 4, the door $d_{34}$ is unlocked, and that she has not yet greeted Bob.
+
+At timestep 0, the first iteration of the $\mathcal{AIA}$ control loop begins.
+In this first step, Alice analyzes her observations and interprets unexpected observations by assuming undetected exogenous actions occurred.
+None of her observations are unexpected, so no exogenous actions are assumed to occur.
+Alice then intends to wait at timestep 0.
+Alice attempts wait.
+Alice observes that her wait action was successful and that, in the meantime, the $select(policy\_compliant(greeted\_by(Alice, Bob)))$ action happened.
+The timestep is incremented and Alice does not observe any fluents.
+
+The second iteration of the $\mathcal{AIA}$ control loop begins.
+Alice analyzes her observation of $select(policy\_compliant(greeted\_by(Alice, Bob)))$ and determines that $active\_goal(policy\_compliant(greeted\_by(Alice, Bob)))$ is true.
+Alice then starts planning to achieve $policy\_compliant(greeted\_by(Alice, Bob))$ and determines that she intends to start activity 1.
+Since each action in activity 1 is strongly compliant, no policy actions are needed.
+
+The rest of the example is very straight forward and is almost identical to scenarios discussed by \citet{blount_architecture_2013,blount_towards_2014} in the $\mathcal{AIA}$ architecture.
+However, let us transition from this fortunate example to one where a strongly compliant activity becomes weakly compliant due to an unexpected environmental observation.
+
+\subsection{Example B}
+
+In the same scenario, suppose we modify Alice's policy such that regarding $greet(A, P)$ we have:
+
+\begin{gather}
+    permitted(greet(A, P)) \textbf{ if }
+        \neg busy\_working(P) \\
+    \begin{split}
+        permitted(greet(A, P)) \textbf{ if }
+            & busy\_working(P), \\
+            & in\_room(P, R), \\
+            & door\_connects(D, R), \\
+            & knocked\_on\_door(D)
+    \end{split}
+\end{gather}
+along with other additions listed in \cref{fig:apia_example_b_description}.
+
+Before the $\mathcal{AIA}$ control loop begins, Alice also observes that Bob is not busy working (that is, in addition to her initial observations of Example A).
+At timestep 0, the first iteration of the control loop begins.
+During the second iteration of the control loop (at timestep 1), Alice plans to achieve the $policy\_compliant(greeted\_by(Alice, Bob))$ goal.
+Since she believes Bob is not busy working, activity 1 is still strongly compliant.
+
+She then executes activity 1 like in Example A until she enters Room 3, at which points she observes that Bob is busy working.

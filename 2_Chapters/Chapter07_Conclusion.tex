@@ -1,0 +1,56 @@
+\chapter{Conclusion}
+
+% Present the following:
+%
+% \begin{itemize}
+%     \item summary of your work
+%     \item list of contributions
+%     \item limitations and drawbacks to your approach
+%     \item future work
+%     \item other important concluding details
+% \end{itemize}
+%
+% Also, here's the Miami Logo to demonstrate including images in your thesis.
+% The logo is seen in Figure~\ref{fig:MiamiLogo}.
+%
+% \begin{figure}[h]
+%     \centering
+%     % \includegraphics[width=0.4\textwidth]{Figures/Miami}
+%     \caption{The Miami University Logo}
+%     \label{fig:MiamiLogo}
+% \end{figure}
+%
+% \section{Future Work}
+
+In this thesis, we have surveyed different agent architectures ranging from production rule systems, logic-based architectures (such as BDI architectures), and those with normative models and cognitive models.
+The focus of this work has been on modern logic-based architectures.
+We began by introducing transitions systems, which model the agent's environment like a directed graph of states.
+Then we discussed the development of a formal syntax that specifies transition systems.
+Next, we introduced the AAA agent architecture.
+While the AAA architecture is goal-oriented and uses information encoded in an action language to achieve them, it does not persist a plan across iterations of its control loop.
+This is deemed a limitation and prompts the creation of the $\mathcal{AIA}$ architecture.
+
+The $\mathcal{AIA}$ architecture represents an agent's mental state as properties of the world that are internal to the agent.
+The $\mathcal{AIA}$ architecture then uses this mental state to persist an agent's plans (which are encapsulated in a construct called an activity) as well as its current progress in executing them.
+The agent's mental state is maintained by a set of logic rules called the Theory of Intentions ($\mathcal{TI}$).
+We then provided the $\mathcal{AIA}$ control loop and explained its execution through the aid of a few examples.
+
+We introduced languages $\mathcal{APL}$ and $\mathcal{AOPL}$ to represent and reason over action compliance given authorization and obligation policies.
+While $\mathcal{APL}$ and $\mathcal{AOPL}$ are not action languages, they share a similar syntax to that of action language $\mathcal{AL}$ and work in tandem with it.
+We demonstrated the implementation of $\mathcal{APL}$ and $\mathcal{AOPL}$ using \textsc{clingo} with a varying degree of knowledge, ranging from a full knowledge of fluents to an initial understanding of fluents coupled with an event history.
+
+We then contrasted the $\mathcal{AIA}$ agent architecture and $\mathcal{AOPL}$ to the PDC-agent architecture.
+One feature of the PDC-agent architecture is that it supports multi-agent cooperation.
+PDC-agent also shares a similar mechanism to $\mathcal{TI}$ for updating beliefs via internal actions.
+However, the PDC-agent architecture requires enumerating plans by hand and annotating which goals they achieve.
+Since the $\mathcal{AIA}$ architecture is based on action languages, plans can be automatically generated, and their respective end-goal can be computed.
+
+We propose to extend the $\mathcal{AIA}$ architecture so that it can reason over $\mathcal{AOPL}$ policies.
+This new agent architecture will be called the $\mathcal{APIA}$ architecture.
+In addition to its formal definition and implementation, we propose to construct examples on which $\mathcal{APIA}$ can be evaluated.
+The evaluation of $\mathcal{APIA}$ will also consist of the expressivity of its syntax, its elaboration tolerance, its difficulty of construction, and its runtime performance.
+Due to performance improvements in underlying ASP solvers, we propose to update Blount's implementation of the $\mathcal{AIA}$ architecture from CR-Models2 to \textsc{clingo} so that differences in performance are meaningful.
+
+The $\mathcal{APIA}$ agent architecture is a modern logic-based architecture that is able to plan amid changing environments while maintaining policy compliance.
+As a result, its behavior is both explainable and ensured to be compliant.
+With such properties, the $\mathcal{APIA}$ architecture is a significant contribution to the logic programming community.

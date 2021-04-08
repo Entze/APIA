@@ -14,7 +14,7 @@
 
 % door_locked(Door)
 physical_fluent(inertial, door_locked(Door)) :-
-    door(Door).
+    door_has_lock(Door).
 
 % in_room(Person, Room)
 physical_fluent(inertial, in_room(Person, Room)) :-
@@ -45,7 +45,7 @@ exogenous_action(move_through(Actor, Door)) :-
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 agent_action(lock_door(Actor, Door)) :-
     physical_action(lock_door(Actor, Door)),
@@ -58,7 +58,7 @@ exogenous_action(lock_door(Actor, Door)) :-
 % unlock_door(Actor, Door)
 physical_action(unlock_door(Actor, Door)) :-
     person(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 agent_action(unlock_door(Actor, Door)) :-
     physical_action(unlock_door(Actor, Door)),
@@ -99,7 +99,8 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
     holds(in_room(Actor, FromRoom), timestep).
 
 % -in_room(Actor, FromRoom) if
-%   in_room(Actor, ToRoom)
+%   in_room(Actor, ToRoom),
+%   FromRoom != ToRoom
 -holds(in_room(Actor, FromRoom), timestep) :-
     room(FromRoom),
     holds(in_room(Actor, ToRoom), timestep),

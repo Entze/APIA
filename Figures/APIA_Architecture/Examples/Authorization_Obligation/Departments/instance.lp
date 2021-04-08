@@ -4,17 +4,17 @@
 
 person(Person) :-
     Person = (
-        "Bob";
-        "Alice"
+        "Alice";
+        "Bob"
     ).
 
 agent(Person) :-
     person(Person),
-    Person = "Bob".
+    Person = "Alice".
 
 % employee(Person) :-
 %     person(Person),
-%     Person = "Bob".
+%     Person = "Alice".
 
 % department(Department) :-
 %     Department = 1.

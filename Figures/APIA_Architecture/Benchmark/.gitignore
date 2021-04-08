@@ -1,0 +1,6 @@
+# Save benchmark data since:
+#   - Running the benchmark is likely expensive
+#   - We want to save the output for documentation purposes
+
+!*.tsv
+!*.txt
