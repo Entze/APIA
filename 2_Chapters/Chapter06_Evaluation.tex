@@ -48,7 +48,11 @@ In contrast, Example A utilizes $4$ $\mathcal{AOPL}$ policy statements.
 
 \section{Expressivity}
 
-Action language $\mathcal{AL}$ is also very expressive.
+Expressivity can take on two meanings.
+On the one hand, it considers the extent to which statements resemble how one would naturally express their intention in English.
+On the other hand, in the field of KRR, it also considers what kinds of knowledge can be represented by the expression.
+
+Using the first definition, action language $\mathcal{AL}$ is also very expressive.
 With the addition of a few words, an entire $\mathcal{AL}$ rule can be spoken in English.
 For example, a dynamic causal law:
 \begin{equation}
@@ -95,6 +99,7 @@ is read ``The agent A is permitted to greet P if P is not busy working''
 
 Defeasible statements are prefixed with ``normally''.
 
+Likewise, obligation statements such as:
 \begin{equation}
 \begin{split}
     obl(\neg move(A, L)) \textbf{ if } \
@@ -103,18 +108,61 @@ Defeasible statements are prefixed with ``normally''.
         & \neg has\_security\_clearance(A)
 \end{split}
 \end{equation}
-
-Likewise, obligation statements are read ``The agent A is obligated not to move to L if location L is in room R, R is classified, and A does not have a security clearance.''
+are read ``the agent A is obligated not to move to L if location L is in room R, R is classified, and A does not have a security clearance.''
 
 Since both $\mathcal{AL}$ and $\mathcal{AOPL}$ statements have straightforward translations to and from English, we believe these to be very readable and writable by other researchers with limited prior experience about these approaches.
 
+Regarding the KRR definition of ``expressivity,'' we have a slightly different analysis.
+An important feature to consider is the ability to reason over ``default'' logic.
+Default logic considers rules that are ``normally'' true but may have exceptions.
+Though language $\mathcal{AOPL}$ has this feature, action language $\mathcal{AL}$ does not.
+By itself, this is an issue because our description of policy actions relies on this capability (non-compliant actions ``normally'' cause \neg auth_compliance(weak), but ignore_not_permitted(a) is an exception to this rule).
+Fortunately for us, ASP (which $\mathcal{AL}$ rules are translated into) does have this limitation.
+Thus, we use $\mathcal{AL}$-like rules in our action description of policy actions.
+
+In the same vein, language $\mathcal{AOPL}$ also has a limitation (Note: $\mathcal{AL}$ also has this limitation, though we do not have any need to overcome it).
+Given a rule:
+
+\begin{equation}
+    obl(a) \textbf{ if } cond
+\end{equation}
+$cond$ must be an expression of fluents.
+Thus, it is possible to write a policy that applyes when another action is concurrently executed, such as ``an agent is obligated to take their ID badge with them when moving''.
+Same as before, we bypass this limitation by utilizing the underlying flexibility of ASP (to which $\mathcal{AOPL}$ policy are translated) where we can use occurs in the rule body.
+
+Another consideration of action language $\mathcal{AL}$ is that does not support so-called ``triggers'', in which a fluent can force an action to occur.
+For example, when a door has an auto-locking timer, having door\_autolock\_countdown at zero could cause the lock\_door action.
+This is not a limitation though, as we easily get around this by writing:
+\begin{equation}
+\begin{split}
+    A \textbf{ causes } door_locked(L1, L2) \textbf{ if } \
+        & physical_action(A) \\
+        & door_autolock_countdown(L1, L2, T), \\
+        & T = 1
+\end{split}
+\end{equation}
+In this rule, all actions cause the door to lock when door\_autolock\_countdown is zero.
+(One can consider the action causing the world to increment a timestep, which causes the door to lock).
+
 \section{Elaboration Tolerance}
+
+The elaboration tolerance of the $\mathcal{APIA}$ architecture can be assessed from a few different angles.
+
+For example, one can assess the growth of the $\mathcal{AOPL}$ policy across increasingly more complex examples.
+From Example A to Example D, only a few policy statements needed to be added or modified.
+Though we could also discuss the elaboration tolerance of $\mathcal{AL}$, this is not relevant to this thesis.
+
+The $\mathcal{APIA}$ architecture also provides a very easy way to construct agents with different policy-motivations.
+By changing a command-line parameter and the input file of the agent's observations, one can easily construct different agents using the same knowledge base.
+
+The policy actions of the $\mathcal{APIA}$ architecture also provide a very elaboration tolerant means of dismissing elements of user-defined $\mathcal{AOPL}$ policies.
+In fact, they operate an arbitrary $\mathcal{AOPL}$ policies and do not require any changes to function correctly.
 
 \section{Difficulty of Construction}
 
 The difficulty of constructing the $\mathcal{APIA}$ architecture can be evaluated in three different areas: our reconstruction of the $\mathcal{AIA}$ architecture, our implementation of $\mathcal{AOPL}$ compliance, and our integration of $\mathcal{AOPL}$ into the $\mathcal{AIA}$ architecture.
 
-The implementation of $\mathcal{AOPL}$ compliance was very trivial but correctly constructing the logic program of the $\mathcal{AIA}$ architecture was very difficult.
+Correctly constructing the logic program of the $\mathcal{AIA}$ architecture was very difficult.
 Although copying the $\mathcal{AIA}$ ASP rules was straightforward, identifying transcription errors and typos (both on our end and in Blount's dissertation) was very time consuming.
 In traditional programming languages, a programmer usually has a lot of information regarding the symptoms of a problem that allows him to quickly find the root cause.
 Stack traces and step-through debuggers are examples.
@@ -126,5 +174,6 @@ During our implementation of the $\mathcal{AIA}$ logic program, we resorted to m
 We then tested hypotheses of the root cause against this information in hopes of guessing correctly.
 
 We used the same method in integrating $\mathcal{AOPL}$ compliance into the $\mathcal{AIA}$ intended action rules.
+Through this process, we discovered the differences between observer-based $\mathcal{AOPL}$ compliance (as it was introduced by XXX) and agent-based $\mathcal{AOPL}$ compliance (for which we adjusted $\mathcal{AOPL}$ accordingly).
 
 To assist in this process across control loop iterations, we created a collection of debugging tools and scripts that greatly improved our efficiency.
