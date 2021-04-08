@@ -58,11 +58,29 @@ Thus, we take these intuitions and create the following non-contradiction axioms
     \dots
 \end{gather}
 These enforce that, at the very least, the authorization and obligation policies do not contradict each other.
+See \cref{table:apia_non_contradiction}.
 Note, to allow for defeasible policy statements to work correctly, we do not write:
 \begin{gather}
     \dots \\
     \dots
 \end{gather}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{ | l | c | c | c | }
+        \hline
+        & $permitted(a)$ & $\neg permitted(a)$ & (none) \\
+        \hline
+        $obl(a)$ & Valid & \sout{(Contradictory)} & Valid \\
+        \hline
+        $obl(\neg a)$ & \sout{(Contradictory)} & Valid & Valid \\
+        \hline
+        (none) & Valid & Valid & Valid \\
+        \hline
+    \end{tabular}
+    \caption{Non-contradictory combinations of $\mathcal{AOPL}$ policy statements}
+    \label{table:apia_non_contradiction}
+\end{table}
 
 We also extend the translation of defeasible policy statements to ASP.
 Suppose we have the following policy:
