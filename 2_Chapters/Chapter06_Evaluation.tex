@@ -121,7 +121,7 @@ Stack traces and step-through debuggers are examples.
 Even in the worst case (such as a segmentation fault), a programmer can at least assume the approximate location of the error from the timing of the failure in its procedural execution.
 
 None of these apply in an unsatisfiable ASP program.
-Unfortunately, solvers such as clingo do not output a partial knowledge base or a statement denoting which rule caused the unsatisfiability.
+Unfortunately, solvers such as \textsc{clingo} do not output a partial knowledge base or a statement denoting which rule caused the unsatisfiability.
 During our implementation of the $\mathcal{AIA}$ logic program, we resorted to manually commenting out constraints and changing rule heads in order to restore satisfiability.
 We then tested hypotheses of the root cause against this information in hopes of guessing correctly.
 
