@@ -1,2 +1,43 @@
 \chapter{The $\mathcal{APIA}$ Architecture}
 \label{appendix:apia}
+
+\section{Example B}
+
+\begin{figure}[h]
+    \begin{framed}
+        Fluents:
+        \begin{itemize}
+            \item $busy\_working(P)$
+            \item $knocked\_on\_door(D)$
+        \end{itemize}
+        where $D$ is a door, $P$ is a person.
+
+        Actions:
+        \begin{itemize}
+            \item $begin\_working(A)$
+            \item $knock\_on\_door(A, D)$
+        \end{itemize}
+        where $A$ is the person doing the action, $D$ is a door.
+
+        Activities:
+        \begin{gather}
+        \begin{split}
+            <2, [
+                & move\_through(alice, d12), \\
+                & move\_through(alice, d23), \\
+                & move\_through(alice, d34), \\
+                & knock\_on\_door(alice, d34), \\
+                & greet(alice, bob) \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+        \end{split} \\
+        \begin{split}
+            <3, [
+                & knock\_on\_door(alice, d34), \\
+                & greet(alice, bob) \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+        \end{split}
+        \end{gather}
+    \end{framed}
+    \caption{New elements of Example B}
+    \label{fig:apia_example_b_description}
+\end{figure}
