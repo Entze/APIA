@@ -207,14 +207,14 @@ There are two kinds of action languages: action description languages and action
 Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system~\citep{gelfond_action_1998}.
 We will focus only on action description languages and will use the term \textit{action languages} to refer to them.
 
-Many action languages exist, including $ \mathcal{A} $~\citep{gelfond_action_1998}, $ \mathcal{B} $~\citep{gelfond_action_1998}, $ \mathcal{C} $~\citep{gelfond_action_1998}, $ \mathcal{AC} $~\citep{turner_representing_1997}, $ \mathcal{AL} $~\citep{baral_reasoning_2000}, $ \mathcal{ALM} $~\citep{inclezan_modular_2016}.
+Many action languages exist, including $\mathcal{A}$~\citep{gelfond_action_1998}, $\mathcal{B}$~\citep{gelfond_action_1998}, $\mathcal{C}$~\citep{gelfond_action_1998}, $\mathcal{AC}$~\citep{turner_representing_1997}, $\mathcal{AL}$~\citep{baral_reasoning_2000}, $\mathcal{ALM}$~\citep{inclezan_modular_2016}.
 
-\subsubsection{Action Language $ \mathcal{A} $}
+\subsubsection{Action Language $\mathcal{A}$}
 \label{subsubsec:action_language_a}
 
-First, we will discuss action language $ \mathcal{A} $.
-Action language $ \mathcal{A} $ was first proposed by \citet{pednault_formulating_1987}.
-$ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
+First, we will discuss action language $\mathcal{A}$.
+Action language $\mathcal{A}$ was first proposed by \citet{pednault_formulating_1987}.
+$\mathcal{A}$ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
 \begin{equation}
     a \textbf{ causes } L \textbf{ if } F
@@ -234,7 +234,7 @@ To formally define the semantics of an action description in $\mathcal{A}$, we n
 \end{definition}
 
 \begin{definition}
-    Let $ D $ be an action description in $ \mathcal{A} $.
+    Let $ D $ be an action description in $\mathcal{A}$.
     The transition system $ <S, V, R> $ described by $ D $ is defined as follows~\citep{gelfond_action_1998}:
 
     \begin{itemize}
@@ -264,10 +264,10 @@ In this case, the action description language models the transition system shown
     \label{fig:action_language_a_example}
 \end{figure}
 
-\subsubsection{Action Language $ \mathcal{B} $}
+\subsubsection{Action Language $\mathcal{B}$}
 \label{subsubsec:action_language_b}
 
-Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
+Action language $\mathcal{B}$ is an extension of action language $\mathcal{A}$ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
 It does so with the addition of so-called \textit{static laws}~\citep{gelfond_action_1998}.
 \citet{gelfond_action_1998} contrast static laws to \textit{dynamic laws}, which refer to action descriptions in $\mathcal{A}$.
 
@@ -325,24 +325,24 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
     \end{itemize}
 \end{definition}
 
-\subsubsection{Action Language $ \mathcal{AL} $}
+\subsubsection{Action Language $\mathcal{AL}$}
 \label{subsubsec:action_language_al}
 
-$ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
+$\mathcal{AL}$ is based on $\mathcal{A}$ and $\mathcal{B}$.
 It extends these languages with what authors later refer to as \textit{defined fluents}.
 These are domain-relevant properties under the closed world assumption~\citep{blount_architecture_2013}.
 The closed world assumption states that which cannot be proven true must be false~\citep{reiter_closed_1981}.
 It contrasts from the open world assumption, which states only that which is proven is true~\citep{reiter_closed_1981}.
 
-An action description in $ \mathcal{AL} $ is a set of propositions written in the form~\citep{baral_reasoning_2000, blount_architecture_2013}:
+An action description in $\mathcal{AL}$ is a set of propositions written in the form~\citep{baral_reasoning_2000, blount_architecture_2013}:
 
 \begin{itemize}
-    \item Dynamic laws (from Action language $ \mathcal{A} $):
+    \item Dynamic laws (from Action language $\mathcal{A}$):
         \begin{equation}
             a \textbf{ causes } L \textbf{ if } F
         \end{equation}
 
-    \item Static laws (from Action language $ \mathcal{B} $):
+    \item Static laws (from Action language $\mathcal{B}$):
         \begin{equation}
             L \textbf{ if } F
         \end{equation}
@@ -438,7 +438,7 @@ However, a few assumptions differ from the AAA architecture:
 \subsubsection{Intentional System Description of $\mathcal{AL}$}
 \label{subsubsec:intentional_action_language_al}
 
-An intentional system description of $ \mathcal{AL} $ is an extension of $ \mathcal{AL} $ proposed by \citet{blount_architecture_2013}.
+An intentional system description of $\mathcal{AL}$ is an extension of $\mathcal{AL}$ proposed by \citet{blount_architecture_2013}.
 This extension is created to address the limitations of the AAA architecture, in which plans are not persisted across iterations of the Observe-Think-Act loop.
 In order to persist them, plans are pre-computed and stored as a set of statics.
 In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an \textit{activity}.
