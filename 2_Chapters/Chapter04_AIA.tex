@@ -13,12 +13,12 @@ Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dep
 Specifically, we update his $\mathcal{AIA}$ implementation from CRModels2 (version 2.0.15) to clingo 5.4.1.
 This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while clingo uses a standardized version of ASP called ASP-Core-2.
 
-Consistency-restoring prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
-A CR-rule
+Consistency-restoring Prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
+A CR-rule with label $r$:
 \begin{equation}
-    r: head <+- body.
+    r: head \stackrel{+}\leftarrow body.
 \end{equation}
-Works like a normal ASP rule except that, given the body, the head is only generated when it is absolutely necessary (i.e.~when the logic program would be unsatisfiable without it and there are no other non-cr-rule alternatives).
+works like a normal ASP rule except that, given the body, the head is only generated when it is absolutely necessary (i.e.~when the logic program would be unsatisfiable without it and there are no other non-cr-rule alternatives).
 Hence, the application of this rule \textit{restores} consistency to the logic program.
 
 CR-Prolog also assigns a special meaning to the $prefer(r_1, r_2)$ predicate.
@@ -26,17 +26,16 @@ Given $prefer(r_1, r_2)$ the application of cr-rule $r_1$ will be preferred to t
 
 While the translation of CR-Prolog into ASP has been addressed before by Yang, 2018, their approach is long and complex.
 We introduce a much simpler approach that achieves the same effect.
-Given a cr-rule:
+Given a cr-rule with label $r$:
 
 \begin{equation}
-    r: head <+- body.
+    r: head \stackrel{+}\leftarrow body.
 \end{equation}
 We translate this into ASP-Core-2 by writing:
 \begin{gather}
-    apply\_cr\_rule(r) :- body. \\
-    head :- apply\_cr\_rule(r). \\
-    :~ apply\_cr\_rule(r).
-    [1@cr_1, apply\_cr\_rule(r)]
+    apply\_cr\_rule(r) \leftarrow body. \\
+    head \leftarrow apply\_cr\_rule(r). \\
+    \text{:}\sim apply\_cr\_rule(r). [1@cr_1, apply\_cr\_rule(r)]
 \end{gather}
 
 The last rule XX is a weak constraint.
@@ -46,13 +45,18 @@ Should there exist another answer set where this rule is not applied, the use of
 Likewise for prefer predicates, we translate the following CR-Prolog
 
 \begin{equation}
-    prefer(r_1, r_2) :- body.
+    prefer(r_1, r_2) \leftarrow body.
 \end{equation}
 Into the following ASP-Core-2 syntax
 \begin{gather}
-    cr\_prefer(r_1, r_2) :- body. \\
-    :\~ cr\_prefer(r_1, r_2), apply\_cr\_rule(r_2), not apply\_cr\_rule(r_1). \\
-    [1@cr_2, apply\_cr\_rule(r_2), apply\_cr\_rule(r_1)]
+    cr\_prefer(r_1, r_2) \leftarrow body. \\
+    \begin{split}
+        \text{:}\sim \
+            & cr\_prefer(r_1, r_2), \\
+            & apply\_cr\_rule(r_2), \\
+            & \textbf{not } apply\_cr\_rule(r_1). \\
+            & [1@cr_2, apply\_cr\_rule(r_2), apply\_cr\_rule(r_1)]
+    \end{split}
 \end{gather}
 
 This weak constraint informs the solver that applying cr-rule $r_2$ over cr-rule $r_1$ incurs a cost of 1 (since $r_1$ is preferred over $r_2$).
@@ -99,7 +103,7 @@ We also make minor modifications to $\mathcal{AIA}$ as a whole.
 First, we refactor the arrangement of ASP rules into multiple files according to their purpose in the $\mathcal{AIA}$ architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Gamma_n)$, or $IA(n)$)
 Second, we refactor the names of mental fluents in the Theory of Intentions so that their names are more descriptive and self-documenting.
 Thirdly, we extensively add inline comments to each ASP rule with reference quotations and page numbers from Blount.
-Lastly, we make minor modifications to rules in Π(Γn) so that they are valid according to the mathematical definitions proposed by Blount.
+Lastly, we make minor modifications to rules in $\Pi(\Gamma_n)$ so that they are valid according to the mathematical definitions proposed by Blount.
 
 \subsection{Python Component}
 
