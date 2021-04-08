@@ -4,8 +4,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 MAX_TIMESTEP=12
 
-cd "${SCRIPT_DIR}" || exit 2
-
 FILES=(
     "${SCRIPT_DIR}/domain_encoding.lp"
     "${SCRIPT_DIR}/instance.lp"
