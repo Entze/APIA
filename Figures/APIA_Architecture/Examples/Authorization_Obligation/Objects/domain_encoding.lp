@@ -491,7 +491,7 @@ obl(pick_up_object(Actor, Object), timestep) :-
 %
 % lights_1(Actor, Object): normally obl(turn_off_object(Actor, Object)) if
 %   occurs(move(Actor, ToLocation), timestep),
-%   holds(person_location(Actor, FromLocation), timestep),
+%   person_location(Actor, FromLocation),
 %   location_room(ToLocation, NewRoom),
 %   location_room(FromLocation, OldRoom),
 %   NewRoom != OldRoom,
@@ -514,7 +514,7 @@ obl(turn_off_object(Actor, Object), timestep) :-
 %
 % lights_2(Actor, Object): normally obl(-turn_off_object(Actor, Object)) if
 %   occurs(move(Actor, ToLocation), timestep),
-%   holds(person_location(Actor, FromLocation), timestep),
+%   person_location(Actor, FromLocation),
 %   location_room(ToLocation, NewRoom),
 %   location_room(FromLocation, OldRoom),
 %   NewRoom != OldRoom,
@@ -552,7 +552,7 @@ abnormal(lights_1(Actor, Object), timestep) :-
 %
 % normally obl(-turn_off_object(Actor, Object)) if
 %   occurs(move(Actor, ToLocation), timestep),
-%   holds(person_location(Actor, FromLocation), timestep),
+%   person_location(Actor, FromLocation),
 %   location_room(ToLocation, NewRoom),
 %   location_room(FromLocation, OldRoom),
 %   NewRoom != OldRoom,
@@ -576,7 +576,7 @@ obl(neg(turn_off_object(Actor, Object)), timestep) :-
 % "Never turn off the lights when someone else is in the room"
 %
 % obl(-turn_off_lights(Actor, Object)) if
-%   holds(person_location(Person, Location), timestep),
+%   person_location(Person, Location),
 %   Person != Actor,
 %   object(Object),
 %   Object = light,
