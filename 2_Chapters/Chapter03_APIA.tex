@@ -17,7 +17,7 @@
 
 In this chapter, we present the $\mathcal{APIA}$ architecture.
 The Architecture for Policy-Aware Intentional Agents ($\mathcal{APIA}$) is an agent architecture heavily inspired by the $\mathcal{AIA}$ agent architecture that reasons over $\mathcal{AOPL}$ policies.
-Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires a transition system S=<> representing the environment in which the agent acts and it shares $\mathcal{AIA}$'s applicability conditions.
+Like the $\mathcal{AIA}$ architecture, the $\mathcal{APIA}$ architecture requires the environment to be represented in a propositional transition system and has the same applicability conditions.
 
 \section{Re-envisioning $\mathcal{AOPL}$ policies in an agent-centered architecture}
 
@@ -37,7 +37,7 @@ Since the focus of $\mathcal{AIA}$ is planning, past actions are always consider
 For an agent that previously had no choice but a non-compliant action, this allows the agent to conceive of ``turning a new leaf'' and seeking policy-compliant actions in the future.
 Without this provision, it would be impossible for such an agent to achieve its goal in a policy compliant manner and a single non-compliant action would be non-recoverable.
 
-Also, XXX's discussion $\mathcal{AOPL}$ does not include how authorization policy statements interact with obligation policy statements.
+Also, XXX's discussion on $\mathcal{AOPL}$ does not include how authorization policy statements interact with obligation policy statements.
 For example, consider the following $\mathcal{AOPL}$ policy:
 \begin{gather}
     permitted(a) \\
@@ -305,6 +305,11 @@ Likewise, \textit{permit commissions where necessary} is like \textit{subordinat
 
 An agent's combined authorization and obligation policy configuration can be represented by a 2-tuple $(A, O)$, where $A$ is the authorization mode and $O$ is the obligation mode.
 For reference, the $\mathcal{APIA}$ modes are summarized in \cref{table:apia_authorization_modes,table:apia_obligation_modes}.
+When an APIA agent is running in mode (utilitarian, utitlitarian), its behavior in terms of both physical agent actions and mental agent actions reduce to that of an AIA agent (i.e. policy actions are not used in this mode).
+This is due to an optimization we provide internally.
+For each APIA configuration, we adjust the definition of $policy\_compliant(F)$ such that excess policy actions are not required.
+Since a utilitarian agent completely disgards its policy, we adjust $policy\_compliant(F)$ that it is equivalent to $F$.
+In the case of a subordinate agent, we adjust $policy\_compliant(F)$ such that $ignore\_not\_permitted(a)$ is never needed since such an agent always disregards strong compliance.
 
 \begin{table}[h]
     \centering
@@ -343,8 +348,9 @@ For reference, the $\mathcal{APIA}$ modes are summarized in \cref{table:apia_aut
 \section{Examples}
 
 To demonstrate the operations of an agent in the $\mathcal{APIA}$ architecture, we will introduce a series of examples.
+For conciseness, we will focus on three APIA configurations: $(paranoid, subordinate)$, $(best effort, best effort)$, and $(utilitarian, and utilitarian)$.
 
-\subsection{Example A}
+\subsection{Example A: Fortunate case}
 
 To begin with a simple case, suppose that two agents exist in an office space.
 In this office space, there are four rooms with doors in between them.
@@ -423,7 +429,7 @@ Since each action in activity 1 is strongly compliant, no policy actions are nee
 The rest of the example is very straight forward and is almost identical to scenarios discussed by \citet{blount_architecture_2013,blount_towards_2014} in the $\mathcal{AIA}$ architecture.
 However, let us transition from this fortunate example to one where a strongly compliant activity becomes weakly compliant due to an unexpected environmental observation.
 
-\subsection{Example B}
+\subsection{Example B: Strong compliance degrades to weak compliance}
 
 In the same scenario, suppose we modify Alice's policy such that regarding $greet(A, P)$ we have:
 
@@ -446,19 +452,202 @@ During the second iteration of the control loop (at timestep 1), Alice plans to 
 Since she believes Bob is not busy working, activity 1 is still strongly compliant.
 
 She then executes activity 1 like in Example A until she enters Room 3, at which points she observes that Bob is busy working.
+During the next iteration (at timestep 5), the agent interprets this observation by inferring that begin\_working(bob) happened at the previous timestep (4).
 
-\subsection{Example C}
+Here activity 1 is weakly compliant.
+Since Bob is busy working but Alice has not knocked on the door, no policy statement describes whether our next action (greet(alice, bob)) is compliant or not.
+If Alice is operating in (utilitarian, utilitarian) mode, she continues the execution of activity 1 and greets Bob anyway.
+(This happens without the use of policy actions due to our internal optimizations).
+Otherwise, our agent will stop the activity and then either refuse to plan another weakly compliant activity or use a concurrent policy action to dismiss this event.
 
-\subsection{Example D}
+If our agent is running in (paranoid, subordinate), Alice will refuse to execute a weakly compliant activity.
+Through planning, it will discover that a new activity that includes knocking at the door is strongly compliant (e.g. activity 3) and begin its execution.
+If our agent is running in (best effort, best effort), it will behave likewise because activity 3 is strongly compliant.
+The difference is that, if there did not exist a strongly compliant activity, it would plan a new activity that involved a policy action and greeted Bob anyway.
 
-\subsection{Example L}
 
-\subsection{Example M}
+Alice knocks on door d34 at timestep 7, greets Bob at timestep 8, stops activity 3 at timestep 9, and proceeds to wait for all future timesteps.
 
-\subsection{Example N}
+\subsection{Example C: Compliance degrades to non-compliant}
 
-\subsection{Example O}
+Suppose we take rule XX, make it defeasible, and add this AOPL rule in addition (See also Table XX):
 
-\subsection{Example S}
+\begin{equation}
+\begin{split}
+-permitted(greet(Actor, Person)) if \\
+    & busy\_working(Person), \\
+    & supervisor\_to(Person, Actor) \\
+\end{split}
+\end{equation}
 
-\subsection{Example T}
+Now, let us imagine that Bob is Alice’s supervisor.
+Similar to Example B, our agent executes activity 1 until the observation that Bob is busy working.
+This time, we have a strict authorization statement forbidding greeting Bob since he is Alice’s supervisor.
+Under the (utilitarian, utilitarian) option, we proceed on with activity 1 anyway.
+With the (paranoid, subordinate) option, our agent stops activity 1 but cannot construct a new activity that achieves the goal subject to its policy.
+Hence, the goal is futile and the agent waits until its environment changes such that a strongly compliant activity exists.
+Under the (best effort, best effort) option however, our agent constructs a new activity that contains greets Bob anyway.
+The activity contains: greet(alice, bob), ignore\_not\_permitted(greet("Alice","Bob")), and ignore\_neg\_permitted(greet("Alice","Bob")).
+
+\subsection{Example D: Hierarchy of contradictory defeasible statements}
+
+Further extending Example C, suppose we make rule XX defeasible:
+
+\begin{equation}
+\begin{split}
+move\_normal(Actor, Door): \\
+normally permitted(move\_through(Actor, Door))
+\end{split}
+\end{equation}
+
+and add the following policy statement:
+
+\begin{equation}
+\begin{split}
+move\_office(Actor, Door): \\
+normally -permitted(move\_through(Actor, Door)) if
+    & in\_room(Actor, FromRoom), \\
+    & door\_connects(Door, ToRoom), \\
+    & ToRoom != FromRoom
+\end{split}
+\end{equation}
+And the following static (See also Table XX):
+
+\begin{equation}
+\begin{split}
+private\_office(r4).
+\end{split}
+\end{equation}
+
+Since we have two contradictory defeasible statements, we need to add a preference between the two (without a preference our agent can non-deterministically choose between which of the two rules to apply).
+Suppose we add:
+
+\begin{equation}
+\begin{split}
+prefer(move\_office(Actor, Door), move\_normal(Actor, Door))
+\end{split}
+\end{equation}
+
+Then, when Alice observes that Bob is not busy working at the beginning of the scenario, an agent running in (paranoid, subordinate) mode will immediately consider the goal to be futile.
+Unlike in Example C, our agent knows this immediately because private\_office is a static, not an unexpected observation.
+If our agent is running in (best effort, best effort) mode, it creates an activity like activity 1, except that it contains ignore\_not\_permitted(greet("Alice","Bob")) and ignore\_neg\_permitted(greet("Alice","Bob")).
+Our utilitarian agent, like always, completely ignores our policy and executes activity 1.
+
+Should we have written:
+
+\begin{equation}
+\begin{split}
+prefer(move\_normal(Actor, Door), move\_office(Actor, Door))
+\end{split}
+\end{equation}
+
+Instead, then the second rule XX would have no effect since rule YY does not have an “if” condition.
+The rest of the example would model Example C.
+
+\subsection{Example L: Fortunate case}
+
+In the following examples, we shift our focus from authorization policies to obligation policies.
+In the same office space, we suppose we have statics, fluents, and actions as described in Figure XX.
+Suppose it is drawing close to the end of the day and we want to close and secure the workspace for the night.
+Specifically, we want to enable the premises alarm system.
+This alarm system can be enabled from anywhere within the building.
+For simplicity, we do not consider the logistics of ensuring our agents or other personnel are next to building exits, lest they trigger the alarm that they turned on.
+
+At the start of this scenario, Alice observes she is in room r1, Bob is in room r4, and the security system is off.
+At timestep 0, we observes the exogenous mental action select(policy\_compliant(security\_system\_enabled)).
+Note, since the alarm system can be enabled from any location, a (utilitarian, utilitarian) agent starts activity 2.
+However, our (paranoid, subordinate) and our (best effort, best effort) agents foresee activity 1 to be policy compliant.
+Hence, an agent in either mode starts activity 1 (they will walk through the entire building and turn off all lights and lock door d34).
+
+\subsection{Example M: All activities become non-compliant}
+
+If we were to add to Example L a common curtesy to refrain from turn off lights on other people:
+
+\begin{equation}
+\begin{split}
+obl(-turn\_lights\_off(Actor, Room)) if
+    & person(Person) \\
+    & not agent(Person) \\
+    & in\_room(Person, Room) \\
+\end{split}
+\end{equation}
+
+Then, our agent behavior is as follows.
+Our (utilitarian, utilitarian) agent will start activity 2 as before.
+In other modes, since Alice has initially observed that Bob is in room r4, she cannot construct a policy-compliant activity that achieves security\_system\_enabled.
+As a result, a (paranoid, subordinate) agent will determine that the goal is futile and proceed to wait perpetually until she observes that Bob leaves the building.
+A (best effort, best effort) agent executes activity 3, which contains ignore\_obl(neg(turn\_lights\_off(Actor, Room))), since no compliant alternatives exist.
+
+\subsection{Example N: Active activity becomes non-compliant. Compliant alternatives exist}
+
+To demonstrate a case where a complaint alternative exists, we add to Example M the ability to ask someone to move.
+One can think of the ask\_to\_move\_through action as a friendly escort action that allows our agent to move another person.
+In order to create a place for Bob to be moved to so that the security system can be enabled, let us create a “room” that represents the outdoors with a door d3exit connecting room r3 to the outside.
+
+For the sake of the example, suppose we initially observe Bob to be outside.
+Then, given the observation of select(policy\_compliant(security\_system\_enabled)), we start activity 1.
+When Alice moves into room r4, we observe that Bob is now in room r4 with her.
+This causes Alice to diagnose two exogenous actions: move\_through(bob, d3exit) and move\_through(bob, d34).
+Assuming our agent is in either (paranoid, subordinate) or (best effort, best effort), Alice will stop the active activity and plan to move Bob so that she can achieve security\_system\_enabled without violating her policy.
+Alice starts activity 4.
+
+Notice that Alice does not bring Bob outside before turning on the security system.
+This is because our policy only forbids turning off lights while others are present.
+It does not forbade bringing others into an already-dark room.
+If we wanted this feature, we could add the following policy statement and our agent Alice would plan to turn on the lights ahead of time, so that she can bring Bob outside, then go back in to turn off all of the lights.
+
+\begin{equation}
+\begin{split}
+obl(-ask\_to\_move\_through(Actor, Door)) if
+    lights\_off(ToRoom)
+\end{split}
+\end{equation}
+
+\subsection{Example O: Hierarchy of contradictory defeasible statements}
+
+If we make rules XX and YY defeasible, we can consider how the scenario would change under different prefer hierarchies.
+
+\begin{equation}
+\begin{split}
+lights\_someone\_else(Actor, Room): \\
+normally obl(-turn\_lights\_off(Actor, Room)) if \\
+    & person(Person) \\
+    & not agent(Person) \\
+    & in\_room(Person, Room) \\
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+lights\_security\_system(Actor): \\
+normally obl(-enable\_security\_system(Actor)) if
+    -all\_lights\_off
+\end{split}
+\end{equation}
+
+If we have:
+
+\begin{equation}
+\begin{split}
+prefer(lights\_someone\_else(Actor, Room), lights\_security\_system(Actor))
+\end{split}
+\end{equation}
+
+Then the lights\_security\_system rule is waived when the condition for the lights\_someone\_else rule is true.
+As a result, when Alice sees Bob is in room r4, she only chooses to honor one rule and will not turn off the lights on Bob.
+She will stop her activity and start activity 2.
+
+On the other hand, if we had:
+
+\begin{equation}
+\begin{split}
+prefer(lights\_someone\_else(Actor, Room), lights\_security\_system(Actor))
+\end{split}
+\end{equation}
+
+Then the rule against turning the lights off on Bob is ignored.
+As a result, Alice will continue her activity to turn the light in room r4 and then enable the security system.
+
+% \subsection{Example S}
+%
+% \subsection{Example T}
