@@ -1,0 +1,201 @@
+User	Kernel	Total
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.08	0.02	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.14	0.04	2.90
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.03	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.16	0.05	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.24	0.03	2.91
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.06	0.06	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.15	0.04	2.91
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.09	0.03	2.83
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.17	0.07	2.95
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.16	0.05	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.16	0.06	2.91
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.25	0.01	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.12	0.02	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.09	0.04	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.12	0.06	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.06	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.15	0.04	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.07	0.03	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.05	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.10	0.04	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.13	0.05	2.90
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.13	0.05	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.12	0.04	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.10	0.06	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.16	0.02	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.15	0.06	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.20	0.05	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.16	0.03	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.27	0.03	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.17	0.06	2.93
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.06	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.17	0.02	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.20	0.01	2.90
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.13	0.06	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.19	0.02	2.92
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.06	0.05	2.83
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.10	0.02	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.12	0.01	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.08	0.04	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.16	0.04	2.92
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.12	0.03	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.08	0.04	2.82
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.11	0.05	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.16	0.02	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.30	0.01	2.91
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.04	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.16	0.04	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.23	0.05	2.95
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.18	0.06	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.05	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.13	0.04	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.06	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.23	0.02	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.23	0.05	2.95
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.18	0.02	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.22	0.02	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.16	0.03	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.20	0.04	2.92
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.07	0.10	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.03	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.10	0.03	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.07	0.02	2.82
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.14	0.01	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.12	0.03	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.14	0.06	2.92
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.11	0.04	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.12	0.02	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.08	0.05	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.09	0.04	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.17	0.02	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.04	0.06	2.83
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.08	0.05	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.18	0.01	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.19	0.04	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.12	0.04	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.11	0.07	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.17	0.01	2.90
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.11	0.07	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.16	0.03	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.14	0.01	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.22	0.06	2.92
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.15	0.03	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.11	0.06	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.18	0.05	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.15	0.02	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.21	0.03	2.89
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.10	0.05	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.11	0.02	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.16	0.04	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.15	0.03	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.17	0.04	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.08	0.06	2.84
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.19	0.03	2.88
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.15	0.03	2.91
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.30	0.04	2.87
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.34	0.03	3.00
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.16	0.03	2.86
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_weakly_compliant_3', 'apia_options_auth_non_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.23	0.07	2.94
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_do_action_3', 'apia_options_obl_refrain_from_action_3'})>)
+3.12	0.03	2.85
+Running with configuration: APIAConfiguration(authorization=<APIAAuthorizationSetting.UTILITARIAN: frozenset({'apia_options_auth_non_compliant_3', 'apia_options_auth_weakly_compliant_3'})>, obligation=<APIAObligationSetting.UTILITARIAN: frozenset({'apia_options_obl_refrain_from_action_3', 'apia_options_obl_do_action_3'})>)
+3.28	0.04	3.00
