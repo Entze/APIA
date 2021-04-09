@@ -417,7 +417,7 @@ def _main(script_dir: Path):
         for intended_action in step_3_intended_actions:
             print(f'    Intended action: {intended_action}')
         new_activity_symbols = tuple(filter(lambda symbol: symbol.name.startswith('activity_'), symbols))
-        if len(new_activity_symbols) > 1:
+        if len(new_activity_symbols) > 0:
             print(f'    New activity:')
         for symbol in new_activity_symbols:
             print(f'      {symbol}')
