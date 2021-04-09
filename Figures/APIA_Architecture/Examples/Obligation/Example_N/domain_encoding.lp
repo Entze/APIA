@@ -117,7 +117,7 @@ exogenous_action(turn_lights_off(Actor, Room)) :-
     not agent(Actor).
 
 % enable_security_system(Actor)
-physical_actioff(enable_security_system(Actor, Room)) :-
+physical_action(enable_security_system(Actor, Room)) :-
     person(Actor),
     room(Room).
 
