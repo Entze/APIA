@@ -44,7 +44,7 @@ happened(move_through(Actor, Door), Timestep) :-
 happened(turn_lights_off(Actor, Room), Timestep) :-
     Timestep = 4,
     Actor = "Alice",
-    Door = "r4".
+    Door = "r3".
 
 happened(unlock_door(Actor, Door), Timestep) :-
     Timestep = 4,
@@ -69,7 +69,7 @@ happened(move_through(Actor, Door), Timestep) :-
 happened(turn_lights_off(Actor, Room), Timestep) :-
     Timestep = 6,
     Actor = "Alice",
-    Door = "r1".
+    Door = "r4".
 
 happened(lock_door(Actor, Door), Timestep) :-
     Timestep = 6,
