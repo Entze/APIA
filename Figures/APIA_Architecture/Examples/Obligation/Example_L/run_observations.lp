@@ -1,5 +1,14 @@
 #program observations_1.
 
+happened(wait, Timestep) :-
+    Timestep = 0.
+
+happened(select(policy_compliant(security_system_enabled)), Timestep) :-
+    Timestep = 0.
+
+-observed(security_system_enabled, Timestep) :-
+    Timestep = 1.
+
 #program observations_2.
 
 #program observations_3.
@@ -21,4 +30,3 @@
 #program observations_11.
 
 #program observations_12.
-
