@@ -14,6 +14,9 @@ agent(Agent) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+private_office(Room) :-
+    Room = "r4".
+
 supervisor_to(Boss, Person) :-
     Boss = "Bob",
     Person = "Alice".

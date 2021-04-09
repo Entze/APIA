@@ -7,6 +7,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% private_office(Room)
 % supervisor_to(Boss, Person)
 
 % door_connects(Door, Room)
@@ -124,7 +125,7 @@ exogenous_action(greet(Actor, Person)) :-
 %   causes in_room(Actor, ToRoom)
 %   if
 %     in_room(Actor, FromRoom),
-%     door_connects(Door, FromRoom),
+%     door_connects(Door, ToRoom),
 %     ToRoom != FromRoom
 holds(in_room(Actor, ToRoom), timestep + 1) :-
     occurs(move_through(Actor, Door), timestep),
@@ -212,10 +213,24 @@ impossible(greet(Actor, Person), timestep) :-
 
 % "Anyone is allowed to move from any room to any room"
 %
-% permitted(move_through(Actor, Door))
+% move_normal(Actor, Door): normally permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door(Door),
+    not abnormal(move_1(Actor, Door), timestep),
+    not -permitted(move_through(Actor, Door), timestep),
+    not obl(neg(move_through(Actor, Door)), timestep).
+
+% "Normally, no one is allowed to enter a private office through a door if the door is closed"
+%
+% move_office(Actor, Door): normally -permitted(move_through(Actor, Door)) if
+%   in_room(Actor, FromRoom),
+%   door_connects(Door, ToRoom),
+%   ToRoom != FromRoom
+% TODO: Complete
+
+% prefer(move_office(Actor, Door), move_normal(Actor, Door))
+% TODO: Complete
 
 % "Anyone is permitted to lock a door"
 %
