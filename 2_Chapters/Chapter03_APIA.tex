@@ -246,7 +246,7 @@ These allow our agent to decide when it will obey its policy or disregard it.
 
 One can imagine that agents could use this capability in multiple ways.
 Some agents could strictly adhere to their policy (and hence, never use these actions) while others could be more utilitarian (and use them more liberally).
-To this end, we have parameterized the agent's adherence to its policy (See Table X).
+To this end, we have parameterized the agent's adherence to its policy (See \cref{table:apia_authorization_modes,table:apia_obligation_modes}).
 
 One option for this parameter causes the agent to strictly adhere to its policy such that it never performs $ignore\_neg\_permitted(a)$.
 This causes all non-compliant actions to indirectly cause $policy\_compliant(F)$ to be false.
