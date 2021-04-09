@@ -474,7 +474,7 @@ Suppose we take rule XX, make it defeasible, and add this AOPL rule in addition 
 
 \begin{equation}
 \begin{split}
-\neg permitted(greet(Actor, Person)) if \\
+\neg permitted(greet(Actor, Person)) \textbf{ if } \\
     & busy\_working(Person), \\
     & supervisor\_to(Person, Actor) \\
 \end{split}
@@ -496,7 +496,7 @@ Further extending Example C, suppose we make rule XX defeasible:
 \begin{equation}
 \begin{split}
 move\_normal(Actor, Door): \\
-normally permitted(move\_through(Actor, Door))
+\textbf{ normally } permitted(move\_through(Actor, Door))
 \end{split}
 \end{equation}
 
@@ -505,7 +505,7 @@ and add the following policy statement:
 \begin{equation}
 \begin{split}
 move\_office(Actor, Door): \\
-normally \neg permitted(move\_through(Actor, Door)) if
+\textbf{ normally } \neg permitted(move\_through(Actor, Door)) \textbf{ if }
     & in\_room(Actor, FromRoom), \\
     & door\_connects(Door, ToRoom), \\
     & ToRoom != FromRoom
@@ -565,7 +565,7 @@ If we were to add to Example L a common curtesy to refrain from turn off lights 
 
 \begin{equation}
 \begin{split}
-obl(\neg turn\_lights\_off(Actor, Room)) if
+obl(\neg turn\_lights\_off(Actor, Room)) \textbf{ if }
     & person(Person) \\
     & not agent(Person) \\
     & in\_room(Person, Room) \\
@@ -598,7 +598,7 @@ If we wanted this feature, we could add the following policy statement and our a
 
 \begin{equation}
 \begin{split}
-obl(\neg ask\_to\_move\_through(Actor, Door)) if
+obl(\neg ask\_to\_move\_through(Actor, Door)) \textbf{ if }
     lights\_off(ToRoom)
 \end{split}
 \end{equation}
@@ -610,7 +610,7 @@ If we make rules XX and YY defeasible, we can consider how the scenario would ch
 \begin{equation}
 \begin{split}
 lights\_someone\_else(Actor, Room): \\
-normally obl(\neg turn\_lights\_off(Actor, Room)) if \\
+\textbf{ normally } obl(\neg turn\_lights\_off(Actor, Room)) \textbf{ if } \\
     & person(Person) \\
     & not agent(Person) \\
     & in\_room(Person, Room) \\
@@ -620,7 +620,7 @@ normally obl(\neg turn\_lights\_off(Actor, Room)) if \\
 \begin{equation}
 \begin{split}
 lights\_security\_system(Actor): \\
-normally obl(\neg enable\_security\_system(Actor)) if
+\textbf{ normally } obl(\neg enable\_security\_system(Actor)) \textbf{ if }
     \neg all\_lights\_off
 \end{split}
 \end{equation}
