@@ -404,20 +404,18 @@ intended_action(start(Activity), current_timestep) :-
 %  only if there is no candidate that is expected to achieve the goal.
 % (p. 74) of dissertation
 
-% prefer(plan_new(Action, Timestep1), futile_goal(Goal, Timestep2)).
+% prefer(plan_new(Action, Timestep), futile_goal(Goal, current_timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     action(Action),
-    step(Timestep1),
-    step(Timestep2),
+    step(Timestep),
     goal(Goal),
-    HigherPriorityCRRule = plan_new(Action, Timestep1),
-    LowerPriorityCRRule = futile_goal(Goal, Timestep2).
+    HigherPriorityCRRule = plan_new(Action, Timestep),
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
 
-% prefer(plan_existing(Action, Timestep1), futile_goal(Goal, Timestep2)).
+% prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     action(Action),
-    step(Timestep1),
-    step(Timestep2),
+    step(Timestep),
     goal(Goal),
-    HigherPriorityCRRule = plan_existing(Action, Timestep1),
-    LowerPriorityCRRule = futile_goal(Goal, Timestep2).
+    HigherPriorityCRRule = plan_existing(Action, Timestep),
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
