@@ -7,6 +7,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% supervisor_to(Boss, Person)
+
 % door_connects(Door, Room)
 % door_has_lock(Door)
 
@@ -265,3 +267,12 @@ permitted(greet(Actor, Person), timestep) :-
     holds(knocked_on_door(Door), timestep),
     not -permitted(greet(Actor, Person), timestep),
     not obl(neg(greet(Actor, Person)), timestep).  % Note: Our addition
+
+% "No one is allowed to greet their boss if he's busy working"
+%
+% -permitted(greet(Actor, Person)) if
+%   busy_working(Person),
+%   supervisor_to(Person, Actor)
+-permitted(greet(Actor, Person), timestep) :-
+    holds(busy_working(Person), timestep),
+    supervisor_to(Person, Actor).
