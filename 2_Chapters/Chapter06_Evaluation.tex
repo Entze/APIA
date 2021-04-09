@@ -117,7 +117,7 @@ An important feature to consider is the ability to reason over ``default'' logic
 Default logic considers rules that are ``normally'' true but may have exceptions.
 Though language $\mathcal{AOPL}$ has this feature, action language $\mathcal{AL}$ does not.
 By itself, this is an issue because our description of policy actions relies on this capability (non-compliant actions ``normally'' cause $\neg auth\_compliance(weak)$, but $ignore\_not\_permitted(a)$ is an exception to this rule).
-Fortunately for us, ASP (which $\mathcal{AL}$ rules are translated into) does have this limitation.
+Fortunately for us, ASP (which $\mathcal{AL}$ rules are translated into) does not have this limitation.
 Thus, we use $\mathcal{AL}$-like rules in our action description of policy actions.
 
 In the same vein, language $\mathcal{AOPL}$ also has a limitation (Note: $\mathcal{AL}$ also has this limitation, though we do not have any need to overcome it).
@@ -127,21 +127,21 @@ Given a rule:
     obl(a) \textbf{ if } cond
 \end{equation}
 $cond$ must be an expression of fluents.
-Thus, it is possible to write a policy that applyes when another action is concurrently executed, such as ``an agent is obligated to take their ID badge with them when moving''.
+Thus, it is possible to write a policy that applies when another action is concurrently executed, such as ``an agent is obligated to take their ID badge with them when moving''.
 Same as before, we bypass this limitation by utilizing the underlying flexibility of ASP (to which $\mathcal{AOPL}$ policy are translated) where we can use occurs in the rule body.
 
-Another consideration of action language $\mathcal{AL}$ is that does not support so-called ``triggers'', in which a fluent can force an action to occur.
-For example, when a door has an auto-locking timer, having door\_autolock\_countdown at zero could cause the lock\_door action.
+Another consideration of action language $\mathcal{AL}$ is that it does not support so-called ``triggers'', in which a fluent can force an action to occur.
+For example, when a door has an auto-locking timer, having $door\_autolock\_countdown$ at zero could cause the $lock\_door$ action.
 This is not a limitation though, as we easily get around this by writing:
 \begin{equation}
 \begin{split}
-    A \textbf{ causes } door_locked(L1, L2) \textbf{ if } \
-        & physical_action(A) \\
-        & door_autolock_countdown(L1, L2, T), \\
+    A \textbf{ causes } door\_locked(L1, L2) \textbf{ if } \
+        & physical\_action(A) \\
+        & door\_autolock\_countdown(L1, L2, T), \\
         & T = 1
 \end{split}
 \end{equation}
-In this rule, all actions cause the door to lock when door\_autolock\_countdown is zero.
+In this rule, all actions cause the door to lock when $door\_autolock\_countdown$ is zero.
 (One can consider the action causing the world to increment a timestep, which causes the door to lock).
 
 \section{Elaboration Tolerance}
