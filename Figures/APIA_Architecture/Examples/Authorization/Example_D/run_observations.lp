@@ -1,3 +1,4 @@
+% ---------------------------------------------------------------
 #program observations_1.
 
 happened(wait, Timestep) :-
@@ -13,6 +14,7 @@ happened(select(policy_compliant(greeted_by(Person, Actor))), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_2.
 
 happened(start(Activity), Timestep) :-
@@ -24,6 +26,7 @@ happened(start(Activity), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_3.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -41,6 +44,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_4.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -58,6 +62,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_5.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -79,6 +84,7 @@ observed(busy_working(Person), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_6.
 
 happened(stop(Activity), Timestep) :-
@@ -90,6 +96,7 @@ happened(stop(Activity), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_7.
 
 happened(start(Activity), Timestep) :-
@@ -101,6 +108,7 @@ happened(start(Activity), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_8.
 
 happened(knock_on_door(Actor, Door), Timestep) :-
@@ -113,6 +121,7 @@ happened(knock_on_door(Actor, Door), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_9.
 
 happened(greet(Actor, Person), Timestep) :-
@@ -125,6 +134,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_10.
 
 happened(stop(Activity), Timestep) :-
@@ -136,6 +146,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Actor = "Alice",
     Person = "Bob".
 
+% ---------------------------------------------------------------
 #program observations_11.
 
 happened(wait, Timestep) :-
@@ -146,6 +157,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_12.
 
 happened(wait, Timestep) :-

@@ -1,13 +1,19 @@
+% ---------------------------------------------------------------
 #program observations_1.
 
+% ---------------------------------------------------------------
 #program observations_2.
 
+% ---------------------------------------------------------------
 #program observations_3.
 
+% ---------------------------------------------------------------
 #program observations_4.
 
+% ---------------------------------------------------------------
 #program observations_5.
 
+% ---------------------------------------------------------------
 #program observations_6.
 
 happened(stop(Activity), Timestep) :-
@@ -19,6 +25,7 @@ happened(stop(Activity), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_7.
 
 % TODO: Troubleshoot this
@@ -32,6 +39,7 @@ happened(start(Activity), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_8.
 
 happened(greet(Actor, Person), Timestep) :-
@@ -44,6 +52,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_9.
 
 happened(stop(Activity), Timestep) :-
@@ -55,16 +64,19 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_10.
 
 happened(wait, Timestep) :-
     Timestep = 9.
 
+% ---------------------------------------------------------------
 #program observations_11.
 
 happened(wait, Timestep) :-
     Timestep = 10.
 
+% ---------------------------------------------------------------
 #program observations_12.
 
 happened(wait, Timestep) :-

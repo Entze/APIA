@@ -1,3 +1,4 @@
+% ---------------------------------------------------------------
 #program observations_1.
 
 happened(wait, Timestep) :-
@@ -13,6 +14,7 @@ happened(select(policy_compliant(greeted_by(Person, Actor))), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_2.
 
 happened(start(Activity), Timestep) :-
@@ -24,6 +26,7 @@ happened(start(Activity), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_3.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -41,6 +44,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_4.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -58,6 +62,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_5.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -75,6 +80,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_6.
 
 happened(greet(Actor, Person), Timestep) :-
@@ -87,6 +93,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Actor = "Alice",
     Person = "Bob".
 
+% ---------------------------------------------------------------
 #program observations_7.
 
 happened(stop(Activity), Timestep) :-
@@ -98,6 +105,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
 #program observations_8.
 
 happened(wait, Timestep) :-

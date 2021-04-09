@@ -1,5 +1,7 @@
+% ---------------------------------------------------------------
 #program observations_1.
 
+% ---------------------------------------------------------------
 #program observations_2.
 
 happened(start(Activity), Timestep) :-
@@ -9,6 +11,7 @@ happened(start(Activity), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 2.
 
+% ---------------------------------------------------------------
 #program observations_3.
 
 happened(turn_lights_off(Actor, Room), Timestep) :-
@@ -24,6 +27,7 @@ happened(move_through(Actor, Door), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 3.
 
+% ---------------------------------------------------------------
 #program observations_4.
 
 happened(turn_lights_off(Actor, Room), Timestep) :-
@@ -39,6 +43,7 @@ happened(move_through(Actor, Door), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 4.
 
+% ---------------------------------------------------------------
 #program observations_5.
 
 happened(turn_lights_off(Actor, Room), Timestep) :-
@@ -54,6 +59,7 @@ happened(unlock_door(Actor, Door), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 5.
 
+% ---------------------------------------------------------------
 #program observations_6.
 
 happened(move_through(Actor, Door), Timestep) :-
@@ -69,6 +75,7 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Room = "r4".
 
+% ---------------------------------------------------------------
 #program observations_7.
 
 happened(stop(Activity), Timestep) :-
@@ -78,6 +85,7 @@ happened(stop(Activity), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 7.
 
+% ---------------------------------------------------------------
 #program observations_8.
 
 happened(start(Activity), Timestep) :-
@@ -87,6 +95,7 @@ happened(start(Activity), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 8.
 
+% ---------------------------------------------------------------
 #program observations_9.
 
 happened(turn_lights_off(Actor, Room), Timestep) :-
@@ -107,6 +116,7 @@ happened(lock_door(Actor, Door), Timestep) :-
 -observed(security_system_enabled, Timestep) :-
     Timestep = 9.
 
+% ---------------------------------------------------------------
 #program observations_10.
 
 happened(enable_security_system(Actor), Timestep) :-
@@ -116,6 +126,7 @@ happened(enable_security_system(Actor), Timestep) :-
 observed(security_system_enabled, Timestep) :-
     Timestep = 10.
 
+% ---------------------------------------------------------------
 #program observations_11.
 
 happened(stop(Activity), Timestep) :-
@@ -125,6 +136,7 @@ happened(stop(Activity), Timestep) :-
 observed(security_system_enabled, Timestep) :-
     Timestep = 11.
 
+% ---------------------------------------------------------------
 #program observations_12.
 
 happened(wait, Timestep) :-
