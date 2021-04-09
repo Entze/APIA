@@ -1,10 +1,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 room(Room) :-
-    Room = ("r1"; "r2"; "r3"; "r4").
+    Room = ("r1"; "r2"; "r3"; "r4"; "outside").
+
+outdoor_room(Room) :-
+    Room = "outside".
 
 door(Door) :-
-    Door = ("d12"; "d23"; "d34").
+    Door = ("d12"; "d23"; "d34"; "d3exit").
 
 person(Person) :-
     Person = ("Alice"; "Bob").
@@ -32,6 +35,10 @@ door_connects(Door, Room) :-
 door_connects(Door, Room) :-
     Door = "d34",
     Room = ("r3"; "r4").
+
+door_connects(Door, Room) :-
+    Door = "d3exit",
+    Room = ("r3"; "outside").
 
 door_has_lock(Door) :-
     Door = "d34".

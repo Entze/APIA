@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % room(Room)
+% outdoor_room(Room)
 % door(Door)
 % person(Person)
 % agent(Agent)
@@ -26,7 +27,8 @@ physical_fluent(inertial, in_room(Person, Room)) :-
 
 % room_lights_on(Room)
 physical_fluent(inertial, room_lights_on(Room)) :-
-    room(Room).
+    room(Room),
+    not outdoor_room(Room).
 
 % all_lights_off
 physical_fluent(defined_negative, all_lights_off).
