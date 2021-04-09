@@ -27,6 +27,7 @@
 % \section{Discussion}
 
 \section{Runtime Performance Results}
+\label{sec:benchmark}
 
 \begin{table}[H]
     \centering
@@ -64,6 +65,13 @@
     \caption{$\mathcal{APIA}$ Benchmark by CPU time}
     \label{table:apia_benchmark_cpu_time}
 \end{table}
+
+In general, T-statistic values with an absolute value greater than $3$ are statistically significant.
+In \cref{table:apia_benchmark_elapsed_time,table:apia_benchmark_cpu_time} we compute the T-statistics between every pair of modes, for which there is all a statistically significant difference.
+The biggest difference is in the $(best effort, best effort)$ mode, presumably due to the extra overhead of optimizing compliance.
+Surprisingly, $(paranoid, subordinate)$ requires less time than $(utilitarian, utilitarian)$.
+Since \textsc{clingo} operates as a black box, it would be interesting for future work to investigate this observation.
+The units of ``Average'', ``Standard deviation'', and ``Standard error of the mean'' are in seconds.
 
 \section{Conciseness}
 
