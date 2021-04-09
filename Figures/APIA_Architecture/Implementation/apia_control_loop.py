@@ -397,6 +397,9 @@ def _main(script_dir: Path):
             output_predicates={
                 SymbolSignature(name='intended_action', arity=2): True,
                 SymbolSignature(name='futile_goal', arity=2): True,
+                SymbolSignature(name='activity_component', arity=3): False,
+                SymbolSignature(name='activity_length', arity=2): False,
+                SymbolSignature(name='activity_goal', arity=2): False,
             },
             debug=debug,
         )
@@ -413,6 +416,11 @@ def _main(script_dir: Path):
                                         if symbol.name == 'intended_action' and len(symbol.arguments) == 2)
         for intended_action in step_3_intended_actions:
             print(f'    Intended action: {intended_action}')
+        new_activity_symbols = tuple(filter(lambda symbol: symbol.name.startswith('activity_'), symbols))
+        if len(new_activity_symbols) > 1:
+            print(f'    New activity:')
+        for symbol in new_activity_symbols:
+            print(f'      {symbol}')
 
         # Step 3: Perform intended action
         print()

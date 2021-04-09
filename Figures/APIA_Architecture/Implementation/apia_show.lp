@@ -8,3 +8,10 @@
 
 #show diagnosis(Action, Timestep, current_timestep) :
     apply_cr_rule(diagnosis(Action, Timestep, current_timestep)).
+
+#show activity_component(ir, ComponentIndex, Component) :
+    activity_component(ir, ComponentIndex, Component).
+#show activity_length(ir, ActivityLength) :
+    activity_length(ir, ActivityLength).
+#show activity_goal(ir, ActivityGoal) :
+    activity_goal(ir, ActivityGoal).
