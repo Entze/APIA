@@ -28,6 +28,43 @@
 
 \section{Runtime Performance Results}
 
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{ | X | X | X | X | }
+    \hline
+    &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (utilitarian, utilitarian)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (best effort, best effort)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (paranoid, subordinate)\end{tabular}} \\ \hline
+    Average                                          & 2.8741       & 3.424       & 2.8577       \\ \hline
+    Standard deviation                               & 0.034321563  & 0.039363625 & 0.038134663  \\ \hline
+    Standard error of the mean                       & 0.003432156  & 0.003936362 & 0.003813466  \\ \hline
+    T-statistic with APIA (utilitarian, utilitarian) & 0            & 105.2941286 & -3.196557879 \\ \hline
+    T-statistic with APIA (best effort, best effort) & -105.2941286 & 0           & -103.3272455 \\ \hline
+    T-statistic with APIA (paranoid, subordinate)    & 3.196557879  & 103.3272455 & 0            \\ \hline    \end{tabularx}
+    \caption{$\mathcal{APIA}$ Benchmark by elapsed time}
+    \label{table:apia_benchmark_elapsed_time}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{ | X | X | X | X | }
+    \hline
+    &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (utilitarian, utilitarian)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (best effort, best effort)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (paranoid, subordinate)\end{tabular}} \\ \hline
+    Average                                          & 3.185       & 3.7957      & 3.1104       \\ \hline
+    Standard deviation                               & 0.056309032 & 0.047614933 & 0.045280718  \\ \hline
+    Standard error of the mean                       & 0.005630903 & 0.004761493 & 0.004528072  \\ \hline
+    T-statistic with APIA (utilitarian, utilitarian) & 0           & 82.8157149  & -10.32428252 \\ \hline
+    T-statistic with APIA (best effort, best effort) & -82.8157149 & 0           & -104.294952  \\ \hline
+    T-statistic with APIA (paranoid, subordinate)    & 10.32428252 & 104.294952  & 0            \\ \hline
+    \end{tabularx}
+    \caption{$\mathcal{APIA}$ Benchmark by CPU time}
+    \label{table:apia_benchmark_cpu_time}
+\end{table}
+
 \section{Conciseness}
 
 Since our work on policy fluents and actions operate behind the scenes during the execution of an $\mathcal{APIA}$ agent, the conciseness and expressivity of user-defined encodings for this architecture are determined by the conciseness and expressivity of its underlying user-facing components: Action Language $\mathcal{AL}$ and Language $\mathcal{AOPL}$.
