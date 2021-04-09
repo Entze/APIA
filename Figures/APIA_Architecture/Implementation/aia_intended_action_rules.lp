@@ -181,7 +181,7 @@ intended_action(stop(Activity), current_timestep) :-
 % See p. 68 of dissertation
 
 % "The history is of category 4 when a top-level goal is active
-%  but no activity with the goal is active (i.e the goal is not in progress)"
+%  but no activity with the goal is active (i.e. the goal is not in progress)"
 % (p. 65) of dissertation
 category_4_history(Goal, current_timestep) :-
     -holds(minor_goal(Goal), current_timestep),
