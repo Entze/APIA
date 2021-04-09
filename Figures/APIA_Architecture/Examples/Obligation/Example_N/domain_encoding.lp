@@ -49,6 +49,21 @@ exogenous_action(move_through(Actor, Door)) :-
     physical_action(move_through(Actor, Door)),
     not agent(Actor).
 
+% ask_to_move_through(Actor, Person, Door)
+physical_action(ask_to_move_through(Actor, Person, Door)) :-
+    person(Actor),
+    person(Person),
+    Actor != Person,
+    door(Door).
+
+agent_action(ask_to_move_through(Actor, Person, Door)) :-
+    physical_action(ask_to_move_through(Actor, Person, Door)),
+    agent(Actor).
+
+exogenous_action(ask_to_move_through(Actor, Person, Door)) :-
+    physical_action(ask_to_move_through(Actor, Person, Door)),
+    not agent(Actor).
+
 % lock_door(Actor, Door)
 physical_action(lock_door(Actor, Door)) :-
     person(Actor),
@@ -130,6 +145,19 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
     ToRoom != FromRoom,
     holds(in_room(Actor, FromRoom), timestep).
 
+% ask_to_move_through(Actor, Person, Door)
+%   causes in_room(Person, ToRoom)
+%   if
+%     in_room(Person, FromRoom),
+%     door_connects(Door, ToRoom),
+%     ToRoom != FromRoom
+holds(in_room(Actor, ToRoom), timestep + 1) :-
+    occurs(ask_to_move_through(Actor, Person, Door), timestep),
+    door_connects(Door, ToRoom),
+    door_connects(Door, FromRoom),
+    ToRoom != FromRoom,
+    holds(in_room(Actor, FromRoom), timestep).
+
 % -in_room(Actor, FromRoom) if
 %   in_room(Actor, ToRoom),
 %   FromRoom != ToRoom
@@ -145,6 +173,11 @@ impossible(move_through(Actor, Door), timestep) :-
     holds(in_room(Actor, Room), timestep),
     door(Door),
     not door_connects(Door, Room).
+
+% impossible ask_to_move_through(Actor, Person, Door) if
+%   in_room(Actor, ActorRoom),
+%   in_room(Person, PersonRoom),
+%   ActorRoom != PersonRoom
 
 % lock_door(Actor, Door)
 %   causes door_locked(Door)
