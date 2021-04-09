@@ -197,6 +197,13 @@ permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
+% "One is obligated not to turn off the lights if someone else is in the room"
+%
+% obl(-turn_lights_off(Actor, Room)) if
+%   person(Person)
+%   not agent(Person)
+%   in_room(Person, Room)
+
 % "One is obligated not to enable the security system if not all lights are off"
 %
 % obl(-enable_security_system(Actor)) if
