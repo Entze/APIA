@@ -192,7 +192,7 @@ impossible(unlock_door(Actor, Door), timestep) :-
 
 % "Anyone is allowed to move from any room to any room"
 %
-% normally permitted(move_through(Actor, Door))
+% permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
