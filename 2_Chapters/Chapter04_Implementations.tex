@@ -9,9 +9,13 @@
 
 \subsection{CR-Prolog to ASP-Core-2}
 
-Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dependencies of Blount's $\mathcal{AIA}$ implementation such that it requires a state-of-the-art solver.
+Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dependencies of Blount's $\mathcal{AIA}$ implementation such that it requires a state-of-the-art solver\footnotemark.
 Specifically, we update his $\mathcal{AIA}$ implementation from CRModels2 (version 2.0.15) to \textsc{clingo} 5.4.1.
 This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while \textsc{clingo} uses a standardized version of ASP called ASP-Core-2.
+
+\footnotetext{
+    Our update to Blount's $\mathcal{AIA}$ implementation is available at \url{https://gitlab.com/0x326/miami-university-cse-700-aia.git} and is released under the MIT open-source license.
+}
 
 Consistency-Restoring Prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
 A CR-rule with label $r$:
@@ -84,8 +88,12 @@ Since this control loop is also the basis for our $\mathcal{APIA}$ implementatio
 
 \subsection{$\mathcal{AIA}$ Logic Program}
 
-For our implementation of the $\mathcal{APIA}$ architecture, we re­implement the $\mathcal{AIA}$ logic program in ASP using only the description of the architecture presented by Blount and our approach to CR­Prolog translation that we propose in the previous section.
+For our implementation of the $\mathcal{APIA}$ architecture, we re­implement the $\mathcal{AIA}$ logic program in ASP using only the description of the architecture presented by Blount and our approach to CR­Prolog translation that we propose in the previous section\footnotemark.
 While the majority of our ASP rules are almost identical to Blount's implementation as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
+
+\footnotetext{
+    Our $\mathcal{APIA}$ implementation is available at \url{https://gitlab.com/0x326/miami-university-cse-700-thesis.git} and is released under the MIT open-source license.
+}
 
 One such set of changes concerns rules about agent histories and the interpretation of unexpected exogenous actions.
 We introduce a cr-prefer statement so that, in the case of multiple possible explanations for an unexpected observation, the agent prefers explanations with recent occurrences of exogenous actions.
