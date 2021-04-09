@@ -16,7 +16,7 @@
     "**/run_cautious_best_effort_observations.lp": true,
     "**/run_cautious_permit_commissions_observations.lp": true,
     "**/run_cautious_permit_omissions_observations.lp": true,
-    "**/run_cautious_subordinate_observations.lp": false,
+    "**/run_cautious_subordinate_observations.lp": true,
     "**/run_cautious_utilitarian_observations.lp": true,
     "**/run_paranoid_best_effort_observations.lp": true,
     "**/run_paranoid_permit_commissions_observations.lp": true,
