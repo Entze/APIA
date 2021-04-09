@@ -4,7 +4,7 @@
 
 happened(start(Activity), Timestep) :-
     Timestep = 1,
-    Activity = 1.
+    Activity = 3.
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 2.
@@ -71,6 +71,11 @@ happened(turn_lights_off(Actor, Room), Timestep) :-
     Actor = "Alice",
     Door = "r4".
 
+happened(ignore_obl(neg(turn_lights_off(Actor, Room))), Timestep) :-
+    Timestep = 6,
+    Actor = "Alice",
+    Door = "r4".
+
 happened(lock_door(Actor, Door), Timestep) :-
     Timestep = 6,
     Actor = "Alice",
@@ -92,7 +97,7 @@ observed(security_system_enabled, Timestep) :-
 
 happened(stop(Activity), Timestep) :-
     Timestep = 8,
-    Activity = 1.
+    Activity = 3.
 
 observed(security_system_enabled, Timestep) :-
     Timestep = 9.
