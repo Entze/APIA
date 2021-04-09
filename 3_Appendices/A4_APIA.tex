@@ -3,7 +3,7 @@
 
 \section{Example B}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \begin{framed}
         Fluents:
         \begin{itemize}
@@ -23,18 +23,18 @@
         \begin{gather}
         \begin{split}
             <2, [
-                & move\_through(alice, d12), \\
-                & move\_through(alice, d23), \\
-                & move\_through(alice, d34), \\
-                & knock\_on\_door(alice, d34), \\
+                & move\_through(alice, d_{12}), \\
+                & move\_through(alice, d_{23}), \\
+                & move\_through(alice, d_{34}), \\
+                & knock\_on\_door(alice, d_{34}), \\
                 & greet(alice, bob) \\
             ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
         \end{split} \\
         \begin{split}
             <3, [
-                & knock\_on\_door(alice, d34), \\
+                & knock\_on\_door(alice, d_{34}), \\
                 & greet(alice, bob) \\
-            ], & \ policy\_compliant(greeted\_by(alice, bob))> \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))>
         \end{split}
         \end{gather}
     \end{framed}
@@ -42,9 +42,205 @@
     \label{fig:apia_example_b_description}
 \end{figure}
 
+\section{Example C}
+
+\begin{figure}[H]
+    \begin{framed}
+        Statics:
+        \begin{itemize}
+            \item $supervisor\_to(S, P)$, where $S$ is a supervisor, $P$ is a person.
+        \end{itemize}
+
+        Activities:
+        \begin{gather}
+        \begin{split}
+            <4, [
+                & \{ \\
+                & greet(alice, bob), \\
+                & ignore\_not\_permitted(greet(alice, bob)), \\
+                & ignore\_neg\_permitted(greet(alice, bob)) \\
+                & \} \\
+            ], & \ policy\_compliant(greeted\_by(alice, bob))>
+        \end{split} \\
+        \end{gather}
+    \end{framed}
+    \caption{New elements of Example C}
+    \label{fig:apia_example_c_description}
+\end{figure}
+
+\section{Example D}
+
+\begin{figure}[H]
+    \begin{framed}
+        Statics:
+        \begin{itemize}
+            \item $private\_office(R)$, where $R$ is a room.
+        \end{itemize}
+    \end{framed}
+    \caption{New elements of Example D}
+    \label{fig:apia_example_d_description}
+\end{figure}
+
+\section{Example L}
+
+\begin{figure}[H]
+    \begin{framed}
+        Fluents:
+        \begin{itemize}
+            \item $door\_locked(D)$, for each door $D$
+            \item $in\_room(P, R)$
+            \item $room\_lights\_on(R)$
+            \item $all\_lights\_off$
+            \item $security\_system\_enabled$
+        \end{itemize}
+        where $R$ is a room, $D$ is a door, $P$ is a person.
+
+        Actions:
+        \begin{itemize}
+            \item $move\_through(A, D)$
+            \item $lock\_door(A, D)$
+            \item $unlock\_door(A, D)$
+            \item $turn\_lights\_on(A, R)$
+            \item $turn\_lights\_off(A, R)$
+            \item $enable\_security\_system(A)$
+        \end{itemize}
+        where $A$ is the person doing the action, $D$ is a door, and $P$ a person (the direct object of the action).
+
+        Alice is given the following policy:
+        \begin{itemize}
+            \item $permitted(move\_through(A, D))$
+            \item $obl(\neg enable\_security\_system(A)) \textbf{ if } \neg all\_lights\_off$
+            \item $obl(\neg enable\_security\_system(A)) \textbf{ if } \neg door\_locked(Door)$
+            \item $permitted(lock\_door(A, D))$
+            \item $permitted(unlock\_door(A, d))$
+        \end{itemize}
+
+        The following activities are in Alice's library.
+        \begin{gather}
+        \begin{split}
+            <1, [
+                & \{ \\
+                    & turn\_lights\_off(alice, r_1), \\
+                    & move\_through(alice, d_{12}), \\
+                & \} \\
+                & \{ \\
+                    & turn\_lights\_off(alice, r_{2}), \\
+                    & move\_through(alice, d_{23}), \\
+                & \} \\
+                & \{ \\
+                    & turn\_lights\_off(alice, r_{3}), \\
+                    & unlock\_door(alice, d_{34}), \\
+                & \} \\
+                & move\_through(alice, d_{34}), \\
+                & \{ \\
+                    & turn\_lights\_off(alice, r_{4}), \\
+                    & lock\_door(alice, d_{34}), \\
+                & \} \\
+                & enable\_security\_system(alice) \\
+            ], & \ policy\_compliant(security\_system\_enabled)> \\
+        \end{split} \\
+        \begin{split}
+            <2, [
+                & enable\_security\_system(alice) \\
+            ], & \ policy\_compliant(security\_system\_enabled)>
+        \end{split}
+        \end{gather}
+    \end{framed}
+    \caption{Description of Example A}
+    \label{fig:apia_example_l_description}
+\end{figure}
+
+\section{Example M}
+
+\begin{figure}[H]
+    \begin{framed}
+        Activities:
+        \begin{gather}
+        \begin{split}
+            <3, [
+                & \{ \\
+                    & turn\_lights\_off(alice, r_1), \\
+                    & move\_through(alice, d_{12}), \\
+                & \} \\
+                & \{ \\
+                    & turn\_lights\_off(alice, r_{2}), \\
+                    & move\_through(alice, d_{23}), \\
+                & \} \\
+                & \{ \\
+                    & turn\_lights\_off(alice, r_{3}), \\
+                    & unlock\_door(alice, d_{34}), \\
+                & \} \\
+                & move\_through(alice, d_{34}), \\
+                & \{ \\
+                    & turn\_lights\_off(alice, r_{4}), \\
+                    & ignore\_obl(turn\_lights\_off(alice, r_{4})), \\
+                    & lock\_door(alice, d_{34}), \\
+                & \} \\
+                & enable\_security\_system(alice) \\
+            ], & \ policy\_compliant(security\_system\_enabled)>
+        \end{split}
+        \end{gather}
+    \end{framed}
+    \caption{New elements of Example M}
+    \label{fig:apia_example_m_description}
+\end{figure}
+
+\section{Example N}
+
+\begin{figure}[H]
+    \begin{framed}
+        Domains:
+        \begin{itemize}
+            \item $room(outside)$
+            \item $door(d_{3\text{exit}})$
+        \end{itemize}
+
+        Statics:
+        \begin{itemize}
+            \item $door\_connects(d_{3\text{exit}}, outside)$
+        \end{itemize}
+
+        Actions:
+        \begin{itemize}
+            \item $ask\_to\_move\_through(A, P, D)$, where person $A$ is asking person $P$ to move though door $D$
+        \end{itemize}
+
+        Activities:
+        \begin{gather}
+        \begin{split}
+            <4, [
+                & ask\_to\_move\_through(A, P, D), \\
+                & turn\_lights\_off(A, R), \\
+                & lock\_door(A, D), \\
+                & enable\_security\_system(A) \\
+            ], & \ policy\_compliant(security\_system\_enabled)>
+        \end{split}
+        \end{gather}
+    \end{framed}
+    \caption{New elements of Example N}
+    \label{fig:apia_example_n_description}
+\end{figure}
+
+\section{Example O}
+
+\begin{figure}[H]
+    \begin{framed}
+        Fluents:
+        \begin{itemize}
+            \item $is\_business\_hours$
+        \end{itemize}
+    \end{framed}
+    \caption{New elements of Example O}
+    \label{fig:apia_example_o_description}
+\end{figure}
+
+% \section{Example S}
+%
+% \section{Example T}
+
 \section{Debugging tools}
 
-\begin{figure}[h]
+\begin{figure}[H]
     \inputminted[fontsize=\tiny]{diff}{Figures/APIA_Architecture/Examples/Authorization/Example_A/diff_test.snippet.txt}
     \caption{Example visual diff between two control loop steps}
     \label{fig:apia_diff_test}

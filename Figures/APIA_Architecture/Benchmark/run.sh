@@ -27,21 +27,21 @@ run_test() {
     echo $'User\tKernel\tTotal' > apia_utilitarian_utilitarian.tsv
     for TRIAL_NUM in $(seq 1 "${TRIALS}"); do
         echo "========== APIA (utilitarian, utilitarian): Trial ${TRIAL_NUM} of ${TRIALS} =========="
-        env time -f "${TIME_FORMAT}" ./run_utilitarian_utilitarian.sh
+        env time -f "${TIME_FORMAT}" ./run_utilitarian_utilitarian.snippet.sh
     done > apia_utilitarian_utilitarian.txt 2>> apia_utilitarian_utilitarian.tsv
 
     # APIA (best effort, best effort)
     echo $'User\tKernel\tTotal' > apia_best_effort_best_effort.tsv
     for TRIAL_NUM in $(seq 1 "${TRIALS}"); do
         echo "========== APIA (best effort, best effort): Trial ${TRIAL_NUM} of ${TRIALS} =========="
-        env time -f "${TIME_FORMAT}" ./run_best_effort_best_effort.sh
+        env time -f "${TIME_FORMAT}" ./run_best_effort_best_effort.snippet.sh
     done > apia_best_effort_best_effort.txt 2>> apia_best_effort_best_effort.tsv
 
     # APIA (paranoid, subordinate)
     echo $'User\tKernel\tTotal' > apia_paranoid_subordinate.tsv
     for TRIAL_NUM in $(seq 1 "${TRIALS}"); do
         echo "========== APIA (paranoid, subordinate): Trial ${TRIAL_NUM} of ${TRIALS} =========="
-        env time -f "${TIME_FORMAT}" ./run_paranoid_subordinate.sh
+        env time -f "${TIME_FORMAT}" ./run_paranoid_subordinate.snippet.sh
     done > apia_paranoid_subordinate.txt 2>> apia_paranoid_subordinate.tsv
 
     echo 'Test done' >&2

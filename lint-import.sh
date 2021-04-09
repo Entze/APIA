@@ -20,6 +20,8 @@ find . -type f -name '*.tex' \
     -exec perl -i -pe 's/(?<!\\textsc{)\b(clingo)\b(?!})/\\textsc{\1}/g' '{}' \;
     # -exec perl -i -pe 's/(etc\.)\n/\1 /g' '{}' \; \
 
+# TODO: Look into '    '
+
 clear
 echo 'Next: Converting Word lists'
 read -r -p "Press [Enter] to view continue"

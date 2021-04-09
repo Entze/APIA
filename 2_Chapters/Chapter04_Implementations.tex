@@ -9,9 +9,13 @@
 
 \subsection{CR-Prolog to ASP-Core-2}
 
-Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dependencies of Blount's $\mathcal{AIA}$ implementation such that it requires a state-of-the-art solver.
+Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dependencies of \citet{blount_architecture_2013,blount_towards_2014}'s $\mathcal{AIA}$ implementation such that it requires a state-of-the-art solver\footnotemark.
 Specifically, we update his $\mathcal{AIA}$ implementation from CRModels2 (version 2.0.15) to \textsc{clingo} 5.4.1.
 This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while \textsc{clingo} uses a standardized version of ASP called ASP-Core-2.
+
+\footnotetext{
+    Our update to \citet{blount_architecture_2013,blount_towards_2014}'s $\mathcal{AIA}$ implementation is available at \url{https://gitlab.com/0x326/miami-university-cse-700-aia.git} and is released under the MIT open-source license.
+}
 
 Consistency-Restoring Prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
 A CR-rule with label $r$:
@@ -24,7 +28,7 @@ Hence, the application of this rule \textit{restores} consistency to the logic p
 CR-Prolog also assigns a special meaning to the $prefer(r_1, r_2)$ predicate.
 Given $prefer(r_1, r_2)$ the application of cr-rule $r_1$ will be preferred to the application of cr-rule $r_2$, though either might restore consistency.
 
-While the translation of CR-Prolog into ASP has been addressed before by Yang, 2018, their approach is long and complex.
+While the translation of CR-Prolog into ASP has been addressed before by \citet{lee_translating_2018,yang_translating_2018}, their approach is long and complex.
 We introduce a much simpler approach that achieves the same effect.
 Given a cr-rule with label $r$:
 
@@ -35,10 +39,11 @@ We translate this into ASP-Core-2 by writing:
 \begin{gather}
     apply\_cr\_rule(r) \leftarrow body. \\
     head \leftarrow apply\_cr\_rule(r). \\
+    \label{eq:apia_cr_prolog_prefer_weak_constraint}
     \text{:}\sim apply\_cr\_rule(r). [1@cr_1, apply\_cr\_rule(r)]
 \end{gather}
 
-The last rule XX is a weak constraint.
+\Cref{eq:apia_cr_prolog_prefer_weak_constraint} is a weak constraint.
 It informs the ASP solver that applying cr-rule $r$ incurs a cost of 1.
 Should there exist another answer set where this rule is not applied, the use of the cr-rule makes the answer set suboptimal and an optimizing solver will not choose it.
 
@@ -69,7 +74,7 @@ In order to configure \textsc{clingo} to optimize, we pass the --opt-mode=optN c
 \subsection{Control Loop}
 
 In addition to upgrading the $\mathcal{AIA}$ logic program, we also refactor the $\mathcal{AIA}$ control loop.
-In his dissertation, Blount introduced the $\mathcal{AIA}$ Agent Manager.
+In his dissertation, \citet{blount_architecture_2013,blount_towards_2014} introduced the $\mathcal{AIA}$ Agent Manager.
 This is an interactive Java program that allows an end-user to assign values to agent observations in a graphical interface for each control loop iteration.
 Since this requires manual input, it does not easily lend itself to automation and reproducibility of execution, which are required for performance benchmarking.
 
@@ -78,14 +83,18 @@ While the $\mathcal{AIA}$ Agent Manager could conceivably invoke \textsc{clingo}
 
 Because of these two points, we replace the $\mathcal{AIA}$ Agent Manager with a new implementation of the $\mathcal{AIA}$ control loop written in Python 3.9.0.
 This new implementation uses a command-line interface and allows for reproducible execution through ASP input files.
-Since this control loop is also the basis for our $\mathcal{APIA}$ implementation, we will discuss it more in Section XX.
+Since this control loop is also the basis for our $\mathcal{APIA}$ implementation, we will discuss it more in \cref{subsec:apia_control_loop}.
 
 \section{$\mathcal{APIA}$}
 
 \subsection{$\mathcal{AIA}$ Logic Program}
 
-For our implementation of the $\mathcal{APIA}$ architecture, we re­implement the $\mathcal{AIA}$ logic program in ASP using only the description of the architecture presented by Blount and our approach to CR­Prolog translation that we propose in the previous section.
-While the majority of our ASP rules are almost identical to Blount's implementation as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
+For our implementation of the $\mathcal{APIA}$ architecture, we re­implement the $\mathcal{AIA}$ logic program in ASP using only the description of the architecture presented by \citet{blount_architecture_2013,blount_towards_2014} and our approach to CR­Prolog translation that we propose in the previous section\footnotemark.
+While the majority of our ASP rules are almost identical to \citet{blount_architecture_2013,blount_towards_2014}'s implementation as a consequence, this approach allows us to make syntactic, semantic, and organizational changes where we see fit.
+
+\footnotetext{
+    Our $\mathcal{APIA}$ implementation is available at \url{https://gitlab.com/0x326/miami-university-cse-700-thesis.git} and is released under the MIT open-source license.
+}
 
 One such set of changes concerns rules about agent histories and the interpretation of unexpected exogenous actions.
 We introduce a cr-prefer statement so that, in the case of multiple possible explanations for an unexpected observation, the agent prefers explanations with recent occurrences of exogenous actions.
@@ -103,10 +112,11 @@ This change also simplifies the $\mathcal{AIA}$ intended action rules since the 
 We also make minor modifications to $\mathcal{AIA}$ as a whole.
 First, we refactor the arrangement of ASP rules into multiple files according to their purpose in the $\mathcal{AIA}$ architecture (e.g.~whether they are part of $\Pi(D)$, $\Pi(\Gamma_n)$, or $IA(n)$)
 Second, we refactor the names of mental fluents in the Theory of Intentions so that their names are more descriptive and self-documenting.
-Thirdly, we extensively add inline comments to each ASP rule with reference quotations and page numbers from Blount.
-Lastly, we make minor modifications to rules in $\Pi(\Gamma_n)$ so that they are valid according to the mathematical definitions proposed by Blount.
+Thirdly, we extensively add inline comments to each ASP rule with reference quotations and page numbers from \citet{blount_architecture_2013,blount_towards_2014}.
+Lastly, we make minor modifications to rules in $\Pi(\Gamma_n)$ so that they are valid according to the mathematical definitions proposed by \citet{blount_architecture_2013,blount_towards_2014}.
 
 \subsection{Python Component}
+\label{subsec:apia_control_loop}
 
 We provide an implementation of the $\mathcal{AIA}$ control loop for the $\mathcal{APIA}$ architecture.
 The $\mathcal{AIA}$ control loop is implemented using Python 3.9.0 and \textsc{clingo} 5.4.1 using \textsc{clingo}'s Python API.

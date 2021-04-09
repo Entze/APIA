@@ -27,6 +27,51 @@
 % \section{Discussion}
 
 \section{Runtime Performance Results}
+\label{sec:benchmark}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{ | X | X | X | X | }
+    \hline
+    &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (utilitarian, utilitarian)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (best effort, best effort)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (paranoid, subordinate)\end{tabular}} \\ \hline
+    Average                                          & 2.8741       & 3.424       & 2.8577       \\ \hline
+    Standard deviation                               & 0.034321563  & 0.039363625 & 0.038134663  \\ \hline
+    Standard error of the mean                       & 0.003432156  & 0.003936362 & 0.003813466  \\ \hline
+    T-statistic with APIA (utilitarian, utilitarian) & 0            & 105.2941286 & -3.196557879 \\ \hline
+    T-statistic with APIA (best effort, best effort) & -105.2941286 & 0           & -103.3272455 \\ \hline
+    T-statistic with APIA (paranoid, subordinate)    & 3.196557879  & 103.3272455 & 0            \\ \hline    \end{tabularx}
+    \caption{$\mathcal{APIA}$ Benchmark by elapsed time}
+    \label{table:apia_benchmark_elapsed_time}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{ | X | X | X | X | }
+    \hline
+    &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (utilitarian, utilitarian)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (best effort, best effort)\end{tabular}} &
+    \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}APIA\\      (paranoid, subordinate)\end{tabular}} \\ \hline
+    Average                                          & 3.185       & 3.7957      & 3.1104       \\ \hline
+    Standard deviation                               & 0.056309032 & 0.047614933 & 0.045280718  \\ \hline
+    Standard error of the mean                       & 0.005630903 & 0.004761493 & 0.004528072  \\ \hline
+    T-statistic with APIA (utilitarian, utilitarian) & 0           & 82.8157149  & -10.32428252 \\ \hline
+    T-statistic with APIA (best effort, best effort) & -82.8157149 & 0           & -104.294952  \\ \hline
+    T-statistic with APIA (paranoid, subordinate)    & 10.32428252 & 104.294952  & 0            \\ \hline
+    \end{tabularx}
+    \caption{$\mathcal{APIA}$ Benchmark by CPU time}
+    \label{table:apia_benchmark_cpu_time}
+\end{table}
+
+In general, T-statistic values with an absolute value greater than $3$ are statistically significant.
+In \cref{table:apia_benchmark_elapsed_time,table:apia_benchmark_cpu_time} we compute the T-statistics between every pair of modes, for which there is all a statistically significant difference.
+The biggest difference is in the $(best effort, best effort)$ mode, presumably due to the extra overhead of optimizing compliance.
+Surprisingly, $(paranoid, subordinate)$ requires less time than $(utilitarian, utilitarian)$.
+Since \textsc{clingo} operates as a black box, it would be interesting for future work to investigate this observation.
+The units of ``Average'', ``Standard deviation'', and ``Standard error of the mean'' are in seconds.
 
 \section{Conciseness}
 
@@ -163,7 +208,7 @@ In fact, they operate an arbitrary $\mathcal{AOPL}$ policies and do not require 
 The difficulty of constructing the $\mathcal{APIA}$ architecture can be evaluated in three different areas: our reconstruction of the $\mathcal{AIA}$ architecture, our implementation of $\mathcal{AOPL}$ compliance, and our integration of $\mathcal{AOPL}$ into the $\mathcal{AIA}$ architecture.
 
 Correctly constructing the logic program of the $\mathcal{AIA}$ architecture was very difficult.
-Although copying the $\mathcal{AIA}$ ASP rules was straightforward, identifying transcription errors and typos (both on our end and in Blount's dissertation) was very time consuming.
+Although copying the $\mathcal{AIA}$ ASP rules was straightforward, identifying transcription errors and typos (both on our end and in \citet{blount_architecture_2013}) was very time consuming.
 In traditional programming languages, a programmer usually has a lot of information regarding the symptoms of a problem that allows him to quickly find the root cause.
 Stack traces and step-through debuggers are examples.
 Even in the worst case (such as a segmentation fault), a programmer can at least assume the approximate location of the error from the timing of the failure in its procedural execution.
@@ -174,6 +219,6 @@ During our implementation of the $\mathcal{AIA}$ logic program, we resorted to m
 We then tested hypotheses of the root cause against this information in hopes of guessing correctly.
 
 We used the same method in integrating $\mathcal{AOPL}$ compliance into the $\mathcal{AIA}$ intended action rules.
-Through this process, we discovered the differences between observer-based $\mathcal{AOPL}$ compliance (as it was introduced by XXX) and agent-based $\mathcal{AOPL}$ compliance (for which we adjusted $\mathcal{AOPL}$ accordingly).
+Through this process, we discovered the differences between observer-based $\mathcal{AOPL}$ compliance (as it was introduced by \citet{gelfond_authorization_2008}) and agent-based $\mathcal{AOPL}$ compliance (for which we adjusted $\mathcal{AOPL}$ accordingly).
 
 To assist in this process across control loop iterations, we created a collection of debugging tools and scripts that greatly improved our efficiency.

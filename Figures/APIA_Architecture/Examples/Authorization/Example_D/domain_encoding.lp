@@ -264,7 +264,7 @@ permitted(begin_working(Actor), timestep) :-
 % "Anyone is allowed to greet a coworker if the coworker is not busy working"
 %
 % permitted(greet(Actor, Person)) if
-%   busy_working(Person)
+%   -busy_working(Person)
 permitted(greet(Actor, Person), timestep) :-
     agent(Actor),
     person(Person),

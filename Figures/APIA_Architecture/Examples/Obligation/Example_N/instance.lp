@@ -280,7 +280,7 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
-    ComponentIndex = 6,
+    ComponentIndex = 4,
     Component = enable_security_system(Actor),
     Actor = "Alice".
 
