@@ -238,30 +238,48 @@ impossible(unlock_door(Actor, Door), timestep) :-
 
 % turn_lights_on(Actor, Room)
 %   causes room_lights_on(Room)
+holds(room_lights_on(Room), timestep + 1) :-
+    occurs(turn_lights_on(Actor, Room), timestep).
 
 % impossible turn_lights_on(Actor, Room) if
-%   -in_room(Person, Room)
+%   -in_room(Actor, Room)
+impossible(turn_lights_on(Actor, Room), timestep) :-
+    -holds(in_room(Actor, Room), timestep).
 
 % turn_lights_off(Actor, Room)
 %   causes -room_lights_on(Room)
+-holds(room_lights_on(Room), timestep + 1) :-
+    occurs(turn_lights_off(Actor, Room), timestep).
 
 % impossible turn_lights_off(Actor, Room) if
-%   -in_room(Person, Room)
+%   -in_room(Actor, Room)
+impossible(turn_lights_off(Actor, Room), timestep) :-
+    -holds(in_room(Actor, Room), timestep).
 
 % -all_lights_off if
 %   room_lights_on(Room)
+-holds(all_lights_off, timestep) :-
+    holds(room_lights_on(Room), timestep).
 
 % open_business(Actor)
 %   causes is_business_hours
+holds(is_business_hours, timestep + 1) :-
+    occurs(open_business(Actor), timestep).
 
 % impossible open_business(Actor) if
 %   is_business_hours
+impossible(open_business(Actor), timestep) :-
+    holds(is_business_hours, timestep).
 
 % close_business(Actor)
 %   causes -is_business_hours
+-holds(is_business_hours, timestep + 1) :-
+    occurs(close_business(Actor), timestep).
 
 % impossible close_business(Actor) if
 %   -is_business_hours
+impossible(close_business(Actor), timestep) :-
+    -holds(is_business_hours, timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
