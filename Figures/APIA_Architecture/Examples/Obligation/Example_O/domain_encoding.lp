@@ -99,11 +99,11 @@ physical_action(turn_lights_on(Actor, Room)) :-
     room(Room).
 
 agent_action(turn_lights_on(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(turn_lights_on(Actor, Room)),
     agent(Actor).
 
 exogenous_action(turn_lights_on(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(turn_lights_on(Actor, Room)),
     not agent(Actor).
 
 % turn_lights_off(Actor, Room)
@@ -112,11 +112,11 @@ physical_action(turn_lights_off(Actor, Room)) :-
     room(Room).
 
 agent_action(turn_lights_off(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(turn_lights_off(Actor, Room)),
     agent(Actor).
 
 exogenous_action(turn_lights_off(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(turn_lights_off(Actor, Room)),
     not agent(Actor).
 
 % enable_security_system(Actor)
@@ -125,11 +125,11 @@ physical_action(enable_security_system(Actor, Room)) :-
     room(Room).
 
 agent_action(enable_security_system(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(enable_security_system(Actor, Room)),
     agent(Actor).
 
 exogenous_action(enable_security_system(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(enable_security_system(Actor, Room)),
     not agent(Actor).
 
 % open_business(Actor)
@@ -139,11 +139,11 @@ physical_action(open_business(Actor, Room)) :-
     room(Room).
 
 agent_action(open_business(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(open_business(Actor, Room)),
     agent(Actor).
 
 exogenous_action(open_business(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(open_business(Actor, Room)),
     not agent(Actor).
 
 % close_business(Actor)
@@ -153,11 +153,11 @@ physical_action(close_business(Actor, Room)) :-
     room(Room).
 
 agent_action(close_business(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(close_business(Actor, Room)),
     agent(Actor).
 
 exogenous_action(close_business(Actor, Room)) :-
-    physical_action(unlock_door(Actor, Door)),
+    physical_action(close_business(Actor, Room)),
     not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
