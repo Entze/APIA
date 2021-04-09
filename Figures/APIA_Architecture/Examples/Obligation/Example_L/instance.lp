@@ -229,16 +229,9 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Bob",
     Room = "r4".
 
--observed(busy_working(Person), Timestep) :-
+observed(room_lights_on(Room), Timestep) :-
     Timestep = 0,
-    Person = ("Bob"; "Alice").
+    room(Room).
 
--observed(knocked_on_door(Door), Timestep) :-
-    Timestep = 0,
-    door(Door).
-
--observed(greeted_by(Person, Actor), Timestep) :-
-    Timestep = 0,
-    person(Person),
-    person(Actor),
-    Person != Actor.
+-observed(security_system_enabled, Timestep) :-
+    Timestep = 0.
