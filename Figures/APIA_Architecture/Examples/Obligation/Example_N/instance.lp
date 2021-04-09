@@ -299,7 +299,7 @@ observed(in_room(Person, Room), Timestep) :-
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
     Person = "Bob",
-    Room = "r4".
+    Room = "outside".
 
 observed(room_lights_on(Room), Timestep) :-
     Timestep = 0,
