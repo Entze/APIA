@@ -469,6 +469,23 @@ holds(next_action(Activity, Action), timestep) :-
     activity_component(Activity, ActivityIndex + 1, Action),
     holds(activity_in_progress(Activity), timestep).
 
+% Note: Our addition (Considers planning policy actions)
+%
+% next_action(Activity, Action) if
+%   policy_action(Action),
+%   agent_action(Action),
+%   activity_status(Activity, ActivityIndex),
+%   activity_component(Activity, ActivityIndex + 1, Action),
+%   activity_in_progress(Activity)
+%
+% (p. 33) of dissertation
+holds(next_action(Activity, Action), timestep) :-
+    policy_action(Action),
+    agent_action(Action),
+    holds(activity_status(Activity, ActivityIndex), timestep),
+    activity_component(Activity, ActivityIndex + 1, Action),
+    holds(activity_in_progress(Activity), timestep).
+
 % next_action(Activity, start(ChildActivity)) if
 %   activity_status(Activity, ActivityIndex),
 %   activity_component(Activity, ActivityIndex + 1, ChildActivity),
@@ -535,6 +552,26 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     holds(activity_status(Activity, ActivityIndex), timestep),
     activity_component(Activity, ActivityIndex + 1, Action),
     physical_action(Action),
+    agent_action(Action).
+
+% Note: Our addition (Considers planning policy actions)
+%
+% Action
+%   causes activity_status(Activity, ActivityIndex + 1)
+%   if
+%     next_action(Activity, Action),
+%     activity_status(Activity, ActivityIndex),
+%     activity_component(Activity, ActivityIndex + 1, Action),
+%     policy_action(Action),
+%     agent_action(Action)
+%
+% (p. 34) of dissertation
+holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
+    occurs(Action, timestep),
+    holds(next_action(Activity, Action), timestep),
+    holds(activity_status(Activity, ActivityIndex), timestep),
+    activity_component(Activity, ActivityIndex + 1, Action),
+    policy_action(Action),
     agent_action(Action).
 
 % stop(ChildActivity)
