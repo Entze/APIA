@@ -288,6 +288,17 @@ activity_goal(Activity, Goal) :-
     current_timestep < FutureTimestep,
     some_action_occurred(FutureTimestep - 1).
 
+% Note: Our addition (Considers planning policy actions)
+{ apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
+    step(FutureTimestep),
+    policy_action(Action),
+    agent_action(Action),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
+    some_action_occurred(FutureTimestep - 1).
+
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_new(Action, FutureTimestep)).
@@ -338,6 +349,18 @@ activity_length(Activity, ActivityLength) :-
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
     step(FutureTimestep),
     physical_action(Action),
+    agent_action(Action),
+    category_4_history(Goal, current_timestep),
+    existing_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
+    holds(next_action(Activity, Action), FutureTimestep),
+    some_action_occurred(FutureTimestep - 1).
+
+% Note: Our addition (Considers planning policy actions)
+{ apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
+    step(FutureTimestep),
+    policy_action(Action),
     agent_action(Action),
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
