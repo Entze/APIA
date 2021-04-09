@@ -1,7 +1,5 @@
 \chapter{The $\mathcal{APIA}$ Architecture}
 
-% TODO: Replace XX and YY
-
 % Use this chapter to discuss the main content of your thesis contributions.
 %
 % You may have several of these chapters depending on your thesis - work with your advisor to determine chapter layouts.
@@ -390,12 +388,13 @@ This scenario can be represented by \cref{fig:apia_example_a_visual,fig:apia_exa
         where $A$ is the person doing the action, $D$ is a door, and $P$ a person (the direct object of the action).
 
         Alice is given the following policy:
-        \begin{itemize}
-            \item $permitted(move\_through(A, D))$
-            \item $permitted(lock\_door(A, D))$
-            \item $permitted(unlock\_door(A, d))$
-            \item $permitted(greet(A, P))$
-        \end{itemize}
+        \begin{gather}
+            \label{eq:apia_example_a_permitted_move_through}
+            permitted(move\_through(A, D)) \\
+            permitted(lock\_door(A, D)) \\
+            permitted(unlock\_door(A, d)) \\
+            permitted(greet(A, P)) \\
+        \end{gather}
 
         The following activities are in Alice's library.
         \begin{equation}
@@ -436,6 +435,7 @@ However, let us transition from this fortunate example to one where a strongly c
 In the same scenario, suppose we modify Alice's policy such that regarding $greet(A, P)$ we have:
 
 \begin{gather}
+    \label{eq:apia_example_b_permitted_greet}
     permitted(greet(A, P)) \textbf{ if }
         \neg busy\_working(P) \\
     \begin{split}
@@ -472,7 +472,7 @@ Alice knocks on door d34 at timestep 7, greets Bob at timestep 8, stops activity
 
 \subsection{Example C: Compliance degrades to non-compliant}
 
-Suppose we take rule XX, make it defeasible, and add this AOPL rule in addition (See also \cref{fig:apia_example_c_description}):
+Suppose we take \cref{eq:apia_example_b_permitted_greet}, make it defeasible, and add this AOPL rule in addition (See also \cref{fig:apia_example_c_description}):
 
 \begin{equation}
 \begin{split}
@@ -493,10 +493,11 @@ The activity contains: greet(alice, bob), ignore\_not\_permitted(greet("Alice","
 
 \subsection{Example D: Hierarchy of contradictory defeasible statements}
 
-Further extending Example C, suppose we make rule XX defeasible:
+Further extending Example C, suppose we make \cref{eq:apia_example_a_permitted_move_through} defeasible:
 
 \begin{equation}
 \begin{split}
+\label{eq:apia_example_d_move_normal}
 move\_normal(Actor, Door): \\
 \textbf{ normally } permitted(move\_through(Actor, Door))
 \end{split}
@@ -506,6 +507,7 @@ and add the following policy statement:
 
 \begin{equation}
 \begin{split}
+\label{eq:apia_example_d_move_office}
 move\_office(Actor, Door): \\
 \textbf{ normally } \neg permitted(move\_through(Actor, Door)) \textbf{ if }
     & in\_room(Actor, FromRoom), \\
@@ -543,7 +545,7 @@ prefer(move\_normal(Actor, Door), move\_office(Actor, Door))
 \end{split}
 \end{equation}
 
-Instead, then the second rule XX would have no effect since rule YY does not have an ``if'' condition.
+Instead, then the second \cref{eq:apia_example_d_move_office} would have no effect since \cref{eq:apia_example_d_move_normal} does not have an ``if'' condition.
 The rest of the example would model Example C.
 
 \subsection{Example L: Fortunate case}
@@ -567,6 +569,7 @@ If we were to add to Example L a common curtesy to refrain from turn off lights 
 
 \begin{equation}
 \begin{split}
+\label{apia:example_m_obl_neg_turn_lights_off}
 obl(\neg turn\_lights\_off(Actor, Room)) \textbf{ if }
     & person(Person) \\
     & not agent(Person) \\
@@ -607,7 +610,7 @@ obl(\neg ask\_to\_move\_through(Actor, Door)) \textbf{ if }
 
 \subsection{Example O: Hierarchy of contradictory defeasible statements}
 
-If we make rules XX and YY defeasible, we can consider how the scenario would change under different prefer hierarchies.
+If we make \cref{apia:example_m_obl_neg_turn_lights_off} defeasible, we can consider how the scenario would change under different prefer hierarchies.
 
 \begin{equation}
 \begin{split}
