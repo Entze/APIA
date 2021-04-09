@@ -211,7 +211,7 @@ def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: 
 
 
 def _extract_predicates(model: clingo.Model,
-                        predicate_signatures: Collection[SymbolSignature],
+                        predicate_signatures: Mapping[SymbolSignature, bool],
                         current_timestep: int) -> deque[clingo.Symbol]:
     if len(predicate_signatures) == 0:
         return deque()
@@ -219,9 +219,18 @@ def _extract_predicates(model: clingo.Model,
     predicates: deque[clingo.Symbol] = deque()
     for symbol in model.symbols(shown=True):
         # Predicate extraction
-        if (symbol.name, len(symbol.arguments)) in predicate_signatures:
-            *_, timestep = map(_parse_symbol, symbol.arguments)
-            if timestep == current_timestep:
+        try:
+            filter_by_timestep = predicate_signatures[symbol.name, len(symbol.arguments)]
+
+        except KeyError:
+            pass
+
+        else:
+            if filter_by_timestep:
+                *_, timestep = map(_parse_symbol, symbol.arguments)
+                if timestep == current_timestep:
+                    predicates.append(symbol)
+            else:
                 predicates.append(symbol)
 
     return predicates
@@ -235,7 +244,7 @@ def _run_clingo(files: Iterable[Path],
                 max_timestep: int,
                 step_number: AIALoopStep,
                 configuration: APIAConfiguration,
-                output_predicates: Collection[SymbolSignature],
+                output_predicates: Mapping[SymbolSignature, bool],
                 debug: bool = False,
                 ) -> Sequence[clingo.Symbol]:
     # Set up
@@ -349,10 +358,10 @@ def _main(script_dir: Path):
             max_timestep=max_timestep,
             configuration=configuration,
             step_number=AIALoopStep(1),
-            output_predicates=(
-                SymbolSignature(name='number_unobserved', arity=2),
-                SymbolSignature(name='diagnosis', arity=3),
-            ),
+            output_predicates={
+                SymbolSignature(name='number_unobserved', arity=2): True,
+                SymbolSignature(name='diagnosis', arity=3): True,
+            },
             debug=debug,
         )
         step_2_unobserved_actions: dict[int, deque] = defaultdict(deque)
@@ -385,10 +394,10 @@ def _main(script_dir: Path):
             max_timestep=max_timestep,
             configuration=configuration,
             step_number=AIALoopStep(2),
-            output_predicates=(
-                SymbolSignature(name='intended_action', arity=2),
-                SymbolSignature(name='futile_goal', arity=2),
-            ),
+            output_predicates={
+                SymbolSignature(name='intended_action', arity=2): True,
+                SymbolSignature(name='futile_goal', arity=2): True,
+            },
             debug=debug,
         )
         try:
@@ -429,7 +438,7 @@ def _main(script_dir: Path):
                 max_timestep=max_timestep,
                 configuration=configuration,
                 step_number=AIALoopStep(4),
-                output_predicates=(),
+                output_predicates={},
                 debug=debug,
             )
 
