@@ -332,13 +332,13 @@ In the case of a subordinate agent, we adjust $policy\_compliant(F)$ such that $
     \centering
     \begin{tabularx}{\textwidth}{ | X | X | X | X | }
         \hline
-        & Require obl(-a) & Prefer obl(-a) if possible & Ignore obl(-a) \\
+        & Honor $obl(\neg a)$ & Prefer honoring $obl(\neg a)$ if possible & Ignore $obl(\neg a)$ \\
         \hline
-        Require obl(a) & Subordinate & Permit commissions where necessary & \sout{(Not reasonable)} \\
+        Honor $obl(a)$ & Subordinate & Permit commissions where necessary & \sout{(Not reasonable)} \\
         \hline
-        Prefer obl(a) if possible & Permit omissions where necessary & Best effort & \sout{(Not reasonable)} \\
+        Prefer honoring $obl(a)$ if possible & Permit omissions where necessary & Best effort & \sout{(Not reasonable)} \\
         \hline
-        Ignore obl(a) & \sout{(Not reasonable)} & \sout{(Not reasonable)} & Utilitarian \\
+        Ignore $obl(a)$ & \sout{(Not reasonable)} & \sout{(Not reasonable)} & Utilitarian \\
         \hline
     \end{tabularx}
     \caption{$\mathcal{APIA}$ obligation policy modes}
