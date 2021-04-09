@@ -237,7 +237,7 @@ def _run_clingo(files: Iterable[Path],
                 configuration: APIAConfiguration,
                 output_predicates: Collection[SymbolSignature],
                 debug: bool = False,
-                ) -> clingo.Control:
+                ) -> Sequence[clingo.Symbol]:
     # Set up
     clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=assertions)
     subprograms_to_ground = chain(
