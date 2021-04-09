@@ -188,10 +188,10 @@ These new action descriptions encode the effect of future agent actions on polic
 For example, consider dynamic causal laws such as the following:
 
 \begin{gather}
-    a \textbf{ causes } \neg auth\_compliance(strong) \textbf{ if not } permitted(a)
-        \label{eq:apia_auth_compliance_strong} \\
-    a \textbf{ causes } \neg auth\_compliance(weak) \textbf{ if } \neg permitted(a)
-        \label{eq:apia_auth_compliance_weak}
+    \label{eq:apia_auth_compliance_strong}
+    a \textbf{ causes } \neg auth\_compliance(strong) \textbf{ if not } permitted(a) \\
+    \label{eq:apia_auth_compliance_weak}
+    a \textbf{ causes } \neg auth\_compliance(weak) \textbf{ if } \neg permitted(a) \\
 \end{gather}
 
 Given inertial policy fluents $auth\_compliance(weak)$ and $auth\_compliance(strong)$, \cref{eq:apia_auth_compliance_strong,eq:apia_auth_compliance_weak} correspond to the definition of authorization compliance of $\mathcal{AOPL}$ given in \cref{appendix:apl_compliance,appendix:aopl_compliance}.

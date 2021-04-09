@@ -39,8 +39,8 @@ We translate this into ASP-Core-2 by writing:
 \begin{gather}
     apply\_cr\_rule(r) \leftarrow body. \\
     head \leftarrow apply\_cr\_rule(r). \\
+    \label{eq:apia_cr_prolog_prefer_weak_constraint}
     \text{:}\sim apply\_cr\_rule(r). [1@cr_1, apply\_cr\_rule(r)]
-        \label{eq:apia_cr_prolog_prefer_weak_constraint}
 \end{gather}
 
 \Cref{eq:apia_cr_prolog_prefer_weak_constraint} is a weak constraint.
