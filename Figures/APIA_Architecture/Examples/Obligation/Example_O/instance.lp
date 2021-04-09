@@ -39,7 +39,7 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 5.
+#const ir = 6.
 
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
@@ -53,13 +53,18 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Bob",
-    Actor = "Alice".
+    ActivityGoal = policy_compliant(security_system_enabled).
 
 activity_length(Activity, ActivityLength) :-
     Activity = 1,
     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 1,
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r1".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -71,6 +76,13 @@ activity_component(Activity, ComponentIndex, Component) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 2,
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r2".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 2,
     Component = move_through(Actor, Door),
     Actor = "Alice",
     Door = "d23".
@@ -78,16 +90,43 @@ activity_component(Activity, ComponentIndex, Component) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 3,
-    Component = move_through(Actor, Door),
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r3".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 3,
+    Component = unlock_door(Actor, Door),
     Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 4,
-    Component = greet(Actor, Person),
+    Component = move_through(Actor, Door),
     Actor = "Alice",
-    Person = "Bob".
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 5,
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r4".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 5,
+    Component = lock_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 6,
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
 
 % ---------------------------------------------------------------
 
@@ -96,9 +135,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
-    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Bob",
-    Actor = "Alice".
+    ActivityGoal = policy_compliant(security_system_enabled).
 
 activity_length(Activity, ActivityLength) :-
     Activity = 2,
@@ -107,37 +144,8 @@ activity_length(Activity, ActivityLength) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 1,
-    Component = move_through(Actor, Door),
-    Actor = "Alice",
-    Door = "d12".
-
-activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 2,
-    ComponentIndex = 2,
-    Component = move_through(Actor, Door),
-    Actor = "Alice",
-    Door = "d23".
-
-activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 2,
-    ComponentIndex = 3,
-    Component = move_through(Actor, Door),
-    Actor = "Alice",
-    Door = "d34".
-
-activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 2,
-    ComponentIndex = 4,
-    Component = knock_on_door(Actor, Door),
-    Actor = "Alice",
-    Door = "d34".
-
-activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 2,
-    ComponentIndex = 5,
-    Component = greet(Actor, Person),
-    Actor = "Alice",
-    Person = "Bob".
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
 
 % ---------------------------------------------------------------
 
@@ -146,9 +154,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
-    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Bob",
-    Actor = "Alice".
+    ActivityGoal = policy_compliant(security_system_enabled).
 
 activity_length(Activity, ActivityLength) :-
     Activity = 3,
@@ -157,16 +163,78 @@ activity_length(Activity, ActivityLength) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 1,
-    Component = knock_on_door(Actor, Door),
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r1".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 1,
+    Component = move_through(Actor, Door),
+    Actor = "Alice",
+    Door = "d12".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 2,
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r2".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
+    Actor = "Alice",
+    Door = "d23".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 3,
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r3".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 3,
+    Component = unlock_door(Actor, Door),
     Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
-    ComponentIndex = 2,
-    Component = greet(Actor, Person),
+    ComponentIndex = 4,
+    Component = move_through(Actor, Door),
     Actor = "Alice",
-    Person = "Bob".
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 5,
+    Component = turn_lights_off(Actor, Room),
+    Actor = "Alice",
+    Door = "r4".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 5,
+    Component = ignore_obl(neg(turn_lights_off(Actor, Room))),
+    Actor = "Alice",
+    Door = "r4".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 5,
+    Component = lock_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 6,
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
 
 % ---------------------------------------------------------------
 
@@ -175,9 +243,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,
-    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Bob",
-    Actor = "Alice".
+    ActivityGoal = policy_compliant(security_system_enabled).
 
 activity_length(Activity, ActivityLength) :-
     Activity = 4,
@@ -186,23 +252,30 @@ activity_length(Activity, ActivityLength) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
     ComponentIndex = 1,
-    Component = greet(Actor, Person),
+    Component = ask_to_move_through(Actor, Person, Door),
     Actor = "Alice",
-    Person = "Bob".
+    Person = "Bob",
+    Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
-    ComponentIndex = 1,
-    Component = ignore_not_permitted(greet(Actor, Person)),
+    ComponentIndex = 2,
+    Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Person = "Bob".
+    Door = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
-    ComponentIndex = 1,
-    Component = ignore_neg_permitted(greet(Actor, Person)),
+    ComponentIndex = 3,
+    Component = lock_door(Actor, Door),
     Actor = "Alice",
-    Person = "Bob".
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 6,
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation

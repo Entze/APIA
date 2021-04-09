@@ -8,7 +8,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % private_office(Room)
-% manager(Person)
 
 % door_connects(Door, Room)
 % door_has_lock(Door)
@@ -50,21 +49,6 @@ agent_action(move_through(Actor, Door)) :-
 
 exogenous_action(move_through(Actor, Door)) :-
     physical_action(move_through(Actor, Door)),
-    not agent(Actor).
-
-% ask_to_move_through(Actor, Person, Door)
-physical_action(ask_to_move_through(Actor, Person, Door)) :-
-    person(Actor),
-    person(Person),
-    Actor != Person,
-    door(Door).
-
-agent_action(ask_to_move_through(Actor, Person, Door)) :-
-    physical_action(ask_to_move_through(Actor, Person, Door)),
-    agent(Actor).
-
-exogenous_action(ask_to_move_through(Actor, Person, Door)) :-
-    physical_action(ask_to_move_through(Actor, Person, Door)),
     not agent(Actor).
 
 % lock_door(Actor, Door)
@@ -132,34 +116,6 @@ exogenous_action(enable_security_system(Actor, Room)) :-
     physical_action(enable_security_system(Actor, Room)),
     not agent(Actor).
 
-% open_business(Actor)
-physical_action(open_business(Actor, Room)) :-
-    person(Actor),
-    manager(Actor),
-    room(Room).
-
-agent_action(open_business(Actor, Room)) :-
-    physical_action(open_business(Actor, Room)),
-    agent(Actor).
-
-exogenous_action(open_business(Actor, Room)) :-
-    physical_action(open_business(Actor, Room)),
-    not agent(Actor).
-
-% close_business(Actor)
-physical_action(close_business(Actor, Room)) :-
-    person(Actor),
-    manager(Actor),
-    room(Room).
-
-agent_action(close_business(Actor, Room)) :-
-    physical_action(close_business(Actor, Room)),
-    agent(Actor).
-
-exogenous_action(close_business(Actor, Room)) :-
-    physical_action(close_business(Actor, Room)),
-    not agent(Actor).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
@@ -171,19 +127,6 @@ exogenous_action(close_business(Actor, Room)) :-
 %     ToRoom != FromRoom
 holds(in_room(Actor, ToRoom), timestep + 1) :-
     occurs(move_through(Actor, Door), timestep),
-    door_connects(Door, ToRoom),
-    door_connects(Door, FromRoom),
-    ToRoom != FromRoom,
-    holds(in_room(Actor, FromRoom), timestep).
-
-% ask_to_move_through(Actor, Person, Door)
-%   causes in_room(Person, ToRoom)
-%   if
-%     in_room(Person, FromRoom),
-%     door_connects(Door, ToRoom),
-%     ToRoom != FromRoom
-holds(in_room(Actor, ToRoom), timestep + 1) :-
-    occurs(ask_to_move_through(Actor, Person, Door), timestep),
     door_connects(Door, ToRoom),
     door_connects(Door, FromRoom),
     ToRoom != FromRoom,
@@ -210,11 +153,6 @@ impossible(move_through(Actor, Door), timestep) :-
 impossible(move_through(Actor, Door), timestep) :-
     person(Actor),
     holds(door_locked(Door), timestep).
-
-% impossible ask_to_move_through(Actor, Person, Door) if
-%   in_room(Actor, ActorRoom),
-%   in_room(Person, PersonRoom),
-%   ActorRoom != PersonRoom
 
 % lock_door(Actor, Door)
 %   causes door_locked(Door)
@@ -267,26 +205,6 @@ impossible(turn_lights_off(Actor, Room), timestep) :-
 -holds(all_lights_off, timestep) :-
     holds(room_lights_on(Room), timestep).
 
-% open_business(Actor)
-%   causes is_business_hours
-holds(is_business_hours, timestep + 1) :-
-    occurs(open_business(Actor), timestep).
-
-% impossible open_business(Actor) if
-%   is_business_hours
-impossible(open_business(Actor), timestep) :-
-    holds(is_business_hours, timestep).
-
-% close_business(Actor)
-%   causes -is_business_hours
--holds(is_business_hours, timestep + 1) :-
-    occurs(close_business(Actor), timestep).
-
-% impossible close_business(Actor) if
-%   -is_business_hours
-impossible(close_business(Actor), timestep) :-
-    -holds(is_business_hours, timestep).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
 
@@ -297,27 +215,19 @@ permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
-% "One is obligated to turn off the lights outside of business hours"
+% "One is normally obligated not to turn off the lights if someone else is in the room"
 %
-% lights_after_hours(Actor, Room): normally obl(turn_lights_off(Actor, Room)) if
-%   person(Actor)
-%   in_room(Actor, Room)
-%   room_lights_on(Room)
-%   -is_business_hours
-
-% "One is obligated not to turn off the lights if someone else is in the room"
-%
-% lights_someone_present(Actor, Room): normally obl(-turn_lights_off(Actor, Room)) if
+% lights_someone_else(Actor, Room): normally obl(-turn_lights_off(Actor, Room)) if
 %   person(Person)
 %   not agent(Person)
 %   in_room(Person, Room)
 
-% prefer(lights_someone_present(Actor, Room), lights_after_hours(Actor, Room))
-
 % "One is obligated not to enable the security system if not all lights are off"
 %
-% obl(-enable_security_system(Actor)) if
+% lights_security_system(Actor): normally obl(-enable_security_system(Actor)) if
 %   -all_lights_off
+
+% prefer(lights_someone_else(Actor, Room), lights_security_system(Actor))
 
 % "One is obligated not to enable the security system if a door is unlocked"
 %
