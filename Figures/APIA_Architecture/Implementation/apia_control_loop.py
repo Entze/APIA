@@ -387,11 +387,21 @@ def _main(script_dir: Path):
             step_number=AIALoopStep(2),
             output_predicates=(
                 SymbolSignature(name='intended_action', arity=2),
+                SymbolSignature(name='futile_goal', arity=2),
             ),
             debug=debug,
         )
+        try:
+            futile_goal, = (symbol.arguments[0]
+                            for symbol in symbols
+                            if symbol.name == 'futile_goal' and len(symbol.arguments) == 2)
+        except ValueError:
+            pass
+        else:
+            print(f'    Futile goal: {futile_goal}')
         step_3_intended_actions = tuple(symbol.arguments[0]
-                                        for symbol in symbols)
+                                        for symbol in symbols
+                                        if symbol.name == 'intended_action' and len(symbol.arguments) == 2)
         for intended_action in step_3_intended_actions:
             print(f'    Intended action: {intended_action}')
 
