@@ -205,6 +205,12 @@ impossible(move_through(Actor, Door), timestep) :-
     door(Door),
     not door_connects(Door, Room).
 
+% impossible move_through(Actor, Door) if
+%   door_locked(Door)
+impossible(move_through(Actor, Door), timestep) :-
+    person(Actor),
+    holds(door_locked(Door), timestep).
+
 % impossible ask_to_move_through(Actor, Person, Door) if
 %   in_room(Actor, ActorRoom),
 %   in_room(Person, PersonRoom),
