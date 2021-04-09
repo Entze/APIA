@@ -45,11 +45,11 @@ PDC-agent also shares a similar mechanism to $\mathcal{TI}$ for updating beliefs
 However, the PDC-agent architecture requires enumerating plans by hand and annotating which goals they achieve.
 Since the $\mathcal{AIA}$ architecture is based on action languages, plans can be automatically generated, and their respective end-goal can be computed.
 
-We propose to extend the $\mathcal{AIA}$ architecture so that it can reason over $\mathcal{AOPL}$ policies.
+We extend the $\mathcal{AIA}$ architecture so that it can reason over $\mathcal{AOPL}$ policies.
 This new agent architecture will be called the $\mathcal{APIA}$ architecture.
-In addition to its formal definition and implementation, we propose to construct examples on which $\mathcal{APIA}$ can be evaluated.
+In addition to its formal definition and implementation, we construct examples on which $\mathcal{APIA}$ can be evaluated.
 The evaluation of $\mathcal{APIA}$ will also consist of the expressivity of its syntax, its elaboration tolerance, its difficulty of construction, and its runtime performance.
-Due to performance improvements in underlying ASP solvers, we propose to update Blount's implementation of the $\mathcal{AIA}$ architecture from CR-Models2 to \textsc{clingo} so that differences in performance are meaningful.
+Due to performance improvements in underlying ASP solvers, we update Blount's implementation of the $\mathcal{AIA}$ architecture from CR-Models2 to \textsc{clingo} so that differences in performance are meaningful.
 
 The $\mathcal{APIA}$ agent architecture is a modern logic-based architecture that is able to plan amid changing environments while maintaining policy compliance.
 As a result, its behavior is both explainable and ensured to be compliant.
