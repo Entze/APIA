@@ -38,10 +38,10 @@ attempt(wait, Timestep) :-
 happened(wait, Timestep) :-
     Timestep = 0.
 
-happened(select(greeted_by(Person, Actor)), Timestep) :-
+happened(select(policy_compliant(greeted_by(Person, Actor))), Timestep) :-
     Timestep = 0,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 % Increment timestep
 
@@ -49,15 +49,15 @@ happened(select(greeted_by(Person, Actor)), Timestep) :-
 % (p. 36) of dissertation
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 1,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 
 
 %--- Iteration 2: Step 1 (Interpret observations) ---%
 #program test_5.
 
-% active_goal(greeted_by("Alice", "Bob")) should be true
+% active_goal(greeted_by("Bob", "Alice")) should be true
 
 %--- Iteration 2: Step 2 (Find intended action) ---%
 #program test_6.
@@ -90,8 +90,8 @@ happened(start(Activity), Timestep) :-
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 2,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 
 
@@ -105,11 +105,11 @@ interpretation(Step1UnobservedActions, Timestep) :-
     Step1UnobservedActions = 0,
     Timestep = 2.
 
-% Intended action should be move_through("Bob", "d12")
+% Intended action should be move_through("Alice", "d12")
 %:-
 %    not intended_action(move_through(Actor, Door), Timestep),
 %    Timestep = 2,
-%    Actor = "Bob",
+%    Actor = "Alice",
 %    Door = "d12".
 
 %--- Iteration 3: Step 3 (Attempt the intended action) ---%
@@ -120,7 +120,7 @@ interpretation(Step1UnobservedActions, Timestep) :-
 
 attempt(move_through(Actor, Door), Timestep) :-
     Timestep = 2,
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d12".
 
 %--- Iteration 3: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
@@ -129,20 +129,20 @@ attempt(move_through(Actor, Door), Timestep) :-
 
 happened(move_through(Actor, Door), Timestep) :-
     Timestep = 2,
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d12".
 
 % Increment timestep
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 3,
-    Person = "Bob",
+    Person = "Alice",
     Room = "r2".
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 3,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 
 
@@ -156,11 +156,11 @@ interpretation(Step1UnobservedActions, Timestep) :-
     Step1UnobservedActions = 0,
     Timestep = 3.
 
-% Intended action should be move_through("Bob", "d23")
+% Intended action should be move_through("Alice", "d23")
 %:-
 %    not intended_action(move_through(Actor, Door), Timestep),
 %    Timestep = 3,
-%    Actor = "Bob",
+%    Actor = "Alice",
 %    Door = "d23".
 
 %--- Iteration 4: Step 3 (Attempt the intended action) ---%
@@ -171,7 +171,7 @@ interpretation(Step1UnobservedActions, Timestep) :-
 
 attempt(move_through(Actor, Door), Timestep) :-
     Timestep = 3,
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d23".
 
 %--- Iteration 4: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
@@ -180,20 +180,20 @@ attempt(move_through(Actor, Door), Timestep) :-
 
 happened(move_through(Actor, Door), Timestep) :-
     Timestep = 3,
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d23".
 
 % Increment timestep
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 4,
-    Person = "Bob",
+    Person = "Alice",
     Room = "r3".
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 4,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 
 
@@ -207,11 +207,11 @@ interpretation(Step1UnobservedActions, Timestep) :-
     Step1UnobservedActions = 0,
     Timestep = 4.
 
-% Intended action should be move_through("Bob", "d34")
+% Intended action should be move_through("Alice", "d34")
 %:-
 %    not intended_action(move_through(Actor, Door), Timestep),
 %    Timestep = 4,
-%    Actor = "Bob",
+%    Actor = "Alice",
 %    Door = "d23".
 
 %--- Iteration 5: Step 3 (Attempt the intended action) ---%
@@ -222,7 +222,7 @@ interpretation(Step1UnobservedActions, Timestep) :-
 
 attempt(move_through(Actor, Door), Timestep) :-
     Timestep = 4,
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d34".
 
 %--- Iteration 5: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
@@ -231,20 +231,20 @@ attempt(move_through(Actor, Door), Timestep) :-
 
 happened(move_through(Actor, Door), Timestep) :-
     Timestep = 4,
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d34".
 
 % Increment timestep
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
-    Person = "Bob",
+    Person = "Alice",
     Room = "r4".
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 5,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 
 
@@ -258,12 +258,12 @@ interpretation(Step1UnobservedActions, Timestep) :-
     Step1UnobservedActions = 0,
     Timestep = 5.
 
-% Intended action should be greet("Bob", "Alice")
+% Intended action should be greet("Alice", "Bob")
 %:-
 %    not intended_action(greet(Actor, Person), Timestep),
 %    Timestep = 5,
-%    Actor = "Bob",
-%    Person = "Alice".
+%    Actor = "Alice",
+%    Person = "Bob".
 
 %--- Iteration 6: Step 3 (Attempt the intended action) ---%
 #program test_23.
@@ -273,8 +273,8 @@ interpretation(Step1UnobservedActions, Timestep) :-
 
 attempt(greet(Actor, Person), Timestep) :-
     Timestep = 5,
-    Actor = "Bob",
-    Person = "Alice".
+    Actor = "Alice",
+    Person = "Bob".
 
 %--- Iteration 6: Step 4 (Observe actions, increment timestep, & observe fluents) ---%
 % happened(Action, Timestep) and observed(Fluent, Timestep) are asserted by the agent's controller at this point
@@ -282,15 +282,15 @@ attempt(greet(Actor, Person), Timestep) :-
 
 happened(greet(Actor, Person), Timestep) :-
     Timestep = 5,
-    Actor = "Bob",
-    Person = "Alice".
+    Actor = "Alice",
+    Person = "Bob".
 
 % Increment timestep
 
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 6,
-    Actor = "Bob",
-    Person = "Alice".
+    Actor = "Alice",
+    Person = "Bob".
 
 
 
@@ -332,8 +332,8 @@ happened(stop(Activity), Timestep) :-
 
 observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 7,
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 
 

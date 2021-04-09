@@ -5,6 +5,7 @@
 % person(Person)
 % agent(Person)
 % employee(Person)
+% has_security_clearance(Person)
 % department(Department)
 % department(Person, Department)
 % supervisor_to(Boss, Person)
@@ -22,7 +23,7 @@ higher_ranking_than(HigherPerson, LowerPerson) :-
 %
 % Requirements:
 %   - All user-defined actions must be physical actions
-%   - All user-defined actions must be either agent actions, exogenous actions, or both
+%   - All user-defined actions must be either agent actions or exogenous actions (we assume actions cannot be both)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

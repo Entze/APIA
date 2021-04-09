@@ -8,6 +8,8 @@
 % In general, the suggestions provided in this template (for content, chapter breakdown, etc.) are just that - suggestions.
 % Consult with your advisor to determine the appropriate thesis structure for your sub-discipline, and adjust accordingly.
 
+% TODO: Replace "proposal" with "thesis"
+
 Computers have increasingly become a ubiquitous part of everyday life.
 As more intelligence is able to be embedded in them, we are starting to see the rise in autonomous systems.
 Automatic stock trading programs and self-driving cars are but a few examples.
@@ -15,11 +17,11 @@ However, as we expect them to perform more complex tasks, the question arises of
 Furthermore, new government regulations can place requirements on how agents must act.
 Thus, designers must ensure the lawful behavior of their agents, which further complicates their design.
 
-This paper provides a background on different \textit{agent architectures} that have been proposed in prior literature.
+This thesis provides a background on different \textit{agent architectures} that have been proposed in prior literature.
 This work then narrows its focus to discuss a particular class of agent architectures that are heavily based in the formal theory of logic.
 It first introduces preliminary definitions on which they are based, then moves on to discuss them in significant detail with the aid of examples.
 Then, this paper contrasts them to alternative agent architectures.
-Lastly, this proposal moves to describe the proposed work for this thesis.
+Lastly, we move to describe the contribution of this thesis and evaluate it.
 
 \section{Motivation}
 
@@ -35,25 +37,25 @@ Likewise, logic-based approaches provide benefits in the area of assured complia
 However, prior work in the logic community has yet to integrate work on action compliance into a non-trivial agent architecture.
 Most work regarding policy compliance is limited to access control policies regarding allowing or denying access to an Internet system.
 Such an access control enforcer is only a very trivial agent that is only given two simple actions to perform (to allow and to deny).
-Prior work has proposed various agent architectures that are more complex than these simple agents and that can consider executing multiple actions in changing environments.
-Because of their capability to perform more complex actions, the research community ought to consider applying to them more complex policies than access control policies.
+Prior work has proposed various agent architectures that are more complex than these simple agents.
+Because of their capability to perform more complex actions in changing environments, the research community ought to consider applying to them more complex policies than access control policies.
 
-Thus, this thesis proposal suggests combining the approach of prior research on complex authorization and obligation policies with that of research on non-trivial agent architectures.
-The goal of this proposal is to create a derivative agent architecture that is capable of reasoning over and ensuring action compliance.
-The proposed work will then evaluate the architecture against prototypical examples that, while simplified in contrast to the real-world, are nonetheless non-trivial in complexity.
+Thus, this thesis combines the approach of prior research on complex authorization and obligation policies with that of research on non-trivial agent architectures.
+This thesis creates a derivative agent architecture that is capable of reasoning over and ensuring action compliance.
+We evaluate the architecture against prototypical examples that, while simplified in contrast to the real-world, are nonetheless non-trivial in complexity.
 
 Challenges to this approach may involve constructing examples that sufficiently test and exercise the agent architecture's capability to conform to policies while keeping the example as simple as possible.
 Another challenge, in tandem with the first, may be creating examples that accurately model a plausible real-world occurrence.
 
 \section{Contributions}
 
-The contributions of the proposed work for this thesis are summarized as follows:
+The contributions of this thesis are summarized as follows:
 
 \begin{itemize}
     \item Create examples on which a policy-aware agent architecture can be evaluated.
     \item Create a new extension of an agent architecture that incorporates research on policy compliance.
-    \item Implement the new agent architecture using the latest logic programming tools.
+    \item Implement the new agent architecture using state-of-the-art logic programming tools.
     \item Apply and evaluate the new agent architecture against the created examples.
-    \item Update the runtime dependencies of a prior agent architecture implementation to the latest logic programming tools.
+    \item Update the runtime dependencies of a prior agent architecture implementation to state-of-the-art logic programming tools.
     \item Compare the runtime efficiency of the updated implementation of the prior agent architecture to the implementation of the new agent architecture.
 \end{itemize}

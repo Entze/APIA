@@ -7,10 +7,10 @@ door(Door) :-
     Door = ("d12"; "d23"; "d34").
 
 person(Person) :-
-    Person = ("Bob"; "Alice").
+    Person = ("Alice"; "Bob").
 
 agent(Agent) :-
-    Agent = "Bob".
+    Agent = "Alice".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -36,8 +36,8 @@ door_has_lock(Door) :-
 
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 % ---------------------------------------------------------------
 
@@ -47,8 +47,8 @@ activity(Activity) :-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 activity_length(Activity, ActivityLength) :-
     Activity = 1,
@@ -58,29 +58,29 @@ activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 1,
     Component = move_through(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d12".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 2,
     Component = move_through(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d23".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 3,
     Component = move_through(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 4,
     Component = greet(Actor, Person),
-    Actor = "Bob",
-    Person = "Alice".
+    Actor = "Alice",
+    Person = "Bob".
 
 % ---------------------------------------------------------------
 
@@ -90,8 +90,8 @@ activity(Activity) :-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 activity_length(Activity, ActivityLength) :-
     Activity = 2,
@@ -101,36 +101,36 @@ activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 1,
     Component = move_through(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d12".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 2,
     Component = move_through(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d23".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 3,
     Component = move_through(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 4,
     Component = knock_on_door(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 5,
     Component = greet(Actor, Person),
-    Actor = "Bob",
-    Person = "Alice".
+    Actor = "Alice",
+    Person = "Bob".
 
 % ---------------------------------------------------------------
 
@@ -140,8 +140,8 @@ activity(Activity) :-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
-    Person = "Alice",
-    Actor = "Bob".
+    Person = "Bob",
+    Actor = "Alice".
 
 activity_length(Activity, ActivityLength) :-
     Activity = 3,
@@ -151,26 +151,18 @@ activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 1,
     Component = knock_on_door(Actor, Door),
-    Actor = "Bob",
+    Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 2,
     Component = greet(Actor, Person),
-    Actor = "Bob",
-    Person = "Alice".
+    Actor = "Alice",
+    Person = "Bob".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d12".
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d23".
 
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,
@@ -178,17 +170,17 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
-    Person = "Bob",
+    Person = "Alice",
     Room = "r1".
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 0,
-    Person = "Alice",
+    Person = "Bob",
     Room = "r4".
 
 -observed(busy_working(Person), Timestep) :-
     Timestep = 0,
-    Person = ("Alice"; "Bob").
+    Person = ("Bob"; "Alice").
 
 -observed(knocked_on_door(Door), Timestep) :-
     Timestep = 0,

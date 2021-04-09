@@ -1,0 +1,193 @@
+\chapter{Overview}
+
+% This chapter will present a holistic view of your project.
+% It should present the overall goals, and any architecture, and overarching elements.
+
+The structure of this chapter is the following: first, we introduce the proposed work for the duration of the next year.
+Second, we detail stopping criteria that define the extent the proposed work's scope.
+Third, we outline a methodology and a set of metrics for which the merits of the output of the proposed work can be measured.
+Lastly, we suggest venues for further dissemination of the results of the proposed work as well as a timeline for when it can be expected to be complete.
+
+\section{Proposed Methodology}
+
+This proposal considers the intersection of the $\mathcal{AIA}$ agent architecture by \citet{blount_towards_2014} with Language $\mathcal{AOPL}$ by \citet{gelfond_authorization_2008}.
+More specifically, the proposed work of this thesis proposal is to design an agent in the $\mathcal{AIA}$ agent architecture, to subject it to a policy containing authorization and obligation statements in $\mathcal{AOPL}$, and to discuss how it will act.
+The resultant agent architecture will be called an Architecture for Policy-Aware Intentional Agents ($\mathcal{APIA}$).
+Similar to \citet{blount_towards_2014}, this will be done on the basis of prototypical examples.
+
+\subsection{Creating Examples}
+
+Creating meaningful prototypical examples that exemplify the strengths and weaknesses of the union of $\mathcal{AIA}$ and $\mathcal{AOPL}$ is paramount to this work.
+In order for an example to have this property it must substantially incorporate both $\mathcal{AIA}$ and $\mathcal{AOPL}$.
+Thus, the examples of this proposed work will be derivatives of those provided by \citet{blount_towards_2014} that involve ensuring compliance.
+
+Example 1 would be a good candidate since it involves creating a plan to achieve a goal.
+This can lead to a discussion on when valid plans are computed to be noncompliant, and how an agent can apply constraints to only consider strongly or weakly compliant plans.
+Similarly, it is possible that an agent may find two plans where one plan is strongly compliant, and another is weakly compliant.
+This can lead to a discussion on whether the agent should have a preference between the two and how it may be encoded.
+
+Example 3 would be another good candidate since it involves a sudden expectation of failure to achieve one's goals.
+Example 3 can be modified to a scenario where a weakly compliant plan, after subsequent observations, is computed to be non-compliant.
+In this case, the work could discuss the similarities and differences in agent behavior to that of failing to achieve a goal.
+
+An alternate derivative of Example 3 might consider when, through the observation of additional information, an agent's policy obligates an agent to perform a certain action.
+This example could be made more interesting by examining the case when this newly obligated action causes an expectation of failure to achieve a goal.
+Furthermore, if an agent cannot find another plan with the compulsory action that achieves the goal, this work could discuss whether an agent should resign itself to failure of achieving the goal or whether it should take a utilitarian approach and violate its policy when no other options exist.
+
+This proposed work could also investigate how the hierarchy of preferred defeasible policy statements change an agent's behavior in the aforementioned examples.
+
+The proposal will provide examples demonstrating the interaction of $\mathcal{AOPL}$ policies with $\mathcal{AIA}$ (5 for authorization policies with $\mathcal{AIA}$ and 5 for obligation policies with $\mathcal{AIA}$).
+For each, the work will start with a straightforward example to demonstrate the high-level workings of policy compliance.
+Then, it will progressively introduce more complex examples that demonstrate the strengths (and potential limitations) of representing policies in $\mathcal{AOPL}$ in the midst of new information that change policy compliance.
+
+\subsection{Implementing $\mathcal{APIA}$}
+
+In this proposal, we plan to implement an agent in the $\mathcal{AIA}$ architecture that reasons over $\mathcal{AOPL}$ policies (we call this an agent in the $\mathcal{APIA}$ architecture).
+In order to do this, we will need to first implement the Theory of Intentions proposed by \citet{blount_towards_2014} in \textsc{clingo}.
+This would require writing a series of logic program rules as detailed by \citet{blount_towards_2014}.
+
+Once $\mathcal{TI}$ is implemented, then we will need to implement the $\mathcal{AIA}$ control loop.
+Using \textsc{clingo}'s Python API, a program can control \textsc{clingo}'s operation, extract information out of answer sets, initiate subsequent solves, and more.
+This API is the de-facto manner with which programs interact with \textsc{clingo} and this proposal would implement the $\mathcal{AIA}$ control loop on the basis of this API.
+
+Then, we will add checks for compliance as discussed in \cref{subsec:aopl}.
+These checks will be added as a combination of ASP predicate rules, constraints, and dynamically-added statements that will be generated by the Python controller.
+
+The implementation of $\mathcal{APIA}$ until this point is domain independent and can be used as a general framework for the basis of future work.
+However, in order to apply the framework to the examples discussed in \cref{subsubsec:aia_examples}, we will need to encode the domain-relevant background information about the scenario in logic form so that the ASP solver can reason over it.
+For example, this would include commonsense facts such as:
+
+\begin{itemize}
+    \item An agent can only be in one place at a time
+    \item An agent can only move from room $A$ if the agent is in room $A$ during the current timestep.
+    \item Moving through a door moves an agent from the room in which it is currently to the room that the door connects to (i.e.~when moving from room $A$ though a door to room $B$, the agent will be in room $B$ during the next timestep).
+    \item Doors only connect adjacent rooms.
+    \item Doors can be either locked or unlocked, but not both at the same time.
+    \item Unlocking a door makes the door unlocked during the next timestep.
+    \item Locking a door makes the door locked during the next timestep.
+    \item An agent can only lock a door when it is in a room with the door.
+    \item Etc.
+\end{itemize}
+
+Lastly, we would need to design a reasonable policy in $\mathcal{AOPL}$ for the example.
+This would involve creating a policy that is conceivably representative of a real-world scenario.
+Once formally stated in $\mathcal{AOPL}$, the policy will be translated to its logic form according to the approach discussed in \cref{subsec:aopl}.
+
+\subsection{Applying $\mathcal{APIA}$}
+
+Once the proposed examples are executable in $\mathcal{APIA}$, the proposed work will then discuss the output of the logic program and confirm its validity.
+For this, the proposed work will formally demonstrate the relevant compliance/non-compliance of an action and the formally explain the behavior of the agent's control loop in the context of the example.
+
+\subsection{Updating Prior Work to use State-of-the-art ASP Tools}
+
+Another aspect of this proposal is to update prior work to use a modern ASP solver so that the proposed thesis can compare the performance of the implementation of its own contribution to prior work.
+More specifically, this proposed work is to refactor Blount's Java implementation of the $\mathcal{AIA}$ agent architecture using \textsc{CR-Models2}~\citep{balduccini_cr-models_2007} solver such that it uses the \textsc{clingo} solver.
+
+This refactor will not only update references to \textsc{CR-Models2} but also upgrade ASP syntax and investigate new solver features to maximize the performance of Blount's $\mathcal{AIA}$ implementation.
+
+Updating Blount's implementation of $\mathcal{AIA}$ will also benefit the larger logic programming community as it will enable future approaches to compare themselves to the performance of $\mathcal{AIA}$.
+
+\section{Stopping Criteria}
+
+\subsection{Stopping Criteria for Defining Example Scenarios}
+
+The scope of this proposal concerns ten prototypical examples demonstrating the interaction of $\mathcal{AOPL}$ policies with $\mathcal{AIA}$ (5 for authorization policies with $\mathcal{AIA}$ and 5 for obligation policies with $\mathcal{AIA}$).
+A scenario that meaningfully demonstrates the semantics of a given policy as well as its runtime effects on agent behavior will satisfy this requirement.
+
+\subsection{Stopping Criteria for Implementing $\mathcal{APIA}$}
+
+The independent implementation of the $\mathcal{APIA}$ architecture will be considered complete when all rules of $\mathcal{TI}$ are encoded, and the proper execution of the $\mathcal{AIA}$ control loop is verified according to an original example proposed by Blount.
+
+The knowledge base will be considered complete when all domain-relevant properties of each scenario are sufficiently represented in the knowledge base.
+All direct and indirect effects of actions (whether agent-caused or exogenous) must be encoded in the knowledge base.
+While creating a more general knowledge base that could adequately represent multiple domains would benefit a greater segment of the research community, such a task would be a major undertaking in and of itself and thereby lies outside of the scope of the proposed work.
+
+\subsection{Stopping Criteria for Applying $\mathcal{APIA}$ Examples}
+
+When applying the $\mathcal{APIA}$ examples, the thesis must show through formal methods how actions chosen by an agent are compliant (or non-compliant) with its $\mathcal{AOPL}$ policy.
+Furthermore, non-intuitive agent behavior should be formally explained according to the $\mathcal{AIA}$ control loop and $\mathcal{TI}$.
+
+\subsection{Stopping Criteria for Updating $\mathcal{AIA}$}
+
+The refactoring of Blount's implementation of $\mathcal{AIA}$ will be considered complete when the dependency on \textsc{CR-Models2} is completely replaced with \textsc{clingo} and the updated implementation is verified against its original counterpart on the basis of a few examples provided by Blount.
+
+\section{Evaluation Methodology and Metrics}
+
+It is worth noting that since this thesis proposal considers a contribution in the domain of Knowledge Representation \& Reasoning (KRR), it will be evaluated by the customs established in this field instead of with commonplace metrics used under the broader Computer Science umbrella.
+As such, the majority of the evaluation of this thesis proposal will be formal in nature and focused on syntax, conciseness, and expressivity over quantitative measures of runtime performance.
+
+\subsection{Conciseness and Expressivity}
+
+The first metric on which the contribution of the proposed work will be measured is its conciseness and expressivity.
+The contribution will measure the writability of policy in logic form (how ``easy'' it is for a computer scientist unfamiliar with KRR is to encode the policy himself) and the readability (how ``easy'' it is for the same computer scientist to infer the meaning of the policy when given the logic program code).
+This will not be measured empirically.
+Rather, this metric will appeal to common intuition to differentiate simpler notations from more complex ones.
+
+\subsection{Elaboration Tolerance}
+
+The second metric on which the contribution will be measured is the elaboration tolerance of the syntax.
+The proposed work will briefly overview how the examples the work provides could be further expanded upon with new information, complexities, or requirements.
+Though this discussion will not be as detailed as the discussion on the ten examples the work provides, it should nonetheless give a brief idea as to the extent to which further examples can be explored without major changes to the agent's knowledge base, action description, or policy.
+
+\subsection{Difficulty of Construction}
+
+The third metric on which the contribution will be measured is how hard bringing it to completion was.
+This is notable since, unlike other programming languages, there are not many tools that a developer in KRR can use to troubleshoot unexpected behavior or pin-point logical inconsistencies.
+Often logic programs may become wholly unsatisfiable or exclude externally valid solutions from the answer set.
+Most ASP solvers do not provide a stack trace or any clues as to which constraint is excluding the desired answer set.
+(An exception to this would be an ASP solver such as Z3~\citep{de_moura_z3_2008}, which includes UNSAT-responsible constraints in an \textit{UNSAT-core}).
+The tools available to KRR developers are syntax highlighters and the SeaLion IDE~\citep{busoniu_sealion_2013}, which enables refactoring of predicate names.
+
+\subsection{Runtime Performance Benchmark}
+
+The last metric for this contribution will be a traditional benchmark between the runtime performance of our update to Blount's implementation of the $\mathcal{AIA}$ architecture and the performance of our implementation of $\mathcal{APIA}$.
+Though the proposed work could investigate the performance boost between Blount's original implementation with \textsc{CR-Models2} to the updated version with \textsc{clingo}, this is outside of the scope of this thesis.
+
+\section{Dissemination of Results}
+
+The contribution of this work also has an audience in peer-reviewed journals and conferences.
+
+Such a venue would be the Journal of Theory and Practice of Logic Programming (TPLP -- link, rank-A).
+Prior publications show that this journal is accustomed to formal theory and proofs, and accepts papers on logic programming methodologies, specification, analysis and verification as well as knowledge representation, nonmonotonic reasoning, architectures, and their implementations.
+As such, the discussion of the proposed thesis might be well-received at this venue.
+It accepts full-length papers and publishes six times a year.
+
+Another relevant venue is the International Conference on Logic Programming (ICLP -- link, rank-A).
+This conference focuses on solver performance and accepts papers on declarative problem solving, constraint programming, SAT, planning, and diagnosis.
+The performance metrics of this contribution would be of interest to this venue.
+It accepts both full papers (14 pages) and short papers (7 pages).
+It generally follows these deadlines:
+
+\begin{itemize}
+    \item Paper registration (abstract, regular papers): May 8
+    \item Paper Submission (regular papers): May 15
+    \item Notification to authors (regular papers): June 19
+    \item Paper Submission (short papers): June 30
+    \item Revision deadline (TPLP papers): July 3
+    \item Final notification (TPLP papers, short papers): July 17
+    \item Camera-ready copy due: July 31
+    \item Main conference: September 20-25
+\end{itemize}
+
+Lastly, the proposed work may be a good fit for the International Conference on Logic Programming and Nonmonotonic Reasoning (LPNMR, link, rank-A) conference.
+As the name suggests, it focuses on nonmonotonic reasoning, action languages, as well as implementation details of LPNMR systems.
+It accepts both long (13 pages) and short (6 pages) publications.
+It follows these deadlines:
+
+\begin{itemize}
+    \item Paper registration: January 29
+    \item Paper submission: February 5
+    \item Notification: March 12
+    \item Final versions due: April 2
+\end{itemize}
+
+\section{Timeline of Research}
+
+\begin{landscape}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.75\textwidth]{Figures/Timeline}
+        \caption{Timeline}
+        \label{fig:timeline}
+    \end{figure}
+\end{landscape}

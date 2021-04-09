@@ -1,13 +1,22 @@
 \documentclass[12pt, oneside]{book2}
 
 \newcommand{\documentTitle}{ARCHITECTURE FOR POLICY-AWARE INTENTIONAL AGENTS}
-\newcommand{\documentType}{Thesis Proposal}
-\newcommand{\documentAuthor}{John Meyer}
-\newcommand{\documentYear}{2020}
+\newcommand{\documentType}{Thesis}
+\newcommand{\documentAuthor}{John Maximilian Meyer}
+\newcommand{\documentYear}{2021}
 
 \newcommand{\thesisAdvisor}{Daniela Inclezan, Ph. D}
 \newcommand{\thesisFirstReader}{Alan Ferrenberg, Ph. D}
 \newcommand{\thesisSecondReader}{Matthew Stephan, Ph. D}
+
+% Adjust auto-generated headings
+\newcommand\contentsnamebase{Table of Contents}
+\newcommand\listfigurenamebase{List of Figures}
+\newcommand\listtablenamebase{List of Tables}
+
+\renewcommand\contentsname{\centering \large \contentsnamebase}
+\renewcommand\listfigurename{\centering \large \listfigurenamebase}
+\renewcommand\listtablename{\centering \large \listtablenamebase}
 
 % Template imports
 \usepackage{amssymb}
@@ -26,6 +35,10 @@
 
 % Custom imports
 
+% Set document font family
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
 % Enable \enquote{} command
 \usepackage{csquotes}
 
@@ -36,7 +49,7 @@
 
 \usepackage{amsthm}
 
-\usepackage{cleveref}
+\usepackage[capitalize,noabbrev]{cleveref}
 
 \usepackage[super]{nth}
 
@@ -45,9 +58,16 @@
 \usepackage{xcolor}
 
 \usepackage{listings}
+\usepackage{minted}
 
 % \usepackage{rotating}
 \usepackage{pdflscape}
+
+\usepackage{framed}
+
+\usepackage[normalem]{ulem}
+
+\usepackage{tabularx}
 
 \usepackage[type={CC},modifier={by},version={4.0}]{doclicense}
 
@@ -62,10 +82,6 @@
 
 % Define image file extensions
 \DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg}
-
-\crefname{section}{Section}{Sections}
-\crefname{figure}{Fig.}{Figs.}
-\crefname{equation}{Eq.}{Eqs.}
 
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
@@ -108,6 +124,14 @@
     tabsize=2,                       % sets default tabsize to 2 spaces
     title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+% See https://mirrors.rit.edu/CTAN/macros/latex/contrib/minted/minted.pdf
+\setminted{
+    linenos=true,
+    samepage=true
+}
+\setminted[python]{
+    python3=true
+}
 
 \onehalfspacing
 
@@ -119,15 +143,15 @@
 
     ABSTRACT
 
-    \vspace{2.0cm}
+    \vspace{\baselineskip}
 
     \documentTitle
 
-    \vspace{1.0cm}
+    \vspace{2\baselineskip}
 
     by \documentAuthor
 
-    \vspace{1.0cm}
+    \vspace{4\baselineskip}
 
 \end{center}
 
@@ -147,11 +171,11 @@
 
     \documentTitle
 
-    \vspace{1.5cm}
+    \vspace{0.5\baselineskip}
 
     A \documentType \\
 
-    \vspace{0.5cm}
+    \vspace{0.5\baselineskip}
 
     Submitted to the \\
     Faculty of Miami University \\
@@ -164,46 +188,44 @@
     Oxford, Ohio \\
     \documentYear
 
-    \vspace{1.5cm}
+    \vspace{1\baselineskip}
 
     Advisor: \thesisAdvisor\\
     Reader: \thesisFirstReader\\
     Reader: \thesisSecondReader\\
 
-    \vspace{1.5cm}
+    \vspace{3\baselineskip}
 
     \textcopyright \documentYear{ }\documentAuthor
 
-    \doclicenseLongText
-
-    \vspace{0.5cm}
-
-    \doclicenseImage
+    % \doclicenseLongText
+    %
+    % \vspace{0.5cm}
+    %
+    % \doclicenseImage
 
     \newpage
 
     This Thesis titled
 
-    \vspace{1.0cm}
+    \vspace{0.5\baselineskip}
 
     \documentTitle
 
-    \vspace{1.0cm}
+    \vspace{1\baselineskip}
 
     by
 
-    \vspace{1.0cm}
+    \vspace{1\baselineskip}
 
     \documentAuthor
 
-    \vspace{1.0cm}
+    \vspace{1\baselineskip}
 
     has been approved for publication by\\
-    \vspace{0.75cm}
+    \vspace{0.5\baselineskip}
     The College of Engineering and Computing\\
-    \vspace{0.5cm}
     and\\
-    \vspace{0.5cm}
     The Department of Computer Science \& Software Engineering\\
 
     \vspace{1.5cm}
@@ -233,30 +255,32 @@
 \cleardoublepage
 % \phantomsection
 
-\addcontentsline{toc}{chapter}{\listtablename}
+\addcontentsline{toc}{chapter}{\listtablenamebase}
 \listoftables
 \cleardoublepage
 
-\addcontentsline{toc}{chapter}{\listfigurename}
+\addcontentsline{toc}{chapter}{\listfigurenamebase}
 \listoffigures
 
 \newpage
 
-\include{2_Chapters/Chapter0_Acknowledgements}
+% \include{2_Chapters/Chapter00_Acknowledgements}
 
 \mainmatter
 
 \include{2_Chapters/Chapter01_Introduction}
 \include{2_Chapters/Chapter02_Background}
-\include{2_Chapters/Chapter03_Overview}
-\include{2_Chapters/Chapter04_ContentA}
-\include{2_Chapters/Chapter05_ContentB}
-\include{2_Chapters/Chapter06_ContentC}
-\include{2_Chapters/Chapter07_Validation}
-\include{2_Chapters/Chapter08_Conclusion}
+\include{2_Chapters/Chapter03_APIA}
+\include{2_Chapters/Chapter04_Implementations}
+\include{2_Chapters/Chapter05_Benchmark_Setup}
+\include{2_Chapters/Chapter06_Evaluation}
+\include{2_Chapters/Chapter07_Conclusion}
 
 \appendix
-\include{3_Appendices/A1}
+\include{3_Appendices/A1_APL}
+\include{3_Appendices/A2_AOPL}
+\include{3_Appendices/A3_PDC-agent}
+\include{3_Appendices/A4_APIA}
 
 \backmatter
 

@@ -207,14 +207,14 @@ There are two kinds of action languages: action description languages and action
 Action description languages describe action effects in terms of a transition system and action query languages state assertions about a transition system~\citep{gelfond_action_1998}.
 We will focus only on action description languages and will use the term \textit{action languages} to refer to them.
 
-Many action languages exist, including $ \mathcal{A} $~\citep{gelfond_action_1998}, $ \mathcal{B} $~\citep{gelfond_action_1998}, $ \mathcal{C} $~\citep{gelfond_action_1998}, $ \mathcal{AC} $~\citep{turner_representing_1997}, $ \mathcal{AL} $~\citep{baral_reasoning_2000}, $ \mathcal{ALM} $~\citep{inclezan_modular_2016}.
+Many action languages exist, including $\mathcal{A}$~\citep{gelfond_action_1998}, $\mathcal{B}$~\citep{gelfond_action_1998}, $\mathcal{C}$~\citep{gelfond_action_1998}, $\mathcal{AC}$~\citep{turner_representing_1997}, $\mathcal{AL}$~\citep{baral_reasoning_2000}, $\mathcal{ALM}$~\citep{inclezan_modular_2016}.
 
-\subsubsection{Action Language $ \mathcal{A} $}
+\subsubsection{Action Language $\mathcal{A}$}
 \label{subsubsec:action_language_a}
 
-First, we will discuss action language $ \mathcal{A} $.
-Action language $ \mathcal{A} $ was first proposed by \citet{pednault_formulating_1987}.
-$ \mathcal{A} $ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
+First, we will discuss action language $\mathcal{A}$.
+Action language $\mathcal{A}$ was first proposed by \citet{pednault_formulating_1987}.
+$\mathcal{A}$ models a transition system with the signature $ <\{t, f\}, \boldsymbol{F}, \boldsymbol{A}> $.
 It is composed of propositions of the form:
 \begin{equation}
     a \textbf{ causes } L \textbf{ if } F
@@ -234,7 +234,7 @@ To formally define the semantics of an action description in $\mathcal{A}$, we n
 \end{definition}
 
 \begin{definition}
-    Let $ D $ be an action description in $ \mathcal{A} $.
+    Let $ D $ be an action description in $\mathcal{A}$.
     The transition system $ <S, V, R> $ described by $ D $ is defined as follows~\citep{gelfond_action_1998}:
 
     \begin{itemize}
@@ -264,10 +264,10 @@ In this case, the action description language models the transition system shown
     \label{fig:action_language_a_example}
 \end{figure}
 
-\subsubsection{Action Language $ \mathcal{B} $}
+\subsubsection{Action Language $\mathcal{B}$}
 \label{subsubsec:action_language_b}
 
-Action language $ \mathcal{B} $ is an extension of action language $ \mathcal{A} $ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
+Action language $\mathcal{B}$ is an extension of action language $\mathcal{A}$ [12] that allows the description of actions with indirect effects~\citep{gelfond_action_1998}.
 It does so with the addition of so-called \textit{static laws}~\citep{gelfond_action_1998}.
 \citet{gelfond_action_1998} contrast static laws to \textit{dynamic laws}, which refer to action descriptions in $\mathcal{A}$.
 
@@ -325,24 +325,24 @@ $\mathcal{B}$ defines a notion of closure for sets of literals.
     \end{itemize}
 \end{definition}
 
-\subsubsection{Action Language $ \mathcal{AL} $}
+\subsubsection{Action Language $\mathcal{AL}$}
 \label{subsubsec:action_language_al}
 
-$ \mathcal{AL} $ is based on $ \mathcal{A} $ and $ \mathcal{B} $.
+$\mathcal{AL}$ is based on $\mathcal{A}$ and $\mathcal{B}$.
 It extends these languages with what authors later refer to as \textit{defined fluents}.
 These are domain-relevant properties under the closed world assumption~\citep{blount_architecture_2013}.
 The closed world assumption states that which cannot be proven true must be false~\citep{reiter_closed_1981}.
 It contrasts from the open world assumption, which states only that which is proven is true~\citep{reiter_closed_1981}.
 
-An action description in $ \mathcal{AL} $ is a set of propositions written in the form~\citep{baral_reasoning_2000, blount_architecture_2013}:
+An action description in $\mathcal{AL}$ is a set of propositions written in the form~\citep{baral_reasoning_2000, blount_architecture_2013}:
 
 \begin{itemize}
-    \item Dynamic laws (from Action language $ \mathcal{A} $):
+    \item Dynamic laws (from Action language $\mathcal{A}$):
         \begin{equation}
             a \textbf{ causes } L \textbf{ if } F
         \end{equation}
 
-    \item Static laws (from Action language $ \mathcal{B} $):
+    \item Static laws (from Action language $\mathcal{B}$):
         \begin{equation}
             L \textbf{ if } F
         \end{equation}
@@ -397,7 +397,7 @@ Given that these assumptions are met, an agent in the AAA architecture performs 
 This loop is known as the \textit{Observe-Think-Act} loop~\citep{balduccini_aaa_2008}.
 
 In step 1, the agent observes the world and updates its knowledge base.
-This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in \cref{subsubsec:asp}).
+This knowledge base is encoded in the Answer Set Prolog (ASP) language, which allows for the representation of many different forms of knowledge [18] (ASP will be discussed later in \cref{sec:asp}).
 The agent stores the current state of the environment in this knowledge base as well as a history of previous observations and actions (more will be mentioned in \cref{subsubsec:domain_history})~\citep{balduccini_aaa_2008}.
 
 There are two approaches to describing the effects of an agent's actions.
@@ -438,7 +438,7 @@ However, a few assumptions differ from the AAA architecture:
 \subsubsection{Intentional System Description of $\mathcal{AL}$}
 \label{subsubsec:intentional_action_language_al}
 
-An intentional system description of $ \mathcal{AL} $ is an extension of $ \mathcal{AL} $ proposed by \citet{blount_architecture_2013}.
+An intentional system description of $\mathcal{AL}$ is an extension of $\mathcal{AL}$ proposed by \citet{blount_architecture_2013}.
 This extension is created to address the limitations of the AAA architecture, in which plans are not persisted across iterations of the Observe-Think-Act loop.
 In order to persist them, plans are pre-computed and stored as a set of statics.
 In the intentional system description of $\mathcal{AL}$, these pre-computed plans are encapsulated in a construct called an \textit{activity}.
@@ -566,6 +566,7 @@ This is represented as the occurrence of an exogenous mental action $select(meet
 In the first iteration of the $\mathcal{AIA}$ control loop, the agent will:
 
 \begin{enumerate}
+    % TODO: Update this bullet
     \item Interpret its prior observations, of which there are none.
     \item Find an intended action $A$.
         Since there is not yet an intended goal, the agent will choose to execute the \textit{wait} action, which has no physical or mental effects.
@@ -652,7 +653,7 @@ Thus, it is necessary to introduce a discussion on policies for agent behavior a
 \subsection{Language $\mathcal{APL}$}
 \label{subsec:apl}
 
-\citet{gelfond_authorization_2008} introduce language the Authorization Policy Language ($\mathcal{APL}$) to represent authorization policies.
+\citet{gelfond_authorization_2008} introduce the Authorization Policy Language ($\mathcal{APL}$) to represent authorization policies.
 An authorization policy is a set of conditions that denote whether an agent's action is permitted or not permitted~\citep{gelfond_authorization_2008}.
 In contrast to the languages discussed previously, $\mathcal{APL}$ is not an action language in and of itself.
 $\mathcal{APL}$ describes only the conditions under which actions are permitted or forbidden.
@@ -784,606 +785,15 @@ Lastly, the third policy statement can be represented with a strict authorizatio
 
 In total, our policy $P$ be the set of the above two statement blocks (\cref{eq:apl_example_policy_1,eq:apl_example_policy_2,eq:apl_example_policy_3,eq:apl_example_policy_4}).
 
-\subsubsection{Answer Set Programming}
-\label{subsubsec:asp}
-
-To check the compliance of an action with a given policy, Gelfond and Lobo [12] first translate the policy into a logic program using Answer Set Programming.
-\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards quickly searching NP problems~\citep{vladimir_lifschitz_what_2008}.
-It has its foundations in Knowledge Representation and Reasoning, Logic Programming, Databases, and Boolean Constraint Solving~\citep{gebser_potassco_2011}.
-Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of Satisfiability Testing (SAT)~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
-Its execution comes in two stages: grounding and solving~\citep{gebser_potassco_2011}.
-
-The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog} in older literature~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
-
-% It is based on stable model semantics~\citep{gelfond_stable_1988}.
-
-Below we will briefly define the syntax of ASP.
-For a more thorough definition, we direct the reader to \citet{calimeri_asp-core-2_2020,gebser_abstract_2015}.
-
-\begin{definition}
-    A \textit{signature} is a four tuple $\Sigma = <\mathcal{O}, \mathcal{F}, \mathcal{P}, \mathcal{V}>$, where $\mathcal{O}$, $\mathcal{F}$, $\mathcal{P}$, $\mathcal{V}$ are mutually disjoint sets of objects, functions, predicates, and variables, respectively~\citep{blount_architecture_2013}.
-\end{definition}
-
-\begin{definition}
-    A \textit{term} over a signature $\Sigma$ consists of any of the following~\citep{blount_architecture_2013}:
-    \begin{itemize}
-        \item Variables
-        \item Object constants
-        \item $f(t_1, t_2, \dots, t_n)$, if $t_1, t_2, \dots, t_n$ are terms and $f$ is a function symbol with arity $n$
-    \end{itemize}
-    For simplicity, we use infix notation for arithmetic expressions (e.g. $1+2$ instead of $+(1, 2)$).
-\end{definition}
-
-% \begin{definition}
-%     An \textit{atom} is
-% \end{definition}
-
-\begin{definition}
-    A \textit{literal} is either an atom $a$ or its negation $\neg a$~\citep{balduccini_asp_2011}.
-\end{definition}
-
-\begin{definition}
-    A term/literal is called \textit{ground} if it does not contain any variables or arithmetic functions~\citep{blount_architecture_2013}.
-\end{definition}
-
-\begin{definition}
-    A \textit{rule} is a statement of the form~\citep{balduccini_asp_2011}:
-    \begin{equation}
-    h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m, \textbf{ not } l_{m+1}, \textbf{ not } l_{m+2}, \dots, \textbf{ not } l_n
-    \end{equation}
-    where $h_1, h_2, \dots, h_n$ and $l_1, l_2, \dots, l_n$ are ground literals.
-    $\textbf{not}$ refers to default negation~\citep{balduccini_asp_2011}.
-\end{definition}
-
-\begin{definition}
-    A \textit{constraint} is a rule where $\{ h_1, h_2, \dots, h_n \} = \emptyset$~\citep{balduccini_asp_2011}.
-\end{definition}
-
-\begin{definition}
-    ``A program is a pair $<\Sigma, \Pi>$ where $\Sigma$ is a signature and $\Pi$ is a set of rules over $\Sigma$~\citep{balduccini_asp_2011}''
-\end{definition}
-
-\begin{definition}
-    An \textit{answer set} or \textit{model} of a program $\Pi$ is a collection of the consequences of $\Pi$ under ASP semantics~\citep{balduccini_asp_2011}.
-    More formally,
-
-    \textbf{Case 1:} Program $\Pi$ consists only of rules without default negation~\citep{blount_architecture_2013}, e.g. those of the form:
-    \begin{equation}
-        h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m
-    \end{equation}
-
-    An answer set of $\Pi$ is a consistent set S of ground literals such that~\citep{blount_architecture_2013}:
-    \begin{itemize}
-        \item ``$S$ satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
-        \item ``$S$ is minimal, i.e. there is no proper subset of $S$ which satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
-    \end{itemize}
-
-    \textbf{Case 2:} $\Pi$ is an arbitrary program.
-    Let $S$ is a set of ground literals.
-    Let $\Pi^S$ be a derivative program of $\Pi$ (called the \textit{reduct} of $\Pi$ with respect to $S$) such that:
-    \begin{itemize}
-        \item For all literals $l \in S$, remove all rules that contain $\textbf{not } l$
-        \item Remove all other clauses containing $\textbf{not}$
-    \end{itemize}
-    $S$ is an answer set of $\Pi$ if $S$ is an answer set of $\Pi^S$ (see Case 1)~\citep{blount_architecture_2013}.
-\end{definition}
-
-$\Pi$ can have multiple answer sets.
-For example, the following program (borrowed from \citet{balduccini_asp_2011}):
-\begin{gather}
-    p \leftarrow \textbf{ not } q. \\
-    q \leftarrow \textbf{ not } p.
-\end{gather}
-has two answer sets: $\{p\}$ and $\{q\}$.
-
-In the case when the condition of a constraint is satisfied, $\Pi$ will have zero answer sets (and will be called \textit{inconsistent} or \textit{unsatisfiable}).
-For example, the following program:
-\begin{gather}
-    p. \\
-    \leftarrow p. \label{eq:asp_constraint_example}
-\end{gather}
-is inconsistent since the literals of constraint \ref{eq:asp_constraint_example} are satisfied (i.e. $p$ is true).
-
-In order to simplify the expression of alternatives for which multiple answer sets can be created, ASP also supports constraint literals~\citep{balduccini_asp_2011}.
-
-\begin{definition}
-    A \textit{constraint literal} is an expression of the form~\citep{balduccini_asp_2011}:
-    \begin{equation}
-        m\{l_1,l_2, \dots, l_k\}n
-    \end{equation}
-    where $ l_1,l_2, \dots, l_k $ are literals and $m$, $n$ are arithmetic expressions.
-    This expression is satisfied when $m \le |\{ l_1,l_2, \dots, l_k\}| \le n$.
-
-    To simplify this syntax even further, one can also use variables to simplify a constraint literal such as~\citep{balduccini_asp_2011}:
-    \begin{equation}
-        m\{l(a_1, b_2),l(a_2,b_2), \dots, l(a_k, b_k)\}n
-    \end{equation}
-    into an expression of the form:
-    \begin{equation}
-        m\{l(A, B) : dom_a(A), dom_b(B)\}n
-    \end{equation}
-    where $dom_a$ and $dom_b$ are function symbols that define the domain of variables $A$ and $B$, respectively.
-\end{definition}
-
-With the \textsc{clingo} grounder/solver\footnotemark, arithmetic expressions can also be expanded to evaluate the value of external functions~\citep{gebser_potassco_2019}.
-\footnotetext{
-    \textsc{clingo}~\citep{gebser_potassco_2011} is available for download at \url{https://potassco.org/clingo/}
-}
-\textsc{clingo} allows external functions to be written in Python, Lua, C, Rust, or Haskell, though the latter two have not yet reached a stable API~\citep{roland_kaminski_potasscoclingo_2020,sven_thiele_potasscoclingo-rs_2020,paul_ogris_tsahytclingo-haskell_2020}.
-External functions can either be included inline or provided externally\footnotemark.
-\footnotetext{
-    Only Python and Lua are supported inline.
-    \textsc{clingo} must be compiled with Python and/or Lua support for inline syntax to be executed.
-}
-
-For example, the program:
-\lstinputlisting[language=Prolog]{Figures/ASP/inline_function.lp}
-is equivalent to:
-\lstinputlisting[language=Prolog]{Figures/ASP/base_equivalent.lp}
-
-While the above example is very trivial, it demonstrates a very powerful technique in which computations or queries can be delegated to functions in traditional programming languages.
-This being said, external functions should not be used to achieve side-effects.
-Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nondeterminstically according to internal heuristics.
-As such, a developer using \textsc{clingo} has little control over the values with which an external function is called.
-A developer can only define domain for variable values, by inserting or removing facts and production rules.
-
-\subsubsection{Checking Compliance}
-
-As mentioned previously, \citet{gelfond_authorization_2008} use ASP to check the compliance of an action $A$ at state $s$ with a policy $P$.
-To do so, \citet{gelfond_authorization_2008} define the function $lp(P,s)$ to translate $P$ into an executable ASP program as follows:
-
-\begin{gather}
-    lp(P,s) =_{def} lp(P)\cup lp(s). \label{eq:apl_lp_01} \\
-    lp(P)=_{def}\{lp(statement) | statement \in P\} \label{eq:apl_lp_02} \\
-    lp\left(V(f,s)=y\right) =_{def}
-        val\left(f,y\right). \label{eq:apl_lp_03} \\
-    lp(permitted(a)) =_{def}
-        permitted(a). \label{eq:apl_lp_04} \\
-    lp(\neg permitted(a)) =_{def}
-        \neg permitted(a). \label{eq:apl_lp_05} \\
-    lp(permitted(a) \textbf{ if } F) =_{def}
-        permitted(a) \leftarrow
-            lp(F). \label{eq:apl_lp_06} \\
-    lp(\neg permitted(a) \textbf{ if } F) =_{def}
-        \neg permitted(a) \leftarrow
-            lp(F). \label{eq:apl_lp_07}
-\end{gather}
-\begin{multline}
-    \label{eq:apl_lp_08}
-    lp(d_i: \textbf{normally } permitted(a) \textbf{ if } F_i) =_{def} \\
-        permitted(a) \leftarrow
-            lp(F),
-            \textbf{not } ab(d),
-            \textbf{not } \neg permitted(a).
-\end{multline}
-\begin{multline}
-    \label{eq:apl_lp_09}
-    lp(d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F_j) =_{def} \\
-        \neg permitted(a) \leftarrow
-        lp(F),
-        \textbf{not } ab(d),
-        \textbf{not } permitted(a).
-\end{multline}
-\begin{gather}
-    lp(prefer(d_i, d_j)) =_{def}
-        ab(d_j) \leftarrow lp(F_1). \label{eq:apl_lp_10}
-\end{gather}
-
-\noindent
-where $lp(s)$ is the logic encoding of the current state, following an approach like that by \citet{balduccini_aaa_2008}.
-If S is a set of atoms, then $lp(S)=_{def}\{lp(atom) | atom \in S\}$
-
-In order to maintain a continuity of syntax between the work of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013,gelfond_authorization_2008}, if $\boldsymbol{V} = \{t,f\}$, this paper will adjust $lp$ such that the following translation written in syntax provided by \citet{gelfond_authorization_2008}:
-\[
-    lp\left(V(f,s)=y\right) =_{def}
-        val\left(f,y\right).
-\]
-will be simplified to resemble the syntax of \citet{gelfond_action_1998,balduccini_aaa_2008,blount_architecture_2013} as follows:
-\begin{gather}
-    lp\left(V(f,s)=t\right) =_{def}
-        f. \\
-    lp\left(V(f,s)=f\right) =_{def}
-        \neg f. \\
-\end{gather}
-
-\begin{definition}
-    \label{def:lp_consistent}
-    \label{def:lp_categorical}
-    ~
-
-    \begin{itemize}
-        \item A logic program is \textit{consistent} if it produces at least one answer set~\citep{gelfond_authorization_2008}.
-        \item A logic program is \textit{categorical} if it produces exactly one answer set~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-\begin{definition}
-    \label{def:authorization_consistent}
-    \label{def:authorization_categorical}
-    ~
-
-    \begin{itemize}
-        \item An authorization policy $P$ for transition system $T$ is \textit{consistent} if for every state $s$ of $T$, logic program $lp(P, s)$ is consistent~\citep{gelfond_authorization_2008}.
-        \item An authorization policy $P$ for transition system $T$ is \textit{categorical} if for every state $s$ of $T$, logic program $lp(P, s)$ is categorical~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-\begin{definition}
-    \label{def:entails}
-    If a consistent logic program $\Pi$ has a literal $l$ which belongs to every answer set of $\Pi$, $\Pi$ \textit{entails} $l$~\citep{gelfond_authorization_2008}.
-\end{definition}
-
-\begin{definition}
-    Let $P$ be a consistent authorization policy for transition system $T$.
-
-    \begin{itemize}
-        \item $permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $permitted(a)$~\citep{gelfond_authorization_2008}.
-        \item $\neg permitted(a) \in P(s)$ iff a logic program $lp(P, s)$ entails $\neg permitted(a)$~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-\begin{definition}
-    \label{def:authorization_event_compliance}
-    ~
-
-    \begin{itemize}
-        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \forall a \in A\ permitted(a) \in P(s)
-            \end{equation}
-        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \forall a \in A\ \neg permitted(a) \not \in P(s)
-            \end{equation}
-        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \exists a \in A\ \neg permitted(a) \in P(s)
-            \end{equation}
-    \end{itemize}
-\end{definition}
-
-\begin{definition}
-    \label{def:authorization_path_compliance}
-    A path $<s_0, A_0, s_1, A_1, \dots, s_{n-1}, A_{n-1}, s>$ of transition system $T$ can be similarly categorized into \textit{strongly compliant} or \textit{weakly compliant} if every event $<s_i, A_i>$ along the path for $0 \le i < n$ also has the same classification~\citep{gelfond_authorization_2008}.
-    If the path has at least one non-compliant event, then the path is \textit{non-compliant}.
-\end{definition}
-
-To demonstrate compliance checking, \citet{gelfond_authorization_2008} will use their working example in the context of particular missions and commanders.
-Let $P_m$ be a policy constructed in the form of $P$ for a mission $m_1$ and a colonel $c_1$.
-$P_m$ is as follows:
-\begin{gather}
-    d_1(c_1, m_1): \textbf{normally } \neg permitted(assume\_command(c_1, m_1)) \textbf{ if } authorized(c_1, m_1) \\
-    d_2(c_1, m_1): \textbf{normally } permitted(assume\_command(c_1, m_1)) \textbf{ if } colonel(c_1) \\
-    prefer(d_2(c_1,m_1),d_1(c_1,m_1)) \\
-    \neg permitted(authorize(c_1, m_1)) \textbf{ if } observer(c_1)
-\end{gather}
-
-The logic translation of $P_m$, $lp(P_m)$ is the following:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/Pm.lp}
-
-Suppose the agent's environment can be represented by the following state:
-\begin{equation}
-    s_0 = \{colonel(c1), authorized(c1,m1), \neg commands(c1,m1), \neg observer(c1) \}
-\end{equation}
-Its logic encoding $lp(s_0)$ would be:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/01_Initial_Example/s0.lp}
-
-Then, to check the compliance of actions $A \in \mathcal{P}(\boldsymbol{A})$, one would first execute the logic program in an ASP grounder and solver such as \textsc{clingo}.
-Doing so, we can see that the logic program $lp(P_m, s_0)$ entails the following answer set:
-\lstinputlisting{Figures/APL_Language/01_Initial_Example/run.snippet.txt}
-
-Considering actions $A=\{assume\_command(c_1, m_1)\}$, since $a = assume\_command(c_1, m_1)$ is the only element of $A$ and $lp(P_m, s_0)$ entails $permitted(assume\_command(c_1, m_1))$, $A$ is strongly compliant with $P_m$.
-
-For completeness, one might be curious to consider an action such as:
-\begin{equation}
-    A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}
-\end{equation}
-While such an action would be weakly compliant according to $P_m$ (since $permitted(authorize(c_1, m_1))$ is missing but neither $\neg permitted(assume\_command(c_1, m_1))$ or $\neg permitted(authorize(c_1, m_1))$ is present), a designer would likely render this combination of actions invalid by accompanying $P_m$ with an action description in $\mathcal{AL}$.
-Such an action description might look like the following:
-
-\begin{gather}
-    \neg observer(c_1) \textbf{ if } colonel(c_1) \label{eq:apl_action_description_5} \\
-    authorize(c_1, m_1) \textbf{ causes } authorized(c_1, m_1) \label{eq:apl_action_description_1} \\
-    assume\_command(c_1, m_1) \textbf{ causes } commands(c_1, m_1) \label{eq:apl_action_description_2} \\
-    \textbf{impossible } authorize(c_1, m_1) \textbf{ if } authorized(c_1, m_1) \label{eq:apl_action_description_3} \\
-    \textbf{impossible } assume\_command(c_1, m_1) \textbf{ if } commands(c_1, m_1) \label{eq:apl_action_description_4}
-\end{gather}
-
-Intuitively, if $c_1$ has already authorized $m_1$, he cannot authorize it again.
-Likewise, if $c_1$ has already assumed command of $m_1$, he cannot begin to assume command of it again.
-Thus, actions $A = \{assume\_command(c_1, m_1), authorize(c_1, m_1)\}$ is impossible and is not a valid candidate for checking policy compliance.
-$A = \{authorize(c_1, m_1)\}$ is also impossible.
-
-Considering $A=\emptyset$, $A$ is possible according to the action description.
-With respect to $P_m$, $A$ is weakly compliant since neither $permitted(wait)$ or $\neg permitted(wait)$ is entailed by $lp(P_m, s_0)$.
-
-\subsubsection{Checking Compliance with Complete Knowledge of State}
-
-To formalize this approach even further, \citet{gelfond_authorization_2008} provide propositions that decide how compliant an event $<s,a>$ is with an authorization policy $P$.
-
-\begin{definition}
-    \label{def:authorization_event_compliance_full_knowledge}
-    ~
-
-    \begin{itemize}
-        \item An event $<s, a>$ is \textit{strongly compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                lp(P, s) \cup \{ \leftarrow permitted(a). \}
-            \end{equation}
-        \item An event $<s, a>$ is \textit{weakly compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent\footnotemark~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
-            \end{equation}
-        \item An event $<s, a>$ is \textit{non-compliant} with a consistent policy $P$ for transition system $T$ iff the following logic program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                lp(P, s) \cup \{ \leftarrow \neg permitted(a). \}
-            \end{equation}
-    \end{itemize}
-\end{definition}
-
-\footnotetext{
-    To improve the readability of this document, the definition of weak compliance has been adjusted from how \citet{gelfond_authorization_2008} define it.
-    \citet{gelfond_authorization_2008} define weakly compliance to be when the logic program $lp(P, s) \cup \{ \leftarrow \textbf{ not } \neg permitted(a).\}$ is consistent.
-    The provided definition is a simple logical negation of this definition and, hence, is equivalent to it.
-}
-
-These propositions are just simple extensions of \cref{def:authorization_event_compliance}.
-However, they are useful because they cause an ASP solver to output a Yes/No answer to the problem.
-So, continuing the previous example, one would write:
-\begin{lstlisting}[language=Prolog]
-:- permitted(assume_command(c1, m1)).
-\end{lstlisting}
-The logic program $lp(P, s) \cup \{ \leftarrow permitted(assume\_command(c_1, m_1)). \}$ results in:
-\lstinputlisting{Figures/APL_Language/02_Full_Knowledge/strongly_compliant.snippet.txt}
-Since the output is ``unsatisfiable'', $lp(P, s) \cup \{ \leftarrow permitted(a). \}$ is inconsistent and $<s_0, A>$ is strongly compliant.
-
-\subsubsection{Checking Compliance with Partial Knowledge of State}
-
-It is worth noting that the above approach requires complete knowledge of the state $s$ (i.e. the value of all fluents in $s$).
-\citet{gelfond_authorization_2008} show that checking policy compliance is also possible when an agent only knows the value of a subset of fluents in $s$.
-Let $\boldsymbol{F_{lim}} \subseteq \boldsymbol{F}$ be the subset of fluents for which the agent knows $V(f, s)$ where $f \in \boldsymbol{F_{lim}}$.
-Let $V_{lim} = \{V(f, s) | f \in \boldsymbol{F_{lim}}\}$.
-
-\begin{definition}
-    \label{def:simple_knowledge_state}
-    In contrast to a proper \textit{state} of an action description (where values are assigned to all fluents, provided they satisfy all static laws), $V_{lim}$ describes a \textit{simple-knowledge state} where values are assigned only to some fluents, provided they satisfy relevant static laws~\citep{gelfond_authorization_2008}.
-\end{definition}
-
-\begin{definition}
-    Let $\delta(V_{lim}) \in S$ be the set of states that contain $V_{lim}$.
-
-    \begin{itemize}
-        \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is strongly compliant with $P$, then $a$ is strongly compliant in $s$~\citep{gelfond_authorization_2008}.
-        \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is at least weakly compliant with $P$, then $a$ is at least weakly compliant in $s$~\citep{gelfond_authorization_2008}.
-        \item If $\forall s_{possible} \in \delta(V_{lim})$ event $<s_{possible}, a>$ is non-compliant with $P$, then $a$ is non-compliant in $s$~\citep{gelfond_authorization_2008}.
-        \item If none of the above hold, then $V_{lim}$ does not hold enough information to determine the compliance of $a$ in $s$~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-However, in order to evaluate any of the above statements, an agent needs to first compute $\delta(V_{lim})$.
-To do so, \citet{gelfond_authorization_2008} rely on converting an action description in $\mathcal{AL}$ to an ASP logic program and joining it to $lp(P, s)$.
-They extend $lp$ to handle static laws from $\mathcal{AL}$ as follows:
-\begin{equation}
-    lp(V(L,s)=y \textbf{ if } F) =_{def} val(l, y) \leftarrow lp(F).
-\end{equation}
-
-Let $SL$ be the set of all static laws from the action description.
-
-Let $D = \{lp(V(f,s)=y_1) \lor lp(V(f,s)=y_2) \lor \dots \lor lp(V(f,s)=y_n) | f \in \boldsymbol{F}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$.
-
-\begin{definition}
-    $s \in \delta(V_{lim})$ iff lp(s) is an answer set of $lp(V_{lim}) \cup D \cup lp(SL)$~\citep{gelfond_authorization_2008}.
-\end{definition}
-
-\begin{definition}
-    \label{def:authorization_event_compliance_partial_knowledge}
-    ~
-
-    \begin{itemize}
-        \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \label{eq:authorization_partial_knowledge_strongly_compliant}
-                lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow permitted(a). \}
-            \end{equation}
-        \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{weakly compliant} with $P$ if $P$ is categorical and the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \label{eq:authorization_partial_knowledge_weakly_compliant}
-                lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \textbf{ not } \neg permitted(a). \}
-            \end{equation}
-        \item For all states $s_{possible} \in \delta(V_{lim})$, the event $<s_{possible}, a>$ is \textit{non-compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \label{eq:authorization_partial_knowledge_non_compliant}
-                lp(P, s_{possible}) \cup D \cup lp(SL) \cup \{ \leftarrow \neg permitted(a). \}
-            \end{equation}
-        \item If $P$ is categorical, then an event $<s_{possible}, a>$, where $s_{possible} \in \delta(V_{lim})$, is also \textit{non-compliant} with $P$ if the program \cref{eq:authorization_partial_knowledge_weakly_compliant} is consistent~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-Continuing the running example, suppose an agent did not know that $c_1$ is a colonel. Then:
-\begin{gather}
-    \boldsymbol{F_{lim}} = \{ authorized(c_1, m1), commands(c_1, m_1), observer(c_1) \} \\
-    V_{lim} = \{ V(authorized(c_1, m1), s) = t, V(commands(c_1, m_1), s) = t, V(observer(c_1), s) = t \}
-\end{gather}
-
-$D$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/D.lp}
-
-The static laws from the action description in \cref{eq:apl_action_description_1,eq:apl_action_description_2,eq:apl_action_description_3,eq:apl_action_description_4,eq:apl_action_description_5} can be encoded as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/SL.lp}
-
-The encoding of $\delta(V_{lim})$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/delta_V_lim.lp}
-
-%\lstinputlisting[language=Prolog]{Figures/APL_Language/03_Partial_Knowledge/Pm.lp}
-
-The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/strongly_compliant.snippet.txt}
-Thus $A$ is not strongly compliant with $P_m$.
-
-The result of logic program \cref{eq:authorization_partial_knowledge_weakly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/weakly_compliant.snippet.txt}
-Thus $A$ is not weakly compliant with $P_m$.
-
-The result of logic program \cref{eq:authorization_partial_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant.snippet.txt}
-However, before we can say $A$ is non-compliant, we must first determine whether $P_m$ is categorical.
-To do so, we will rerun the second test giving \textsc{clingo} the option ``0'', which instructs \textsc{clingo} to find every satisfiable model instead of stopping at the first one.
-The output of \cref{eq:authorization_partial_knowledge_weakly_compliant} with option ``0'' is as follows:
-\lstinputlisting{Figures/APL_Language/03_Partial_Knowledge/non_compliant_categorical.snippet.txt}
-Since ``Models: 1'', $P_m$ is categorical and hence $A$ is non-compliant.
-
-\subsubsection{Checking Compliance using a History of Past Actions}
-
-\citet{gelfond_authorization_2008} note that the above two approaches will not work for agents in the AAA architecture (or for that matter, the $\mathcal{AIA}$ architecture).
-Nonetheless, they develop a method for checking policy compliance under the AAA architecture knowledge constraints.
-As mentioned previously, agents in the AAA architecture have an initial description of their initial state (complete or partial), a history of their actions $A_0, A_1, \dots, A_n$, and may have memory of fluent values at particular points in time.
-
-\citet{gelfond_authorization_2008} define a new function $lp(P, I)$ that adds a step $I$ argument to each ASP atom from $lp(P)$ (\cref{eq:apl_lp_01,eq:apl_lp_02,eq:apl_lp_03,eq:apl_lp_04,eq:apl_lp_05,eq:apl_lp_06,eq:apl_lp_07,eq:apl_lp_08,eq:apl_lp_09,eq:apl_lp_10}).
-The new $lp$ function is defined as follows:
-\begin{gather}
-    lp(P,s,I) =_{def} lp(P,I)\cup lp(s,I). \label{eq:apl_lp_inc_01} \\
-    lp(P,I)=_{def}\{lp(statement,I) | statement \in P\} \label{eq:apl_lp_inc_02} \\
-    lp\left(V(f,s)=y,I\right) =_{def}
-        val\left(f,y,I\right). \label{eq:apl_lp_inc_03} \\
-    lp(permitted(a),I) =_{def}
-        permitted(a, I). \label{eq:apl_lp_inc_04} \\
-    lp(\neg permitted(a),I) =_{def}
-        \neg permitted(a, I). \label{eq:apl_lp_inc_05} \\
-    lp(permitted(a) \textbf{ if } F, I) =_{def}
-        permitted(a, I) \leftarrow
-            lp(F, I). \label{eq:apl_lp_inc_06} \\
-    lp(\neg permitted(a) \textbf{ if } F, I) =_{def}
-        \neg permitted(a, I) \leftarrow
-            lp(F, I). \label{eq:apl_lp_inc_07}
-\end{gather}
-\begin{multline}
-    \label{eq:apl_lp_inc_08}
-    lp(d_i: \textbf{normally } permitted(a) \textbf{ if } F_i, I) =_{def} \\
-        permitted(a, I) \leftarrow
-            lp(F, I),
-            \textbf{not } ab(d, I),
-            \textbf{not } \neg permitted(a, I).
-\end{multline}
-\begin{multline}
-    \label{eq:apl_lp_inc_09}
-    lp(d_j: \textbf{normally } \neg permitted(a) \textbf{ if } F_j, I) =_{def} \\
-        \neg permitted(a, I) \leftarrow
-            lp(F, I),
-            \textbf{not } ab(d, I),
-            \textbf{not } permitted(a, I).
-\end{multline}
-\begin{gather}
-    lp(prefer(d_i, d_j), I) =_{def}
-        ab(d_j, I) \leftarrow lp(F_1, I). \label{eq:apl_lp_inc_10}
-\end{gather}
-
-For a history $H_n=<s, A_0, A_1, \dots, A_{n-1}>$, they also add:
-\begin{gather}
-    lp(a, I)=_{def}occurs(a, I). \\
-    lp(P, H) =_{def} lp(P, I) \cup lp(s, 0) \cup lp(A_0, 0) \cup lp(A_1, 1) \cup \dots \cup lp(A_{i-1}, I-1)
-\end{gather}
-
-Similar to before, the notation of \citet{gelfond_authorization_2008} will be simplified when $\boldsymbol{V}=\{t,f\}$ so that \cref{eq:apl_lp_inc_03} will represented as:
-\begin{gather}
-    lp\left(V(f,s)=t,I\right) =_{def}
-        val\left(f,I\right). \\
-    lp\left(V(f,s)=f,I\right) =_{def}
-        -val\left(f,I\right). \\
-\end{gather}
-
-Let $D_0 = \{lp(V(f,s)=y_1, 0) \lor lp(V(f,s)=y_2, 0) \lor \dots \lor lp(V(f,s)=y_n, 0) | f \in \boldsymbol{F}\}$, where $y_1, y_2, \dots, y_n \in \boldsymbol{V}$
-
-\begin{definition}
-    \label{def:model_of_history}
-    A trajectory\footnotemark $s_0, A_0, s_1, A_1, \dots, A_{n-1}, s_n$ of a transition system $T$ is a \textit{model} of a history $H_n = <s, A_0, A_1, \dots, A_{n-1}>$ if $s \subseteq s_0$~\citep{gelfond_authorization_2008}.
-    Thus, a trajectory that meets this condition does not contradict what has been recorded in the agent's history.
-    \footnotetext{
-        \citet{gelfond_authorization_2008} define `trajectory' and `history' in terms of elementary actions in contrast to \citet{blount_architecture_2013,gelfond_action_1998}.
-        In order to maintain continuity with the definition of action signatures and transition systems presented in \cref{def:transition_system}, \cref{def:model_of_history} has been extended to include compound actions.
-    }
-\end{definition}
-
-Let $Check_1(H_n)$ be the following subprogram:
-\begin{gather}
-    \neg strongly\_compliant \leftarrow occurs(A, I), \textbf{ not } permitted(A, I). \\
-    \leftarrow \textbf{ not } \neg strongly\_compliant.
-\end{gather}
-
-Let $Check_2(H_n)$ be the following subprogram:
-\begin{gather}
-    \neg weakly\_compliant \leftarrow occurs(A, I), \neg permitted(A, I). \\
-    \leftarrow \textbf{ not } \neg weakly\_compliant.
-\end{gather}
-
-\begin{definition}
-    \label{def:authorization_event_compliance_history_knowledge}
-    ~
-
-    \begin{itemize}
-        \item A model of $H_n$ is \textit{strongly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \label{eq:authorization_history_knowledge_strongly_compliant}
-                lp(P, H_n) \cup D \cup lp(A) \cup Check_1
-            \end{equation}
-        \item A model of $H_n$ is \textit{weakly compliant} with $P$ iff the following program is inconsistent~\citep{gelfond_authorization_2008}:
-            \begin{equation}
-                \label{eq:authorization_history_knowledge_weakly_compliant}
-                lp(P, H_n) \cup D \cup lp(A) \cup Check_2
-            \end{equation}
-        \item A model of $H_n$ that is neither strongly compliant nor weakly compliant must be non-compliant~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-Continuing the previous example, the logic encoding of $P_m$ with the new $lp$ function is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Pm.lp}
-
-$D_0$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/D0.lp}
-
-Suppose our agent has the following history\footnotemark:
-\begin{gather}
-    s_0 = \{ colonel(c_1), -observer(c_1), -authorized(c_1, m_1), -commands(c_1, m_1) \} \\
-    A_0 = \{ authorize(c_1, m_1) \} \\
-    H_1 = < s_0, A_0 >
-\end{gather}
-and is considering executing action $A_1 = \{ assume\_command(c_1, m_1) \}$ in the current time step 1.
-Before executing $A_1$, our agent first wants to verify its compliance.
-
-\footnotetext{
-    \citet{gelfond_authorization_2008} use a different notation for describing an agent's history than what was introduced in \cref{subsubsec:domain_history} while describing the work of \citet{blount_towards_2014}.
-}
-
-The logic encoding $lp(H_1)$ would be as follows\footnotemark:
-\footnotetext{
-    It is worth noting that the syntax \citet{gelfond_authorization_2008} provide for $lp(H_1)$ is very similar to that introduced in \citet{blount_towards_2014}.
-    Whereas \citet{blount_towards_2014} would write $obs(FluentName, FluentValue, TimeStep)$ and $hpd(ActionName, TimeStep)$,\citet{gelfond_authorization_2008} write $val(FluentName, FluentValue, TimeStep)$ and $occurs(ActionName, TimeStep)$, respectively.
-    % TODO: Review distinction between obs and holds, hpd and occurs. See section 10.5 of "Knowledge Representation, Reasoning, and the Design of Intelligent Agents: The Answer-Set Programming Approach" by Gelfond and Kahl, 2014
-}
-
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Hn.lp}
-
-The logic encoding $lp(A_1)$ is as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/A1.lp}
-
-$Check_1$ and $Check_2$ are as follows:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Check_1.lp}
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Check_2.lp}
-
-The output of logic program \cref{eq:authorization_history_knowledge_strongly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1.snippet.txt}
-
-The output of logic program \cref{eq:authorization_history_knowledge_weakly_compliant} is as follows:
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2.snippet.txt}
-
-By this output, we might be led to say that action $A_1$ is weakly compliant given history $H_n$.
-However, \citet{gelfond_authorization_2008} implicitly assume that the inertia property of inertial fluents is already encoded in logic form.
-To do this, we must add the following \textit{inertia axiom} for the inertial fluents $authorized(C,M),\ commands(C,M),\ colonel(C),\ observer(C)$:
-\lstinputlisting[language=Prolog]{Figures/APL_Language/04_History_Knowledge/Inertia_Axiom.lp}
-
-With this inertia axiom, \cref{eq:authorization_history_knowledge_strongly_compliant} is inconsistent hence action $A_1$ is strongly compliant given history $H_n$.
-
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_1_with_Inertia_Axiom.snippet.txt}
-\lstinputlisting{Figures/APL_Language/04_History_Knowledge/Check_2_with_Inertia_Axiom.snippet.txt}
+\subsubsection{Compliance}
+
+Informally, a set of actions $A$ occurring at a transition system state $s$ are \textit{strongly compliant} with a policy $P$ if all $a \in A$ are known to be permitted using rules in $P$.
+$A$ is \textit{non-compliant} with $P$ if any of $a \in A$ are known to be not permitted using rules in $P$.
+Otherwise, if $P$ is unclear and does not specify whether an action $a \in A$ is permitted or not, then the set of action $A$ is \textit{weakly compliant}.
+
+Computing compliance with $P$ is reduced to the problem of finding satisfiable answer sets using ASP (See~\cref{sec:asp}) when $P$ is translated into ASP rules.
+Compliance with $P$ at a state $s$ can be computed with full or partial knowledge of the fluent values at $s$ as well as with a description of a past state $s_0$ and a history of actions.
+We direct the curious reader to \cref{appendix:apl_compliance} for more detail.
 
 \subsection{Language $\mathcal{AOPL}$}
 \label{subsec:aopl}
@@ -1395,10 +805,10 @@ Authorization policies describe what an agent can do whereas obligation policies
 
 Language $\mathcal{AOPL}$ uses $\mathcal{APL}$ as its basis and shares its underlying assumptions, such as requiring the agent's environment be modeled by a transition system $T=<\boldsymbol{V}, \boldsymbol{F}, \boldsymbol{A}>$ and that a policy $P$ is a subset of the trajectories of $T$ that are preferable to the agent's controller.
 
-$\mathcal{AOPL}$ adds a $obl(a)$ statement to $\mathcal{APL}$.
+$\mathcal{AOPL}$ adds an $obl(a)$ statement to $\mathcal{APL}$.
 If $obl(a)$ is true, the policy $P$ dictates that the agent must execute $a$ in the current state.
 If $obl(\neg a)$ is true, then $P$ dictates that the agent must not execute $a$ in the current state.
-Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e. it is free to choose to execute $a$ or to not execute $a$).
+Also, if $\neg obl(a)$ is true, then $P$ does not require the agent to execute $a$ in the current state (i.e.~it is free to choose to execute $a$ or to not execute $a$).
 Likewise, for $\neg obl(\neg a)$.
 
 \begin{definition}
@@ -1417,87 +827,18 @@ Likewise, for $\neg obl(\neg a)$.
     \end{equation}
 \end{definition}
 
-\subsubsection{Checking Compliance}
+\subsubsection{Compliance}
 
-To evaluate the compliance of happening $h$ at state $s$ with an obligation policy $P$, \citet{gelfond_authorization_2008} extend $lp$ as follows:
-
-\begin{gather}
-    lp(obl(h)) =_{def}
-        obl(h). \\
-    lp(\neg obl(h)) =_{def}
-        \neg obl(h). \\
-    lp(obl(h) \textbf{ if } F) =_{def}
-        obl(h) \leftarrow
-            lp(F). \\
-    lp(\neg obl(h) \textbf{ if } F) =_{def}
-        \neg obl(h) \leftarrow
-            lp(F). \\
-    lp(d_i: \textbf{normally } obl(h) \textbf{ if } F_i) =_{def}
-        obl(h) \leftarrow
-            lp(F),
-            \textbf{not } ab(d),
-            \textbf{not } \neg obl(h). \\
-    lp(d_j: \textbf{normally } \neg obl(h) \textbf{ if } F_j) =_{def}
-        \neg obl(h) \leftarrow
-            lp(F),
-            \textbf{not } ab(d),
-            \textbf{not } obl(h). \\
-    lp(prefer(d_i, d_j)) =_{def}
-        ab(d_j) \leftarrow lp(F_1).
-\end{gather}
-
-\begin{definition}
-    $obl(h) \in P(s)$ iff the logic program $lp(P, s)$ entails $obl(h)$
-\end{definition}
-
-\begin{definition}
-    \label{def:obligation_event_compliance}
-    An event $<s, A>$ is \textit{compliant} with an obligation policy $P$ if $(\forall obl(a) \in P(s) \ a \in A) \land (\forall obl(\neg a) \in P(s) \ a \not \in A)$
-\end{definition}
-
-This definition of compliance contrasts with that for authorization policies.
-Given a set of actions $A$, the definition for authorization policies can be thought of first enumerating action $a \in A$ then checking to see if $permitted(a)$ exists.
-The definition for obligation policies, by contrast, can be thought of first searching for $obl(a)$ statements, then checking to see if $a \in A$ exists (or $a \not \in A$ in the case of $obl(\neg a)$).
-
-Furthermore, the definition for obligation compliance does not differentiate between strong compliance and weak compliance.
-Were such a differentiation to exist, it would center around instances where neither $\neg obl(a)$ nor $obl(a)$ is true\footnotemark.
-For such a case, an obligation policy would not explicitly impose nor explicitly waive an agent from an obligation to perform action $a$.
-However, since $\mathcal{AOPL}$ does not consider `weak compliance', this situation is simply called \textit{compliant}.
-
-\footnotetext{
-    A similar statement can be made about when neither $\neg obl(\neg a)$ nor $obl(\neg a)$ is true.
-}
-
-\begin{definition}
-    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
-
-    \begin{itemize}
-        \item Let $P_a$ be a derivative policy of $P$ that only has the authorization statements of $P$.
-            $P_a$ is an \textit{authorization policy induced by} $P$~\citep{gelfond_authorization_2008}.
-        \item Likewise, let $P_o$ be a derivative of $P$ such that $P_o$ only has the obligation statements of $P$.
-            $P_o$ is an \textit{obligation policy induced by} $P$~\citep{gelfond_authorization_2008}.
-    \end{itemize}
-\end{definition}
-
-\begin{definition}
-    Let $P$ be an arbitrary policy $P$ written in $\mathcal{AOPL}$.
-    Let $P_a$ and $P_o$ be the authorization and obligation policy induced by $P$, respectively.
-
-    \begin{itemize}
-        \item An event $<s, A>$ is \textit{strongly compliant} with $P$ if $<s, A>$ is strongly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
-        \item An event $<s, A>$ is \textit{weakly compliant} with $P$ if $<s, A>$ is weakly compliant with $P_a$ and if $<s, A>$ is compliant with $P_o$~\citep{gelfond_authorization_2008}.
-        \item An event $<s, A>$ is \textit{non-compliant} with $P$ if $<s, A>$ is neither strongly compliant nor weakly compliant with $P$\footnotemark.
-    \end{itemize}
-\end{definition}
-
-\footnotetext{
-    This definition is not explicitly provided by \citet{gelfond_authorization_2008}.
-}
+Like $\mathcal{APL}$, compliance with an $\mathcal{AOPL}$ policy $P$ is computed by translating the rules of $P$ into ASP and finding satisfiable answer sets.
+Informally, a set of actions $A$ is compliant with an obligation policy $P$ if, where there is $obl(a)$ or $obl(\neg a)$, there is $a \in A$ and $a \not \in A$ respectively.
+Given an arbitrary $\mathcal{AOPL}$ policy (with authorization and obligation policy statements), $A$ is \textit{strongly compliant} if it is strongly compliant with its authorization policy and compliant with its obligation policy.
+Likewise for \textit{weak compliance} and \textit{non-compliance}.
+Note that $A$ can be strongly, weakly, or non-compliant with an authorization policy, $A$ can only be compliant or non-compliant with an obligation policy.
+For formal definitions, we direct the curious reader to \cref{appendix:aopl_compliance}.
 
 \subsubsection{Obligation Example}
 
 To demonstrate the compliance of a policy $P$ in $\mathcal{AOPL}$, \citet{gelfond_authorization_2008} present an example.
-We have substantially expanded the discussion of their example, regarding both the amount of formal definitions and the overall depth of detail.
 
 Suppose a university professor were to encode his classroom policies into $\mathcal{AOPL}$.
 He might have requirements such as:
@@ -1579,84 +920,159 @@ Lastly, since cheating is never permissible:
     obl(\neg accept\_unauthorized\_help(S)).
 \end{equation}
 
-The policy $P$ consisting of \cref{eq:aopl_example_line_1,eq:aopl_example_line_2,eq:aopl_example_line_3,eq:aopl_example_line_4,eq:aopl_example_line_6,eq:aopl_example_line_7} can be encoded as follows\footnotemark:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/P.lp}
+We have substantially expanded the discussion of this example from what was represented by \citet{gelfond_authorization_2008}, regarding both the amount of formal definitions and the overall depth of detail.
+We redirect the curious reader to \cref{appendix:aopl_example}.
 
+\section{Answer Set Programming}
+\label{sec:asp}
+
+\textit{Answer Set Programming} (ASP) is a form of declarative programming geared towards quickly searching NP problems~\citep{vladimir_lifschitz_what_2008}.
+It has its foundations in Knowledge Representation and Reasoning, Logic Programming, Databases, and Boolean Constraint Solving~\citep{gebser_potassco_2011}.
+Though its syntax resembles that of Prolog, ASP's execution is very different and resembles that of Satisfiability Testing (SAT)~\citep{gebser_potassco_2011,vladimir_lifschitz_what_2008}.
+Its execution comes in two stages: grounding and solving~\citep{gebser_potassco_2011}.
+
+The language itself is called \textit{Answer Set Prolog} (or \textit{AnsProlog*} or \textit{A-Prolog} in older literature~\citep{baral_answer_2004}) whereas the paradigm as a whole is called \textit{Answer Set Programming}.
+
+% It is based on stable model semantics~\citep{gelfond_stable_1988}.
+
+Below we will briefly define the syntax of ASP.
+For a more thorough definition, we direct the reader to \citet{calimeri_asp-core-2_2020,gebser_abstract_2015}.
+
+\begin{definition}
+    A \textit{signature} is a four tuple $\Sigma = <\mathcal{O}, \mathcal{F}, \mathcal{P}, \mathcal{V}>$, where $\mathcal{O}$, $\mathcal{F}$, $\mathcal{P}$, $\mathcal{V}$ are mutually disjoint sets of objects, functions, predicates, and variables, respectively~\citep{blount_architecture_2013}.
+\end{definition}
+
+\begin{definition}
+    A \textit{term} over a signature $\Sigma$ consists of any of the following~\citep{blount_architecture_2013}:
+    \begin{itemize}
+        \item Variables
+        \item Object constants
+        \item $f(t_1, t_2, \dots, t_n)$, if $t_1, t_2, \dots, t_n$ are terms and $f$ is a function symbol with arity $n$
+    \end{itemize}
+    For simplicity, we use infix notation for arithmetic expressions (e.g.~$1+2$ instead of $+(1, 2)$).
+\end{definition}
+
+% \begin{definition}
+%     An \textit{atom} is
+% \end{definition}
+
+\begin{definition}
+    A \textit{literal} is either an atom $a$ or its negation $\neg a$~\citep{balduccini_asp_2011}.
+\end{definition}
+
+\begin{definition}
+    A term/literal is called \textit{ground} if it does not contain any variables or arithmetic functions~\citep{blount_architecture_2013}.
+\end{definition}
+
+\begin{definition}
+    A \textit{rule} is a statement of the form~\citep{balduccini_asp_2011}:
+    \begin{equation}
+    h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m, \textbf{ not } l_{m+1}, \textbf{ not } l_{m+2}, \dots, \textbf{ not } l_n
+    \end{equation}
+    where $h_1, h_2, \dots, h_n$ and $l_1, l_2, \dots, l_n$ are ground literals.
+    $\textbf{not}$ refers to default negation~\citep{balduccini_asp_2011}.
+\end{definition}
+
+\begin{definition}
+    A \textit{constraint} is a rule where $\{ h_1, h_2, \dots, h_n \} = \emptyset$~\citep{balduccini_asp_2011}.
+\end{definition}
+
+\begin{definition}
+    ``A program is a pair $<\Sigma, \Pi>$ where $\Sigma$ is a signature and $\Pi$ is a set of rules over $\Sigma$~\citep{balduccini_asp_2011}''
+\end{definition}
+
+\begin{definition}
+    An \textit{answer set} or \textit{model} of a program $\Pi$ is a collection of the consequences of $\Pi$ under ASP semantics~\citep{balduccini_asp_2011}.
+    More formally,
+
+    \textbf{Case 1:} Program $\Pi$ consists only of rules without default negation~\citep{blount_architecture_2013}, e.g.~those of the form:
+    \begin{equation}
+        h_1 \lor h_2 \lor \dots \lor h_k \leftarrow l_1, l_2, \dots, l_m
+    \end{equation}
+
+    An answer set of $\Pi$ is a consistent set S of ground literals such that~\citep{blount_architecture_2013}:
+    \begin{itemize}
+        \item ``$S$ satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
+        \item ``$S$ is minimal, i.e.~there is no proper subset of $S$ which satisfies the rules of $\Pi$''~\citep{blount_architecture_2013}.
+    \end{itemize}
+
+    \textbf{Case 2:} $\Pi$ is an arbitrary program.
+    Let $S$ is a set of ground literals.
+    Let $\Pi^S$ be a derivative program of $\Pi$ (called the \textit{reduct} of $\Pi$ with respect to $S$) such that:
+    \begin{itemize}
+        \item For all literals $l \in S$, remove all rules that contain $\textbf{not } l$
+        \item Remove all other clauses containing $\textbf{not}$
+    \end{itemize}
+    $S$ is an answer set of $\Pi$ if $S$ is an answer set of $\Pi^S$ (see Case 1)~\citep{blount_architecture_2013}.
+\end{definition}
+
+$\Pi$ can have multiple answer sets.
+For example, the following program (borrowed from \citet{balduccini_asp_2011}):
+\begin{gather}
+    p \leftarrow \textbf{ not } q. \\
+    q \leftarrow \textbf{ not } p.
+\end{gather}
+has two answer sets: $\{p\}$ and $\{q\}$.
+
+In the case when the condition of a constraint is satisfied, $\Pi$ will have zero answer sets (and will be called \textit{inconsistent} or \textit{unsatisfiable}).
+For example, the following program:
+\begin{gather}
+    p. \\
+    \leftarrow p. \label{eq:asp_constraint_example}
+\end{gather}
+is inconsistent since the literals of constraint \ref{eq:asp_constraint_example} are satisfied (i.e.~$p$ is true).
+
+In order to simplify the expression of alternatives for which multiple answer sets can be created, ASP also supports choice rules~\citep{calimeri_asp-core-2_2020,balduccini_asp_2011}.
+
+\begin{definition}
+    A \textit{choice rule} (or \textit{constraint literal}) is an expression of the form~\citep{calimeri_asp-core-2_2020,balduccini_asp_2011}:
+    \begin{equation}
+        m \le \{l_1,l_2, \dots, l_k\} \le n
+    \end{equation}
+    or
+    \begin{equation}
+        m \{l_1,l_2, \dots, l_k\} n
+    \end{equation}
+    where $ l_1,l_2, \dots, l_k $ are literals and $m$, $n$ are arithmetic expressions.
+    This expression is satisfied when $m \le |\{ l_1,l_2, \dots, l_k\}| \le n$.
+
+    To simplify this syntax even further, one can also use variables to simplify a constraint literal such as~\citep{balduccini_asp_2011}:
+    \begin{equation}
+        m \le \{l(a_1, b_2),l(a_2,b_2), \dots, l(a_k, b_k)\} \le n
+    \end{equation}
+    into an expression of the form:
+    \begin{equation}
+        m \le \{l(A, B) : dom_a(A), dom_b(B)\} \le n
+    \end{equation}
+    where $dom_a$ and $dom_b$ are function symbols that define the domain of variables $A$ and $B$, respectively.
+\end{definition}
+
+With the \textsc{clingo} grounder/solver\footnotemark, arithmetic expressions can also be expanded to evaluate the value of external functions~\citep{gebser_potassco_2019}.
 \footnotetext{
-    We have added all of the following ASP code to supplement the discussion by \citet{gelfond_authorization_2008}.
+    \textsc{clingo}~\citep{gebser_potassco_2011} is available for download at \url{https://potassco.org/clingo/}
+}
+\textsc{clingo} allows external functions to be written in Python, Lua, C, Rust, or Haskell, though the latter two have not yet reached a stable API~\citep{roland_kaminski_potasscoclingo_2020,sven_thiele_potasscoclingo-rs_2020,paul_ogris_tsahytclingo-haskell_2020}.
+External functions can either be included inline or provided externally\footnotemark.
+\footnotetext{
+    Only Python and Lua are supported inline.
+    \textsc{clingo} must be compiled with Python and/or Lua support for inline syntax to be executed.
 }
 
-To keep logic programs in this example from becoming unnecessarily long, the above source (as well as those that will follow it) will favor the use of ASP variables over the manual enumeration of primitive variable values.
-To bind variable values to an ASP variable, we will use the following convention:
-\begin{itemize}
-    \item If the variable $Student$ ranges over values $student_1, student_2, \dots, student_n$, then it will be encoded as follows:
-        \begin{gather}
-            student(student_1). \\
-            student(student_2). \\
-            \dots \\
-            student(student_n).
-        \end{gather}
-    \item If the variable $Class$ ranges over values $class_1, class_2, \dots, class_n$, then it will be encoded as follows:
-        \begin{gather}
-            class(class_1). \\
-            class(class_2). \\
-            \dots \\
-            class(class_n).
-        \end{gather}
-    \item If the variable $MeetingNum$ ranges over values $1, 2, \dots, n$, then it will be encoded as follows:
-        \begin{equation}
-            1, 2, \dots, n
-        \end{equation}
-    \item If the variable $AssignmentNum$ ranges over values $1, 2, \dots, n$, then it will be encoded as follows:
-        \begin{equation}
-            1, 2, \dots, n
-        \end{equation}
-\end{itemize}
+For example, the program:
+\lstinputlisting[language=Prolog]{Figures/ASP/inline_function.lp}
+is equivalent to:
+\lstinputlisting[language=Prolog]{Figures/ASP/base_equivalent.lp}
 
-\citet{gelfond_authorization_2008} do not provide a concrete example that instantiates all of the above variables.
-However, in order to provide a complete discussion of their work, we will use the following variables and the following state $s_0$:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/instantiate_variables.lp}
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/s0.lp}
-
-Suppose we want to check the compliance of the following occurance of actions $A$:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/A.lp}
-
-We can check for compliance using the following logic programs\footnotemark:
-\footnotetext{
-    In what follows, we implement a generic logic program that is capable of checking the compliance of any set of actions $A$ with respect to any arbitrary policy $P$.
-    This is for added convenience, since this logic program can simultaneously check the compliance of $A$ with the induced authorization policy $P_a$ as well as the induced obligation policy $P_o$.
-    This is a significant improvement from the original definitions presented in \cref{def:authorization_event_compliance_full_knowledge,def:obligation_event_compliance}, since the latter involves invoking \textsc{clingo} twice (once for checking compliance of $A$ with $P_a$ and again for $P_o$) and hardcodes $A$ into the logic program.
-}
-
-\lstinputlisting[language=Python]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/util.lp}
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/authorization_compliance.lp}
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/obligation_compliance.lp}
-
-In the above snippet, the inline Python script is instrumental in differentiating between $obl(a)$ and $obl(\neg a)$.
-Given the ASP expression $obl(Action)$, the variable $Action$ can be bound to either $a$ or $\neg a$ (in the case $obl(a)$ is true or $obl(\neg a)$ is true, respectively).
-Since $obl(a)$ and $obl(\neg a)$ have different semantics in $\mathcal{AOPL}$, they need to be addressed by two separate rules.
-By writing $obl(Action), \ @is\_positive(Action) = true$, the variable $Action$ can only be bound to $a$ (hence only $obl(a)$ will be matched).
-To address $obl(\neg a)$, we write $obl(-Action), \ @is\_positive(Action) = true$.
-
-Finally, if we add:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/strongly_compliant.lp}
-we can see that the event $<s_0, A>$ is not strongly compliant:
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/strongly_compliant.snippet.txt}
-
-Upon further investigation (which is not shown here for brevity), one can see that this is because our policy $P$ does not have any authorization statements.
-Hence, no action is strongly compliant.
-However, the event $<s_0, A>$ is weakly compliant:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/weakly_compliant.lp}
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/weakly_compliant.snippet.txt}
-
-For completeness, the event $<s_0, A>$ is not non-compliant:
-\lstinputlisting[language=Prolog]{Figures/AOPL_Language/01_Full_Knowledge/Compliance_Checks/non_compliant.lp}
-\lstinputlisting{Figures/AOPL_Language/01_Full_Knowledge/Scripts/01/non_compliant.snippet.txt}
+While the above example is very trivial, it demonstrates a very powerful technique in which computations or queries can be delegated to functions in traditional programming languages.
+This being said, external functions should not be used to achieve side-effects.
+Unlike Prolog, \textsc{clingo} evaluates rules and calls external functions nondeterminstically according to internal heuristics.
+As such, a developer using \textsc{clingo} has little control over the values with which an external function is called.
+A developer can only define domain for variable values, by inserting or removing facts and production rules.
 
 \section{Related Work}
 
 A survey of the literature shows that there have been many other attempts to enable agents to reason over various kinds of policies.
-Most involve reasoning over access control policies (e.g. \citet{ferraiolo_role-based_1995,alves_graph-based_2017,barker_logical_2012,sabri_temporal_2016}) and a few utilize ASP as a reasoning tool (e.g. \citet{barker_reasoning_2014,barker_logical_2012}).
+Most involve reasoning over access control policies (e.g.~\citet{ferraiolo_role-based_1995,alves_graph-based_2017,barker_logical_2012,sabri_temporal_2016}) and a few utilize ASP as a reasoning tool (e.g.~\citet{barker_reasoning_2014,barker_logical_2012}).
 Access control policies are more restrictive than the kinds of policies an agent using $\mathcal{AOPL}$ can reason over.
 Hence, the work by \citet{liao_extended_2006} is the most relevant for discussion in this thesis.
 
@@ -1665,29 +1081,26 @@ Hence, the work by \citet{liao_extended_2006} is the most relevant for discussio
 \citet{liao_extended_2006} present an extension of the BDI architecture call PDC-agent, which is based off a policy and contract-aware methodology they call BGI-PDC logic\footnotemark.
 PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framework which allows for controlled and coordinated behavior among independent cooperative agents.
 \citet{liao_model_2005} use policies to control agent behavior and contracts as a mechanism to coordinate actions between agents.
+\citet{peng_extended_2008} extend the PDC-agent architecture to support reasoning over social norms (called NPDC-agent).
+However, the discussion of NPDC-agent is not relevant to this section.
 
 \footnotetext{
     \citet{liao_extended_2006} do not mention what these acronyms stand for.
 }
 
 \begin{definition}
-    The PDC-agent architecture for a single agent is defined as a collection of components, which are grouped into three modules.
+    The PDC-agent architecture for a single agent is defined as a collection of components, which are grouped into three modules\footnotemark.
     Other cooperative agents are defined likewise.
+
+    \footnotetext{
+        The PDC-agent architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure,fig:pdc_agent_control_loop}.
+        We have added \cref{fig:pdc_agent_control_loop} based on what \citet{liao_extended_2006} discuss in prose.
+    }
 \end{definition}
 
 \begin{definition}
     The \textit{Interpreter} module of the PDC-agent architecture is defined as a 7-tuple of the following components: (Event Treating Engine, Belief Update, Contract Engine, Policy Engine, Goal Maintenance, Plan Engine, Plan Library)~\citep{liao_extended_2006}.
-    The role of each component is presented below:
-
-    \begin{itemize}
-        \item The \textit{Event Treating Engine} is an event hub that passes messages and performs simple message manipulations~\citep{liao_extended_2006}.
-            While some components send events to other components directly, most events are forwarded through the Event Treating Engine.
-        \item The \textit{Belief Update} component maintains the agent's belief database on the basis of events and belief-manipulating actions (such as AddBelief or DeleteBelief)~\citep{liao_extended_2006}.
-        \item The \textit{Contract Engine} listens for events describing the current state of the environment and emits events to signal when relevant contract clauses dictate the agent perform particular actions~\citep{liao_extended_2006}.
-        \item The \textit{Policy Engine} evaluates policies~\citep{liao_extended_2006}.
-        \item The \textit{Goal Maintenance} component produces goals~\citep{liao_extended_2006}.
-        \item The \textit{Plan Engine} finds plans to meet goals, according to plans in the \textit{Plan Library}~\citep{liao_extended_2006}.
-    \end{itemize}
+    See \cref{appendix:pdc_agent} for an explanation of each component.
 \end{definition}
 
 \begin{definition}
@@ -1698,32 +1111,6 @@ PDC-agent~\citep{liao_extended_2006} is an event-driven multi-component framewor
 \begin{definition}
     The \textit{Execution Module} of the PDC-agent architecture consists of the \textit{Execution Engine}, \textit{External actions}, and \textit{Internal actions}~\citep{liao_extended_2006}.
 \end{definition}
-
-This architecture, along with the flow of events between its components, is summarized in \cref{fig:pdc_agent_structure}.
-An informal representation of the components collective control loop is presented in \cref{fig:pdc_agent_control_loop}\footnotemark.
-
-\footnotetext{
-    We have added \cref{fig:pdc_agent_control_loop} based on what \citet{liao_extended_2006} discuss in prose.
-}
-
-\citet{peng_extended_2008} extend the PDC-agent architecture to support reasoning over social norms (called NPDC-agent).
-However, the discussion of NPDC-agent is not relevant to this section.
-
-\begin{figure}[p]
-    \includegraphics[width=\textwidth]{Figures/PDC-agent/Structure_2}
-    \centering
-    \caption{PDC-agent component interactions}
-    \label{fig:pdc_agent_structure}
-\end{figure}
-
-\begin{landscape}
-    \begin{figure}[p]
-        \includegraphics[width=\paperwidth]{Figures/PDC-agent/Control_Loop}
-        \centering
-        \caption{Simplified control loop of PDC-agent}
-        \label{fig:pdc_agent_control_loop}
-    \end{figure}
-\end{landscape}
 
 A major distinction of the PDC-agent agent architecture is that the PDC-agent architecture supports coordination among multiple agents.
 While both the AAA agent architecture and the $\mathcal{AIA}$ agent architecture can allow multiple agents to operate in a shared environment, the AAA and $\mathcal{AIA}$ architectures do not provide any mechanism to coordinate actions between separate agents so that they can work together towards a common goal.
