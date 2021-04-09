@@ -10,8 +10,8 @@
 \subsection{CR-Prolog to ASP-Core-2}
 
 Since $\mathcal{APIA}$ takes $\mathcal{AIA}$ as a basis, we first update the dependencies of Blount's $\mathcal{AIA}$ implementation such that it requires a state-of-the-art solver.
-Specifically, we update his $\mathcal{AIA}$ implementation from CRModels2 (version 2.0.15) to clingo 5.4.1.
-This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while clingo uses a standardized version of ASP called ASP-Core-2.
+Specifically, we update his $\mathcal{AIA}$ implementation from CRModels2 (version 2.0.15) to \textsc{clingo} 5.4.1.
+This is a non-trivial change since CRModels2 uses a derivative of the ASP language called CR-Prolog while \textsc{clingo} uses a standardized version of ASP called ASP-Core-2.
 
 Consistency-Restoring Prolog (CR-Prolog) is an extension of ASP that adds a new kind of statement: consistency-restoring rules (cr-rules).
 A CR-rule with label $r$:
@@ -64,7 +64,7 @@ Should another answer set exist where this preference is honored, then this answ
 
 Since the semantics of prefer takes precedence over the semantics of cr-rules, our weak constraints have priorities $cr_2$ and $cr_1$ where $cr_2$ > $cr_1$.
 
-In order to configure clingo to optimize, we pass the --opt-mode=optN commandline parameter.
+In order to configure \textsc{clingo} to optimize, we pass the --opt-mode=optN commandline parameter.
 
 \subsection{Control Loop}
 
@@ -74,7 +74,7 @@ This is an interactive Java program that allows an end-user to assign values to 
 Since this requires manual input, it does not easily lend itself to automation and reproducibility of execution, which are required for performance benchmarking.
 
 Furthermore, the $\mathcal{AIA}$ Agent Manager is structured around interacting with an underlying solver using subprocesses and process pipes.
-While the $\mathcal{AIA}$ Agent Manager could conceivably invoke clingo as a subprocess, clingo 5 provides a unique opportunity for more advanced integrations using its Python API.
+While the $\mathcal{AIA}$ Agent Manager could conceivably invoke \textsc{clingo} as a subprocess, \textsc{clingo} 5 provides a unique opportunity for more advanced integrations using its Python API.
 
 Because of these two points, we replace the $\mathcal{AIA}$ Agent Manager with a new implementation of the $\mathcal{AIA}$ control loop written in Python 3.9.0.
 This new implementation uses a command-line interface and allows for reproducible execution through ASP input files.
@@ -109,7 +109,7 @@ Lastly, we make minor modifications to rules in $\Pi(\Gamma_n)$ so that they are
 \subsection{Python Component}
 
 We provide an implementation of the $\mathcal{AIA}$ control loop for the $\mathcal{APIA}$ architecture.
-The $\mathcal{AIA}$ control loop is implemented using Python 3.9.0 and clingo 5.4.1 using clingo's Python API.
+The $\mathcal{AIA}$ control loop is implemented using Python 3.9.0 and \textsc{clingo} 5.4.1 using \textsc{clingo}'s Python API.
 We provide two modes: an automatic mode and a manual mode.
 The automatic mode is intended to be used for normal execution while the manual mode is intended to aid in debugging unexpected output in answer sets.
 
@@ -118,7 +118,7 @@ The control loop then provides human-readable output as to what happens at each 
 
 \begin{figure}[h]
     \centering
-    \lstinputlisting[basicstyle=\scriptsize]{Figures/APIA_Architecture/Examples/Authorization/Example_A/run_paranoid_subordinate.snippet.txt}
+    \lstinputlisting[basicstyle=\scriptsize]{Figures/APIA_Architecture/Examples/Authorization/Example_A/Snippets/run_paranoid_subordinate.snippet.txt}
     \caption{Execution of Example A in automatic mode using configuration $(paranoid, subordinate)$}
     \label{fig:apia_example_a_execution_paraniod_subordinate}
 \end{figure}
@@ -133,7 +133,7 @@ Similarly, with occurs(A, I).
 It also addresses certain violations of $\mathcal{AIA}$ and $\mathcal{AOPL}$ underlying assumptions.
 For example, it generates an invalid predicate when there exists an action that is neither a physical, mental, or policy action.
 Likewise when an action is neither an agent action nor an exogenous action.
-In addition, it generates an invalid predicate when an $\mathcal{AOPL}$ policy statement describes an action that is not registered as an action.
+In addition, it generates an invalid predicate when an $\mathcal{AOPL}$ policy statement describes an object that is not registered as an action.
 
 These rules have been very useful in debugging the implementation of the $\mathcal{APIA}$ architecture and they will aid future end-users who encode and execute scenarios using this architecture.
 Since these rules are intended during debugging, they are not executed during the automatic mode.

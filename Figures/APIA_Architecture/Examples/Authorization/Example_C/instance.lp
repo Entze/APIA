@@ -14,6 +14,10 @@ agent(Agent) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+supervisor_to(Boss, Person) :-
+    Boss = "Bob",
+    Person = "Alice".
+
 door_connects(Door, Room) :-
     Door = "d12",
     Room = ("r1"; "r2").
@@ -32,7 +36,7 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 3.
+#const ir = 5.
 
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
@@ -46,7 +50,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = greeted_by(Person, Actor),
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
 
@@ -89,7 +93,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
-    ActivityGoal = greeted_by(Person, Actor),
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
 
@@ -132,16 +136,73 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice",
     Person = "Bob".
 
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 3.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 3,
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
+    Person = "Bob",
+    Actor = "Alice".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 3,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 1,
+    Component = knock_on_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 3,
+    ComponentIndex = 2,
+    Component = greet(Actor, Person),
+    Actor = "Alice",
+    Person = "Bob".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 4.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 4,
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
+    Person = "Bob",
+    Actor = "Alice".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 4,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = greet(Actor, Person),
+    Actor = "Alice",
+    Person = "Bob".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_not_permitted(greet(Actor, Person)),
+    Actor = "Alice",
+    Person = "Bob".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_neg_permitted(greet(Actor, Person)),
+    Actor = "Alice",
+    Person = "Bob".
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d12".
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d23".
 
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,

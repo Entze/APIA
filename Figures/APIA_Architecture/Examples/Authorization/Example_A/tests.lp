@@ -38,7 +38,7 @@ attempt(wait, Timestep) :-
 happened(wait, Timestep) :-
     Timestep = 0.
 
-happened(select(greeted_by(Person, Actor)), Timestep) :-
+happened(select(policy_compliant(greeted_by(Person, Actor))), Timestep) :-
     Timestep = 0,
     Person = "Bob",
     Actor = "Alice".

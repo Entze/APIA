@@ -211,7 +211,7 @@ def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: 
 
 
 def _extract_predicates(model: clingo.Model,
-                        predicate_signatures: Collection[SymbolSignature],
+                        predicate_signatures: Mapping[SymbolSignature, bool],
                         current_timestep: int) -> deque[clingo.Symbol]:
     if len(predicate_signatures) == 0:
         return deque()
@@ -219,9 +219,18 @@ def _extract_predicates(model: clingo.Model,
     predicates: deque[clingo.Symbol] = deque()
     for symbol in model.symbols(shown=True):
         # Predicate extraction
-        if (symbol.name, len(symbol.arguments)) in predicate_signatures:
-            *_, timestep = map(_parse_symbol, symbol.arguments)
-            if timestep == current_timestep:
+        try:
+            filter_by_timestep = predicate_signatures[symbol.name, len(symbol.arguments)]
+
+        except KeyError:
+            pass
+
+        else:
+            if filter_by_timestep:
+                *_, timestep = map(_parse_symbol, symbol.arguments)
+                if timestep == current_timestep:
+                    predicates.append(symbol)
+            else:
                 predicates.append(symbol)
 
     return predicates
@@ -235,9 +244,9 @@ def _run_clingo(files: Iterable[Path],
                 max_timestep: int,
                 step_number: AIALoopStep,
                 configuration: APIAConfiguration,
-                output_predicates: Collection[SymbolSignature],
+                output_predicates: Mapping[SymbolSignature, bool],
                 debug: bool = False,
-                ) -> clingo.Control:
+                ) -> Sequence[clingo.Symbol]:
     # Set up
     clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=assertions)
     subprograms_to_ground = chain(
@@ -349,10 +358,10 @@ def _main(script_dir: Path):
             max_timestep=max_timestep,
             configuration=configuration,
             step_number=AIALoopStep(1),
-            output_predicates=(
-                SymbolSignature(name='number_unobserved', arity=2),
-                SymbolSignature(name='diagnosis', arity=3),
-            ),
+            output_predicates={
+                SymbolSignature(name='number_unobserved', arity=2): True,
+                SymbolSignature(name='diagnosis', arity=3): True,
+            },
             debug=debug,
         )
         step_2_unobserved_actions: dict[int, deque] = defaultdict(deque)
@@ -385,15 +394,33 @@ def _main(script_dir: Path):
             max_timestep=max_timestep,
             configuration=configuration,
             step_number=AIALoopStep(2),
-            output_predicates=(
-                SymbolSignature(name='intended_action', arity=2),
-            ),
+            output_predicates={
+                SymbolSignature(name='intended_action', arity=2): True,
+                SymbolSignature(name='futile_goal', arity=2): True,
+                SymbolSignature(name='activity_component', arity=3): False,
+                SymbolSignature(name='activity_length', arity=2): False,
+                SymbolSignature(name='activity_goal', arity=2): False,
+            },
             debug=debug,
         )
+        try:
+            futile_goal, = (symbol.arguments[0]
+                            for symbol in symbols
+                            if symbol.name == 'futile_goal' and len(symbol.arguments) == 2)
+        except ValueError:
+            pass
+        else:
+            print(f'    Futile goal: {futile_goal}')
         step_3_intended_actions = tuple(symbol.arguments[0]
-                                        for symbol in symbols)
+                                        for symbol in symbols
+                                        if symbol.name == 'intended_action' and len(symbol.arguments) == 2)
         for intended_action in step_3_intended_actions:
             print(f'    Intended action: {intended_action}')
+        new_activity_symbols = tuple(filter(lambda symbol: symbol.name.startswith('activity_'), symbols))
+        if len(new_activity_symbols) > 0:
+            print(f'    New activity:')
+        for symbol in new_activity_symbols:
+            print(f'      {symbol}')
 
         # Step 3: Perform intended action
         print()
@@ -419,7 +446,7 @@ def _main(script_dir: Path):
                 max_timestep=max_timestep,
                 configuration=configuration,
                 step_number=AIALoopStep(4),
-                output_predicates=(),
+                output_predicates={},
                 debug=debug,
             )
 

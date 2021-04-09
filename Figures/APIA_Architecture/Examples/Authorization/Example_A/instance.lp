@@ -44,7 +44,7 @@ activity(Activity) :-
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
-    ActivityGoal = greeted_by(Person, Actor),
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
 
@@ -82,14 +82,6 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d12".
-
--observed(door_locked(Door), Timestep) :-
-    Timestep = 0,
-    Door = "d23".
 
 -observed(door_locked(Door), Timestep) :-
     Timestep = 0,

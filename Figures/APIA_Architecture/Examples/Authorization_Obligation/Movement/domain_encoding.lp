@@ -69,7 +69,8 @@ physical_fluent(inertial, door_locked(FromLocation, ToLocation)) :-
 % door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)
 physical_fluent(inertial, door_autolock_countdown(FromLocation, ToLocation, TimestepsLeft)) :-
     door_has_lock(FromLocation, ToLocation),
-    TimestepsLeft = 0..3.
+    door_autolock_pause(FromLocation, ToLocation, Timesteps),
+    TimestepsLeft = 0..Timesteps.
 
 % time(Hour, Minute)
 physical_fluent(inertial, time(Hour, Minute)) :-

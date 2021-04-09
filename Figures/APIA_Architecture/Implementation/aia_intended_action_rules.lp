@@ -288,6 +288,17 @@ activity_goal(Activity, Goal) :-
     current_timestep < FutureTimestep,
     some_action_occurred(FutureTimestep - 1).
 
+% Note: Our addition (Considers planning policy actions)
+{ apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
+    step(FutureTimestep),
+    policy_action(Action),
+    agent_action(Action),
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
+    some_action_occurred(FutureTimestep - 1).
+
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_new(Action, FutureTimestep)).
@@ -301,6 +312,16 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     occurs(Action, FutureTimestep),
     current_timestep < FutureTimestep,  % Note: Our addition
     physical_action(Action),
+    agent_action(Action).
+
+% Note: Our addition (Considers planning policy actions)
+activity_component(Activity, FutureTimestep - current_timestep, Action) :-
+    category_4_history(Goal, current_timestep),
+    new_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    occurs(Action, FutureTimestep),
+    current_timestep < FutureTimestep,  % Note: Our addition
+    policy_action(Action),
     agent_action(Action).
 
 % "[this rule] guarantees that multiple actions do not have the same index."
@@ -346,6 +367,18 @@ activity_length(Activity, ActivityLength) :-
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1).
 
+% Note: Our addition (Considers planning policy actions)
+{ apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
+    step(FutureTimestep),
+    policy_action(Action),
+    agent_action(Action),
+    category_4_history(Goal, current_timestep),
+    existing_candidate(Activity, current_timestep),
+    occurs(start(Activity), current_timestep),
+    current_timestep < FutureTimestep,
+    holds(next_action(Activity, Action), FutureTimestep),
+    some_action_occurred(FutureTimestep - 1).
+
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_existing(Action, FutureTimestep)).
@@ -381,20 +414,18 @@ intended_action(start(Activity), current_timestep) :-
 %  only if there is no candidate that is expected to achieve the goal.
 % (p. 74) of dissertation
 
-% prefer(plan_new(Action, Timestep1), futile_goal(Goal, Timestep2)).
+% prefer(plan_new(Action, Timestep), futile_goal(Goal, current_timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     action(Action),
-    step(Timestep1),
-    step(Timestep2),
+    step(Timestep),
     goal(Goal),
-    HigherPriorityCRRule = plan_new(Action, Timestep1),
-    LowerPriorityCRRule = futile_goal(Goal, Timestep2).
+    HigherPriorityCRRule = plan_new(Action, Timestep),
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
 
-% prefer(plan_existing(Action, Timestep1), futile_goal(Goal, Timestep2)).
+% prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
 cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     action(Action),
-    step(Timestep1),
-    step(Timestep2),
+    step(Timestep),
     goal(Goal),
-    HigherPriorityCRRule = plan_existing(Action, Timestep1),
-    LowerPriorityCRRule = futile_goal(Goal, Timestep2).
+    HigherPriorityCRRule = plan_existing(Action, Timestep),
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
