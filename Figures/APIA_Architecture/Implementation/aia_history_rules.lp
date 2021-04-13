@@ -19,7 +19,9 @@ component(Activity) :-
     activity(Activity).
 
 % (p. 57) of dissertation
-equal(Activity, OtherActivity) :-
+%
+% Note: Originally: equal(Activity, OtherActivity)
+equal_activity(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
     goal(Goal),
@@ -50,7 +52,7 @@ different_component(Activity, OtherActivity) :-
 :-
     activity(Activity),
     activity(OtherActivity),
-    equal(Activity, OtherActivity),
+    equal_activity(Activity, OtherActivity),
     Activity != OtherActivity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialization Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
