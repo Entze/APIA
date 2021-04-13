@@ -322,6 +322,9 @@ def _main(script_dir: Path):
                         type=lambda s: s.lower(), choices=tuple(setting.name.lower() for setting in APIAObligationSetting),
                         required=True,
                         help='Obligation policy seting')
+    parser.add_argument('--threads',
+                        type=int,
+                        required=False, default=os.cpu_count())
     parser.add_argument('--debug',
                         action='store_true',
                         help='Enable extra debugging output')
@@ -348,7 +351,7 @@ def _main(script_dir: Path):
     )
     clingo_args = (
         '--opt-mode=optN',
-        '--parallel-mode', f'{os.cpu_count()}',
+        '--parallel-mode', f'{args.threads}',
         '--warn=no-atom-undefined',
         '1',
     )
