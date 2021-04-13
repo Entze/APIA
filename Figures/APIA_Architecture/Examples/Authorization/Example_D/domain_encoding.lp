@@ -224,6 +224,23 @@ permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
+% "Anyone is permitted to lock a door"
+%
+% permitted(lock_door(Actor, Door))
+permitted(lock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% "Anyone is permitted to unlock a door"
+%
+% unlock_normal(Actor, Door): normally permitted(unlock_door(Actor, Door))
+permitted(unlock_door(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door),
+    not abnormal(unlock_normal(Actor, Door), timestep),
+    not -permitted(unlock_door(Actor, Door), timestep),
+    not obl(neg(unlock_door(Actor, Door)), timestep).
+
 % "Normally, no one is allowed to enter a private office through a door if the door is closed"
 %
 % unlock_office(Actor, Door): normally -permitted(unlock_door(Actor, Door)) if
@@ -254,23 +271,6 @@ abnormal(unlock_normal(Actor, Door), timestep) :-
 %     % Condition of unlock_normal(Actor, Door)
 %     agent(Actor),
 %     door(Door).
-
-% "Anyone is permitted to lock a door"
-%
-% permitted(lock_door(Actor, Door))
-permitted(lock_door(Actor, Door), timestep) :-
-    agent(Actor),
-    door(Door).
-
-% "Anyone is permitted to unlock a door"
-%
-% unlock_normal(Actor, Door): normally permitted(unlock_door(Actor, Door))
-permitted(unlock_door(Actor, Door), timestep) :-
-    agent(Actor),
-    door(Door),
-    not abnormal(unlock_normal(Actor, Door), timestep),
-    not -permitted(unlock_door(Actor, Door), timestep),
-    not obl(neg(unlock_door(Actor, Door)), timestep).
 
 % permitted(knock_on_door(Actor, Door))
 permitted(knock_on_door(Actor, Door), timestep) :-
