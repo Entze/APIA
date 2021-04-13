@@ -408,7 +408,6 @@ def _main(script_dir: Path):
             },
             debug=debug,
         )
-        # TODO: Save generated activities
         try:
             futile_goal, = (symbol.arguments[0]
                             for symbol in symbols
@@ -427,6 +426,7 @@ def _main(script_dir: Path):
             print(f'    New activity:')
         for symbol in new_activity_symbols:
             print(f'      {symbol}')
+        # TODO: Save generated activity if intended action is start(M)
 
         # Step 3: Perform intended action
         print()
