@@ -41,7 +41,7 @@ mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
 % Note: Our addition
 mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     Activity = (ir; ir + 1),
-    MaxActivityLength = 12,  % TODO: Parameterize this value
+    MaxActivityLength = 30,  % TODO: Parameterize this value
     ActivityIndex = -1..MaxActivityLength.
 
 % Note: Originally, active(Activity)
