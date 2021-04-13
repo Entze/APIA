@@ -217,11 +217,17 @@ permitted(move_through(Actor, Door), timestep) :-
 %
 % obl(-enable_security_system(Actor)) if
 %   -all_lights_off
+obl(neg(enable_security_system(Actor)), timestep) :-
+    agent(Actor),
+    -holds(all_lights_off, timestep).
 
 % "One is obligated not to enable the security system if a door is unlocked"
 %
 % obl(-enable_security_system(Actor)) if
 %   -door_locked(Door)
+obl(neg(enable_security_system(Actor)), timestep) :-
+    agent(Actor),
+    -holds(door_locked(Door), timestep).
 
 % "Anyone is permitted to lock a door"
 %
