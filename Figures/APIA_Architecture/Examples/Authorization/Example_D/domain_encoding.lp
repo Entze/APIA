@@ -219,13 +219,10 @@ impossible(greet(Actor, Person), timestep) :-
 
 % "Anyone is allowed to move from any room to any room"
 %
-% move_normal(Actor, Door): normally permitted(move_through(Actor, Door))
+% permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door),
-    not abnormal(move_1(Actor, Door), timestep),
-    not -permitted(move_through(Actor, Door), timestep),
-    not obl(neg(move_through(Actor, Door)), timestep).
+    door(Door).
 
 % "Normally, no one is allowed to enter a private office through a door if the door is closed"
 %
@@ -244,17 +241,17 @@ permitted(move_through(Actor, Door), timestep) :-
     not permitted(unlock_door(Actor, Door), timestep),
     not obl(unlock_door(Actor, Door), timestep).
 
-% prefer(unlock_office(Actor, Door), move_normal(Actor, Door))
-abnormal(move_normal(Actor, Door), timestep) :-
+% prefer(unlock_office(Actor, Door), unlock_normal(Actor, Door))
+abnormal(unlock_normal(Actor, Door), timestep) :-
     % Condition of unlock_office(Actor, Door)
     holds(in_room(Actor, FromRoom), timestep),
     door_connects(Door, FromRoom),
     door_connects(Door, ToRoom),
     ToRoom != FromRoom.
 
-% % prefer(move_normal(Actor, Door), unlock_office(Actor, Door))
+% % prefer(unlock_normal(Actor, Door), unlock_office(Actor, Door))
 % abnormal(unlock_office(Actor, Door), timestep) :-
-%     % Condition of move_normal(Actor, Door)
+%     % Condition of unlock_normal(Actor, Door)
 %     agent(Actor),
 %     door(Door).
 
@@ -267,10 +264,13 @@ permitted(lock_door(Actor, Door), timestep) :-
 
 % "Anyone is permitted to unlock a door"
 %
-% permitted(unlock_door(Actor, Door))
+% unlock_normal(Actor, Door): normally permitted(unlock_door(Actor, Door))
 permitted(unlock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door(Door),
+    not abnormal(unlock_normal(Actor, Door), timestep),
+    not -permitted(unlock_door(Actor, Door), timestep),
+    not obl(neg(unlock_door(Actor, Door)), timestep).
 
 % permitted(knock_on_door(Actor, Door))
 permitted(knock_on_door(Actor, Door), timestep) :-
