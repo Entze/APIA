@@ -39,9 +39,6 @@ goal(Goal) :-
     Person = "Bob",
     Actor = "Alice".
 
-activity(Activity) :-
-    Activity = 1.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),

@@ -12,7 +12,7 @@
 
 % Note: Our addition
 activity(Activity) :-
-    Activity = (ir; ir + 1).
+    Activity = 1..(ir + 1).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program base.

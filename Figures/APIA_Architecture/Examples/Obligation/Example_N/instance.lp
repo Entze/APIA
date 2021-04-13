@@ -53,9 +53,6 @@ goal(Goal) :-
 
 % ---------------------------------------------------------------
 
-activity(Activity) :-
-    Activity = 1.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(security_system_enabled).
@@ -131,9 +128,6 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 % ---------------------------------------------------------------
 
-activity(Activity) :-
-    Activity = 2.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
     ActivityGoal = policy_compliant(security_system_enabled).
@@ -145,9 +139,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 3.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
@@ -230,9 +221,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 4.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,

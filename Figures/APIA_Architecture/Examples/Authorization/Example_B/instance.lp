@@ -41,9 +41,6 @@ goal(Goal) :-
 
 % ---------------------------------------------------------------
 
-activity(Activity) :-
-    Activity = 1.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
@@ -79,9 +76,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 2.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
@@ -125,9 +119,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 3.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,

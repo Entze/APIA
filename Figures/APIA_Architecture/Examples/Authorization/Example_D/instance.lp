@@ -48,9 +48,6 @@ goal(Goal) :-
 
 % ---------------------------------------------------------------
 
-activity(Activity) :-
-    Activity = 1.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
@@ -86,9 +83,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 2.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
@@ -133,9 +127,6 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 % ---------------------------------------------------------------
 
-activity(Activity) :-
-    Activity = 3.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
@@ -157,9 +148,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 4.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,
@@ -190,9 +178,6 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 % ---------------------------------------------------------------
 
-activity(Activity) :-
-    Activity = 5.
-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 5,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
@@ -214,9 +199,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 6.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 6,
@@ -260,9 +242,6 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 7.
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 7,
