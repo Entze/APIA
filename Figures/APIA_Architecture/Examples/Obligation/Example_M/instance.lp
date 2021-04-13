@@ -64,7 +64,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 1,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r1".
+    Room = "r1".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -78,7 +78,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r2".
+    Room = "r2".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -92,7 +92,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 3,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r3".
+    Room = "r3".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -113,7 +113,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 5,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -165,7 +165,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 1,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r1".
+    Room = "r1".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -179,7 +179,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r2".
+    Room = "r2".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -193,7 +193,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 3,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r3".
+    Room = "r3".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -214,14 +214,14 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 5,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 5,
     Component = ignore_obl(neg(turn_lights_off(Actor, Room))),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
