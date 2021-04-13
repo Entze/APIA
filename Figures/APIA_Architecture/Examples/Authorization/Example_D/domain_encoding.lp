@@ -229,31 +229,31 @@ permitted(move_through(Actor, Door), timestep) :-
 
 % "Normally, no one is allowed to enter a private office through a door if the door is closed"
 %
-% move_office(Actor, Door): normally -permitted(move_through(Actor, Door)) if
+% unlock_office(Actor, Door): normally -permitted(unlock_door(Actor, Door)) if
 %   in_room(Actor, FromRoom),
 %   door_connects(Door, FromRoom),
 %   door_connects(Door, ToRoom),
 %   ToRoom != FromRoom
--permitted(move_through(Actor, Door), timestep) :-
+-permitted(unlock_door(Actor, Door), timestep) :-
     holds(in_room(Actor, FromRoom), timestep),
     door_connects(Door, FromRoom),
     door_connects(Door, ToRoom),
     ToRoom != FromRoom,
     private_office(ToRoom),
-    not abnormal(move_office(Actor, Door), timestep),
-    not permitted(move_through(Actor, Door), timestep),
-    not obl(move_through(Actor, Door), timestep).
+    not abnormal(unlock_office(Actor, Door), timestep),
+    not permitted(unlock_door(Actor, Door), timestep),
+    not obl(unlock_door(Actor, Door), timestep).
 
-% prefer(move_office(Actor, Door), move_normal(Actor, Door))
+% prefer(unlock_office(Actor, Door), move_normal(Actor, Door))
 abnormal(move_normal(Actor, Door), timestep) :-
-    % Condition of move_office(Actor, Door)
+    % Condition of unlock_office(Actor, Door)
     holds(in_room(Actor, FromRoom), timestep),
     door_connects(Door, FromRoom),
     door_connects(Door, ToRoom),
     ToRoom != FromRoom.
 
-% % prefer(move_normal(Actor, Door), move_office(Actor, Door))
-% abnormal(move_office(Actor, Door), timestep) :-
+% % prefer(move_normal(Actor, Door), unlock_office(Actor, Door))
+% abnormal(unlock_office(Actor, Door), timestep) :-
 %     % Condition of move_normal(Actor, Door)
 %     agent(Actor),
 %     door(Door).
