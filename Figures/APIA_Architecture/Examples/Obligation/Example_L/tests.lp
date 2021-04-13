@@ -34,6 +34,7 @@ happened(wait, Timestep) :-
     Timestep = 0.
 
 happened(select(Goal), Timestep) :-
+    Goal = policy_compliant(security_system_enabled),
     Timestep = 0.
 
 % Increment timestep
@@ -41,6 +42,7 @@ happened(select(Goal), Timestep) :-
 % "The agent always observes the truth value of his goal"
 % (p. 36) of dissertation
 -observed(Goal, Timestep) :-
+    Goal = policy_compliant(security_system_enabled),
     Timestep = 1.
 
 
