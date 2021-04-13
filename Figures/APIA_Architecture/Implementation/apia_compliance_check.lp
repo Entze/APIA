@@ -51,6 +51,7 @@ agent_action(Action) :-
 % -policy_compliant(Fluent) if
 %   -Fluent
 -holds(policy_compliant(Fluent), Timestep) :-
+    step(Timestep),
     physical_fluent(_, Fluent),
     -holds(Fluent, Timestep).
 
@@ -59,6 +60,7 @@ agent_action(Action) :-
 %   require_auth_compliance(ComplianceLevel)
 %   -auth_compliance(ComplianceLevel)
 -holds(policy_compliant(Fluent), Timestep) :-
+    step(Timestep),
     Timestep > current_timestep,
     physical_fluent(_, Fluent),
     require_auth_compliance(ComplianceLevel),
@@ -69,6 +71,7 @@ agent_action(Action) :-
 %   require_obl_compliance(Type)
 %   -obl_compliant(Type)
 -holds(policy_compliant(Fluent), Timestep) :-
+    step(Timestep),
     Timestep > current_timestep,
     physical_fluent(_, Fluent),
     require_obl_compliance(Type),
@@ -86,6 +89,7 @@ agent_action(Action) :-
 %     not policy_action(Action)
 %     not permitted(Action)
 -holds(auth_compliance(strong), Timestep + 1) :-
+    step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
@@ -96,8 +100,10 @@ agent_action(Action) :-
 % impossible ignore_not_permitted(Action) if
 %   permitted(Action)
 impossible(ignore_not_permitted(Action), Timestep) :-
+    step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
+    physical_action(Action),
     permitted(Action, Timestep).
 
 % ----------------------------------------------
@@ -112,6 +118,7 @@ impossible(ignore_not_permitted(Action), Timestep) :-
 %     not policy_action(Action)
 %     -permitted(Action)
 -holds(auth_compliance(weak), Timestep + 1) :-
+    step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
     not policy_action(Action),
@@ -125,6 +132,7 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
     step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
+    physical_action(Action),
     not -permitted(Action, Timestep).
 
 % ----------------------------------------------
@@ -136,12 +144,13 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
 %   if
 %     Timestep >= current_timestep,
 %     agent_action(Action)
-%     not policy_action(Action)
+%     physical_action(Action)
 %     obl(Action)
 -holds(obl_compliant(do_action), Timestep + 1) :-
+    step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
-    not policy_action(Action),
+    physical_action(Action),
     obl(Action, Timestep),
     not occurs(Action, Timestep),
     not ignore_obl(Action, Timestep).
@@ -164,12 +173,13 @@ impossible(ignore_obl(Action), Timestep) :-
 %   if
 %     Timestep >= current_timestep,
 %     agent_action(Action)
-%     not policy_action(Action)
+%     physical_action(Action)
 %     obl(neg(Action))
 -holds(obl_compliant(refrain_from_action), Timestep + 1) :-
+    step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
-    not policy_action(Action),
+    physical_action(Action),
     obl(neg(Action), Timestep),
     occurs(Action, Timestep),
     not ignore_obl(neg(Action), Timestep).
