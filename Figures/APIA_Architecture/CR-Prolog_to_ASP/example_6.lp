@@ -47,4 +47,9 @@ c :-
     not c.
 
 % prefer(d4, d1)
-cr_prefer(d4, d1).
+cr_prefer(d4, d1) :-
+    % Condition of d4
+    b'.
+
+    % Condition of d1
+    % (none)

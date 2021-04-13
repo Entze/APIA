@@ -23,6 +23,12 @@ c_a :-
 
 % prefer(d2, d1)
 :~
+    % Condition of d1
+    a,
+
+    % Condition of d2
+    a,
+
     not apply_cr_rule(d2),
     apply_cr_rule(d1). [1@2, d2, d1]
 

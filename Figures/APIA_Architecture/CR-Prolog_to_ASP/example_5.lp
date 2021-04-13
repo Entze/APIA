@@ -42,5 +42,11 @@ c :-
 
 % prefer(d4, d1)
 :~
+    % Condition of d4
+    b',
+
+    % Condition of d1
+    % (none)
+
     not apply_cr_rule(d4),
     apply_cr_rule(d1). [1@2, d4, d1]
