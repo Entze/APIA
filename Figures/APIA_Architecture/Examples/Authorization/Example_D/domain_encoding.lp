@@ -241,7 +241,7 @@ permitted(unlock_door(Actor, Door), timestep) :-
     not -permitted(unlock_door(Actor, Door), timestep),
     not obl(neg(unlock_door(Actor, Door)), timestep).
 
-% "Normally, no one is allowed to enter a private office through a door if the door is closed"
+% "Normally, no one is allowed to unlock a door to private office"
 %
 % unlock_office(Actor, Door): normally -permitted(unlock_door(Actor, Door)) if
 %   in_room(Actor, FromRoom),
