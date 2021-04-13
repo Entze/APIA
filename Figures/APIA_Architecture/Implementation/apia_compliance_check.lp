@@ -146,6 +146,17 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
     not occurs(Action, Timestep),
     not ignore_obl(Action, Timestep).
 
+% impossible ignore_obl(Action) if
+%   not obl(Action)
+impossible(ignore_obl(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action),
+    not obl(Action, Timestep).
+
+% ----------------------------------------------
+
 % (AL-like rule)
 %
 % (Action, not ignore_obl(neg(Action)))
@@ -162,6 +173,15 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
     obl(neg(Action), Timestep),
     occurs(Action, Timestep),
     not ignore_obl(neg(Action), Timestep).
+
+% impossible ignore_obl(neg(Action)) if
+%   not obl(neg(Action))
+impossible(ignore_obl(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action),
+    not obl(neg(Action), Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
