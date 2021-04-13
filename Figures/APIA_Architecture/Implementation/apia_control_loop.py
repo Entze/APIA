@@ -118,6 +118,8 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
                                        step_number: AIALoopStep,
                                        configuration: APIAConfiguration,
                                        ) -> Iterator[ASPSubprogramInstantiation]:
+    max_activity_length = max_timestep
+
     # base
     yield ASPSubprogramInstantiation(name='base', arguments=())
 
@@ -129,12 +131,14 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
     yield from (ASPSubprogramInstantiation(name='action_description', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
+    # aia_mental_fluents(max_activity_length)
+    yield ASPSubprogramInstantiation(name='aia_mental_fluents', arguments=(max_activity_length,))
+
     # aia_history_rules(timestep)
     if step_number >= 1:
         yield ASPSubprogramInstantiation(name='aia_history_rules', arguments=(current_timestep,))
 
     # aia_intended_action_rules(timestep, max_activity_length)
-    max_activity_length = max_timestep
     if step_number >= 2:
         yield ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(current_timestep, max_activity_length))
 

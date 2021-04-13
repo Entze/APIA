@@ -5,6 +5,7 @@
 #const activity_index__new = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 % goal(Goal)
 % activity(Activity)
@@ -14,12 +15,14 @@ activity(Activity) :-
     Activity = (ir; ir + 1).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 % activity_component(Activity, ComponentIndex, Component)
 % activity_length(Activity, ActivityLength)
 % activity_goal(Activity, ActivityGoal)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_mental_fluents(max_activity_length).
 
 % Note: We introduce physical_fluent/2
 fluent(Type, Fluent) :-
@@ -41,8 +44,7 @@ mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
 % Note: Our addition
 mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     Activity = (ir; ir + 1),
-    MaxActivityLength = 30,  % TODO: Parameterize this value
-    ActivityIndex = -1..MaxActivityLength.
+    ActivityIndex = -1..max_activity_length.
 
 % Note: Originally, active(Activity)
 mental_fluent(defined, active_activity(Activity)) :-
@@ -92,6 +94,7 @@ mental_fluent(inertial, next_name(Activity)) :-
     activity(Activity).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 %--- Agent actions ---%
 
