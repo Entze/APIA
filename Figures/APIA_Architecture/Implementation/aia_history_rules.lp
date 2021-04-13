@@ -25,6 +25,7 @@ component(Activity) :-
 equal_activity(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
+    Activity != OtherActivity,  % Note: Our addition
     goal(Goal),
     activity_goal(Activity, Goal),
     activity_goal(OtherActivity, Goal),
@@ -34,6 +35,7 @@ equal_activity(Activity, OtherActivity) :-
 equal_plan(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
+    Activity != OtherActivity,  % Note: Our addition
     activity_length(Activity, ActivityLength),
     activity_length(OtherActivity, ActivityLength),
     not different_component(Activity, OtherActivity).
@@ -42,6 +44,7 @@ equal_plan(Activity, OtherActivity) :-
 different_component(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
+    Activity != OtherActivity,  % Note: Our addition
     component(ActivityComponent),
     component(OtherActivityComponent),
     ActivityIndex = 1..max_activity_length,
