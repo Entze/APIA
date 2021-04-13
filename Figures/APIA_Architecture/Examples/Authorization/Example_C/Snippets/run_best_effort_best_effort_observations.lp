@@ -28,8 +28,6 @@ happened(stop(Activity), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_7.
 
-% TODO: Troubleshoot this
-
 happened(start(Activity), Timestep) :-
     Timestep = 6,
     Activity = 4.
@@ -43,6 +41,16 @@ happened(start(Activity), Timestep) :-
 #program observations_8.
 
 happened(greet(Actor, Person), Timestep) :-
+    Timestep = 7,
+    Actor = "Alice",
+    Person = "Bob".
+
+happened(ignore_not_permitted(greet(Actor, Person)), Timestep) :-
+    Timestep = 7,
+    Actor = "Alice",
+    Person = "Bob".
+
+happened(ignore_neg_permitted(greet(Actor, Person)), Timestep) :-
     Timestep = 7,
     Actor = "Alice",
     Person = "Bob".
