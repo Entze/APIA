@@ -284,11 +284,19 @@ def _run_clingo(files: Iterable[Path],
     print('    Solving...')
     solve_handle = clingo_control.solve(yield_=True, async_=True)
     symbols = ()
+
+    stable_models = 0
+    proven_optimal_stable_models = 0
     for model in solve_handle:  # type: clingo.Model
         if debug == True:
             print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
             for symbol in sorted(model.symbols(atoms=True)):
                 print(f'      {symbol}', file=sys.stderr)
+
+            if model.optimality_proven:
+                proven_optimal_stable_models += 1
+            else:
+                stable_models += 1
 
         # Predicate extraction
         if model.number == 1:
@@ -301,6 +309,11 @@ def _run_clingo(files: Iterable[Path],
     solve_result = solve_handle.get()
     if not solve_result.satisfiable:
         raise RuntimeError('Solve is unsatisfiable')
+
+    if debug:
+        if proven_optimal_stable_models > 1 or (proven_optimal_stable_models == 0 and stable_models > 1):
+            print('    Warning: Multiple answer sets', file=sys.stderr)
+
 
     return symbols
 
@@ -353,7 +366,7 @@ def _main(script_dir: Path):
         '--opt-mode=optN',
         '--parallel-mode', f'{args.threads}',
         '--warn=no-atom-undefined',
-        '1',
+        '2' if debug else '1',
     )
 
     configuration = APIAConfiguration(authorization=args.authorization_mode,
