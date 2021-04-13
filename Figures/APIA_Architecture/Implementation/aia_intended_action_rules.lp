@@ -415,17 +415,28 @@ intended_action(start(Activity), current_timestep) :-
 % (p. 74) of dissertation
 
 % prefer(plan_new(Action, Timestep), futile_goal(Goal, current_timestep)).
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+:~
     action(Action),
     step(Timestep),
     goal(Goal),
     HigherPriorityCRRule = plan_new(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
+
+    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+
 
 % prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+:~
     action(Action),
     step(Timestep),
     goal(Goal),
     HigherPriorityCRRule = plan_existing(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
+
+    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]

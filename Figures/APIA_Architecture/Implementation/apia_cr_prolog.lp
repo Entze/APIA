@@ -11,10 +11,3 @@
 :~
     apply_cr_rule(CRRule).
     [1@cr_rule_priority, apply_cr_rule(CRRule)]
-
-% Universal CR-prefer weak constraint
-:~
-    cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule),
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
