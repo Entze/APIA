@@ -229,14 +229,14 @@ permitted(move_through(Actor, Door), timestep) :-
 % permitted(lock_door(Actor, Door))
 permitted(lock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 % "Anyone is permitted to unlock a door"
 %
 % unlock_normal(Actor, Door): normally permitted(unlock_door(Actor, Door))
 permitted(unlock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door),
+    door_has_lock(Door),
     not abnormal(unlock_normal(Actor, Door), timestep),
     not -permitted(unlock_door(Actor, Door), timestep),
     not obl(neg(unlock_door(Actor, Door)), timestep).

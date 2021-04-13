@@ -226,14 +226,14 @@ permitted(move_through(Actor, Door), timestep) :-
 % permitted(lock_door(Actor, Door))
 permitted(lock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 % "Anyone is permitted to unlock a door"
 %
 % permitted(unlock_door(Actor, Door))
 permitted(unlock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 % permitted(knock_on_door(Actor, Door))
 permitted(knock_on_door(Actor, Door), timestep) :-
