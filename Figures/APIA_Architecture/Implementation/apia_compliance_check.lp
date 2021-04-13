@@ -106,6 +106,15 @@ impossible(ignore_not_permitted(Action), Timestep) :-
     physical_action(Action),
     permitted(Action, Timestep).
 
+% impossible ignore_not_permitted(Action) if
+%   not require_auth_compliance(strong)
+impossible(ignore_not_permitted(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action),
+    not require_auth_compliance(strong).
+
 % ----------------------------------------------
 
 % (AL-like rule)
@@ -134,6 +143,15 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
     agent_action(Action),
     physical_action(Action),
     not -permitted(Action, Timestep).
+
+% impossible ignore_neg_permitted(Action) if
+%   not require_auth_compliance(weak)
+impossible(ignore_neg_permitted(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action),
+    not require_auth_compliance(weak).
 
 % ----------------------------------------------
 
@@ -164,6 +182,15 @@ impossible(ignore_obl(Action), Timestep) :-
     physical_action(Action),
     not obl(Action, Timestep).
 
+% impossible ignore_obl(Action) if
+%   not require_obl_compliance(do_action)
+impossible(ignore_obl(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action),
+    not require_obl_compliance(do_action).
+
 % ----------------------------------------------
 
 % (AL-like rule)
@@ -192,6 +219,15 @@ impossible(ignore_obl(Action), Timestep) :-
     agent_action(Action),
     physical_action(Action),
     not obl(neg(Action), Timestep).
+
+% impossible ignore_obl(neg(Action)) if
+%   not require_obl_compliance(refrain_from_action)
+impossible(ignore_obl(neg(Action)), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action),
+    not require_obl_compliance(refrain_from_action).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
@@ -231,15 +267,6 @@ holds(obl_compliant(Type), Timestep) :-
 
 require_auth_compliance(ComplianceLevel) :-
     ComplianceLevel = strong.
-
-% (Valid AL)
-%
-% impossible ignore_not_permitted(Action)
-impossible(ignore_not_permitted(Action), Timestep) :-
-    step(Timestep),
-    current_timestep <= Timestep,
-    agent_action(Action),
-    physical_action(Action).
 
 #program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
@@ -299,15 +326,6 @@ require_auth_compliance(ComplianceLevel) :-
 
 require_auth_compliance(ComplianceLevel) :-
     ComplianceLevel = weak.
-
-% (Valid AL)
-%
-% impossible ignore_neg_permitted(Action)
-impossible(ignore_neg_permitted(Action), Timestep) :-
-    step(Timestep),
-    current_timestep <= Timestep,
-    agent_action(Action),
-    physical_action(Action).
 
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
@@ -369,15 +387,6 @@ require_auth_compliance(ComplianceLevel) :-
 require_obl_compliance(Type) :-
     Type = do_action.
 
-% (Valid AL)
-%
-% impossible ignore_obl(Action)
-impossible(ignore_obl(Action), Timestep) :-
-    step(Timestep),
-    current_timestep <= Timestep,
-    agent_action(Action),
-    physical_action(Action).
-
 #program apia_options_obl_do_action_2(current_timestep).
 % Option 2
 % Implicitly maximizes obl compliance
@@ -438,15 +447,6 @@ require_obl_compliance(Type) :-
 
 require_obl_compliance(Type) :-
     Type = refrain_from_action.
-
-% (Valid AL)
-%
-% impossible ignore_obl(neg(Action))
-impossible(ignore_obl(neg(Action)), Timestep) :-
-    step(Timestep),
-    current_timestep <= Timestep,
-    agent_action(Action),
-    physical_action(Action).
 
 #program apia_options_obl_refrain_from_action_2(current_timestep).
 % Option 2
