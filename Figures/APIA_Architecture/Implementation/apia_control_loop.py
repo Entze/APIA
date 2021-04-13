@@ -344,6 +344,7 @@ def _main(script_dir: Path):
 
     history: deque[clingo.Symbol] = deque()
     observation_subprograms: deque[ASPSubprogramInstantiation] = deque()
+    # TODO: Run initial solve to find pre-existing activities and set ir value
     for current_timestep in range(max_timestep + 1):
         print(f'Iteration {current_timestep}')
 
@@ -403,6 +404,7 @@ def _main(script_dir: Path):
             },
             debug=debug,
         )
+        # TODO: Save generated activities
         try:
             futile_goal, = (symbol.arguments[0]
                             for symbol in symbols
