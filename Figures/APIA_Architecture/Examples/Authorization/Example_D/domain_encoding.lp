@@ -231,12 +231,32 @@ permitted(move_through(Actor, Door), timestep) :-
 %
 % move_office(Actor, Door): normally -permitted(move_through(Actor, Door)) if
 %   in_room(Actor, FromRoom),
+%   door_connects(Door, FromRoom),
 %   door_connects(Door, ToRoom),
 %   ToRoom != FromRoom
-% TODO: Complete
+-permitted(move_through(Actor, Door), timestep) :-
+    holds(in_room(Actor, FromRoom), timestep),
+    door_connects(Door, FromRoom),
+    door_connects(Door, ToRoom),
+    ToRoom != FromRoom,
+    private_office(ToRoom),
+    not abnormal(move_office(Actor, Door), timestep),
+    not permitted(move_through(Actor, Door), timestep),
+    not obl(move_through(Actor, Door), timestep).
 
 % prefer(move_office(Actor, Door), move_normal(Actor, Door))
-% TODO: Complete
+abnormal(move_normal(Actor, Door), timestep) :-
+    % Condition of move_office(Actor, Door)
+    holds(in_room(Actor, FromRoom), timestep),
+    door_connects(Door, FromRoom),
+    door_connects(Door, ToRoom),
+    ToRoom != FromRoom.
+
+% % prefer(move_normal(Actor, Door), move_office(Actor, Door))
+% abnormal(move_office(Actor, Door), timestep) :-
+%     % Condition of move_normal(Actor, Door)
+%     agent(Actor),
+%     door(Door).
 
 % "Anyone is permitted to lock a door"
 %
