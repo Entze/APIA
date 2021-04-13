@@ -204,6 +204,17 @@ impossible(turn_lights_off(Actor, Room), timestep) :-
 -holds(all_lights_off, timestep) :-
     holds(room_lights_on(Room), timestep).
 
+% enable_security_system(Actor)
+%   causes security_system_enabled
+holds(security_system_enabled, timestep + 1) :-
+    occurs(enable_security_system(Actor), timestep).
+
+% impossible enable_security_system if
+%   security_system_enabled
+impossible(enable_security_system(Actor), timestep) :-
+    person(Actor),
+    holds(security_system_enabled, timestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
 
