@@ -90,3 +90,9 @@ happened(wait, Timestep) :-
     Timestep = 12,
     Person = "Bob",
     Actor = "Alice".
+
+% ---------------------------------------------------------------
+#program observations_13.
+
+% ---------------------------------------------------------------
+#program observations_14.
