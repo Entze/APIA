@@ -49,9 +49,7 @@ door_has_lock(Door) :-
 #const ir = 6.
 
 goal(Goal) :-
-    Goal = greeted_by(Person, Actor),
-    Person = "Bob",
-    Actor = "Alice".
+    Goal = security_system_enabled.
 
 % ---------------------------------------------------------------
 
