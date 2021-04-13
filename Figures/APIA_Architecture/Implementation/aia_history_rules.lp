@@ -1,6 +1,7 @@
 % See p. 57 of dissertation
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_sanity_checks(current_timestep).
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
 % (p. 57) of dissertation
@@ -131,6 +132,7 @@ occurs(Action, Timestep) :-
     -happened(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_history_rules(current_timestep).
 
 % "The following two rules guarantee that an observation that an agent action did not occur
 %  is due to the violation of an executability condition for that action."
@@ -150,6 +152,7 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_history_rules(current_timestep).
 
 % (p. 59) of dissertation
 %
@@ -181,6 +184,7 @@ impossible(select(Goal), Timestep) :-
     holds(active_goal(Goal), Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Applicability constraints %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_sanity_checks(current_timestep).
 %
 % "the agent always observes the results of
 %   - his attempts to perform actions,
@@ -268,6 +272,7 @@ observed_goal(Goal, Timestep) :-
     not observed_goal(Goal, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_history_rules(current_timestep).
 %
 % "The next rule corresponds to the condition from the definition of model
 %  which limits the number of unobserved occurrences of exogenous actions
