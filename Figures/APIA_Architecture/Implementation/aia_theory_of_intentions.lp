@@ -330,6 +330,28 @@ impossible(Action2, timestep) :-
     physical_action(Action2),
     occurs(Action1, timestep).
 
+% Note: Our addition (Considers planning policy actions)
+%
+% "We assume that no [policy] action may occur concurrently with a special exogenous action"
+%
+% impossible Action1, Action2 if
+%   mental_action(Action1),
+%   special_exogenous_action(Action1),
+%   policy_action(Action2)
+%
+% (p. 31) of dissertation
+impossible(Action1, timestep) :-
+    mental_action(Action1),
+    special_exogenous_action(Action1),
+    policy_action(Action2),
+    occurs(Action2, timestep).
+
+impossible(Action2, timestep) :-
+    mental_action(Action1),
+    special_exogenous_action(Action1),
+    policy_action(Action2),
+    occurs(Action1, timestep).
+
 % "We assume that no mental agent action may occur concurrently with a special exogenous action"
 %
 % impossible Action1, Action2 if
