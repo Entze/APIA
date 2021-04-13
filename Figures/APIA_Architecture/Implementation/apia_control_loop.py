@@ -115,7 +115,7 @@ class GroundingContext:
         template_str = template_str.string
         arguments = (symbol.string if symbol.type == clingo.SymbolType.String else symbol
                      for symbol in arguments)
-        return template_str.format(*arguments).replace(' ', '_')
+        return template_str.format(*arguments)
 
     @staticmethod
     def function_signature(symbol: clingo.Symbol) -> str:
