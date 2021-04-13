@@ -38,6 +38,9 @@ class AIALoopStep(IntEnum):
     ATTEMPT_ACTION = 3
     OBSERVE_WORLD = 4
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}.{self.name}'
+
 
 class APIAAuthorizationSetting(Enum):
     PARANOID = frozenset((
@@ -68,6 +71,9 @@ class APIAAuthorizationSetting(Enum):
         'apia_options_auth_non_compliant_3',
     ))
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}.{self.name}'
+
 
 class APIAObligationSetting(Enum):
     SUBORDINATE = frozenset((
@@ -93,6 +99,9 @@ class APIAObligationSetting(Enum):
         'apia_options_obl_do_action_3',
         'apia_options_obl_refrain_from_action_3',
     ))
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}.{self.name}'
 
 
 class APIAConfiguration(NamedTuple):
