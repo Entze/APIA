@@ -10,4 +10,4 @@ b_a :-
 
 :~
     apply_cr_rule(d).
-    [1@1, d]
+    [1@1, apply_cr_rule(d)]

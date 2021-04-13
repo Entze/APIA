@@ -1,7 +1,7 @@
 % (Universal CR-rule weak constraint)
 :~
     apply_cr_rule(D).
-    [1@1, D]
+    [1@1, apply_cr_rule(D)]
 
 % d1: a +- .
 { apply_cr_rule(d1) }.
@@ -50,4 +50,4 @@ c :-
     % (none)
 
     not apply_cr_rule(d4),
-    apply_cr_rule(d1). [1@2, d4, d1]
+    apply_cr_rule(d1). [1@2, apply_cr_rule(d4), apply_cr_rule(d1)]
