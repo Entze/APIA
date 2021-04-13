@@ -57,10 +57,6 @@ activity_goal(Activity, ActivityGoal) :-
     Person = "Bob",
     Actor = "Alice".
 
-activity_length(Activity, ActivityLength) :-
-    Activity = 1,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 1,
@@ -99,10 +95,6 @@ activity_goal(Activity, ActivityGoal) :-
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 2,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
@@ -150,10 +142,6 @@ activity_goal(Activity, ActivityGoal) :-
     Person = "Bob",
     Actor = "Alice".
 
-activity_length(Activity, ActivityLength) :-
-    Activity = 3,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 1,
@@ -178,10 +166,6 @@ activity_goal(Activity, ActivityGoal) :-
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 4,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
@@ -215,10 +199,6 @@ activity_goal(Activity, ActivityGoal) :-
     Person = "Bob",
     Actor = "Alice".
 
-activity_length(Activity, ActivityLength) :-
-    Activity = 5,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 5,
     ComponentIndex = 1,
@@ -243,10 +223,6 @@ activity_goal(Activity, ActivityGoal) :-
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 6,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 6,
@@ -293,10 +269,6 @@ activity_goal(Activity, ActivityGoal) :-
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 7,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 7,

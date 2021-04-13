@@ -55,10 +55,6 @@ activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(security_system_enabled).
 
-activity_length(Activity, ActivityLength) :-
-    Activity = 1,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 1,
@@ -137,10 +133,6 @@ activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
     ActivityGoal = policy_compliant(security_system_enabled).
 
-activity_length(Activity, ActivityLength) :-
-    Activity = 2,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
     ComponentIndex = 1,
@@ -155,10 +147,6 @@ activity(Activity) :-
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
     ActivityGoal = policy_compliant(security_system_enabled).
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 3,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
