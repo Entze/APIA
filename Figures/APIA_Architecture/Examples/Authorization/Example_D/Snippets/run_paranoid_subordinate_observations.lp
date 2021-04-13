@@ -16,9 +16,8 @@
 % ---------------------------------------------------------------
 #program observations_6.
 
-happened(stop(Activity), Timestep) :-
-    Timestep = 5,
-    Activity = 1.
+happened(wait, Timestep) :-
+    Timestep = 5.
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 6,
@@ -61,8 +60,9 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_10.
 
-happened(wait, Timestep) :-
-    Timestep = 9.
+happened(start(Activity), Timestep) :-
+    Timestep = 9,
+    Activity = 5.
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 10,
@@ -72,8 +72,10 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_11.
 
-happened(wait, Timestep) :-
-    Timestep = 10.
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 10,
+    Actor = "Alice",
+    Door = "d34".
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 11,
@@ -83,10 +85,12 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_12.
 
-happened(wait, Timestep) :-
-    Timestep = 11.
+happened(greet(Actor, Person), Timestep) :-
+    Timestep = 11,
+    Actor = "Alice",
+    Person = "Bob".
 
--observed(greeted_by(Person, Actor), Timestep) :-
+observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 12,
     Person = "Bob",
     Actor = "Alice".
@@ -94,5 +98,17 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_13.
 
+happened(stop(Activity), Timestep) :-
+    Timestep = 12,
+    Activity = 5.
+
+observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 13,
+    Person = "Bob",
+    Actor = "Alice".
+
 % ---------------------------------------------------------------
 #program observations_14.
+
+happened(wait, Timestep) :-
+    Timestep = 13.

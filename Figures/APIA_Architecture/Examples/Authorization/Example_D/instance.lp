@@ -39,7 +39,7 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 5.
+#const ir = 8.
 
 goal(Goal) :-
     Goal = greeted_by(Person, Actor),
@@ -201,6 +201,121 @@ activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
     ComponentIndex = 1,
     Component = ignore_neg_permitted(greet(Actor, Person)),
+    Actor = "Alice",
+    Person = "Bob".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 5.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 5,
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
+    Person = "Bob",
+    Actor = "Alice".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 5,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 5,
+    ComponentIndex = 1,
+    Component = move_through(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 5,
+    ComponentIndex = 2,
+    Component = greet(Actor, Person),
+    Actor = "Alice",
+    Person = "Bob".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 6.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 6,
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
+    Person = "Bob",
+    Actor = "Alice".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 6,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 6,
+    ComponentIndex = 1,
+    Component = unlock_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 6,
+    ComponentIndex = 1,
+    Component = ignore_neg_permitted(unlock_door(Actor, Door)),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 6,
+    ComponentIndex = 1,
+    Component = ignore_not_permitted(unlock_door(Actor, Door)),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 6,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 6,
+    ComponentIndex = 3,
+    Component = greet(Actor, Person),
+    Actor = "Alice",
+    Person = "Bob".
+
+% ---------------------------------------------------------------
+
+activity(Activity) :-
+    Activity = 7.
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 7,
+    ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
+    Person = "Bob",
+    Actor = "Alice".
+
+activity_length(Activity, ActivityLength) :-
+    Activity = 7,
+    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 7,
+    ComponentIndex = 1,
+    Component = unlock_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 7,
+    ComponentIndex = 2,
+    Component = move_through(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 7,
+    ComponentIndex = 3,
+    Component = greet(Actor, Person),
     Actor = "Alice",
     Person = "Bob".
 

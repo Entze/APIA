@@ -57,6 +57,10 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Alice",
     Room = "r3".
 
+observed(door_locked(Door), Timestep) :-
+    Timestep = 4,
+    Door = "d34".
+
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 4,
     Person = "Bob",
@@ -65,19 +69,14 @@ observed(in_room(Person, Room), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_5.
 
-happened(move_through(Actor, Door), Timestep) :-
+happened(stop(Activity), Timestep) :-
     Timestep = 4,
-    Actor = "Alice",
-    Door = "d34".
+    Activity = 1.
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
     Person = "Alice",
-    Room = "r4".
-
-observed(busy_working(Person), Timestep) :-
-    Timestep = 5,
-    Person = "Bob".
+    Room = "r3".
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 5,
@@ -95,6 +94,10 @@ observed(busy_working(Person), Timestep) :-
 
 % ---------------------------------------------------------------
 #program observations_9.
+
+-observed(door_locked(Door), Timestep) :-
+    Timestep = 9,
+    Door = "d34".
 
 % ---------------------------------------------------------------
 #program observations_10.
