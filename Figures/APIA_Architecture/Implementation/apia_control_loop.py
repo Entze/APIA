@@ -143,10 +143,10 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
     # aia_mental_fluents(max_activity_length)
     yield ASPSubprogramInstantiation(name='aia_mental_fluents', arguments=(max_activity_length,))
 
-    # aia_sanity_checks(current_timestep)
+    # aia_sanity_checks(current_timestep, max_activity_length)
     # aia_history_rules(current_timestep)
     if step_number >= 1:
-        yield ASPSubprogramInstantiation(name='aia_sanity_checks', arguments=(current_timestep,))
+        yield ASPSubprogramInstantiation(name='aia_sanity_checks', arguments=(current_timestep, max_activity_length))
         yield ASPSubprogramInstantiation(name='aia_history_rules', arguments=(current_timestep,))
 
     # aia_intended_action_rules(current_timestep, max_activity_length)

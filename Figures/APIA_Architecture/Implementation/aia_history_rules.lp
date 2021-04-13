@@ -1,7 +1,7 @@
 % See p. 57 of dissertation
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program aia_sanity_checks(current_timestep).
+#program aia_sanity_checks(current_timestep, max_activity_length).
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
 % (p. 57) of dissertation
@@ -44,7 +44,7 @@ different_component(Activity, OtherActivity) :-
     activity(OtherActivity),
     component(ActivityComponent),
     component(OtherActivityComponent),
-    index(ActivityIndex),
+    ActivityIndex = 1..max_activity_length,
     activity_component(Activity, ActivityIndex, ActivityComponent),
     activity_component(OtherActivity, ActivityIndex, OtherActivityComponent),
     ActivityComponent != OtherActivityComponent.
@@ -184,7 +184,7 @@ impossible(select(Goal), Timestep) :-
     holds(active_goal(Goal), Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Applicability constraints %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program aia_sanity_checks(current_timestep).
+#program aia_sanity_checks(current_timestep, max_activity_length).
 %
 % "the agent always observes the results of
 %   - his attempts to perform actions,
