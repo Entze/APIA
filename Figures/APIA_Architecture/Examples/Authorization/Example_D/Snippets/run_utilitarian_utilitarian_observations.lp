@@ -16,6 +16,7 @@
 % ---------------------------------------------------------------
 #program observations_6.
 
+% TODO: Troubleshoot why it sometimes intends start(6). It is non-deterministic
 happened(start(Activity), Timestep) :-
     Timestep = 5,
     Activity = 7.
