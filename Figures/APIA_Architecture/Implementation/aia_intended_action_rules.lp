@@ -45,7 +45,7 @@ active_goal_or_activity(current_timestep) :-
 % (p. 71) of dissertation
 some_action_occurred(FutureTimestep) :-
     step(FutureTimestep),
-    current_timestep <= FutureTimestep,
+    FutureTimestep >= current_timestep,
     occurs(Action, FutureTimestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,7 +113,7 @@ category_3_history(Activity, current_timestep) :-
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     category_3_history(Activity, current_timestep),
-    current_timestep <= FutureTimestep,
+    FutureTimestep >= current_timestep,
     -holds(minor_activity(Activity), FutureTimestep),
     holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
@@ -125,7 +125,7 @@ occurs(Action, FutureTimestep) :-
 projected_success(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     step(FutureTimestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(active_activity(Activity), FutureTimestep),
     activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
@@ -285,7 +285,7 @@ activity_goal(Activity, Goal) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     some_action_occurred(FutureTimestep - 1).
 
 % Note: Our addition (Considers planning policy actions)
@@ -296,7 +296,7 @@ activity_goal(Activity, Goal) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     some_action_occurred(FutureTimestep - 1).
 
 occurs(Action, FutureTimestep) :-
@@ -310,7 +310,7 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     occurs(Action, FutureTimestep),
-    current_timestep < FutureTimestep,  % Note: Our addition
+    FutureTimestep > current_timestep,  % Note: Our addition
     physical_action(Action),
     agent_action(Action).
 
@@ -320,7 +320,7 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     occurs(Action, FutureTimestep),
-    current_timestep < FutureTimestep,  % Note: Our addition
+    FutureTimestep > current_timestep,  % Note: Our addition
     policy_action(Action),
     agent_action(Action).
 
@@ -363,7 +363,7 @@ activity_length(Activity, ActivityLength) :-
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1).
 
@@ -375,7 +375,7 @@ activity_length(Activity, ActivityLength) :-
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1).
 
@@ -391,7 +391,7 @@ occurs(NextAction, FutureTimestep) :-
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, NextAction), FutureTimestep),
     mental_action(NextAction),
@@ -427,7 +427,7 @@ intended_action(start(Activity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     some_action_occurred(FutureTimestep - 1),
 
     % Condition of futile_goal(Goal, current_timestep)
@@ -458,7 +458,7 @@ intended_action(start(Activity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     some_action_occurred(FutureTimestep - 1),
 
     % Condition of futile_goal(Goal, current_timestep)
@@ -489,7 +489,7 @@ intended_action(start(Activity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1),
 
@@ -521,7 +521,7 @@ intended_action(start(Activity), current_timestep) :-
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1),
 

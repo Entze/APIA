@@ -277,7 +277,7 @@ require_auth_compliance(ComplianceLevel) :-
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -295,7 +295,7 @@ require_auth_compliance(ComplianceLevel) :-
 % prefer(plan_new(AgentAction, Timestep), plan_new(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -337,7 +337,7 @@ require_auth_compliance(ComplianceLevel) :-
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -355,7 +355,7 @@ require_auth_compliance(ComplianceLevel) :-
 % prefer(plan_new(AgentAction, Timestep), plan_new(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -397,7 +397,7 @@ require_obl_compliance(Type) :-
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -415,7 +415,7 @@ require_obl_compliance(Type) :-
 % prefer(plan_new(AgentAction, Timestep), plan_new(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -458,7 +458,7 @@ require_obl_compliance(Type) :-
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
@@ -476,7 +476,7 @@ require_obl_compliance(Type) :-
 % prefer(plan_new(AgentAction, Timestep), plan_new(PolicyAction, Timestep)).
 :~
     step(Timestep),
-    current_timestep <= Timestep,
+    Timestep >= current_timestep,
     agent_action(AgentAction),
     not policy_action(AgentAction),
     policy_action(PolicyAction),
