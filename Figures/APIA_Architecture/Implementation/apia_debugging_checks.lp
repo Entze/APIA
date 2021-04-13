@@ -70,6 +70,11 @@ invalid(action(Action), Reason) :-
     exogenous_action(Action),
     Reason = @str_format("Action ({}) is both an agent action and an exogenous action", Action).
 
+invalid(activity_goal(Activity, ActivityGoal), Reason) :-
+    activity_goal(Activity, ActivityGoal),
+    not goal(ActivityGoal),
+    Reason = @str_format("ActivityGoal ({}) is not a candidate goal", ActivityGoal).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AOPL: Authorization (no timesteps) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 invalid(permitted(Action), Reason) :-
