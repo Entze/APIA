@@ -4,8 +4,9 @@
 % ---------------------------------------------------------------
 #program observations_2.
 
-happened(wait, Timestep) :-
-    Timestep = 1.
+happened(start(Activity), Timestep) :-
+    Timestep = 1,
+    Activity = 1.
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 2.
