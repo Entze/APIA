@@ -451,7 +451,7 @@ def _main(script_dir: Path):
         new_activity_symbols = tuple(filter(lambda symbol: symbol.name.startswith('activity_'), symbols))
         if len(new_activity_symbols) > 0:
             print(f'    New activity:')
-        for symbol in new_activity_symbols:
+        for symbol in sorted(new_activity_symbols):
             print(f'      {symbol}')
         # TODO: Save generated activity if intended action is start(M)
 
