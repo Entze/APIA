@@ -26,7 +26,8 @@ activity_length(Activity, ActivityLength) :-
     Activity < ir,
     ActivityLength = #max{ ComponentIndex :
         activity_component(Activity, ComponentIndex, _)
-    }.
+    },
+    ActivityLength >= 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program aia_mental_fluents(max_activity_length).
