@@ -233,13 +233,13 @@ impossible(Action, timestep) :-
     agent_action(Action),
     occurs(wait, timestep).
 
-% child_activity(ChildActivity) if
-%   activity_component(Activity, Activity + 1, ChildActivity),
+% child_activity(ChildActivity, Activity) if
+%   activity_component(Activity, ActivityIndex + 1, ChildActivity),
 %   activity_status(Activity, ActivityIndex)
 %
 % (p. 30) of dissertation
-holds(child_activity(ChildActivity), timestep) :-
-    activity_component(Activity, Activity + 1, ChildActivity),
+holds(child_activity(ChildActivity, Activity), timestep) :-
+    activity_component(Activity, ActivityIndex + 1, ChildActivity),
     activity(ChildActivity),
     holds(activity_status(Activity, ActivityIndex), timestep).
 
