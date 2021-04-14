@@ -288,17 +288,6 @@ activity_goal(Activity, Goal) :-
     FutureTimestep > current_timestep,
     some_action_occurred(FutureTimestep - 1).
 
-% Note: Our addition (Considers planning policy actions)
-{ apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    some_action_occurred(FutureTimestep - 1).
-
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_new(Action, FutureTimestep)).
