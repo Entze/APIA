@@ -292,6 +292,7 @@ def _run_clingo(files: Iterable[Path],
     proven_optimal_stable_models = 0
     for model in solve_handle:  # type: clingo.Model
         if debug == True:
+            print(file=sys.stderr)
             print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
             for symbol in sorted(model.symbols(atoms=True)):
                 print(f'      {symbol}', file=sys.stderr)
