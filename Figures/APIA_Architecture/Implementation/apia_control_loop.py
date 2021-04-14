@@ -216,11 +216,22 @@ def _parse_symbol(clingo_symbol: Union[clingo.Symbol, Iterable[clingo.Symbol]]) 
 
 
 def _symbol_key(clingo_symbol: clingo.Symbol) -> clingo.Symbol:
-    if clingo_symbol.arguments is not None:
-        arguments = tuple(_symbol_key(arg) for arg in clingo_symbol.arguments)
-        return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, arguments[-1:], arguments[:-1]))
+    if clingo_symbol.type != clingo.SymbolType.Function:
+        return clingo_symbol
 
-    return clingo_symbol
+    try:
+        arguments = tuple(_symbol_key(arg) for arg in clingo_symbol.arguments)
+
+        try:
+            if clingo_symbol.arguments[-1].type == clingo.SymbolType.Number:
+                return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, (*arguments[-1:], *arguments[:-1])))
+        except IndexError:
+            pass
+
+        return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, arguments))
+
+    except TypeError:
+        return clingo_symbol
 
 
 def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
