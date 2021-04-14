@@ -10,7 +10,7 @@ goal(policy_compliant(Goal)) :-
 %   Compliance = (strong; weak)
 
 % require_obl_compliance(Type)
-%   Type (do_action; refrain_from_action)
+%   Type = (do_action; refrain_from_action)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
