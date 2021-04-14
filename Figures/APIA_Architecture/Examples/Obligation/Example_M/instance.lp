@@ -39,7 +39,7 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 4.
+#const ir = 5.
 
 goal(Goal) :-
     Goal = security_system_enabled.
@@ -211,6 +211,30 @@ activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 6,
     Component = enable_security_system(Actor),
+    Actor = "Alice".
+
+% ---------------------------------------------------------------
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 4,
+    ActivityGoal = policy_compliant(security_system_enabled).
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_not_permitted(enable_security_system(Actor)),
+    Actor = "Alice".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_obl(neg(enable_security_system(Actor))),
     Actor = "Alice".
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
