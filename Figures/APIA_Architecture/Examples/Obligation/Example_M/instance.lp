@@ -216,7 +216,7 @@ activity_component(Activity, ComponentIndex, Component) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
 
--observed(door_locked(Door), Timestep) :-
+observed(door_locked(Door), Timestep) :-
     Timestep = 0,
     Door = "d34".
 
