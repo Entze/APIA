@@ -421,7 +421,7 @@ def _main(script_dir: Path):
             },
             debug=debug,
         )
-        step_2_unobserved_actions: dict[int, deque] = defaultdict(deque)
+        step_2_unobserved_actions: dict[int, deque[clingo.Symbol]] = defaultdict(deque)
         step_2_unobserved_actions_count = None
         for symbol in symbols:
             if symbol.name == 'number_unobserved' and len(symbol.arguments) == 2:
