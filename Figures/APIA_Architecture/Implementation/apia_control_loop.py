@@ -434,7 +434,7 @@ def _main(script_dir: Path):
         assert step_2_unobserved_actions_count is not None, 'number_unobserved(x, n) is not present'
         print(f'    Unobserved actions: {step_2_unobserved_actions_count}')
         for timestep in sorted(step_2_unobserved_actions.keys()):
-            for action in sorted(step_2_unobserved_actions[timestep]):
+            for action in sorted(step_2_unobserved_actions[timestep], key=_symbol_key):
                 print(f'      {clingo.Function("occurs", (action, timestep))}')
 
         # Step 2: Find intended action
@@ -476,7 +476,7 @@ def _main(script_dir: Path):
         new_activity_symbols = tuple(filter(lambda symbol: symbol.name.startswith('activity_'), symbols))
         if len(new_activity_symbols) > 0:
             print(f'    New activity:')
-        for symbol in sorted(new_activity_symbols):
+        for symbol in sorted(new_activity_symbols, key=_symbol_key):
             print(f'      {symbol}')
         # TODO: Save generated activity if intended action is start(M)
 
