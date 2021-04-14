@@ -537,3 +537,30 @@ intended_action(start(Activity), current_timestep) :-
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
     [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+
+% ------------------------------------------------------------------------------------------
+
+% Blount requires AIA to execute an activity that as a minimal amount of physical actions.
+% (p. 47) of dissertation
+%
+% However, Blount does not require the amount of timesteps in which a physical action is performed to be minimal.
+%   (i.e. Blount does not prefer a concurrent execution of actions over a sequence execution of the same actions).
+%
+% The following minimizes the amount of "physical" timesteps.
+%
+% Note: Our addition
+
+physical_activity_length(Activity, PhysicalActivityLength) :-
+    category_4_history(Goal, current_timestep),
+    activity(Activity),
+    PhysicalActivityLength = #count{ ActivityIndex :
+        activity_component(Activity, ActivityIndex, ActivityComponent),
+        physical_action(ActivityComponent)
+    },
+    PhysicalActivityLength > 0,
+    PhysicalActivityLength <= max_activity_length.
+
+#minimize{ PhysicalActivityLength, Activity :
+    occurs(start(Activity), current_timestep),
+    physical_activity_length(Activity, PhysicalActivityLength)
+}.
