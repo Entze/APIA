@@ -346,18 +346,6 @@ activity_length(Activity, ActivityLength) :-
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1).
 
-% Note: Our addition (Considers planning policy actions)
-{ apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    holds(next_action(Activity, Action), FutureTimestep),
-    some_action_occurred(FutureTimestep - 1).
-
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     apply_cr_rule(plan_existing(Action, FutureTimestep)).
