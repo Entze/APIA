@@ -10,11 +10,6 @@ component(Action) :-
     agent_action(Action),
     not mental_action(Action).  % Note: Our modification to consider policy actions
 
-% Note: Our addition (Considers planning policy actions)
-component(Action) :-
-    policy_action(Action),
-    agent_action(Action).
-
 % (p. 57) of dissertation
 component(Activity) :-
     activity(Activity).
