@@ -215,6 +215,14 @@ def _parse_symbol(clingo_symbol: Union[clingo.Symbol, Iterable[clingo.Symbol]]) 
         raise ValueError(f"Can't parse type {clingo_symbol.type!r} of symbol {clingo_symbol!r}")
 
 
+def _symbol_key(clingo_symbol: clingo.Symbol) -> clingo.Symbol:
+    if clingo_symbol.arguments is not None:
+        arguments = tuple(_symbol_key(arg) for arg in clingo_symbol.arguments)
+        return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, arguments[-1:], arguments[:-1]))
+
+    return clingo_symbol
+
+
 def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
     clingo_control = clingo.Control(clingo_args)
     for file in files:
@@ -294,7 +302,7 @@ def _run_clingo(files: Iterable[Path],
         if debug == True:
             print(file=sys.stderr)
             print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
-            for symbol in sorted(model.symbols(atoms=True)):
+            for symbol in sorted(model.symbols(atoms=True), key=_symbol_key):
                 print(f'      {symbol}', file=sys.stderr)
 
             if model.optimality_proven:
