@@ -270,6 +270,13 @@ holds(obl_compliant(Type), Timestep) :-
 require_auth_compliance(ComplianceLevel) :-
     ComplianceLevel = strong.
 
+% impossible ignore_not_permitted(Action)
+impossible(ignore_not_permitted(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action).
+
 #program apia_options_auth_weakly_compliant_2(current_timestep).
 % Option 2
 
@@ -298,6 +305,13 @@ minimize_policy_action(PolicyAction) :-
 
 require_auth_compliance(ComplianceLevel) :-
     ComplianceLevel = weak.
+
+% impossible ignore_neg_permitted(Action)
+impossible(ignore_neg_permitted(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action).
 
 #program apia_options_auth_non_compliant_2(current_timestep).
 % Option 2
@@ -329,6 +343,13 @@ minimize_policy_action(PolicyAction) :-
 require_obl_compliance(Type) :-
     Type = do_action.
 
+% impossible ignore_obl(Action)
+impossible(ignore_obl(Action), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action).
+
 #program apia_options_obl_do_action_2(current_timestep).
 % Option 2
 % Implicitly maximizes obl compliance
@@ -358,6 +379,13 @@ minimize_policy_action(PolicyAction) :-
 
 require_obl_compliance(Type) :-
     Type = refrain_from_action.
+
+% impossible ignore_obl(neg(Action))
+impossible(ignore_obl(neg(Action)), Timestep) :-
+    step(Timestep),
+    Timestep >= current_timestep,
+    agent_action(Action),
+    physical_action(Action).
 
 #program apia_options_obl_refrain_from_action_2(current_timestep).
 % Option 2
