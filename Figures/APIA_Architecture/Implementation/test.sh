@@ -25,6 +25,7 @@ GLOBAL_FILES=(
     apia_cr_prolog.lp
     apia_policy.lp
     apia_compliance_check.lp
+    apia_optimization_priorities.lp
     test.py
 )
 

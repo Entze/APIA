@@ -383,6 +383,7 @@ def _main(script_dir: Path):
         script_dir / 'apia_cr_prolog.lp',
         script_dir / 'apia_policy.lp',
         script_dir / 'apia_compliance_check.lp',
+        script_dir / 'apia_optimization_priorities.lp',
         script_dir / 'apia_show.lp',
         *map(Path, args.files),
     )

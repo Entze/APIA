@@ -420,8 +420,6 @@ intended_action(start(Activity), current_timestep) :-
 %
 % Note: Our addition
 
-#const aia_minimize_activity_length = cr_rule_priority - 1.
-
 :~
     category_4_history(Goal, current_timestep),
     occurs(Action, Timestep),
