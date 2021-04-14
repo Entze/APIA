@@ -234,14 +234,14 @@ impossible(Action, timestep) :-
     occurs(wait, timestep).
 
 % child_activity(ChildActivity, Activity) if
-%   activity_component(Activity, ActivityIndex + 1, ChildActivity),
-%   activity_status(Activity, ActivityIndex)
+%   activity_status(Activity, ActivityIndex),
+%   activity_component(Activity, ActivityIndex + 1, ChildActivity)
 %
 % (p. 30) of dissertation
 holds(child_activity(ChildActivity, Activity), timestep) :-
+    holds(activity_status(Activity, ActivityIndex), timestep),
     activity_component(Activity, ActivityIndex + 1, ChildActivity),
-    activity(ChildActivity),
-    holds(activity_status(Activity, ActivityIndex), timestep).
+    activity(ChildActivity).
 
 % child_goal(ChildGoal, Goal) if
 %   child_activity(ChildActivity, Activity),
