@@ -39,7 +39,7 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 6.
+#const ir = 5.
 
 goal(Goal) :-
     Goal = security_system_enabled.
