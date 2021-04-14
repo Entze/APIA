@@ -381,58 +381,23 @@ intended_action(start(Activity), current_timestep) :-
 %  only if there is no candidate that is expected to achieve the goal.
 % (p. 74) of dissertation
 
-% prefer(plan_new(Action, Timestep), futile_goal(Goal, current_timestep)).
+% prefer(plan_new(Action, FutureTimestep), futile_goal(Goal, current_timestep)).
+%
+% prefer(plan_existing(Action, FutureTimestep), futile_goal(Goal, current_timestep)).
+%
+% Note: We consolidate these rules
 :~
-    action(Action),
-    step(Timestep),
-    goal(Goal),
-
-    % Condition of plan_new(Action, Timestep)
+    category_4_history(Goal, current_timestep),
     step(FutureTimestep),
+    FutureTimestep > current_timestep,
     agent_action(Action),
     not mental_action(Action),  % Note: Our modification to consider policy actions
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    some_action_occurred(FutureTimestep - 1),
-
-    % Condition of futile_goal(Goal, current_timestep)
-    category_4_history(Goal, current_timestep),
-    occurs(start(Activity), current_timestep),
-    -projected_success(Activity, current_timestep),
-
-    HigherPriorityCRRule = plan_new(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
-
-    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
-
-% prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
-:~
-    action(Action),
-    step(Timestep),
     goal(Goal),
 
-    % Condition of plan_existing(Action, Timestep)
-    step(FutureTimestep),
-    agent_action(Action),
-    not mental_action(Action),  % Note: Our modification to consider policy actions
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    holds(next_action(Activity, Action), FutureTimestep),
-    some_action_occurred(FutureTimestep - 1),
-
-    % Condition of futile_goal(Goal, current_timestep)
-    category_4_history(Goal, current_timestep),
-    occurs(start(Activity), current_timestep),
-    -projected_success(Activity, current_timestep),
-
-    HigherPriorityCRRule = plan_existing(Action, Timestep),
+    HigherPriorityCRRule = (
+        plan_new(Action, FutureTimestep);
+        plan_existing(Action, FutureTimestep)
+    ),
     LowerPriorityCRRule = futile_goal(Goal, current_timestep),
 
     % prefer(HigherPriorityCRRule, LowerPriorityCRRule)

@@ -381,23 +381,17 @@ minimize_policy_action(PolicyAction) :-
 
 % prefer(plan_existing(AgentAction, Timestep), plan_existing(PolicyAction, Timestep)).
 :~
-    % Common conditions
+    category_4_history(Goal, current_timestep),
     step(Timestep),
     Timestep > current_timestep,
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    some_action_occurred(Timestep - 1),
 
-    % Condition of plan_existing(AgentAction, Timestep)
+    % AgentAction
     physical_action(AgentAction),
     agent_action(AgentAction),
 
-    % Condition of plan_existing(PolicyAction, Timestep)
+    % PolicyAction
     policy_action(PolicyAction),
     agent_action(PolicyAction),
-
-    % Our conditions
     minimize_policy_action(PolicyAction),
 
     HigherPriorityCRRule = plan_existing(AgentAction, Timestep),
@@ -408,26 +402,19 @@ minimize_policy_action(PolicyAction) :-
     apply_cr_rule(LowerPriorityCRRule).
     [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
-
 % prefer(plan_new(AgentAction, Timestep), plan_new(PolicyAction, Timestep)).
 :~
-    % Common conditions
+    category_4_history(Goal, current_timestep),
     step(Timestep),
     Timestep > current_timestep,
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    some_action_occurred(Timestep - 1),
 
-    % Condition of plan_new(AgentAction, Timestep)
+    % AgentAction
     physical_action(AgentAction),
     agent_action(AgentAction),
 
-    % Condition of plan_new(PolicyAction, Timestep)
+    % PolicyAction
     policy_action(PolicyAction),
     agent_action(PolicyAction),
-
-    % Our conditions
     minimize_policy_action(PolicyAction),
 
     HigherPriorityCRRule = plan_new(AgentAction, Timestep),
@@ -442,28 +429,23 @@ minimize_policy_action(PolicyAction) :-
 
 % prefer(plan_existing(PolicyAction1, NewerTimestep), plan_existing(PolicyAction2, OlderTimestep)).
 :~
-    % Common conditions
     category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
 
-    % Condition of plan_existing(PolicyAction1, NewerTimestep)
+    % Variables for plan_existing(PolicyAction1, NewerTimestep)
     step(NewerTimestep),
     NewerTimestep > current_timestep,
     policy_action(PolicyAction1),
     agent_action(PolicyAction1),
-    some_action_occurred(NewerTimestep - 1),
+    minimize_policy_action(PolicyAction1),
 
-    % Condition of plan_existing(PolicyAction2, OlderTimestep)
+    % Variables for plan_existing(PolicyAction2, OlderTimestep)
     step(OlderTimestep),
     OlderTimestep > current_timestep,
     policy_action(PolicyAction2),
     agent_action(PolicyAction2),
-    some_action_occurred(OlderTimestep - 1),
+    minimize_policy_action(PolicyAction2),
 
     % Our conditions
-    minimize_policy_action(PolicyAction1),
-    minimize_policy_action(PolicyAction2),
     OlderTimestep >= current_timestep,
     NewerTimestep >= current_timestep,
     NewerTimestep > OlderTimestep,
@@ -479,28 +461,23 @@ minimize_policy_action(PolicyAction) :-
 
 % prefer(plan_new(PolicyAction1, NewerTimestep), plan_new(PolicyAction2, OlderTimestep)).
 :~
-    % Common conditions
     category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
 
-    % Condition of plan_new(PolicyAction1, NewerTimestep)
+    % Variables for plan_existing(PolicyAction1, NewerTimestep)
     step(NewerTimestep),
     NewerTimestep > current_timestep,
     policy_action(PolicyAction1),
     agent_action(PolicyAction1),
-    some_action_occurred(NewerTimestep - 1),
+    minimize_policy_action(PolicyAction1),
 
-    % Condition of plan_new(PolicyAction2, OlderTimestep)
+    % Variables for plan_existing(PolicyAction2, OlderTimestep)
     step(OlderTimestep),
     OlderTimestep > current_timestep,
     policy_action(PolicyAction2),
     agent_action(PolicyAction2),
-    some_action_occurred(OlderTimestep - 1),
+    minimize_policy_action(PolicyAction2),
 
     % Our conditions
-    minimize_policy_action(PolicyAction1),
-    minimize_policy_action(PolicyAction2),
     OlderTimestep >= current_timestep,
     NewerTimestep >= current_timestep,
     NewerTimestep > OlderTimestep,
