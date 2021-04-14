@@ -337,8 +337,8 @@ activity_length(Activity, ActivityLength) :-
 % (p. 73) of dissertation
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
