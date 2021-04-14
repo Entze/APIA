@@ -4,6 +4,7 @@
 % ---------------------------------------------------------------
 #program observations_2.
 
+% Note: policy_compliant(security_system_enabled) is futile
 happened(wait, Timestep) :-
     Timestep = 1.
 
@@ -79,8 +80,17 @@ happened(wait, Timestep) :-
 happened(wait, Timestep) :-
     Timestep = 9.
 
+-observed(security_system_enabled, Timestep) :-
+    Timestep = 10.
+
 % ---------------------------------------------------------------
 #program observations_11.
 
+-observed(security_system_enabled, Timestep) :-
+    Timestep = 11.
+
 % ---------------------------------------------------------------
 #program observations_12.
+
+-observed(security_system_enabled, Timestep) :-
+    Timestep = 12.
