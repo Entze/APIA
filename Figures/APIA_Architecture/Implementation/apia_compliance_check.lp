@@ -173,7 +173,7 @@ impossible(ignore_neg_permitted(Action), Timestep) :-
     physical_action(Action),
     obl(Action, Timestep),
     not occurs(Action, Timestep),
-    not ignore_obl(Action, Timestep).
+    not occurs(ignore_obl(Action), Timestep).
 
 % impossible ignore_obl(Action) if
 %   not obl(Action)
@@ -211,11 +211,11 @@ impossible(ignore_obl(Action), Timestep) :-
     physical_action(Action),
     obl(neg(Action), Timestep),
     occurs(Action, Timestep),
-    not ignore_obl(neg(Action), Timestep).
+    not occurs(ignore_obl(neg(Action)), Timestep).
 
 % impossible ignore_obl(neg(Action)) if
 %   not obl(neg(Action))
-impossible(ignore_obl(Action), Timestep) :-
+impossible(ignore_obl(neg(Action)), Timestep) :-
     step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
