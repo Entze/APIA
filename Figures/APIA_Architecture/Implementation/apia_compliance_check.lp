@@ -88,13 +88,13 @@ agent_action(Action) :-
 %   if
 %     Timestep >= current_timestep,
 %     agent_action(Action)
-%     not policy_action(Action)
+%     physical_action(Action)
 %     not permitted(Action)
 -holds(auth_compliance(strong), Timestep + 1) :-
     step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
-    not policy_action(Action),
+    physical_action(Action),
     occurs(Action, Timestep),
     not occurs(ignore_not_permitted(Action), Timestep),
     not permitted(Action, Timestep).
@@ -126,13 +126,13 @@ impossible(ignore_not_permitted(Action), Timestep) :-
 %   if
 %     Timestep >= current_timestep,
 %     agent_action(Action)
-%     not policy_action(Action)
+%     physical_action(Action)
 %     -permitted(Action)
 -holds(auth_compliance(weak), Timestep + 1) :-
     step(Timestep),
     Timestep >= current_timestep,
     agent_action(Action),
-    not policy_action(Action),
+    physical_action(Action),
     occurs(Action, Timestep),
     not occurs(ignore_neg_permitted(Action), Timestep),
     -permitted(Action, Timestep).
