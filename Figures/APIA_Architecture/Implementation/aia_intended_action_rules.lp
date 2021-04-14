@@ -340,14 +340,14 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
 
 % Note: We removed has_component(...)
 activity_length(Activity, ActivityLength) :-
-    ActivityLength <= max_activity_length,
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     ActivityLength = #max{ ActivityIndex :
         activity_component(Activity, ActivityIndex, _)
     },
-    ActivityLength > 0.
+    ActivityLength > 0,
+    ActivityLength <= max_activity_length.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating existing candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
