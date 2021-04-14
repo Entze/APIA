@@ -400,7 +400,7 @@ minimize_policy_action(PolicyAction) :-
     % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    [1@apia_policy_action_use_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
 % prefer(plan_new(AgentAction, Timestep), plan_new(PolicyAction, Timestep)).
 :~
@@ -423,7 +423,7 @@ minimize_policy_action(PolicyAction) :-
     % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    [1@apia_policy_action_use_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
 
 
@@ -456,7 +456,7 @@ minimize_policy_action(PolicyAction) :-
     % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    [1@apia_policy_action_use_later_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
 
 % prefer(plan_new(PolicyAction1, NewerTimestep), plan_new(PolicyAction2, OlderTimestep)).
@@ -488,4 +488,4 @@ minimize_policy_action(PolicyAction) :-
     % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
     not apply_cr_rule(HigherPriorityCRRule),
     apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+    [1@apia_policy_action_use_later_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
