@@ -466,23 +466,6 @@ holds(next_action(Activity, Action), timestep) :-
     activity_component(Activity, ActivityIndex + 1, Action),
     holds(activity_in_progress(Activity), timestep).
 
-% Note: Our addition (Considers planning policy actions)
-%
-% next_action(Activity, Action) if
-%   policy_action(Action),
-%   agent_action(Action),
-%   activity_status(Activity, ActivityIndex),
-%   activity_component(Activity, ActivityIndex + 1, Action),
-%   activity_in_progress(Activity)
-%
-% (p. 33) of dissertation
-holds(next_action(Activity, Action), timestep) :-
-    policy_action(Action),
-    agent_action(Action),
-    holds(activity_status(Activity, ActivityIndex), timestep),
-    activity_component(Activity, ActivityIndex + 1, Action),
-    holds(activity_in_progress(Activity), timestep).
-
 % next_action(Activity, start(ChildActivity)) if
 %   activity_status(Activity, ActivityIndex),
 %   activity_component(Activity, ActivityIndex + 1, ChildActivity),
