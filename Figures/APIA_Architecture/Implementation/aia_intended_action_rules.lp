@@ -280,8 +280,8 @@ activity_goal(Activity, Goal) :-
 % (p. 71) of dissertation
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
