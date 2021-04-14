@@ -522,17 +522,18 @@ holds(next_action(Activity, stop(ChildActivity)), timestep) :-
 %     next_action(Activity, Action),
 %     activity_status(Activity, ActivityIndex),
 %     activity_component(Activity, ActivityIndex + 1, Action),
-%     physical_action(Action),
-%     agent_action(Action)
+%     agent_action(Action),
+%     not mental_action(Action)
 %
 % (p. 34) of dissertation
+%   Note: We modify this rule to consider policy actions
 holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(Action, timestep),
     holds(next_action(Activity, Action), timestep),
     holds(activity_status(Activity, ActivityIndex), timestep),
     activity_component(Activity, ActivityIndex + 1, Action),
-    physical_action(Action),
-    agent_action(Action).
+    agent_action(Action),
+    not mental_action(Action).
 
 % Note: Our addition (Considers planning policy actions)
 %
