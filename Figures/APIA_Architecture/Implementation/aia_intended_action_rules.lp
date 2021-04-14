@@ -440,38 +440,6 @@ intended_action(start(Activity), current_timestep) :-
     apply_cr_rule(LowerPriorityCRRule).
     [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
-% Note: Our addition (Considers planning policy actions)
-%
-% prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
-:~
-    action(Action),
-    step(Timestep),
-    goal(Goal),
-
-    % Condition of plan_existing(Action, Timestep)
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    holds(next_action(Activity, Action), FutureTimestep),
-    some_action_occurred(FutureTimestep - 1),
-
-    % Condition of futile_goal(Goal, current_timestep)
-    category_4_history(Goal, current_timestep),
-    occurs(start(Activity), current_timestep),
-    -projected_success(Activity, current_timestep),
-
-    HigherPriorityCRRule = plan_existing(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
-
-    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
-
 % ------------------------------------------------------------------------------------------
 
 % Blount requires AIA to execute an activity that as a minimal amount of physical actions.
