@@ -300,8 +300,8 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     occurs(start(Activity), current_timestep),
     occurs(Action, FutureTimestep),
     FutureTimestep > current_timestep,  % Note: Our addition
-    physical_action(Action),
-    agent_action(Action).
+    agent_action(Action),
+    not mental_action(Action).  % Note: Our modification to consider policy actions
 
 % Note: Our addition (Considers planning policy actions)
 activity_component(Activity, FutureTimestep - current_timestep, Action) :-
