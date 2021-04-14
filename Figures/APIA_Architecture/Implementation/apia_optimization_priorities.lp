@@ -6,9 +6,10 @@
 % Thus, (2 ** 32) / 2 - 1 == 2147483647 should be the highest number supported by the grounder.
 % This number is unlikely to be used elsewhere in the program.
 
-#const cr_prefer_priority = 2147483647.
-#const cr_rule_priority = 2147483646.
-#const aia_minimize_activity_length = 2147483645.
+#const max_int = 2147483647.
 
-#const apia_policy_action_use_priority = cr_prefer_priority.
-#const apia_policy_action_use_later_priority = cr_prefer_priority.
+#const cr_prefer_priority = max_int.
+#const apia_policy_action_use_priority = max_int.
+#const apia_policy_action_use_later_priority = max_int.
+#const cr_rule_priority = max_int - 1.
+#const aia_minimize_activity_length = max_int - 2.
