@@ -225,6 +225,14 @@ permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
+% "Normally, anyone is allowed to enable the security system"
+%
+% normally permitted(enable_security_system(Actor))
+permitted(enable_security_system(Actor), timestep) :-
+    agent(Actor),
+    not -permitted(enable_security_system(Actor), timestep),
+    not obl(neg(enable_security_system(Actor)), timestep).
+
 % "One is normally obligated not to turn off the lights if someone else is in the room"
 %
 % lights_someone_else(Actor, Room): normally obl(-turn_lights_off(Actor, Room)) if
@@ -286,3 +294,21 @@ permitted(lock_door(Actor, Door), timestep) :-
 permitted(unlock_door(Actor, Door), timestep) :-
     agent(Actor),
     door_has_lock(Door).
+
+% "Normally, anyone is permittted to turn on the lights"
+%
+% normally permitted(turn_lights_on(Actor, Room))
+permitted(turn_lights_on(Actor, Room), timestep) :-
+    agent(Actor),
+    room(Room),
+    not -permitted(turn_lights_on(Actor, Room), timestep),
+    not obl(neg(turn_lights_on(Actor, Room)), timestep).
+
+% "Normally, anyone is permittted to turn off the lights"
+%
+% normally permitted(turn_lights_off(Actor, Room))
+permitted(turn_lights_off(Actor, Room), timestep) :-
+    agent(Actor),
+    room(Room),
+    not -permitted(turn_lights_off(Actor, Room), timestep),
+    not obl(neg(turn_lights_off(Actor, Room)), timestep).
