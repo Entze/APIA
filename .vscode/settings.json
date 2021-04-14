@@ -6,6 +6,7 @@
     "**/*.snippet.out.txt": true,
     "**/*.snippet.txt": true,
     "**/*.svg": true,
+    "**/*.err": true,
 
     // APIA modes
     "**/run_best_effort_best_effort_observations.lp": false,
