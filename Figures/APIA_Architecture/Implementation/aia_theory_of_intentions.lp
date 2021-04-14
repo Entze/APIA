@@ -535,26 +535,6 @@ holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     agent_action(Action),
     not mental_action(Action).
 
-% Note: Our addition (Considers planning policy actions)
-%
-% Action
-%   causes activity_status(Activity, ActivityIndex + 1)
-%   if
-%     next_action(Activity, Action),
-%     activity_status(Activity, ActivityIndex),
-%     activity_component(Activity, ActivityIndex + 1, Action),
-%     policy_action(Action),
-%     agent_action(Action)
-%
-% (p. 34) of dissertation
-holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
-    occurs(Action, timestep),
-    holds(next_action(Activity, Action), timestep),
-    holds(activity_status(Activity, ActivityIndex), timestep),
-    activity_component(Activity, ActivityIndex + 1, Action),
-    policy_action(Action),
-    agent_action(Action).
-
 % stop(ChildActivity)
 %   causes activity_status(Activity, ActivityIndex + 1)
 %   if
