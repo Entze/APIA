@@ -272,6 +272,9 @@ def _run_clingo(files: Iterable[Path],
             configuration=configuration),
         observation_subprograms)
 
+    if debug:
+        print(f'  Iteration {current_timestep}, Step {step_number}', file=sys.stderr)
+
     # Grounding
     print('    Grounding...')
     if debug == True:
@@ -313,6 +316,7 @@ def _run_clingo(files: Iterable[Path],
     if debug:
         if proven_optimal_stable_models > 1 or (proven_optimal_stable_models == 0 and stable_models > 1):
             print('    Warning: Multiple answer sets', file=sys.stderr)
+        print(file=sys.stderr)
 
 
     return symbols
