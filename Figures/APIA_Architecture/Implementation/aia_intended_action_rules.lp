@@ -303,14 +303,17 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     agent_action(Action),
     not mental_action(Action).  % Note: Our modification to consider policy actions
 
+% Note: We remove this rule to allow for concurrent actions
+%
 % "[this rule] guarantees that multiple actions do not have the same index."
 % (p. 71) of dissertation
-:-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    activity_component(Activity, ActivityIndex, ActivityComponent1),
-    activity_component(Activity, ActivityIndex, ActivityComponent2),
-    ActivityComponent1 != ActivityComponent2.
+%
+% :-
+%     category_4_history(Goal, current_timestep),
+%     new_candidate(Activity, current_timestep),
+%     activity_component(Activity, ActivityIndex, ActivityComponent1),
+%     activity_component(Activity, ActivityIndex, ActivityComponent2),
+%     ActivityComponent1 != ActivityComponent2.
 
 % ------------------------------------------------------------------------------------------
 %
