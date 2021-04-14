@@ -451,16 +451,17 @@ holds(goal_in_progress(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % next_action(Activity, Action) if
-%   physical_action(Action),
 %   agent_action(Action),
+%   not mental_action(Action),
 %   activity_status(Activity, ActivityIndex),
 %   activity_component(Activity, ActivityIndex + 1, Action),
 %   activity_in_progress(Activity)
 %
 % (p. 33) of dissertation
+%   Note: We modify this rule to consider policy actions
 holds(next_action(Activity, Action), timestep) :-
-    physical_action(Action),
     agent_action(Action),
+    not mental_action(Action),
     holds(activity_status(Activity, ActivityIndex), timestep),
     activity_component(Activity, ActivityIndex + 1, Action),
     holds(activity_in_progress(Activity), timestep).
