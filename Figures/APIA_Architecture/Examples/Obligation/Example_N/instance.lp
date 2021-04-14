@@ -108,17 +108,17 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
-    ComponentIndex = 5,
-    Component = turn_lights_off(Actor, Room),
+    ComponentIndex = 4,
+    Component = lock_door(Actor, Door),
     Actor = "Alice",
-    Room = "r4".
+    Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 5,
-    Component = lock_door(Actor, Door),
+    Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "d34".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
