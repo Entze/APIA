@@ -280,19 +280,8 @@ activity_goal(Activity, Goal) :-
 % (p. 71) of dissertation
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    some_action_occurred(FutureTimestep - 1).
-
-% Note: Our addition (Considers planning policy actions)
-{ apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
@@ -311,18 +300,8 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     occurs(start(Activity), current_timestep),
     occurs(Action, FutureTimestep),
     FutureTimestep > current_timestep,  % Note: Our addition
-    physical_action(Action),
-    agent_action(Action).
-
-% Note: Our addition (Considers planning policy actions)
-activity_component(Activity, FutureTimestep - current_timestep, Action) :-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    occurs(Action, FutureTimestep),
-    FutureTimestep > current_timestep,  % Note: Our addition
-    policy_action(Action),
-    agent_action(Action).
+    agent_action(Action),
+    not mental_action(Action).  % Note: Our modification to consider policy actions
 
 % "[this rule] guarantees that multiple actions do not have the same index."
 % (p. 71) of dissertation
@@ -358,20 +337,8 @@ activity_length(Activity, ActivityLength) :-
 % (p. 73) of dissertation
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    holds(next_action(Activity, Action), FutureTimestep),
-    some_action_occurred(FutureTimestep - 1).
-
-% Note: Our addition (Considers planning policy actions)
-{ apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
@@ -422,8 +389,8 @@ intended_action(start(Activity), current_timestep) :-
 
     % Condition of plan_new(Action, Timestep)
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
@@ -443,39 +410,6 @@ intended_action(start(Activity), current_timestep) :-
     apply_cr_rule(LowerPriorityCRRule).
     [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
-% Note: Our addition (Considers planning policy actions)
-%
-% prefer(plan_new(Action, Timestep), futile_goal(Goal, current_timestep)).
-:~
-    action(Action),
-    step(Timestep),
-    goal(Goal),
-
-    % Condition of plan_new(Action, Timestep)
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    some_action_occurred(FutureTimestep - 1),
-
-    % Condition of futile_goal(Goal, current_timestep)
-    category_4_history(Goal, current_timestep),
-    occurs(start(Activity), current_timestep),
-    -projected_success(Activity, current_timestep),
-
-    HigherPriorityCRRule = plan_new(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
-
-    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
-
-
-
 % prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
 :~
     action(Action),
@@ -484,40 +418,8 @@ intended_action(start(Activity), current_timestep) :-
 
     % Condition of plan_existing(Action, Timestep)
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    FutureTimestep > current_timestep,
-    holds(next_action(Activity, Action), FutureTimestep),
-    some_action_occurred(FutureTimestep - 1),
-
-    % Condition of futile_goal(Goal, current_timestep)
-    category_4_history(Goal, current_timestep),
-    occurs(start(Activity), current_timestep),
-    -projected_success(Activity, current_timestep),
-
-    HigherPriorityCRRule = plan_existing(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
-
-    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
-    not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule).
-    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
-
-% Note: Our addition (Considers planning policy actions)
-%
-% prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
-:~
-    action(Action),
-    step(Timestep),
-    goal(Goal),
-
-    % Condition of plan_existing(Action, Timestep)
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
