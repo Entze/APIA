@@ -454,17 +454,9 @@ intended_action(start(Activity), current_timestep) :-
 
 #const aia_minimize_activity_length = cr_rule_priority - 1.
 
-physical_activity_length(Activity, PhysicalActivityLength) :-
+:~
     category_4_history(Goal, current_timestep),
-    activity(Activity),
-    PhysicalActivityLength = #count{ ActivityIndex :
-        activity_component(Activity, ActivityIndex, ActivityComponent),
-        physical_action(ActivityComponent)
-    },
-    PhysicalActivityLength > 0,
-    PhysicalActivityLength <= max_activity_length.
-
-#minimize{ PhysicalActivityLength@aia_minimize_activity_length, Activity :
-    occurs(start(Activity), current_timestep),
-    physical_activity_length(Activity, PhysicalActivityLength)
-}.
+    occurs(Action, Timestep),
+    physical_action(Action),
+    Timestep > current_timestep.
+    [1@aia_minimize_activity_length, Timestep]
