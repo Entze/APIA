@@ -303,16 +303,6 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     agent_action(Action),
     not mental_action(Action).  % Note: Our modification to consider policy actions
 
-% Note: Our addition (Considers planning policy actions)
-activity_component(Activity, FutureTimestep - current_timestep, Action) :-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    occurs(Action, FutureTimestep),
-    FutureTimestep > current_timestep,  % Note: Our addition
-    policy_action(Action),
-    agent_action(Action).
-
 % "[this rule] guarantees that multiple actions do not have the same index."
 % (p. 71) of dissertation
 :-
