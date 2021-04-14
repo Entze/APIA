@@ -203,7 +203,8 @@ impossible(stop(Activity), timestep) :-
 %   agent_action(Action2),
 %   Action1 != Action2.
 %
-% (p. 29) of dissertation. Condensed
+% (p. 29) of dissertation
+%   Note: We have condensed this rule
 impossible(Action1, timestep) :-
     mental_action(Action1),
     agent_action(Action1),
@@ -223,6 +224,7 @@ impossible(Action2, timestep) :-
 %   agent_action(Action).
 %
 % (p. 29) of dissertation
+%   Note: We have condensed this rule
 impossible(wait, timestep) :-
     agent_action(Action),
     occurs(Action, timestep).
@@ -325,6 +327,7 @@ impossible(abandon(Goal), timestep) :-
 %   physical_action(Action2)
 %
 % (p. 31) of dissertation
+%   Note: We have condensed this rule
 impossible(Action1, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
