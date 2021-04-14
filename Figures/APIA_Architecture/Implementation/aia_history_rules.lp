@@ -35,17 +35,32 @@ equal_plan(Activity, OtherActivity) :-
     activity_length(OtherActivity, ActivityLength),
     not different_component(Activity, OtherActivity).
 
+% Note: We update this rule to address concurrent actions
 % (p. 57) of dissertation
+%
+% Let K be an activity index
+% Let A' be the set of elementary actions at the K-th index of activity A
+% Let B' be the set of elementary actions at the K-th index of activity B
+%
+% We want to derive this rule head when A' != B'
+%
+% Derivation in propositional logic:
+%
+%     A' != B' === neg(A' == B')
+%              === neg(A subseteq B ^ B subseteq A)
+%              === neg[forall x in A (x in B) ^ forall x in B (x in A)]
+%              === [exists x in A (x not in B) or exists x in B (x not in A)]
 different_component(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
     Activity != OtherActivity,  % Note: Our addition
     component(ActivityComponent),
-    component(OtherActivityComponent),
     ActivityIndex = 1..max_activity_length,
     activity_component(Activity, ActivityIndex, ActivityComponent),
-    activity_component(OtherActivity, ActivityIndex, OtherActivityComponent),
-    ActivityComponent != OtherActivityComponent.
+    not activity_component(OtherActivity, ActivityIndex, ActivityComponent).
+
+different_component(Activity, OtherActivity) :-
+    different_component(OtherActivity, Activity).
 
 % (p. 57) of dissertation
 :-
