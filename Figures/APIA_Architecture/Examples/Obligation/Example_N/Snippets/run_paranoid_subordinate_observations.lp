@@ -14,8 +14,15 @@ happened(start(Activity), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_3.
 
-happened(wait, Timestep) :-
-    Timestep = 2.
+happened(turn_lights_off(Actor, Room), Timestep) :-
+    Timestep = 2,
+    Actor = "Alice",
+    Room = "r1".
+
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 2,
+    Actor = "Alice",
+    Door = "d12".
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 3.
@@ -23,8 +30,15 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_4.
 
-happened(wait, Timestep) :-
-    Timestep = 3.
+happened(turn_lights_off(Actor, Room), Timestep) :-
+    Timestep = 3,
+    Actor = "Alice",
+    Room = "r2".
+
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 3,
+    Actor = "Alice",
+    Door = "d23".
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 4.
@@ -32,8 +46,15 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_5.
 
-happened(wait, Timestep) :-
-    Timestep = 4.
+happened(turn_lights_off(Actor, Room), Timestep) :-
+    Timestep = 4,
+    Actor = "Alice",
+    Room = "r3".
+
+happened(unlock_door(Actor, Door), Timestep) :-
+    Timestep = 4,
+    Actor = "Alice",
+    Door = "d34".
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 5.
@@ -41,8 +62,10 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_6.
 
-happened(wait, Timestep) :-
-    Timestep = 5.
+happened(move_through(Actor, Door), Timestep) :-
+    Timestep = 5,
+    Actor = "Alice",
+    Door = "d34".
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 6.
@@ -50,8 +73,15 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_7.
 
-happened(wait, Timestep) :-
-    Timestep = 6.
+happened(turn_lights_off(Actor, Room), Timestep) :-
+    Timestep = 6,
+    Actor = "Alice",
+    Room = "r4".
+
+happened(lock_door(Actor, Door), Timestep) :-
+    Timestep = 6,
+    Actor = "Alice",
+    Door = "d34".
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 7.
@@ -59,19 +89,21 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_8.
 
-happened(wait, Timestep) :-
-    Timestep = 7.
+happened(enable_security_system(Actor), Timestep) :-
+    Timestep = 7,
+    Actor = "Alice".
 
--observed(security_system_enabled, Timestep) :-
+observed(security_system_enabled, Timestep) :-
     Timestep = 8.
 
 % ---------------------------------------------------------------
 #program observations_9.
 
-happened(wait, Timestep) :-
-    Timestep = 8.
+happened(stop(Activity), Timestep) :-
+    Timestep = 8,
+    Activity = 1.
 
--observed(security_system_enabled, Timestep) :-
+observed(security_system_enabled, Timestep) :-
     Timestep = 9.
 
 % ---------------------------------------------------------------
@@ -83,5 +115,11 @@ happened(wait, Timestep) :-
 % ---------------------------------------------------------------
 #program observations_11.
 
+happened(wait, Timestep) :-
+    Timestep = 10.
+
 % ---------------------------------------------------------------
 #program observations_12.
+
+happened(wait, Timestep) :-
+    Timestep = 11.
