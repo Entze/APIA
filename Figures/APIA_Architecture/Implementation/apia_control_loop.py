@@ -385,6 +385,7 @@ def _main(script_dir: Path):
         script_dir / 'apia_compliance_check.lp',
         script_dir / 'apia_optimization_priorities.lp',
         script_dir / 'apia_show.lp',
+        script_dir / 'apia_patch.lp',  # TODO: Delete this file
         *map(Path, args.files),
     )
     clingo_args = (
@@ -484,6 +485,13 @@ def _main(script_dir: Path):
         print()
         print('  Step 3: Do intended action')
         for intended_action in step_3_intended_actions:
+            if intended_action.name == 'start' and len(intended_action.arguments) == 1:
+                # For the purposes of testing with fixed observations, this patch assists in handling non-determinism in choosing activities
+                # See corresponding patch in apia_patch.lp
+                #
+                # TODO: Remove this "continue" statement
+                print(f'    Skipping {intended_action}')
+                continue
             print(f'    Doing {intended_action}')
             history.append(clingo.Function('attempt', (intended_action, current_timestep)))
 
