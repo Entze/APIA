@@ -387,6 +387,7 @@ def _main(script_dir: Path):
         script_dir / 'apia_optimization_priorities.lp',
         script_dir / 'apia_show.lp',
         script_dir / 'apia_patch.lp',  # TODO: Delete this file
+        *((script_dir / 'apia_debugging_checks.lp',) if debug else ()),
         *map(Path, args.files),
     )
     clingo_args = (
