@@ -224,8 +224,9 @@ def _symbol_key(clingo_symbol: clingo.Symbol) -> clingo.Symbol:
 
         try:
             if clingo_symbol.arguments[-1].type == clingo.SymbolType.Number:
+                assert not (clingo_symbol.name == 'holds' and len(arguments) == 2)
                 return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, (*arguments[-1:], *arguments[:-1])))
-        except IndexError:
+        except (IndexError, AssertionError):
             pass
 
         return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, arguments))
