@@ -7,8 +7,8 @@ See [`Figures/APIA_Architecture/Implementation`] for the implementation of the A
 ## Prerequisites
 
 ```bash
-conda env update --prune
-conda activate thesis
+... # Build clingo v5.4.1 from source with Python 3.9 support
+
 yarn install
 ```
 

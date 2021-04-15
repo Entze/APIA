@@ -1,4 +1,0 @@
-name: thesis
-dependencies:
-  - potassco::clingo
-  - conda-forge::neovim
