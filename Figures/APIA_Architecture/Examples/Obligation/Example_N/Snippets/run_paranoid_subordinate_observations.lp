@@ -67,21 +67,30 @@ happened(move_through(Actor, Door), Timestep) :-
     Actor = "Alice",
     Door = "d34".
 
+observed(in_room(Person, Room), Timestep) :-
+    Timestep = 6,
+    Person = "Bob",
+    Room = "r4".
+
 -observed(security_system_enabled, Timestep) :-
     Timestep = 6.
 
 % ---------------------------------------------------------------
 #program observations_7.
 
-happened(turn_lights_off(Actor, Room), Timestep) :-
+happened(stop(Activity), Timestep) :-
     Timestep = 6,
-    Actor = "Alice",
-    Room = "r4".
+    Activity = 1.
 
-happened(lock_door(Actor, Door), Timestep) :-
-    Timestep = 6,
-    Actor = "Alice",
-    Door = "d34".
+% happened(turn_lights_off(Actor, Room), Timestep) :-
+%     Timestep = 6,
+%     Actor = "Alice",
+%     Room = "r4".
+
+% happened(lock_door(Actor, Door), Timestep) :-
+%     Timestep = 6,
+%     Actor = "Alice",
+%     Door = "d34".
 
 -observed(security_system_enabled, Timestep) :-
     Timestep = 7.
