@@ -53,7 +53,7 @@ exogenous_action(move_through(Actor, Door)) :-
 
 % ask_to_move_through(Actor, Person, Door)
 physical_action(ask_to_move_through(Actor, Person, Door)) :-
-    person(Actor),
+    agent(Actor),
     person(Person),
     Actor != Person,
     door(Door).
@@ -152,12 +152,12 @@ holds(in_room(Actor, ToRoom), timestep + 1) :-
 %     in_room(Person, FromRoom),
 %     door_connects(Door, ToRoom),
 %     ToRoom != FromRoom
-holds(in_room(Actor, ToRoom), timestep + 1) :-
+holds(in_room(Person, ToRoom), timestep + 1) :-
     occurs(ask_to_move_through(Actor, Person, Door), timestep),
     door_connects(Door, ToRoom),
     door_connects(Door, FromRoom),
     ToRoom != FromRoom,
-    holds(in_room(Actor, FromRoom), timestep).
+    holds(in_room(Person, FromRoom), timestep).
 
 % -in_room(Actor, FromRoom) if
 %   in_room(Actor, ToRoom),
@@ -175,6 +175,15 @@ impossible(move_through(Actor, Door), timestep) :-
     door(Door),
     not door_connects(Door, Room).
 
+% impossible ask_to_move_through(Actor, Person, Door) if
+%   in_room(Person, Room),
+%   not door_connects(Door, Room)
+impossible(ask_to_move_through(Actor, Person, Door), timestep) :-
+    person(Actor),
+    holds(in_room(Person, Room), timestep),
+    door(Door),
+    not door_connects(Door, Room).
+
 % impossible move_through(Actor, Door) if
 %   door_locked(Door)
 impossible(move_through(Actor, Door), timestep) :-
@@ -182,9 +191,21 @@ impossible(move_through(Actor, Door), timestep) :-
     holds(door_locked(Door), timestep).
 
 % impossible ask_to_move_through(Actor, Person, Door) if
+%   door_locked(Door)
+impossible(ask_to_move_through(Actor, Person, Door), timestep) :-
+    person(Actor),
+    person(Person),
+    holds(door_locked(Door), timestep).
+
+% impossible ask_to_move_through(Actor, Person, Door) if
 %   in_room(Actor, ActorRoom),
 %   in_room(Person, PersonRoom),
 %   ActorRoom != PersonRoom
+impossible(ask_to_move_through(Actor, Person, Door), timestep) :-
+    holds(in_room(Actor, ActorRoom), timestep),
+    holds(in_room(Person, PersonRoom), timestep),
+    ActorRoom != PersonRoom,
+    door(Door).
 
 % lock_door(Actor, Door)
 %   causes door_locked(Door)
@@ -255,6 +276,13 @@ impossible(enable_security_system(Actor), timestep) :-
 %
 % permitted(move_through(Actor, Door))
 permitted(move_through(Actor, Door), timestep) :-
+    agent(Actor),
+    door(Door).
+
+% "Anyone is allowed to ask another to move from any room to any room"
+%
+% permitted(ask_to_move_through(Actor, Door))
+permitted(ask_to_move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
