@@ -46,12 +46,14 @@ door_has_lock(Door) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Starting ID for generated activities
-#const ir = 5.
+#const ir = 6.
 
 goal(Goal) :-
     Goal = security_system_enabled.
 
 % ---------------------------------------------------------------
+%
+% Move through entire building and turn off lights, then enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
@@ -108,17 +110,17 @@ activity_component(Activity, ComponentIndex, Component) :-
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
-    ComponentIndex = 4,
-    Component = lock_door(Actor, Door),
-    Actor = "Alice",
-    Door = "d34".
-
-activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 1,
     ComponentIndex = 5,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
     Room = "r4".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 1,
+    ComponentIndex = 5,
+    Component = lock_door(Actor, Door),
+    Actor = "Alice",
+    Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -127,6 +129,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
@@ -139,6 +143,9 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Move through entire building and turn off lights, then enable secruity system
+%   Turning off lights in r4 is in spite of policy
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
@@ -221,6 +228,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Enable secruity system (in spite of policy)
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,
@@ -229,27 +238,53 @@ activity_goal(Activity, ActivityGoal) :-
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
     ComponentIndex = 1,
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_not_permitted(enable_security_system(Actor)),
+    Actor = "Alice".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_obl(neg(enable_security_system(Actor))),
+    Actor = "Alice".
+
+% ---------------------------------------------------------------
+%
+% Move Bob out of r4, then turn off lights and enable security system
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 5,
+    ActivityGoal = policy_compliant(security_system_enabled).
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 5,
+    ComponentIndex = 1,
     Component = ask_to_move_through(Actor, Person, Door),
     Actor = "Alice",
     Person = "Bob",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 4,
+    Activity = 5,
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
     Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 4,
+    Activity = 5,
     ComponentIndex = 3,
     Component = lock_door(Actor, Door),
     Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 4,
+    Activity = 5,
     ComponentIndex = 4,
     Component = enable_security_system(Actor),
     Actor = "Alice".

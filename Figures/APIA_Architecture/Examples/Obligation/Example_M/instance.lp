@@ -45,6 +45,8 @@ goal(Goal) :-
     Goal = security_system_enabled.
 
 % ---------------------------------------------------------------
+%
+% Move through entire building and turn off lights, then enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
@@ -120,6 +122,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
@@ -132,6 +136,9 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Move through entire building and turn off lights, then enable secruity system
+%   Turning off lights in r4 is in spite of policy
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
@@ -214,6 +221,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Enable secruity system (in spite of policy)
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,

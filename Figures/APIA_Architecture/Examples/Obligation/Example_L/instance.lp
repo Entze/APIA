@@ -45,6 +45,8 @@ goal(Goal) :-
     Goal = security_system_enabled.
 
 % ---------------------------------------------------------------
+%
+% Move through entire building and turn off lights, then enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
@@ -120,6 +122,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
