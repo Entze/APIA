@@ -44,6 +44,8 @@ goal(Goal) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Move through and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
@@ -80,6 +82,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Move through, knock on door, and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
@@ -123,6 +127,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Knock on door and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
@@ -145,6 +151,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Greet in spite of policy
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,

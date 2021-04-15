@@ -39,6 +39,10 @@ goal(Goal) :-
     Person = "Bob",
     Actor = "Alice".
 
+% ---------------------------------------------------------------
+%
+% Move through and greet
+
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),

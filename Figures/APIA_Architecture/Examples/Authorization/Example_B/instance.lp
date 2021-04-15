@@ -40,6 +40,8 @@ goal(Goal) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Move through and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
@@ -76,6 +78,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Move through, knock on door, and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,

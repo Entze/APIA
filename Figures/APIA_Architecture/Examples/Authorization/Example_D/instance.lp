@@ -47,6 +47,8 @@ goal(Goal) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
+%
+% Move through and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
@@ -83,6 +85,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Move through, knock on door, and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
@@ -126,6 +130,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Knock on door and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
@@ -148,6 +154,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Greet in spite of policy
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,
@@ -177,6 +185,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Move through d34 and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 5,
@@ -199,6 +209,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Unlock door (in spite of policy), move through it, and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 6,
@@ -242,6 +254,8 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
+%
+% Unlock door, move through it, and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 7,
