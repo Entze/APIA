@@ -49,29 +49,22 @@ door_has_lock(Door) :-
 #const ir = 6.
 
 goal(Goal) :-
-    Goal = greeted_by(Person, Actor),
-    Person = "Bob",
-    Actor = "Alice".
+    Goal = security_system_enabled.
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 1.
+%
+% Move through entire building and turn off lights, then enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(security_system_enabled).
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 1,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 1,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r1".
+    Room = "r1".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -85,7 +78,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r2".
+    Room = "r2".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -99,7 +92,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 3,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r3".
+    Room = "r3".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -120,7 +113,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 5,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -136,17 +129,12 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 2.
+%
+% Enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
     ActivityGoal = policy_compliant(security_system_enabled).
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 2,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
@@ -155,24 +143,20 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 3.
+%
+% Move through entire building and turn off lights, then enable secruity system
+%   Turning off lights in r4 is in spite of policy
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
     ActivityGoal = policy_compliant(security_system_enabled).
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 3,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 1,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r1".
+    Room = "r1".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -186,7 +170,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r2".
+    Room = "r2".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -200,7 +184,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 3,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r3".
+    Room = "r3".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -221,14 +205,14 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 5,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
     ComponentIndex = 5,
     Component = ignore_obl(neg(turn_lights_off(Actor, Room))),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -244,20 +228,41 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 4.
+%
+% Enable secruity system (in spite of policy)
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,
     ActivityGoal = policy_compliant(security_system_enabled).
 
-activity_length(Activity, ActivityLength) :-
+activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
+    ComponentIndex = 1,
+    Component = enable_security_system(Actor),
+    Actor = "Alice".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_not_permitted(enable_security_system(Actor)),
+    Actor = "Alice".
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 4,
+    ComponentIndex = 1,
+    Component = ignore_obl(neg(enable_security_system(Actor))),
+    Actor = "Alice".
+
+% ---------------------------------------------------------------
+%
+% Move Bob out of r4, then turn off lights and enable security system
+
+activity_goal(Activity, ActivityGoal) :-
+    Activity = 5,
+    ActivityGoal = policy_compliant(security_system_enabled).
+
+activity_component(Activity, ComponentIndex, Component) :-
+    Activity = 5,
     ComponentIndex = 1,
     Component = ask_to_move_through(Actor, Person, Door),
     Actor = "Alice",
@@ -265,21 +270,21 @@ activity_component(Activity, ComponentIndex, Component) :-
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 4,
+    Activity = 5,
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 4,
+    Activity = 5,
     ComponentIndex = 3,
     Component = lock_door(Actor, Door),
     Actor = "Alice",
     Door = "d34".
 
 activity_component(Activity, ComponentIndex, Component) :-
-    Activity = 4,
+    Activity = 5,
     ComponentIndex = 4,
     Component = enable_security_system(Actor),
     Actor = "Alice".
@@ -287,7 +292,7 @@ activity_component(Activity, ComponentIndex, Component) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initial observations (before AIA control loop) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % See p. 50 of dissertation
 
--observed(door_locked(Door), Timestep) :-
+observed(door_locked(Door), Timestep) :-
     Timestep = 0,
     Door = "d34".
 

@@ -6,6 +6,7 @@
 *.diff
 *.gitdiff
 *.vsix
+*.err
 
 #### TeX ####
 ## Core latex/pdflatex auxiliary files:

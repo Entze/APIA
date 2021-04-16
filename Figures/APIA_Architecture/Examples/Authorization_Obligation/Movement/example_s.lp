@@ -11,10 +11,6 @@
 %     Activity = 1,
 %     ActivityGoal = %* ... *%.
 %
-% activity_length(Activity, ActivityLength) :-
-%     Activity = 1,
-%     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
-%
 % activity_component(Activity, ComponentIndex, Component) :-
 %     Activity = 1,
 %     ComponentIndex = 1,

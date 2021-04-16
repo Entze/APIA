@@ -45,24 +45,19 @@ goal(Goal) :-
     Goal = security_system_enabled.
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 1.
+%
+% Move through entire building and turn off lights, then enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(security_system_enabled).
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 1,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
     ComponentIndex = 1,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r1".
+    Room = "r1".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -76,7 +71,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 2,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r2".
+    Room = "r2".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -90,7 +85,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 3,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r3".
+    Room = "r3".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -111,7 +106,7 @@ activity_component(Activity, ComponentIndex, Component) :-
     ComponentIndex = 5,
     Component = turn_lights_off(Actor, Room),
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -127,17 +122,12 @@ activity_component(Activity, ComponentIndex, Component) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 2.
+%
+% Enable secruity system
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
     ActivityGoal = policy_compliant(security_system_enabled).
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 2,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,

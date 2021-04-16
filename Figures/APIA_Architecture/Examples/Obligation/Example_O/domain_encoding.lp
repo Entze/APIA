@@ -104,16 +104,15 @@ exogenous_action(turn_lights_off(Actor, Room)) :-
     not agent(Actor).
 
 % enable_security_system(Actor)
-physical_action(enable_security_system(Actor, Room)) :-
-    person(Actor),
-    room(Room).
+physical_action(enable_security_system(Actor)) :-
+    person(Actor).
 
-agent_action(enable_security_system(Actor, Room)) :-
-    physical_action(enable_security_system(Actor, Room)),
+agent_action(enable_security_system(Actor)) :-
+    physical_action(enable_security_system(Actor)),
     agent(Actor).
 
-exogenous_action(enable_security_system(Actor, Room)) :-
-    physical_action(enable_security_system(Actor, Room)),
+exogenous_action(enable_security_system(Actor)) :-
+    physical_action(enable_security_system(Actor)),
     not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -205,6 +204,17 @@ impossible(turn_lights_off(Actor, Room), timestep) :-
 -holds(all_lights_off, timestep) :-
     holds(room_lights_on(Room), timestep).
 
+% enable_security_system(Actor)
+%   causes security_system_enabled
+holds(security_system_enabled, timestep + 1) :-
+    occurs(enable_security_system(Actor), timestep).
+
+% impossible enable_security_system if
+%   security_system_enabled
+impossible(enable_security_system(Actor), timestep) :-
+    person(Actor),
+    holds(security_system_enabled, timestep).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Authorization policy %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program policy_description(timestep).
 
@@ -215,35 +225,90 @@ permitted(move_through(Actor, Door), timestep) :-
     agent(Actor),
     door(Door).
 
+% "Normally, anyone is allowed to enable the security system"
+%
+% normally permitted(enable_security_system(Actor))
+permitted(enable_security_system(Actor), timestep) :-
+    agent(Actor),
+    not -permitted(enable_security_system(Actor), timestep),
+    not obl(neg(enable_security_system(Actor)), timestep).
+
 % "One is normally obligated not to turn off the lights if someone else is in the room"
 %
 % lights_someone_else(Actor, Room): normally obl(-turn_lights_off(Actor, Room)) if
 %   person(Person)
 %   not agent(Person)
 %   in_room(Person, Room)
+obl(neg(turn_lights_off(Actor, Room)), timestep) :-
+    agent(Actor),
+    person(Person),
+    not agent(Person),
+    holds(in_room(Person, Room), timestep),
+    not abnormal(lights_someone_else(Actor, Room), timestep),
+    not -obl(neg(turn_lights_off(Actor, Room)), timestep),
+    not permitted(turn_lights_off(Actor, Room), timestep).
 
 % "One is obligated not to enable the security system if not all lights are off"
 %
 % lights_security_system(Actor): normally obl(-enable_security_system(Actor)) if
 %   -all_lights_off
+obl(neg(enable_security_system(Actor)), timestep) :-
+    agent(Actor),
+    -holds(all_lights_off, timestep),
+    not abnormal(lights_security_system(Actor), timestep),
+    not -obl(neg(enable_security_system(Actor)), timestep),
+    not permitted(enable_security_system(Actor), timestep).
 
 % prefer(lights_someone_else(Actor, Room), lights_security_system(Actor))
+abnormal(lights_security_system(Actor), timestep) :-
+    % Condition of lights_someone_else(Actor, Room)
+    agent(Actor),
+    person(Person),
+    not agent(Person),
+    holds(in_room(Person, Room), timestep).
+
+% % prefer(lights_security_system(Actor), lights_someone_else(Actor, Room))
+% abnormal(lights_someone_else(Actor, Room), timestep) :-
+%     % Condition of lights_security_system(Actor)
+%     agent(Actor),
+%     -holds(all_lights_off, timestep).
 
 % "One is obligated not to enable the security system if a door is unlocked"
 %
 % obl(-enable_security_system(Actor)) if
 %   -door_locked(Door)
+obl(neg(enable_security_system(Actor)), timestep) :-
+    agent(Actor),
+    -holds(door_locked(Door), timestep).
 
 % "Anyone is permitted to lock a door"
 %
 % permitted(lock_door(Actor, Door))
 permitted(lock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door_has_lock(Door).
 
 % "Anyone is permitted to unlock a door"
 %
 % permitted(unlock_door(Actor, Door))
 permitted(unlock_door(Actor, Door), timestep) :-
     agent(Actor),
-    door(Door).
+    door_has_lock(Door).
+
+% "Normally, anyone is permittted to turn on the lights"
+%
+% normally permitted(turn_lights_on(Actor, Room))
+permitted(turn_lights_on(Actor, Room), timestep) :-
+    agent(Actor),
+    room(Room),
+    not -permitted(turn_lights_on(Actor, Room), timestep),
+    not obl(neg(turn_lights_on(Actor, Room)), timestep).
+
+% "Normally, anyone is permittted to turn off the lights"
+%
+% normally permitted(turn_lights_off(Actor, Room))
+permitted(turn_lights_off(Actor, Room), timestep) :-
+    agent(Actor),
+    room(Room),
+    not -permitted(turn_lights_off(Actor, Room), timestep),
+    not obl(neg(turn_lights_off(Actor, Room)), timestep).

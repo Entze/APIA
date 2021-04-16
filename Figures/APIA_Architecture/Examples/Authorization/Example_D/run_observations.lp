@@ -57,6 +57,10 @@ observed(in_room(Person, Room), Timestep) :-
     Person = "Alice",
     Room = "r3".
 
+observed(door_locked(Door), Timestep) :-
+    Timestep = 4,
+    Door = "d34".
+
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 4,
     Person = "Bob",
@@ -65,19 +69,14 @@ observed(in_room(Person, Room), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_5.
 
-happened(move_through(Actor, Door), Timestep) :-
+happened(stop(Activity), Timestep) :-
     Timestep = 4,
-    Actor = "Alice",
-    Door = "d34".
+    Activity = 1.
 
 observed(in_room(Person, Room), Timestep) :-
     Timestep = 5,
     Person = "Alice",
-    Room = "r4".
-
-observed(busy_working(Person), Timestep) :-
-    Timestep = 5,
-    Person = "Bob".
+    Room = "r3".
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 5,
@@ -87,78 +86,30 @@ observed(busy_working(Person), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_6.
 
-happened(stop(Activity), Timestep) :-
-    Timestep = 5,
-    Activity = 1.
-
--observed(greeted_by(Person, Actor), Timestep) :-
-    Timestep = 6,
-    Person = "Bob",
-    Actor = "Alice".
-
 % ---------------------------------------------------------------
 #program observations_7.
-
-happened(start(Activity), Timestep) :-
-    Timestep = 6,
-    Activity = 3.
-
--observed(greeted_by(Person, Actor), Timestep) :-
-    Timestep = 7,
-    Person = "Bob",
-    Actor = "Alice".
 
 % ---------------------------------------------------------------
 #program observations_8.
 
-happened(knock_on_door(Actor, Door), Timestep) :-
-    Timestep = 7,
-    Actor = "Alice",
-    Door = "d34".
-
--observed(greeted_by(Person, Actor), Timestep) :-
-    Timestep = 8,
-    Person = "Bob",
-    Actor = "Alice".
-
 % ---------------------------------------------------------------
 #program observations_9.
 
-happened(greet(Actor, Person), Timestep) :-
-    Timestep = 8,
-    Actor = "Alice",
-    Person = "Bob".
-
-observed(greeted_by(Person, Actor), Timestep) :-
+-observed(door_locked(Door), Timestep) :-
     Timestep = 9,
-    Person = "Bob",
-    Actor = "Alice".
+    Door = "d34".
 
 % ---------------------------------------------------------------
 #program observations_10.
 
-happened(stop(Activity), Timestep) :-
-    Timestep = 9,
-    Activity = 3.
-
-observed(greeted_by(Person, Actor), Timestep) :-
-    Timestep = 10,
-    Actor = "Alice",
-    Person = "Bob".
-
 % ---------------------------------------------------------------
 #program observations_11.
-
-happened(wait, Timestep) :-
-    Timestep = 10.
-
-observed(greeted_by(Person, Actor), Timestep) :-
-    Timestep = 11,
-    Person = "Bob",
-    Actor = "Alice".
 
 % ---------------------------------------------------------------
 #program observations_12.
 
-happened(wait, Timestep) :-
-    Timestep = 11.
+% ---------------------------------------------------------------
+#program observations_13.
+
+% ---------------------------------------------------------------
+#program observations_14.

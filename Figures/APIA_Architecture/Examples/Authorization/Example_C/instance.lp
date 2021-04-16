@@ -44,19 +44,14 @@ goal(Goal) :-
     Actor = "Alice".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 1.
+%
+% Move through and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 1,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,
@@ -87,19 +82,14 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 2.
+%
+% Move through, knock on door, and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 2,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 2,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 2,
@@ -137,19 +127,14 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 3.
+%
+% Knock on door and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 3,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 3,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 3,
@@ -166,19 +151,14 @@ activity_component(Activity, ComponentIndex, Component) :-
     Person = "Bob".
 
 % ---------------------------------------------------------------
-
-activity(Activity) :-
-    Activity = 4.
+%
+% Greet in spite of policy
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 4,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 4,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 4,

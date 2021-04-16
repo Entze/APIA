@@ -2,7 +2,7 @@
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-MAX_TIMESTEP=12
+MAX_TIMESTEP=14
 
 FILES=(
     "${SCRIPT_DIR}/domain_encoding.lp"

@@ -1,27 +1,26 @@
 % See p. 57 of dissertation
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sanity Check %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_sanity_checks(current_timestep, max_activity_length).
 
 % "Activities must be unique (i.e. there are no two activities with the same goal and plan)"
 % (p. 57) of dissertation
 
 component(Action) :-
-    physical_action(Action),
-    agent_action(Action).
-
-% Note: Our addition (Considers planning policy actions)
-component(Action) :-
-    policy_action(Action),
-    agent_action(Action).
+    agent_action(Action),
+    not mental_action(Action).  % Note: Our modification to consider policy actions
 
 % (p. 57) of dissertation
 component(Activity) :-
     activity(Activity).
 
 % (p. 57) of dissertation
-equal(Activity, OtherActivity) :-
+%
+% Note: Originally: equal(Activity, OtherActivity)
+equal_activity(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
+    Activity != OtherActivity,  % Note: Our addition
     goal(Goal),
     activity_goal(Activity, Goal),
     activity_goal(OtherActivity, Goal),
@@ -31,26 +30,43 @@ equal(Activity, OtherActivity) :-
 equal_plan(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
+    Activity != OtherActivity,  % Note: Our addition
     activity_length(Activity, ActivityLength),
     activity_length(OtherActivity, ActivityLength),
     not different_component(Activity, OtherActivity).
 
+% Note: We update this rule to address concurrent actions
 % (p. 57) of dissertation
+%
+% Let K be an activity index
+% Let A' be the set of elementary actions at the K-th index of activity A
+% Let B' be the set of elementary actions at the K-th index of activity B
+%
+% We want to derive this rule head when A' != B'
+%
+% Derivation in propositional logic:
+%
+%     A' != B' === neg(A' == B')
+%              === neg(A subseteq B ^ B subseteq A)
+%              === neg[forall x in A (x in B) ^ forall x in B (x in A)]
+%              === [exists x in A (x not in B) or exists x in B (x not in A)]
 different_component(Activity, OtherActivity) :-
     activity(Activity),
     activity(OtherActivity),
+    Activity != OtherActivity,  % Note: Our addition
     component(ActivityComponent),
-    component(OtherActivityComponent),
-    index(ActivityIndex),
+    ActivityIndex = 1..max_activity_length,
     activity_component(Activity, ActivityIndex, ActivityComponent),
-    activity_component(OtherActivity, ActivityIndex, OtherActivityComponent),
-    ActivityComponent != OtherActivityComponent.
+    not activity_component(OtherActivity, ActivityIndex, ActivityComponent).
+
+different_component(Activity, OtherActivity) :-
+    different_component(OtherActivity, Activity).
 
 % (p. 57) of dissertation
 :-
     activity(Activity),
     activity(OtherActivity),
-    equal(Activity, OtherActivity),
+    equal_activity(Activity, OtherActivity),
     Activity != OtherActivity.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Initialization Axiom %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -129,6 +145,7 @@ occurs(Action, Timestep) :-
     -happened(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Misc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_history_rules(current_timestep).
 
 % "The following two rules guarantee that an observation that an agent action did not occur
 %  is due to the violation of an executability condition for that action."
@@ -148,6 +165,7 @@ occurs(Action, Timestep) :-
     not attempt(Action, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Pre-model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_history_rules(current_timestep).
 
 % (p. 59) of dissertation
 %
@@ -179,6 +197,7 @@ impossible(select(Goal), Timestep) :-
     holds(active_goal(Goal), Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Applicability constraints %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_sanity_checks(current_timestep, max_activity_length).
 %
 % "the agent always observes the results of
 %   - his attempts to perform actions,
@@ -266,6 +285,7 @@ observed_goal(Goal, Timestep) :-
     not observed_goal(Goal, Timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Model rules %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_history_rules(current_timestep).
 %
 % "The next rule corresponds to the condition from the definition of model
 %  which limits the number of unobserved occurrences of exogenous actions
@@ -285,7 +305,7 @@ occurs(Action, Timestep) :-
 % Note: Our addition. Reduces number of possible worlds
 %
 % prefer(diagnosis(Action, NewerTimestep, current_timestep), diagnosis(Action, OlderTimestep, current_timestep))
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
+:~
     physical_action(Action),
     exogenous_action(Action),
 
@@ -294,7 +314,12 @@ cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
     OlderTimestep < NewerTimestep,
 
     HigherPriorityCRRule = diagnosis(Action, NewerTimestep, current_timestep),
-    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep).
+    LowerPriorityCRRule = diagnosis(Action, OlderTimestep, current_timestep),
+
+    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
 % ------------------------------------------------------------------------------------------
 

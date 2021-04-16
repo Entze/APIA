@@ -39,18 +39,15 @@ goal(Goal) :-
     Person = "Bob",
     Actor = "Alice".
 
-activity(Activity) :-
-    Activity = 1.
+% ---------------------------------------------------------------
+%
+% Move through and greet
 
 activity_goal(Activity, ActivityGoal) :-
     Activity = 1,
     ActivityGoal = policy_compliant(greeted_by(Person, Actor)),
     Person = "Bob",
     Actor = "Alice".
-
-activity_length(Activity, ActivityLength) :-
-    Activity = 1,
-    ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 
 activity_component(Activity, ComponentIndex, Component) :-
     Activity = 1,

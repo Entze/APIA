@@ -5,21 +5,32 @@
 #const activity_index__new = 0.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Domains %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 % goal(Goal)
 % activity(Activity)
 
 % Note: Our addition
 activity(Activity) :-
-    Activity = (ir; ir + 1).
+    Activity = 1..(ir + 1).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 % activity_component(Activity, ComponentIndex, Component)
 % activity_length(Activity, ActivityLength)
 % activity_goal(Activity, ActivityGoal)
 
+activity_length(Activity, ActivityLength) :-
+    activity(Activity),
+    Activity < ir,
+    ActivityLength = #max{ ComponentIndex :
+        activity_component(Activity, ComponentIndex, _)
+    },
+    ActivityLength >= 0.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Fluents %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program aia_mental_fluents(max_activity_length).
 
 % Note: We introduce physical_fluent/2
 fluent(Type, Fluent) :-
@@ -41,8 +52,7 @@ mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
 % Note: Our addition
 mental_fluent(inertial, activity_status(Activity, ActivityIndex)) :-
     Activity = (ir; ir + 1),
-    MaxActivityLength = 12,  % TODO: Parameterize this value
-    ActivityIndex = -1..MaxActivityLength.
+    ActivityIndex = -1..max_activity_length.
 
 % Note: Originally, active(Activity)
 mental_fluent(defined, active_activity(Activity)) :-
@@ -92,6 +102,7 @@ mental_fluent(inertial, next_name(Activity)) :-
     activity(Activity).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Actions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#program base.
 
 %--- Agent actions ---%
 
@@ -193,7 +204,8 @@ impossible(stop(Activity), timestep) :-
 %   agent_action(Action2),
 %   Action1 != Action2.
 %
-% (p. 29) of dissertation. Condensed
+% (p. 29) of dissertation
+%   Note: We have condensed this rule
 impossible(Action1, timestep) :-
     mental_action(Action1),
     agent_action(Action1),
@@ -213,6 +225,7 @@ impossible(Action2, timestep) :-
 %   agent_action(Action).
 %
 % (p. 29) of dissertation
+%   Note: We have condensed this rule
 impossible(wait, timestep) :-
     agent_action(Action),
     occurs(Action, timestep).
@@ -221,15 +234,15 @@ impossible(Action, timestep) :-
     agent_action(Action),
     occurs(wait, timestep).
 
-% child_activity(ChildActivity) if
-%   activity_component(Activity, Activity + 1, ChildActivity),
-%   activity_status(Activity, ActivityIndex)
+% child_activity(ChildActivity, Activity) if
+%   activity_status(Activity, ActivityIndex),
+%   activity_component(Activity, ActivityIndex + 1, ChildActivity)
 %
 % (p. 30) of dissertation
-holds(child_activity(ChildActivity), timestep) :-
-    activity_component(Activity, Activity + 1, ChildActivity),
-    activity(ChildActivity),
-    holds(activity_status(Activity, ActivityIndex), timestep).
+holds(child_activity(ChildActivity, Activity), timestep) :-
+    holds(activity_status(Activity, ActivityIndex), timestep),
+    activity_component(Activity, ActivityIndex + 1, ChildActivity),
+    activity(ChildActivity).
 
 % child_goal(ChildGoal, Goal) if
 %   child_activity(ChildActivity, Activity),
@@ -307,47 +320,31 @@ impossible(abandon(Goal), timestep) :-
 impossible(abandon(Goal), timestep) :-
     holds(minor_goal(Goal), timestep).
 
-% "We assume that no physical action may occur concurrently with a special exogenous action"
+% "We assume that no [action other than wait] may occur concurrently with a special exogenous action"
 %
 % impossible Action1, Action2 if
 %   mental_action(Action1),
 %   special_exogenous_action(Action1),
-%   physical_action(Action2)
+%   action(Action2),
+%   Action2 != wait,
+%   Action1 != Action2
 %
 % (p. 31) of dissertation
+%   Note: We have condensed this rule (and modified it to consider policy actions)
 impossible(Action1, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
-    physical_action(Action2),
+    action(Action2),
+    Action2 != wait,
+    Action1 != Action2,
     occurs(Action2, timestep).
 
 impossible(Action2, timestep) :-
     mental_action(Action1),
     special_exogenous_action(Action1),
-    physical_action(Action2),
-    occurs(Action1, timestep).
-
-% "We assume that no mental agent action may occur concurrently with a special exogenous action"
-%
-% impossible Action1, Action2 if
-%   mental_action(Action1),
-%   special_exogenous_action(Action1),
-%   mental_action(Action2),
-%   agent_action(Action2)
-%
-% (p. 31) of dissertation
-impossible(Action1, timestep) :-
-    mental_action(Action1),
-    special_exogenous_action(Action1),
-    mental_action(Action2),
-    agent_action(Action2),
-    occurs(Action2, timestep).
-
-impossible(Action2, timestep) :-
-    mental_action(Action1),
-    special_exogenous_action(Action1),
-    mental_action(Action2),
-    agent_action(Action2),
+    action(Action2),
+    Action2 != wait,
+    Action1 != Action2,
     occurs(Action1, timestep).
 
 % -active_goal(Goal) if
@@ -455,33 +452,17 @@ holds(goal_in_progress(Goal), timestep) :-
     holds(active_goal(Goal), timestep).
 
 % next_action(Activity, Action) if
-%   physical_action(Action),
 %   agent_action(Action),
+%   not mental_action(Action),
 %   activity_status(Activity, ActivityIndex),
 %   activity_component(Activity, ActivityIndex + 1, Action),
 %   activity_in_progress(Activity)
 %
 % (p. 33) of dissertation
+%   Note: We modify this rule to consider policy actions
 holds(next_action(Activity, Action), timestep) :-
-    physical_action(Action),
     agent_action(Action),
-    holds(activity_status(Activity, ActivityIndex), timestep),
-    activity_component(Activity, ActivityIndex + 1, Action),
-    holds(activity_in_progress(Activity), timestep).
-
-% Note: Our addition (Considers planning policy actions)
-%
-% next_action(Activity, Action) if
-%   policy_action(Action),
-%   agent_action(Action),
-%   activity_status(Activity, ActivityIndex),
-%   activity_component(Activity, ActivityIndex + 1, Action),
-%   activity_in_progress(Activity)
-%
-% (p. 33) of dissertation
-holds(next_action(Activity, Action), timestep) :-
-    policy_action(Action),
-    agent_action(Action),
+    not mental_action(Action),
     holds(activity_status(Activity, ActivityIndex), timestep),
     activity_component(Activity, ActivityIndex + 1, Action),
     holds(activity_in_progress(Activity), timestep).
@@ -542,37 +523,18 @@ holds(next_action(Activity, stop(ChildActivity)), timestep) :-
 %     next_action(Activity, Action),
 %     activity_status(Activity, ActivityIndex),
 %     activity_component(Activity, ActivityIndex + 1, Action),
-%     physical_action(Action),
-%     agent_action(Action)
+%     agent_action(Action),
+%     not mental_action(Action)
 %
 % (p. 34) of dissertation
+%   Note: We modify this rule to consider policy actions
 holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
     occurs(Action, timestep),
     holds(next_action(Activity, Action), timestep),
     holds(activity_status(Activity, ActivityIndex), timestep),
     activity_component(Activity, ActivityIndex + 1, Action),
-    physical_action(Action),
-    agent_action(Action).
-
-% Note: Our addition (Considers planning policy actions)
-%
-% Action
-%   causes activity_status(Activity, ActivityIndex + 1)
-%   if
-%     next_action(Activity, Action),
-%     activity_status(Activity, ActivityIndex),
-%     activity_component(Activity, ActivityIndex + 1, Action),
-%     policy_action(Action),
-%     agent_action(Action)
-%
-% (p. 34) of dissertation
-holds(activity_status(Activity, ActivityIndex + 1), timestep + 1) :-
-    occurs(Action, timestep),
-    holds(next_action(Activity, Action), timestep),
-    holds(activity_status(Activity, ActivityIndex), timestep),
-    activity_component(Activity, ActivityIndex + 1, Action),
-    policy_action(Action),
-    agent_action(Action).
+    agent_action(Action),
+    not mental_action(Action).
 
 % stop(ChildActivity)
 %   causes activity_status(Activity, ActivityIndex + 1)

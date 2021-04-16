@@ -45,7 +45,7 @@ active_goal_or_activity(current_timestep) :-
 % (p. 71) of dissertation
 some_action_occurred(FutureTimestep) :-
     step(FutureTimestep),
-    current_timestep <= FutureTimestep,
+    FutureTimestep >= current_timestep,
     occurs(Action, FutureTimestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,7 +113,7 @@ category_3_history(Activity, current_timestep) :-
 occurs(Action, FutureTimestep) :-
     step(FutureTimestep),
     category_3_history(Activity, current_timestep),
-    current_timestep <= FutureTimestep,
+    FutureTimestep >= current_timestep,
     -holds(minor_activity(Activity), FutureTimestep),
     holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, Action), FutureTimestep),
@@ -125,7 +125,7 @@ occurs(Action, FutureTimestep) :-
 projected_success(Activity, current_timestep) :-
     -holds(minor_activity(Activity), current_timestep),
     step(FutureTimestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(active_activity(Activity), FutureTimestep),
     activity_goal(Activity, Goal),
     holds(Goal, FutureTimestep).
@@ -280,23 +280,12 @@ activity_goal(Activity, Goal) :-
 % (p. 71) of dissertation
 { apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
-    some_action_occurred(FutureTimestep - 1).
-
-% Note: Our addition (Considers planning policy actions)
-{ apply_cr_rule(plan_new(Action, FutureTimestep)) } :-
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     some_action_occurred(FutureTimestep - 1).
 
 occurs(Action, FutureTimestep) :-
@@ -310,28 +299,21 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
     occurs(Action, FutureTimestep),
-    current_timestep < FutureTimestep,  % Note: Our addition
-    physical_action(Action),
-    agent_action(Action).
+    FutureTimestep > current_timestep,  % Note: Our addition
+    agent_action(Action),
+    not mental_action(Action).  % Note: Our modification to consider policy actions
 
-% Note: Our addition (Considers planning policy actions)
-activity_component(Activity, FutureTimestep - current_timestep, Action) :-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    occurs(Action, FutureTimestep),
-    current_timestep < FutureTimestep,  % Note: Our addition
-    policy_action(Action),
-    agent_action(Action).
-
+% Note: We remove this rule to allow for concurrent actions
+%
 % "[this rule] guarantees that multiple actions do not have the same index."
 % (p. 71) of dissertation
-:-
-    category_4_history(Goal, current_timestep),
-    new_candidate(Activity, current_timestep),
-    activity_component(Activity, ActivityIndex, ActivityComponent1),
-    activity_component(Activity, ActivityIndex, ActivityComponent2),
-    ActivityComponent1 != ActivityComponent2.
+%
+% :-
+%     category_4_history(Goal, current_timestep),
+%     new_candidate(Activity, current_timestep),
+%     activity_component(Activity, ActivityIndex, ActivityComponent1),
+%     activity_component(Activity, ActivityIndex, ActivityComponent2),
+%     ActivityComponent1 != ActivityComponent2.
 
 % ------------------------------------------------------------------------------------------
 %
@@ -340,14 +322,14 @@ activity_component(Activity, FutureTimestep - current_timestep, Action) :-
 
 % Note: We removed has_component(...)
 activity_length(Activity, ActivityLength) :-
-    ActivityLength <= max_activity_length,
     category_4_history(Goal, current_timestep),
     new_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    ActivityLength = #count{ ActivityIndex, ActivityComponent :
-        activity_component(Activity, ActivityIndex, ActivityComponent)
+    ActivityLength = #max{ ActivityIndex :
+        activity_component(Activity, ActivityIndex, _)
     },
-    ActivityLength > 0.
+    ActivityLength > 0,
+    ActivityLength <= max_activity_length.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Category 4: Creating existing candidates %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -358,24 +340,12 @@ activity_length(Activity, ActivityLength) :-
 % (p. 73) of dissertation
 { apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
     step(FutureTimestep),
-    physical_action(Action),
     agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
-    holds(next_action(Activity, Action), FutureTimestep),
-    some_action_occurred(FutureTimestep - 1).
-
-% Note: Our addition (Considers planning policy actions)
-{ apply_cr_rule(plan_existing(Action, FutureTimestep)) } :-
-    step(FutureTimestep),
-    policy_action(Action),
-    agent_action(Action),
-    category_4_history(Goal, current_timestep),
-    existing_candidate(Activity, current_timestep),
-    occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(next_action(Activity, Action), FutureTimestep),
     some_action_occurred(FutureTimestep - 1).
 
@@ -391,7 +361,7 @@ occurs(NextAction, FutureTimestep) :-
     category_4_history(Goal, current_timestep),
     existing_candidate(Activity, current_timestep),
     occurs(start(Activity), current_timestep),
-    current_timestep < FutureTimestep,
+    FutureTimestep > current_timestep,
     holds(activity_in_progress(Activity), FutureTimestep),
     holds(next_action(Activity, NextAction), FutureTimestep),
     mental_action(NextAction),
@@ -414,18 +384,45 @@ intended_action(start(Activity), current_timestep) :-
 %  only if there is no candidate that is expected to achieve the goal.
 % (p. 74) of dissertation
 
-% prefer(plan_new(Action, Timestep), futile_goal(Goal, current_timestep)).
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
-    action(Action),
-    step(Timestep),
+% prefer(plan_new(Action, FutureTimestep), futile_goal(Goal, current_timestep)).
+%
+% prefer(plan_existing(Action, FutureTimestep), futile_goal(Goal, current_timestep)).
+%
+% Note: We consolidate these rules
+:~
+    category_4_history(Goal, current_timestep),
+    step(FutureTimestep),
+    FutureTimestep > current_timestep,
+    agent_action(Action),
+    not mental_action(Action),  % Note: Our modification to consider policy actions
     goal(Goal),
-    HigherPriorityCRRule = plan_new(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
 
-% prefer(plan_existing(Action, Timestep), futile_goal(Goal, current_timestep)).
-cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule) :-
-    action(Action),
-    step(Timestep),
-    goal(Goal),
-    HigherPriorityCRRule = plan_existing(Action, Timestep),
-    LowerPriorityCRRule = futile_goal(Goal, current_timestep).
+    HigherPriorityCRRule = (
+        plan_new(Action, FutureTimestep);
+        plan_existing(Action, FutureTimestep)
+    ),
+    LowerPriorityCRRule = futile_goal(Goal, current_timestep),
+
+    % prefer(HigherPriorityCRRule, LowerPriorityCRRule)
+    not apply_cr_rule(HigherPriorityCRRule),
+    apply_cr_rule(LowerPriorityCRRule).
+    [1@cr_prefer_priority, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
+
+% ------------------------------------------------------------------------------------------
+
+% Blount requires AIA to execute an activity that as a minimal amount of physical actions.
+% (p. 47) of dissertation
+%
+% However, Blount does not require the amount of timesteps in which a physical action is performed to be minimal.
+%   (i.e. Blount does not prefer a concurrent execution of actions over a sequence execution of the same actions).
+%
+% The following minimizes the amount of "physical" timesteps.
+%
+% Note: Our addition
+
+:~
+    category_4_history(Goal, current_timestep),
+    occurs(Action, Timestep),
+    physical_action(Action),
+    Timestep > current_timestep.
+    [1@aia_minimize_activity_length, Timestep]

@@ -28,9 +28,8 @@ happened(stop(Activity), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_7.
 
-happened(start(Activity), Timestep) :-
-    Timestep = 6,
-    Activity = 3.
+happened(wait, Timestep) :-
+    Timestep = 6.
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 7,
@@ -40,10 +39,8 @@ happened(start(Activity), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_8.
 
-happened(knock_on_door(Actor, Door), Timestep) :-
-    Timestep = 7,
-    Actor = "Alice",
-    Door = "d34".
+happened(wait, Timestep) :-
+    Timestep = 7.
 
 -observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 8,
@@ -53,12 +50,10 @@ happened(knock_on_door(Actor, Door), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_9.
 
-happened(greet(Actor, Person), Timestep) :-
-    Timestep = 8,
-    Actor = "Alice",
-    Person = "Bob".
+happened(wait, Timestep) :-
+    Timestep = 8.
 
-observed(greeted_by(Person, Actor), Timestep) :-
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 9,
     Person = "Bob",
     Actor = "Alice".
@@ -66,11 +61,10 @@ observed(greeted_by(Person, Actor), Timestep) :-
 % ---------------------------------------------------------------
 #program observations_10.
 
-happened(stop(Activity), Timestep) :-
-    Timestep = 9,
-    Activity = 3.
+happened(wait, Timestep) :-
+    Timestep = 9.
 
-observed(greeted_by(Person, Actor), Timestep) :-
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 10,
     Actor = "Alice",
     Person = "Bob".
@@ -81,7 +75,7 @@ observed(greeted_by(Person, Actor), Timestep) :-
 happened(wait, Timestep) :-
     Timestep = 10.
 
-observed(greeted_by(Person, Actor), Timestep) :-
+-observed(greeted_by(Person, Actor), Timestep) :-
     Timestep = 11,
     Person = "Bob",
     Actor = "Alice".
@@ -91,3 +85,8 @@ observed(greeted_by(Person, Actor), Timestep) :-
 
 happened(wait, Timestep) :-
     Timestep = 11.
+
+-observed(greeted_by(Person, Actor), Timestep) :-
+    Timestep = 12,
+    Person = "Bob",
+    Actor = "Alice".

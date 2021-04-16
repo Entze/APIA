@@ -17,7 +17,7 @@ happened(start(Activity), Timestep) :-
 happened(turn_lights_off(Actor, Room), Timestep) :-
     Timestep = 2,
     Actor = "Alice",
-    Door = "r1".
+    Room = "r1".
 
 happened(move_through(Actor, Door), Timestep) :-
     Timestep = 2,
@@ -33,7 +33,7 @@ happened(move_through(Actor, Door), Timestep) :-
 happened(turn_lights_off(Actor, Room), Timestep) :-
     Timestep = 3,
     Actor = "Alice",
-    Door = "r2".
+    Room = "r2".
 
 happened(move_through(Actor, Door), Timestep) :-
     Timestep = 3,
@@ -49,7 +49,7 @@ happened(move_through(Actor, Door), Timestep) :-
 happened(turn_lights_off(Actor, Room), Timestep) :-
     Timestep = 4,
     Actor = "Alice",
-    Door = "r3".
+    Room = "r3".
 
 happened(unlock_door(Actor, Door), Timestep) :-
     Timestep = 4,
@@ -76,12 +76,12 @@ happened(move_through(Actor, Door), Timestep) :-
 happened(turn_lights_off(Actor, Room), Timestep) :-
     Timestep = 6,
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 happened(ignore_obl(neg(turn_lights_off(Actor, Room))), Timestep) :-
     Timestep = 6,
     Actor = "Alice",
-    Door = "r4".
+    Room = "r4".
 
 happened(lock_door(Actor, Door), Timestep) :-
     Timestep = 6,

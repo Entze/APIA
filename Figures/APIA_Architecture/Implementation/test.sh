@@ -25,6 +25,7 @@ GLOBAL_FILES=(
     apia_cr_prolog.lp
     apia_policy.lp
     apia_compliance_check.lp
+    apia_optimization_priorities.lp
     test.py
 )
 
@@ -56,7 +57,6 @@ fi
 clingo -t "$(nproc)" --opt-mode=optN --outf=3 --warn=no-atom-undefined \
         --const test="${TEST_NUM}" --const max_timestep="${MAX_TIMESTEP}" \
         "${FILES[@]}" 10 \
-    | grep -v '^cr_prefer(' \
     | awk -f "${SCRIPT_DIR}/test_display.awk" \
         -v temp_dir="${TEMP_DIR}"
 

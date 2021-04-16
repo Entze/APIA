@@ -13,6 +13,16 @@ c(C) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Statics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+person(Person) :-
+    Person = (
+        "Alice";
+        "Bob"
+    ).
+
+agent(Person) :-
+    person(Person),
+    Person = "Alice".
+
 foo(A) :-
     a(A).
 
@@ -32,38 +42,49 @@ physical_fluent(defined, baz(C)) :-
 %   - All user-defined actions must be physical actions
 %   - All user-defined actions must be either agent actions or exogenous actions (we assume actions cannot be both)
 
-% do_foo(A)
-physical_action(do_foo(A)) :-
+% do_foo(Actor, A)
+physical_action(do_foo(Actor, A)) :-
+    person(Actor),
     a(A).
+agent_action(do_foo(Actor, A)) :-
+    physical_action(do_foo(Actor, A)),
+    agent(Actor).
 
-agent_action(do_foo(A)) :-
-    a(A).
+exogenous_action(do_foo(Actor, A)) :-
+    physical_action(do_foo(Actor, A)),
+    not agent(Actor).
 
-% do_bar(B)
-physical_action(do_bar(B)) :-
+% do_bar(Actor, B)
+physical_action(do_bar(Actor, B)) :-
     b(B).
 
-exogenous_action(do_bar(B)) :-
-    b(B).
+agent_action(do_bar(Actor, B)) :-
+    physical_action(do_bar(Actor, B)),
+    agent(Actor).
 
-% do_baz(C)
+exogenous_action(do_bar(Actor, B)) :-
+    physical_action(do_bar(Actor, B)),
+    not agent(Actor).
 
-physical_action(do_baz(C)) :-
+% do_baz(Actor, C)
+physical_action(do_baz(Actor, C)) :-
     c(C).
 
-agent_action(do_baz(C)) :-
-    c(C).
+agent_action(do_baz(Actor, C)) :-
+    physical_action(do_baz(Actor, C)),
+    agent(Actor).
 
-exogenous_action(do_baz(C)) :-
-    c(C).
+exogenous_action(do_baz(Actor, C)) :-
+    physical_action(do_baz(Actor, C)),
+    not agent(Actor).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Action descriptions %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program action_description(timestep).
 
-% do_bar(B) causes bar(B) [if
+% do_bar(Actor, B) causes bar(B) [if
 %   ...]
 holds(bar(B), timestep + 1) :-
-    occurs(do_bar(B), timestep).
+    occurs(do_bar(Actor, B), timestep).
     % [...]
 
 % baz(B) if
@@ -73,7 +94,7 @@ holds(baz(B), timestep) :-
     holds(bar(B), timestep).
     % [...]
 
-% impossible do_foo(A), do_bar(B), do_baz(C) if
+% impossible do_foo(Actor, A), do_bar(Actor, B), do_baz(Actor, C) if
 %   foo(A),
 %   bar(B),
 %   baz(C),
@@ -81,32 +102,32 @@ holds(baz(B), timestep) :-
 %   B = C
 %
 % Note: Create (N choose N - 1) rules
-impossible(do_foo(A), timestep) :-
+impossible(do_foo(Actor, A), timestep) :-
     foo(A),
     holds(bar(B), timestep),
     holds(baz(C), timestep),
     A = B,
     B = C,
-    occurs(do_bar(B), timestep),
-    occurs(do_baz(C), timestep).
+    occurs(do_bar(Actor, B), timestep),
+    occurs(do_baz(Actor, C), timestep).
 
-impossible(do_bar(B), timestep) :-
+impossible(do_bar(Actor, B), timestep) :-
     foo(A),
     holds(bar(B), timestep),
     holds(baz(C), timestep),
     A = B,
     B = C,
-    occurs(do_foo(A), timestep),
-    occurs(do_baz(C), timestep).
+    occurs(do_foo(Actor, A), timestep),
+    occurs(do_baz(Actor, C), timestep).
 
-impossible(do_baz(C), timestep) :-
+impossible(do_baz(Actor, C), timestep) :-
     foo(A),
     holds(bar(B), timestep),
     holds(baz(C), timestep),
     A = B,
     B = C,
-    occurs(do_foo(A), timestep),
-    occurs(do_bar(B), timestep).
+    occurs(do_foo(Actor, A), timestep),
+    occurs(do_bar(Actor, B), timestep).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Activities %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -116,16 +137,9 @@ impossible(do_baz(C), timestep) :-
 % goal(Goal) :-
 %     Goal = %* ... *%,
 %
-% activity(Activity) :-
-%     Activity = 1.
-%
 % activity_goal(Activity, ActivityGoal) :-
 %     Activity = 1,
 %     ActivityGoal = %* ... *%.
-%
-% activity_length(Activity, ActivityLength) :-
-%     Activity = 1,
-%     ActivityLength = #max{ ComponentIndex : activity_component(Activity, ComponentIndex, _) }.
 %
 % activity_component(Activity, ComponentIndex, Component) :-
 %     Activity = 1,

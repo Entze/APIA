@@ -1,12 +1,14 @@
 % (Universal CR-rule weak constraint)
 :~
-    apply_cr_rule(D). [1@1, D]
+    apply_cr_rule(D).
+    [1@1, apply_cr_rule(D)]
 
 % (Universal CR-prefer weak constraint)
 :~
     cr_prefer(HigherPriorityCRRule, LowerPriorityCRRule),
     not apply_cr_rule(HigherPriorityCRRule),
-    apply_cr_rule(LowerPriorityCRRule). [1@2, HigherPriorityCRRule, LowerPriorityCRRule]
+    apply_cr_rule(LowerPriorityCRRule).
+    [1@2, apply_cr_rule(HigherPriorityCRRule), apply_cr_rule(LowerPriorityCRRule)]
 
 % d1: a +- .
 { apply_cr_rule(d1) }.
@@ -47,4 +49,9 @@ c :-
     not c.
 
 % prefer(d4, d1)
-cr_prefer(d4, d1).
+cr_prefer(d4, d1) :-
+    % Condition of d4
+    b'.
+
+    % Condition of d1
+    % (none)

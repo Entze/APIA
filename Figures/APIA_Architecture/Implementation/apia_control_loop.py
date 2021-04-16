@@ -38,6 +38,9 @@ class AIALoopStep(IntEnum):
     ATTEMPT_ACTION = 3
     OBSERVE_WORLD = 4
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}.{self.name}'
+
 
 class APIAAuthorizationSetting(Enum):
     PARANOID = frozenset((
@@ -68,6 +71,9 @@ class APIAAuthorizationSetting(Enum):
         'apia_options_auth_non_compliant_3',
     ))
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}.{self.name}'
+
 
 class APIAObligationSetting(Enum):
     SUBORDINATE = frozenset((
@@ -94,6 +100,9 @@ class APIAObligationSetting(Enum):
         'apia_options_obl_refrain_from_action_3',
     ))
 
+    def __repr__(self):
+        return f'{self.__class__.__name__}.{self.name}'
+
 
 class APIAConfiguration(NamedTuple):
     authorization: APIAAuthorizationSetting
@@ -106,7 +115,7 @@ class GroundingContext:
         template_str = template_str.string
         arguments = (symbol.string if symbol.type == clingo.SymbolType.String else symbol
                      for symbol in arguments)
-        return template_str.format(*arguments).replace(' ', '_')
+        return template_str.format(*arguments)
 
     @staticmethod
     def function_signature(symbol: clingo.Symbol) -> str:
@@ -118,6 +127,8 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
                                        step_number: AIALoopStep,
                                        configuration: APIAConfiguration,
                                        ) -> Iterator[ASPSubprogramInstantiation]:
+    max_activity_length = max_timestep
+
     # base
     yield ASPSubprogramInstantiation(name='base', arguments=())
 
@@ -129,12 +140,16 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
     yield from (ASPSubprogramInstantiation(name='action_description', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
-    # aia_history_rules(timestep)
+    # aia_mental_fluents(max_activity_length)
+    yield ASPSubprogramInstantiation(name='aia_mental_fluents', arguments=(max_activity_length,))
+
+    # aia_sanity_checks(current_timestep, max_activity_length)
+    # aia_history_rules(current_timestep)
     if step_number >= 1:
+        yield ASPSubprogramInstantiation(name='aia_sanity_checks', arguments=(current_timestep, max_activity_length))
         yield ASPSubprogramInstantiation(name='aia_history_rules', arguments=(current_timestep,))
 
-    # aia_intended_action_rules(timestep, max_activity_length)
-    max_activity_length = max_timestep
+    # aia_intended_action_rules(current_timestep, max_activity_length)
     if step_number >= 2:
         yield ASPSubprogramInstantiation(name='aia_intended_action_rules', arguments=(current_timestep, max_activity_length))
 
@@ -142,14 +157,14 @@ def generate_aia_subprograms_to_ground(current_timestep: int,
     yield from (ASPSubprogramInstantiation(name='policy_description', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
-    # aopl_compliance
+    # aopl_compliance(current_timestep)
     yield ASPSubprogramInstantiation(name='aopl_compliance', arguments=(current_timestep,))
 
     # aopl_sanity_check(timestep)
     yield from (ASPSubprogramInstantiation(name='aopl_sanity_check', arguments=(timestep,))
                 for timestep in range(max_timestep + 1))
 
-    # apia_action_description(timestep)
+    # apia_action_description(current_timestep)
     yield ASPSubprogramInstantiation(name='apia_action_description', arguments=(current_timestep,))
 
     # apia_axioms(current_timestep)
@@ -198,6 +213,26 @@ def _parse_symbol(clingo_symbol: Union[clingo.Symbol, Iterable[clingo.Symbol]]) 
             return clingo_symbol.string
     else:
         raise ValueError(f"Can't parse type {clingo_symbol.type!r} of symbol {clingo_symbol!r}")
+
+
+def _symbol_key(clingo_symbol: clingo.Symbol) -> clingo.Symbol:
+    if clingo_symbol.type != clingo.SymbolType.Function:
+        return clingo_symbol
+
+    try:
+        arguments = tuple(_symbol_key(arg) for arg in clingo_symbol.arguments)
+
+        try:
+            if clingo_symbol.arguments[-1].type == clingo.SymbolType.Number:
+                assert not (clingo_symbol.name == 'holds' and len(arguments) == 2)
+                return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, (*arguments[-1:], *arguments[:-1])))
+        except (IndexError, AssertionError):
+            pass
+
+        return clingo.Tuple((clingo_symbol.positive, clingo_symbol.name, arguments))
+
+    except TypeError:
+        return clingo_symbol
 
 
 def _init_clingo(files: Iterable[Path], clingo_args: Iterable[str], assertions: Iterable[clingo.Symbol]) -> clingo.Control:
@@ -257,6 +292,9 @@ def _run_clingo(files: Iterable[Path],
             configuration=configuration),
         observation_subprograms)
 
+    if debug:
+        print(f'  Iteration {current_timestep}, Step {step_number}', file=sys.stderr)
+
     # Grounding
     print('    Grounding...')
     if debug == True:
@@ -269,11 +307,20 @@ def _run_clingo(files: Iterable[Path],
     print('    Solving...')
     solve_handle = clingo_control.solve(yield_=True, async_=True)
     symbols = ()
+
+    stable_models = 0
+    proven_optimal_stable_models = 0
     for model in solve_handle:  # type: clingo.Model
         if debug == True:
+            print(file=sys.stderr)
             print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
-            for symbol in sorted(model.symbols(atoms=True)):
+            for symbol in sorted(model.symbols(atoms=True), key=_symbol_key):
                 print(f'      {symbol}', file=sys.stderr)
+
+            if model.optimality_proven:
+                proven_optimal_stable_models += 1
+            else:
+                stable_models += 1
 
         # Predicate extraction
         if model.number == 1:
@@ -286,6 +333,12 @@ def _run_clingo(files: Iterable[Path],
     solve_result = solve_handle.get()
     if not solve_result.satisfiable:
         raise RuntimeError('Solve is unsatisfiable')
+
+    if debug:
+        if proven_optimal_stable_models > 1 or (proven_optimal_stable_models == 0 and stable_models > 1):
+            print('    Warning: Multiple answer sets', file=sys.stderr)
+        print(file=sys.stderr)
+
 
     return symbols
 
@@ -307,6 +360,9 @@ def _main(script_dir: Path):
                         type=lambda s: s.lower(), choices=tuple(setting.name.lower() for setting in APIAObligationSetting),
                         required=True,
                         help='Obligation policy seting')
+    parser.add_argument('--threads',
+                        type=int,
+                        required=False, default=os.cpu_count())
     parser.add_argument('--debug',
                         action='store_true',
                         help='Enable extra debugging output')
@@ -328,14 +384,17 @@ def _main(script_dir: Path):
         script_dir / 'apia_cr_prolog.lp',
         script_dir / 'apia_policy.lp',
         script_dir / 'apia_compliance_check.lp',
+        script_dir / 'apia_optimization_priorities.lp',
         script_dir / 'apia_show.lp',
+        script_dir / 'apia_patch.lp',  # TODO: Delete this file
+        *((script_dir / 'apia_debugging_checks.lp',) if debug else ()),
         *map(Path, args.files),
     )
     clingo_args = (
         '--opt-mode=optN',
-        '--parallel-mode', f'{os.cpu_count()}',
+        '--parallel-mode', f'{args.threads}',
         '--warn=no-atom-undefined',
-        '1',
+        '2' if debug else '1',
     )
 
     configuration = APIAConfiguration(authorization=args.authorization_mode,
@@ -344,6 +403,7 @@ def _main(script_dir: Path):
 
     history: deque[clingo.Symbol] = deque()
     observation_subprograms: deque[ASPSubprogramInstantiation] = deque()
+    # TODO: Run initial solve to find pre-existing activities and set ir value
     for current_timestep in range(max_timestep + 1):
         print(f'Iteration {current_timestep}')
 
@@ -364,7 +424,7 @@ def _main(script_dir: Path):
             },
             debug=debug,
         )
-        step_2_unobserved_actions: dict[int, deque] = defaultdict(deque)
+        step_2_unobserved_actions: dict[int, deque[clingo.Symbol]] = defaultdict(deque)
         step_2_unobserved_actions_count = None
         for symbol in symbols:
             if symbol.name == 'number_unobserved' and len(symbol.arguments) == 2:
@@ -377,7 +437,7 @@ def _main(script_dir: Path):
         assert step_2_unobserved_actions_count is not None, 'number_unobserved(x, n) is not present'
         print(f'    Unobserved actions: {step_2_unobserved_actions_count}')
         for timestep in sorted(step_2_unobserved_actions.keys()):
-            for action in sorted(step_2_unobserved_actions[timestep]):
+            for action in sorted(step_2_unobserved_actions[timestep], key=_symbol_key):
                 print(f'      {clingo.Function("occurs", (action, timestep))}')
 
         # Step 2: Find intended action
@@ -419,13 +479,21 @@ def _main(script_dir: Path):
         new_activity_symbols = tuple(filter(lambda symbol: symbol.name.startswith('activity_'), symbols))
         if len(new_activity_symbols) > 0:
             print(f'    New activity:')
-        for symbol in new_activity_symbols:
+        for symbol in sorted(new_activity_symbols, key=_symbol_key):
             print(f'      {symbol}')
+        # TODO: Save generated activity if intended action is start(M)
 
         # Step 3: Perform intended action
         print()
         print('  Step 3: Do intended action')
         for intended_action in step_3_intended_actions:
+            if intended_action.name == 'start' and len(intended_action.arguments) == 1:
+                # For the purposes of testing with fixed observations, this patch assists in handling non-determinism in choosing activities
+                # See corresponding patch in apia_patch.lp
+                #
+                # TODO: Remove this "continue" statement
+                print(f'    Skipping {intended_action}')
+                continue
             print(f'    Doing {intended_action}')
             history.append(clingo.Function('attempt', (intended_action, current_timestep)))
 
