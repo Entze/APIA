@@ -1,6 +1,0 @@
-PlanInstance ::= 'PlanInstance(' PlanID InstanceID PlanEnvironment CurrentState Choices IntendedBranch Status ')'
-PlanEnvironment ::= 'PlanEnvironment(' { '(' Parameter ',' Value ')' }
-CurrentState ::= 'CurrentState(' State | EndState ')'
-Choices ::= 'Choices(' { Branch } ')'
-IntendedBranch ::= 'IntendedBranch(' [ Branch ] ')'
-Status ::= 'Status(''Active'|'Suspended'')'

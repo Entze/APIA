@@ -1,3 +1,0 @@
-InstancePattern ::= '(@' ConceptName {SlotName ':' SlotValue} ')'
-SlotValue ::= ['?'] String
-ParameterValue ::= ['?'] String

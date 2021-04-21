@@ -1,8 +1,0 @@
-Event ::= 'Event(' EventType EventContent [DesContext] ')'
-EventType ::= IntE | ExtE
-EventContent ::= ConceptInstance
-DesContext ::= 'DesContext(' PlanInstanceID PlanEnvironment FailedPlanInstSet ')'
-IntE ::= 'DesE' | 'POblE' | 'COblE' | 'PRE' |'CooperationInfoE'
-ExtE ::= 'PolicyE' | 'ContractE' | 'EnvironmentE'
-PolicyE ::= 'AddPolicyE' | 'DelPolicyE' | 'UpdPolicyE'
-ContractE ::= 'NewContractE' | 'UpdContractE' | 'ConcelContractE'

@@ -1,7 +1,0 @@
-Policy ::= RVP | GP
-RVP ::= 'Obl(' Role1 [Role2] Pred1 [Pred2] ')'
-    | 'Pms(' Role1 [Role2] Pred1 [Pred2] ')'
-    | 'Prh(' Role1 [Role2] Pred1 [Pred2] ')'
-GP ::= 'Obl(' Owner Agent1 [Agent2] Pred1 [Pred2] ')'
-    | 'Pms(' Owner Agent1 [Agent2] Pred1 [Pred2] ')'
-    | 'Prh(' Owner Agent1 [Agent2] Pred1 [Pred2] ')'
