@@ -10,7 +10,7 @@ Running:
 AUTHORIZATION_MODE=paranoid
 OBLIGATION_MODE=subordinate
 
-./run.sh "run_${AUTHORIZATION_MODE}_${OBLIGATION_MODE}_observations.lp" \
+./run.sh "Snippets/run_${AUTHORIZATION_MODE}_${OBLIGATION_MODE}_observations.lp" \
     --authorization-mode "${AUTHORIZATION_MODE}" \
     --obligation-mode "${OBLIGATION_MODE}"
 ```
