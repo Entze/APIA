@@ -1,0 +1,12 @@
+name: apia
+channels:
+  - conda-forge
+  - potassco
+dependencies:
+  - python==3.9
+  - clingo==5.4
+  - jupyter=1.0
+  - pandas
+  - jupyterlab
+  - notebook
+  - ipysheet
