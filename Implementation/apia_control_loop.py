@@ -3,6 +3,7 @@
 import os
 import sys
 from collections import deque, defaultdict
+from copy import deepcopy
 from decimal import Decimal, DecimalException
 from enum import Enum, IntEnum
 from itertools import chain
@@ -287,7 +288,7 @@ def _run_clingo(files: Iterable[Path],
                 configuration: APIAConfiguration,
                 output_predicates: Mapping[SymbolSignature, bool],
                 debug: bool = False,
-                ) -> Tuple[Sequence[clingo.Symbol], clingo.Model]:
+                ) -> Tuple[Sequence[clingo.Symbol], List[clingo.Symbol]]:
     # Set up
     clingo_control = _init_clingo(files=files, clingo_args=clingo_args, assertions=assertions)
     subprograms_to_ground = chain(
@@ -311,43 +312,49 @@ def _run_clingo(files: Iterable[Path],
 
     # Solving
     print('    Solving...')
-    solve_handle = clingo_control.solve(yield_=True, async_=True)
     symbols = ()
-    opt_model = None
-
+    answer_set = None
     stable_models = 0
     proven_optimal_stable_models = 0
-    for model in solve_handle:  # type: clingo.Model
-        if debug:
-            print(file=sys.stderr)
-            print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
-            for symbol in sorted(model.symbols(atoms=True), key=_symbol_key):
-                print(f'      {symbol}', file=sys.stderr)
+    with clingo_control.solve(yield_=True, async_=True) as solve_handle:
+        done = False
+        while not done:
+            solve_handle.resume()
+            _ = solve_handle.wait()
+            model = solve_handle.model()
+            if model is None:
+                done = True
+                continue
+            if debug:
+                print(file=sys.stderr)
+                print(f'    Model {model.number} (Proven optimal: {model.optimality_proven})', file=sys.stderr)
+                for symbol in sorted(model.symbols(atoms=True), key=_symbol_key):
+                    print(f'      {symbol}', file=sys.stderr)
 
-            if model.optimality_proven:
-                proven_optimal_stable_models += 1
-            else:
-                stable_models += 1
+                if model.optimality_proven:
+                    proven_optimal_stable_models += 1
+                else:
+                    stable_models += 1
 
-        # Predicate extraction
-        if model.number == 1:
-            opt_model = model
-            # Either first or first optimal
-            symbols = _extract_predicates(
-                model=model,
-                current_timestep=current_timestep,
-                predicate_signatures=output_predicates)
+            # Predicate extraction
+            if model.number == 1:
+                answer_set = model.symbols(atoms=True)
+                # Either first or first optimal
+                symbols = _extract_predicates(
+                    model=model,
+                    current_timestep=current_timestep,
+                    predicate_signatures=output_predicates)
 
-    solve_result = solve_handle.get()
-    if not solve_result.satisfiable:
-        raise RuntimeError('Solve is unsatisfiable')
+            solve_result = solve_handle.get()
+            if not solve_result.satisfiable:
+                raise RuntimeError('Solve is unsatisfiable')
 
     if debug:
         if proven_optimal_stable_models > 1 or (proven_optimal_stable_models == 0 and stable_models > 1):
             print('    Warning: Multiple answer sets', file=sys.stderr)
         print(file=sys.stderr)
 
-    return symbols, opt_model
+    return symbols, answer_set
 
 
 def interpret_observations(clingo_files: Sequence[Path],
@@ -357,8 +364,8 @@ def interpret_observations(clingo_files: Sequence[Path],
                            current_timestep,
                            max_timestep,
                            configuration,
-                           debug=False) -> Tuple[clingo.Symbol, clingo.Model]:
-    symbols, model = _run_clingo(
+                           debug=False) -> Tuple[clingo.Symbol, List[clingo.Symbol]]:
+    symbols, answer_set = _run_clingo(
         files=clingo_files,
         clingo_args=clingo_args,
         assertions=history,
@@ -388,7 +395,7 @@ def interpret_observations(clingo_files: Sequence[Path],
     for timestep in sorted(step_2_unobserved_actions.keys()):
         for action in sorted(step_2_unobserved_actions[timestep], key=_symbol_key):
             print(f'      {clingo.Function("occurs", (action, timestep))}')
-    return step_2_unobserved_actions_count, model
+    return step_2_unobserved_actions_count, answer_set
 
 
 def find_intended_action(clingo_files: Sequence[Path],
@@ -400,8 +407,8 @@ def find_intended_action(clingo_files: Sequence[Path],
                          max_timestep: int,
                          configuration: APIAConfiguration,
                          debug=False
-                         ) -> tuple:
-    symbols, model = _run_clingo(
+                         ) -> Tuple[Sequence[clingo.Symbol], List[clingo.Symbol]]:
+    symbols, answer_set = _run_clingo(
         files=clingo_files,
         clingo_args=clingo_args,
         assertions=chain(history, (
@@ -440,10 +447,10 @@ def find_intended_action(clingo_files: Sequence[Path],
     for symbol in sorted(new_activity_symbols, key=_symbol_key):
         print(f'      {symbol}')
     # TODO: Save generated activity if intended action is start(M)
-    return step_3_intended_actions, model
+    return step_3_intended_actions, answer_set
 
 
-def do_intended_action(step_3_intended_actions: tuple,
+def do_intended_action(step_3_intended_actions: Sequence[clingo.Symbol],
                        history: deque[clingo.Symbol],
                        current_timestep: int):
     for intended_action in step_3_intended_actions:
@@ -474,8 +481,8 @@ def apia_control_loop(clingo_files: Sequence[Path],
                       debug=False):
     print('Running with configuration:', configuration, file=sys.stderr)
 
-    step_1_models = []
-    step_2_models = []
+    step_1_answer_sets = []
+    step_2_answer_sets = []
     histories = []
     observation_subprograms_snapshots = []
     history: deque[clingo.Symbol] = deque()
@@ -486,27 +493,27 @@ def apia_control_loop(clingo_files: Sequence[Path],
 
         # Step 1: Interpret Observations
         print('  Step 1: Interpret observations')
-        step_2_unobserved_actions_count, step_1_model = interpret_observations(clingo_files=clingo_files,
-                                                                               clingo_args=clingo_args,
-                                                                               history=history,
-                                                                               observation_subprograms=observation_subprograms,
-                                                                               current_timestep=current_timestep,
-                                                                               max_timestep=max_timestep,
-                                                                               configuration=configuration,
-                                                                               debug=debug)
+        step_2_unobserved_actions_count, step_1_answer_set = interpret_observations(clingo_files=clingo_files,
+                                                                                    clingo_args=clingo_args,
+                                                                                    history=history,
+                                                                                    observation_subprograms=observation_subprograms,
+                                                                                    current_timestep=current_timestep,
+                                                                                    max_timestep=max_timestep,
+                                                                                    configuration=configuration,
+                                                                                    debug=debug)
 
         # Step 2: Find intended action
         print()
         print('  Step 2: Find intended action')
-        step_3_intended_actions, step_2_model = find_intended_action(clingo_files=clingo_files,
-                                                                     clingo_args=clingo_args,
-                                                                     history=history,
-                                                                     step_2_unobserved_actions_count=step_2_unobserved_actions_count,
-                                                                     observation_subprograms=observation_subprograms,
-                                                                     current_timestep=current_timestep,
-                                                                     max_timestep=max_timestep,
-                                                                     configuration=configuration,
-                                                                     debug=debug)
+        step_3_intended_actions, step_2_answer_set = find_intended_action(clingo_files=clingo_files,
+                                                                          clingo_args=clingo_args,
+                                                                          history=history,
+                                                                          step_2_unobserved_actions_count=step_2_unobserved_actions_count,
+                                                                          observation_subprograms=observation_subprograms,
+                                                                          current_timestep=current_timestep,
+                                                                          max_timestep=max_timestep,
+                                                                          configuration=configuration,
+                                                                          debug=debug)
 
         # Step 3: Perform intended action
         print()
@@ -526,7 +533,8 @@ def apia_control_loop(clingo_files: Sequence[Path],
                 files=clingo_files,
                 clingo_args=clingo_args,
                 assertions=chain(history, (
-                    clingo.Function('interpretation', (step_2_unobserved_actions_count, current_timestep)),
+                    clingo.Function('interpretation',
+                                    (step_2_unobserved_actions_count, clingo.Number(current_timestep))),
                 )),
                 observation_subprograms=observation_subprograms,
                 current_timestep=current_timestep,
@@ -536,12 +544,40 @@ def apia_control_loop(clingo_files: Sequence[Path],
                 output_predicates={},
                 debug=debug,
             )
-        # step_1_models.append(copy(step_1_model.symbols(atoms=True)))
-        # step_2_models.append(copy(step_2_model.symbols(atoms=True)))
-        # histories.append(deepcopy(history))
-        # observation_subprograms_snapshots.append(deepcopy(observation_subprograms))
+        step_1_answer_sets.append(step_1_answer_set)
+        step_2_answer_sets.append(step_2_answer_set)
+        histories.append(deepcopy(history))
+        observation_subprograms_snapshots.append(deepcopy(observation_subprograms))
         print()
-    return step_1_models, step_2_models, histories, observation_subprograms_snapshots
+    return step_1_answer_sets, step_2_answer_sets, histories, observation_subprograms_snapshots
+
+
+def get_clingo_files(script_dir: Optional[Path] = None,
+                     files: Optional[Iterable[str]] = None,
+                     debug=False,
+                     include_script_defs=False) -> Sequence[Path]:
+    if script_dir is None:
+        script_dir = Path(__file__).resolve().parent
+    if files is None:
+        files = ()
+    return (
+        script_dir / 'aaa_axioms.lp',
+        script_dir / 'aia_theory_of_intentions.lp',
+        script_dir / 'aia_history_rules.lp',
+        script_dir / 'aia_intended_action_rules.lp',
+        script_dir / 'aopl_authorization_compliance.lp',
+        script_dir / 'aopl_obligation_compliance.lp',
+        script_dir / 'general_axioms.lp',
+        script_dir / 'apia_cr_prolog.lp',
+        script_dir / 'apia_policy.lp',
+        script_dir / 'apia_compliance_check.lp',
+        script_dir / 'apia_optimization_priorities.lp',
+        script_dir / 'apia_show.lp',
+        script_dir / 'apia_patch.lp',  # TODO: Delete this file
+        *((script_dir / 'apia_debugging_checks.lp',) if debug else ()),
+        *((script_dir / 'debugging_script_defs.lp',) if include_script_defs else ()),
+        *map(Path, files),
+    )
 
 
 def _main(script_dir: Path):
@@ -576,23 +612,8 @@ def _main(script_dir: Path):
     max_timestep: int = args.max_timestep
     debug: bool = args.debug
 
-    clingo_files: Sequence[Path] = (
-        script_dir / 'aaa_axioms.lp',
-        script_dir / 'aia_theory_of_intentions.lp',
-        script_dir / 'aia_history_rules.lp',
-        script_dir / 'aia_intended_action_rules.lp',
-        script_dir / 'aopl_authorization_compliance.lp',
-        script_dir / 'aopl_obligation_compliance.lp',
-        script_dir / 'general_axioms.lp',
-        script_dir / 'apia_cr_prolog.lp',
-        script_dir / 'apia_policy.lp',
-        script_dir / 'apia_compliance_check.lp',
-        script_dir / 'apia_optimization_priorities.lp',
-        script_dir / 'apia_show.lp',
-        script_dir / 'apia_patch.lp',  # TODO: Delete this file
-        *((script_dir / 'apia_debugging_checks.lp',) if debug else ()),
-        *map(Path, args.files),
-    )
+    clingo_files: Sequence[Path] = get_clingo_files(script_dir=script_dir, files=args.files, debug=debug)
+
     clingo_args = (
         '--opt-mode=optN',
         '--parallel-mode', f'{args.threads}',
