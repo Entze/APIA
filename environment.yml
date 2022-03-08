@@ -10,3 +10,4 @@ dependencies:
   - jupyterlab
   - notebook
   - ipysheet
+  - networkx=2.7
