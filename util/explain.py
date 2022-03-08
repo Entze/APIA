@@ -2,9 +2,9 @@ import itertools
 
 import networkx as nx
 
-
+# rules nach heads geordnet
 def preprocess(program_dict: dict, facts: set, answer_set: set) -> dict:
-    derivable_dict = dict()
+    derivable_dict = dict()   # E
     for head, bodies in program_dict.items():
         # print(f"[_preprocess]: {head} start.")
         if head in answer_set:
@@ -45,7 +45,7 @@ def _false_atoms_process(head: int, positive_rules: list, negative_rules: list, 
         derivable_dict[-head] = derivables
 
 
-def negation_atoms(program_dict: dict) -> set:
+def negation_atoms(program_dict: dict) -> set:             # NANT
     nant = set()
     for head, bodies in program_dict.items():
         for body in bodies:
@@ -54,7 +54,7 @@ def negation_atoms(program_dict: dict) -> set:
     return nant
 
 
-def get_minimal_assumptions(cautious_consequences, nant, derivable_dict, answer_set):
+def get_minimal_assumptions(cautious_consequences, nant, derivable_dict, answer_set): # Assumption Func Alg. 2
     assumptions = set()
     tentative_assumptions = set(a for a in nant if a not in answer_set and a not in cautious_consequences)
     # print(f"[_assumption_func]: tentative_assumptions = {sorted(tentative_assumptions)}.")
@@ -77,7 +77,7 @@ def _derivation_path(tentative_assumptions, derivable_dict):
             edge_dict = dict()
             edge_dict[-atom] = [derivables]
             _get_connection(derivables, derivable_dict, edge_dict)
-            paths = [{}]
+            paths = [{}] # this is the most famous M
             for k in edge_dict:
                 n_paths = []
                 for neighbourhood in edge_dict[k]:
@@ -189,7 +189,7 @@ def explanation_graph(atom, derivable_dict, minimal_assumption, answer_set):
         edge_dict = dict()
         edge_dict[atom] = [S]
         _get_connection(S, derivable_dict, edge_dict)
-        paths = [{}]
+        paths = [{}]  # this is the most famous M
         for k in edge_dict:
             n_paths = []
             for neighbourhood in edge_dict[k]:
